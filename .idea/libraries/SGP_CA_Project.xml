@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SGP-CA_Project">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/SGP-CA_Project.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

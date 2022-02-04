@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1246.0" stylesheets="@templates/standard.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sgp.ca.demodao.EvidenceEditController">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1207.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lbWindowTitle" prefHeight="27.0" prefWidth="283.0" text="REGISTRAR PRODUCCIÓN" textFill="#919494">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Label fx:id="lbUsername" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="1002.0" text="Username" textFill="#919494">
+               <padding>
+                  <Insets right="15.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="1207.0" spacing="10.0" style="-fx-background-color: #300050;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1022.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="btnAddEvidence" mnemonicParsing="false" onAction="#addEvidence" prefHeight="42.0" prefWidth="126.0" text="REGISTRAR" visible="false" />
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <Button fx:id="btnUpdateEvidence" mnemonicParsing="false" onAction="#updateEvidence" prefHeight="42.0" prefWidth="96.0" text="MODIFICAR" visible="false" />
+            <Button fx:id="btnCloseWindow" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="88.0" text="SALIR" />
+         </children>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <content>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1098.0" prefWidth="1246.0" spacing="10.0">
+               <children>
+                  <VBox prefHeight="233.0" prefWidth="1226.0" spacing="20.0" style="-fx-background-color: WHITE;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1216.0">
+                           <children>
+                              <CheckBox fx:id="chBoxImpactAB" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" prefWidth="286.0" text="Impacto al Cuerpo Académico">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </CheckBox>
+                              <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="805.0" text="Tipo de evidencia:">
+                                 <HBox.margin>
+                                    <Insets right="2.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbTypeEvidence" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="112.0" text="EVIDENCE">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="1226.0">
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="184.0" text="TÍtulo de la evidencia: " />
+                              <TextField fx:id="txtFieldEvidenceTittle" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="1026.0" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                        <GridPane prefHeight="99.0" prefWidth="1206.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="179.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="704.0" minWidth="10.0" prefWidth="442.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="549.0" minWidth="10.0" prefWidth="138.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="483.0" minWidth="10.0" prefWidth="448.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Fecha de publicación:" />
+                              <Label text="Proyecto de Investigación:" GridPane.rowIndex="1" />
+                              <Label text="País de publicación:" GridPane.columnIndex="2" />
+                              <Label text="Grado de estudios:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dtpPublicationDate" editable="false" prefHeight="31.0" prefWidth="430.0" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="20.0" />
+                                 </GridPane.margin>
+                              </DatePicker>
+                              <TextField fx:id="txtFieldPublicationCountry" promptText="Ejemplo: México" GridPane.columnIndex="3" />
+                              <ComboBox fx:id="cboBoxInvestigationProject" prefHeight="31.0" prefWidth="431.0" promptText="Seleccionar proyecto de investigación" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="20.0" />
+                                 </GridPane.margin>
+                              </ComboBox>
+                              <ComboBox fx:id="cboBoxStudyDegree" prefHeight="31.0" prefWidth="452.0" promptText="Seleccionar grado de estudios" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <VBox accessibleRole="TEXT" prefHeight="655.0" prefWidth="1226.0" spacing="20.0" style="-fx-background-color: WHITE;">
+                     <children>
+                        <HBox prefHeight="294.0" prefWidth="1206.0" spacing="20.0">
+                           <children>
+                              <GridPane prefHeight="186.0" prefWidth="595.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                       <children>
+                                          <Label text="INTEGRANTES">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btnAddRowIntegrantTable" mnemonicParsing="false" onAction="#addRowIntegrantTable" style="-fx-background-color: #EFE1F8;" text="Agregar fila" />
+                                          <Button fx:id="btnRemoveRowIntegrantTable" mnemonicParsing="false" onAction="#removeRowIntegrantTable" style="-fx-background-color: #EFE1F8;" text="Eliminar fila" />
+                                       </children>
+                                    </HBox>
+                                    <ComboBox fx:id="cboBoxIntegrantsName" prefHeight="31.0" prefWidth="599.0" promptText="Seleccionar integrante" GridPane.rowIndex="1" />
+                                    <TableView fx:id="tvIntegrant" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                                      <columns>
+                                        <TableColumn fx:id="colRFCIntegrant" prefWidth="212.80002629756927" text="RFC" />
+                                        <TableColumn fx:id="colIntegrantName" prefWidth="378.39991760253906" text="Integrante" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </GridPane>
+                              <GridPane prefHeight="100.0" prefWidth="593.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                       <children>
+                                          <Label text="COLABORADORES">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btnAddRowCollaboratorTable" mnemonicParsing="false" onAction="#addRowCollaboratorTable" style="-fx-background-color: #EFE1F8;" text="Agregar fila" />
+                                          <Button fx:id="btnRemoveRowCollaboratorTable" mnemonicParsing="false" onAction="#removeRowCollaboratorTable" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #EFE1F8;" text="Eliminar fila" />
+                                       </children>
+                                    </HBox>
+                                    <ComboBox fx:id="cboBoxCollaboratorsName" prefHeight="31.0" prefWidth="608.0" promptText="Seleccionar colaborador" GridPane.rowIndex="1" />
+                                    <TableView fx:id="tvCollaborador" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                                      <columns>
+                                        <TableColumn fx:id="colRFCCollaborator" prefWidth="196.79992067813873" text="RFC" />
+                                        <TableColumn fx:id="colCollaboratorName" prefWidth="393.6000671386719" text="Colaborador" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="326.0" prefWidth="1226.0" spacing="20.0">
+                           <children>
+                              <TabPane prefHeight="326.0" prefWidth="592.0" tabClosingPolicy="UNAVAILABLE">
+                                <tabs>
+                                  <Tab fx:id="tabBook" disable="true" text="LIBRO">
+                                       <content>
+                                          <GridPane style="-fx-background-color: WHITE;">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.5333557128906" minWidth="10.0" prefWidth="113.93331756591797" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="529.1999664306641" minWidth="10.0" prefWidth="456.86668243408207" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="92.00003662109376" minHeight="10.0" prefHeight="78.73333740234375" valignment="BOTTOM" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="177.33328666687012" minHeight="10.0" prefHeight="56.866662597656244" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="194.733283996582" minHeight="10.0" prefHeight="160.06664276123044" valignment="TOP" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" />
+                                             </padding>
+                                             <children>
+                                                <Label text="Editorial:" />
+                                                <Label text="Número de edición:" GridPane.rowIndex="1" />
+                                                <Label text="ISBN:" GridPane.rowIndex="2" />
+                                                <TextField fx:id="txtFieldPublisher" GridPane.columnIndex="1" />
+                                                <TextField fx:id="txtFieldISBN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <TextField fx:id="txtFieldEditionsNumber" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </content>
+                                    </Tab>
+                                  <Tab fx:id="tabArticle" disable="true" text="ARTÍCULO">
+                                       <content>
+                                          <GridPane prefHeight="288.0" prefWidth="592.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.5333557128906" minWidth="10.0" prefWidth="157.2666473388672" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="436.7999572753906" minWidth="10.0" prefWidth="413.5333526611329" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="67.99991455078126" minHeight="10.0" prefHeight="48.7999755859375" valignment="CENTER" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="141.8666015625" minHeight="10.0" prefHeight="56.80003662109376" valignment="CENTER" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="155.0000213623047" minHeight="10.0" prefHeight="47.19996337890623" valignment="CENTER" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="159.73328247070313" minHeight="10.0" prefHeight="134.40001220703124" valignment="TOP" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Revista en donde se publicó:" />
+                                                <Label text="Editorial de la revista:" GridPane.rowIndex="1" />
+                                                <Label text="ISNN de la revista:" GridPane.rowIndex="2" />
+                                                <TextField fx:id="txtFieldMagazineName" GridPane.columnIndex="1" />
+                                                <TextField fx:id="txtFieldMagazineEditorial" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <TextField fx:id="txtFieldISNN" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </GridPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab fx:id="tabPrototype" disable="true" text="PROTOTIPO">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                             <children>
+                                                <Label text="Características:" />
+                                                <TextArea fx:id="txtAreaFeatures" prefHeight="202.0" prefWidth="571.0" promptText="Escribe las características del prototipo" wrapText="true" />
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                       </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                              <GridPane prefHeight="326.0" prefWidth="587.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="131.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="222.0" minHeight="10.0" prefHeight="198.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="587.0" spacing="20.0">
+                                       <children>
+                                          <Label text="ESTUDIANTES" textFill="#1e1e1e">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="btnAddRowStudentsTable" mnemonicParsing="false" onAction="#addRowStudentsTable" style="-fx-background-color: #EFE1F8;" text="Agregar fila" />
+                                          <Button fx:id="btnRemoveRowStudentsTable" mnemonicParsing="false" onAction="#removeRowStudentsTable" style="-fx-background-color: #EFE1F8;" text="Eliminar fila" />
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="txtFieldStudentName" promptText="Ejemplo: Luis Sánchez López" GridPane.rowIndex="1" />
+                                    <ListView fx:id="lvStudent" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="167.0" prefWidth="1226.0" spacing="10.0" style="-fx-background-color: WHITE;">
+                     <padding>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="1206.0" spacing="20.0">
+                           <children>
+                              <Label text="DOCUMENTO">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnAddDocument" mnemonicParsing="false" onAction="#addDocument" style="-fx-background-color: #EFE1F8;" text="Añadir documento" />
+                              <Button fx:id="btnReplaceDocument" mnemonicParsing="false" disable="true" onAction="#replaceDocument" style="-fx-background-color: #EFE1F8;" text="Remplazar documento" visible="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="94.0" prefWidth="1206.0" spacing="10.0">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <children>
+                              <ImageView fx:id="imgViewPDFEvidence" fitHeight="70.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS">
+                                 <image>
+                                    <Image url="@../../../../img/iconPDF.png" />
+                                 </image></ImageView>
+                              <Label fx:id="lbDocumentName" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="1053.0" text="Nombre del documento" underline="true" visible="true">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,190 @@
+* {
+	-color : #aa9cb42d;
+	-white : #efefef;
+	-gray : #b4b4b4;
+	-darkGray : derive(-gray,-20%);
+	-black : #444444dd;
+	-abort : #e74c3c;
+}
+
+
+
+ 
+.button{
+	-fx-border-radius: 70px;
+	-fx-background-radius: 70px;
+	-fx-background-color : white;
+	-fx-text-fill: rgb(90, 90, 90);
+}
+
+.button:hover{
+	-fx-background-color : #140022;
+	-fx-text-fill: white;
+}
+ /*
+ * **********
+ * TABLE VIEW
+ * **********
+ * 
+ */
+
+.table-cell {     
+    -fx-padding: 0.5em 0.5em 0.1em 0.3em;
+    -fx-font: 13px "Segoe UI";    
+    -fx-border-insets: 0;
+}
+
+
+.table-view:row-selection .table-row-cell:filled:hover { 
+    -fx-background-color: rgba(160, 28, 236, 0.25);
+}
+
+.table-view:row-selection .table-row-cell:filled:selected { 
+    -fx-background-color: rgba(101, 28, 236, 0.404);
+}
+ 
+.table-view .column-header .label{
+    -fx-text-fill: #1e012c;
+    -fx-alignment: CENTER;
+}
+
+.table-view .column-header:hover {
+    -fx-background-color: #4f037231;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: white;    
+    -fx-size: 45;
+    -fx-border-color: -fx-box-border;
+    -fx-border-width: 0 1 3 0;
+    -fx-border-insets: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .show-hide-columns-button {
+    -fx-background-color: white;
+    -fx-border-color: -fx-box-border;
+    -fx-border-insets: 0;
+}
+ /*
+ * **********
+ * DATE PICKER
+ * **********
+ * 
+ */
+
+.date-picker{
+	-fx-background-color : transparent;
+}
+
+.date-picker>*.arrow-button{
+	-fx-background-color : #220032;
+}
+ 
+ .date-picker>*.arrow-button>*.arrow{
+	-fx-background-color : white;
+}
+
+/*
+ * **********
+ * COMBOBOX
+ * **********
+ * 
+ */
+
+.combo-box {
+	-fx-background-color : -gray;
+}
+
+.check-box>*.box{
+	-fx-background-color : -color;
+}
+
+/*
+ * **********
+ * Checkbox
+ * **********
+ */
+
+ .check-box>*.box{
+	 -fx-background-color : -gray;
+ }
+ 
+ .check-box:selected>*.box>*.mark{
+	 -fx-background-color : -black;
+ }
+.check-box:indeterminate>*.box>*.mark{
+	 -fx-background-color : -black;
+ }
+ 
+ /*
+ * **********
+ * RADIO BUTTONS
+ * **********
+ */
+
+ .radio-button>*.radio{
+	-fx-background-color : -gray; 
+ }
+ 
+ .radio-button:selected>*.radio>*.dot{
+	 -fx-background-color : #220032;
+ }
+ 
+/*
+ * **********
+ * Text fields / inputs
+ * **********
+ * 
+ */
+
+.text-field{
+	-fx-highlight-fill : -color;
+	-fx-highlight-text-fill : black;
+        -fx-background-color: transparent;
+        -fx-border-color: 
+        transparent
+        transparent
+        rgb(170, 170, 170)
+        transparent;
+        -fx-border-insets: 0 0 1 0;
+}
+
+.text-field:hover{
+        -fx-background-color: transparent;
+        -fx-border-color: 
+        transparent
+        transparent
+        rgb(67, 2, 105)
+        transparent;
+        -fx-border-insets: 0 0 1 0;
+}
+
+/*
+ * **********
+ * Color picker
+ * **********
+ * 
+ */
+
+.color-picker{
+	-fx-background-color : -gray;
+}
+
+/*
+ * **********
+ * Scroll pane
+ * **********
+ * 
+ */
+
+.scroll-pane>*.scroll-bar{
+	-fx-background-color : -gray;
+}
+
+.scroll-pane>*.scroll-bar>*.thumb{
+	-fx-background-color : #1e0033;
+}
