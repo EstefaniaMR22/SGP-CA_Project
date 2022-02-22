@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgp.ca.businesslogic.IntegrantDAO;
-import sgp.ca.dataaccess.ConnectionDatabase;
+import utils.ConnectionDatabase;
 import sgp.ca.domain.Integrant;
 import sgp.ca.domain.Schooling;
 

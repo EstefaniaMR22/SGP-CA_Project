@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgp.ca.businesslogic.ProjectDAO;
-import sgp.ca.dataaccess.ConnectionDatabase;
+import utils.ConnectionDatabase;
 import sgp.ca.domain.Project;
 
 public class ProjectInitializer{

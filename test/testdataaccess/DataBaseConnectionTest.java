@@ -9,7 +9,7 @@ package testdataaccess;
 import java.sql.SQLException;
 import java.sql.Connection;
 
-import sgp.ca.dataaccess.ConnectionDatabase;
+import utils.ConnectionDatabase;
 import org.junit.Test;
 import org.junit.Assert;
 

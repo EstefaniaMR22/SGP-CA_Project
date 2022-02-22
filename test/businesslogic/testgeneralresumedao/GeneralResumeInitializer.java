@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sgp.ca.businesslogic.GeneralResumeDAO;
 import sgp.ca.domain.GeneralResume;
-import sgp.ca.dataaccess.ConnectionDatabase;
+import utils.ConnectionDatabase;
 
 
 public class GeneralResumeInitializer {

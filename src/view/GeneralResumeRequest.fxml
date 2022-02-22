@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.Avatar?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="653.0" prefWidth="1157.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GeneralResumeRequestController">
+   <bottom>
+      <HBox fx:id="hbGeneralResumeOptions" alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="1300.0" spacing="10.0" style="-fx-background-color: #300050;" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <Button fx:id="brtnProduction" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#requestEvidencesList" prefHeight="32.0" prefWidth="145.0" text="PRODUCCIÓN">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnEdit" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#editGeneralResume" prefHeight="32.0" prefWidth="111.0" text="EDITAR">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnExit" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exit" prefHeight="32.0" prefWidth="109.0" text="SALIR">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane hbarPolicy="NEVER" maxHeight="1000.0" prefHeight="800.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="815.0" prefWidth="1157.0">
+               <children>
+                  <HBox prefHeight="221.0" prefWidth="1137.0">
+                     <children>
+                        <GridPane maxWidth="1.7976931348623157E308" prefHeight="201.0" prefWidth="996.0" HBox.hgrow="ALWAYS">
+                          <columnConstraints>
+                            <ColumnConstraints maxWidth="294.0" minWidth="10.0" prefWidth="179.0" />
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="413.0" minWidth="10.0" prefWidth="353.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Nombre de cuerpo académico: " />
+                              <Label text="Clave de cuerpo académico: " GridPane.rowIndex="1" />
+                              <Label text="Area adscrita:" GridPane.rowIndex="2" />
+                              <Label text="Unidad de adscripción: " GridPane.rowIndex="3" />
+                              <Label text="Grado de consolidación: " GridPane.rowIndex="4" />
+                              <Label text="Fecha de registro: " GridPane.rowIndex="5" />
+                              <Label text="Última fecha de evaluación: " GridPane.rowIndex="6" />
+                              <Label fx:id="lbBodyAcademyName" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <Label fx:id="lbBodyAcademyKey" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <Label fx:id="lbSubscriptionArea" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <Label fx:id="lbAdscriptionUnit" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                              <Label fx:id="lbConsolidationDegree" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                              <Label fx:id="lbRegistrationDate" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
+                              <Label fx:id="lbLastEvaluationDate" maxWidth="1.7976931348623157E308" text="..." GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                           </children>
+                        </GridPane>
+                        <VBox maxWidth="1.7976931348623157E308" prefHeight="201.0" prefWidth="1050.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Objetivo general:" />
+                              <JFXTextArea fx:id="txtAreaGeneralTarget" editable="false" prefHeight="43.0" prefWidth="559.0" wrapText="true" />
+                              <Label text="Misión: " />
+                              <JFXTextArea fx:id="txtAreaMission" editable="false" prefHeight="58.0" prefWidth="559.0" wrapText="true" />
+                              <Label text="Visión:" />
+                              <JFXTextArea fx:id="txtAreaVision" editable="false" prefHeight="72.0" prefWidth="559.0" wrapText="true" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <VBox prefHeight="139.0" prefWidth="1137.0">
+                     <children>
+                        <Label text="LGAC de cuerpo académico">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="127.0" prefWidth="1137.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ListView fx:id="lvLgac" onMouseClicked="#showLgacDescription" prefHeight="120.0" prefWidth="668.0" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Descripción" />
+                                    <JFXTextArea fx:id="txtAreaLgacDescription" editable="false" wrapText="true" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox fx:id="hbMembersOptions" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="1137.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="btnAddNewMember" mnemonicParsing="false" onAction="#addMember" prefHeight="31.0" prefWidth="172.0" text="Agregar miembro" />
+                        <RadioButton fx:id="rdoBtnSubscribeMembers" mnemonicParsing="false" onAction="#showSubscribeMembers" selected="true" text="Activos" />
+                        <RadioButton fx:id="rdoBtnUnsubscribeMembers" mnemonicParsing="false" onAction="#showUnsubscribeMembers" text="Dados de baja" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="1137.0" spacing="10.0" style="-fx-background-color: #300050; -fx-background-radius: 50px;">
+                     <children>
+                        <Button fx:id="btnSearchMember" mnemonicParsing="false" onAction="#searchMember" prefHeight="31.0" prefWidth="87.0" text="Buscar" />
+                        <TextField fx:id="txtFieldMemberNameForSearch" maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="1020.0" promptText="Escribe el nombre del miembro a buscar" style="-fx-background-color: white; -fx-background-radius: 50px; -fx-border-color: transparent;" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <TabPane prefHeight="194.0" prefWidth="1175.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <tabs>
+                      <Tab text="Integrantes">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tvIntegrants" layoutY="-3.0" onMousePressed="#showIntegrant" prefHeight="143.0" prefWidth="1144.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="colParticipationTypeIntegrant" prefWidth="147.0" text="Cargo" />
+                                        <TableColumn fx:id="colFullNameIntegrant" minWidth="0.0" prefWidth="438.0" text="Nombre completo" />
+                                          <TableColumn fx:id="colEmailUVIntegrant" prefWidth="317.0" text="Correo institucional" />
+                                          <TableColumn fx:id="colCellPhoneIntegrant" prefWidth="234.0" text="Teléfono celular" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Colaboradores">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tvCollaborators" editable="true" onMousePressed="#showCollaborator" prefHeight="143.0" prefWidth="1144.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columns>
+                                          <TableColumn fx:id="colParticipationTypeColllaborator" prefWidth="147.0" text="Cargo" />
+                                          <TableColumn fx:id="colFullNameCollaborator" minWidth="0.0" prefWidth="438.0" text="Nombre completo" />
+                                          <TableColumn fx:id="colEmailUVCollaborator" prefWidth="317.0" text="Correo institucional" />
+                                          <TableColumn fx:id="colPhoneCollaborator" prefWidth="234.0" text="Teléfono celular" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+   <top>
+      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="1157.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="158.0" text="CURRÍCULUM GENERAL" HBox.hgrow="ALWAYS" />
+            <Label fx:id="lbUserName" alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="366.0" text="..." />
+            <Avatar>
+               <image>
+                  <Image url="@../../../../img/userIcon.png" />
+               </image>
+            </Avatar>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+   </top>
+</BorderPane>

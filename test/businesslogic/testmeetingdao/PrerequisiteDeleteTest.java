@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import sgp.ca.businesslogic.MeetingAgendaDAO;
-import sgp.ca.dataaccess.ConnectionDatabase;
+import utils.ConnectionDatabase;
 import sgp.ca.domain.MeetingAgenda;
 
 public class PrerequisiteDeleteTest{
