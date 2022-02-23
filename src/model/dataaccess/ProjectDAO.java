@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.pattern.ValidatorForm;
+import controller.old.pattern.ValidatorForm;
 import model.domain.Project;
 import utils.ConnectionDatabase;
 

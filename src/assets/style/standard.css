@@ -1,190 +1,123 @@
 * {
-	-color : #aa9cb42d;
-	-white : #efefef;
-	-gray : #b4b4b4;
-	-darkGray : derive(-gray,-20%);
-	-black : #444444dd;
-	-abort : #e74c3c;
+  /* **************
+ * GENERAL
+ * **************
+ */
+ -fx-font-family:"Times New Roman";
+
+
+  /* **************
+ * TEXT COLORS
+ * **************
+ */
+ -text_first_clr: #000;
+ -text_second_clr: derive(-text_first_clr, 40%);
+ -text_third_clr:derive(-text_first_clr, 50%);
+ -text_last_clr: #000;
+ -text_button_clr: #000;
+
+/* **************
+ * BUTTON COLORS
+ * **************
+ */
+ -button_first_clr: blue;
+ -button_secondary_clr: transparent;
+ -button_optional_clr: transparent;
+}
+
+
+ /*
+  * **********
+  * TEXT
+  * **********
+  */
+
+.title-label {
+ -fx-text-fill:-text_first_clr;
+ -fx-font-size:26px;
+ -fx-font-weight:bold;
+}
+
+.section-label {
+ -fx-text-fill:-text_second_clr;
+ -fx-font-weight:bold;
+ -fx-font-family:"Gill Sans";
+ -fx-font-size:20px;
+}
+
+.subtitle-label {
+ -fx-text-fill:-text_third_clr;
+ -fx-font-size:14px;
+}
+
+.description-label {
+ -fx-text-fill:-text_last_clr;
+ -fx-font-size:12px;
+}
+
+.system-label {
+ -fx-text-fill:#ff0000;
+ -fx-font-family:"Times New Roman";
+ -fx-font-size:14px;
+}
+
+
+ /*
+  * **********
+  * BUTTONS
+  * **********
+  */
+
+.main-button { 
+ -fx-background-color:-button_first_clr;
+ -fx-border-radius: 5px;
+ -fx-text-fill:#fff;
+ -fx-min-height:38px;
+ -fx-border-width: 0 0 3 0;
+ -fx-border-color:derive(-button_first_clr, -50%);
+}
+
+
+.secondary-button {
+ -fx-background-color:-button_secondary_clr;
+ -fx-border-color:-button_first_clr;
+ -fx-border-width:1px;
+ -fx-border-radius: 5px;
+ -fx-text-fill:-button_first_clr;
+ -fx-min-height:38px;
+}
+
+.optional-button { 
+ -fx-background-color:-button_optional_clr;
+ -fx-text-fill:derive(-button_first_clr, 70%);
+ -fx-underline:true;
+ -fx-min-height:38px;
+}
+
+ /*
+  * **********
+  * INPUTS (TEXTFIELD AND TEXTAREA)
+  * **********
+  */
+
+.textfield {
+  -fx-min-height:38px;
+  -fx-border-radius:5px;
+}
+
+.textarea {
+  -fx-min-height:50px;
+  -fx-border-radius:5px;
 }
 
 
 
- 
-.button{
-	-fx-border-radius: 70px;
-	-fx-background-radius: 70px;
-	-fx-background-color : white;
-	-fx-text-fill: rgb(90, 90, 90);
-}
 
-.button:hover{
-	-fx-background-color : #140022;
-	-fx-text-fill: white;
-}
+
  /*
  * **********
- * TABLE VIEW
+ * --------------- END ----- GENERIC STYLES ----------
  * **********
- * 
+ *
  */
-
-.table-cell {     
-    -fx-padding: 0.5em 0.5em 0.1em 0.3em;
-    -fx-font: 13px "Segoe UI";    
-    -fx-border-insets: 0;
-}
-
-
-.table-view:row-selection .table-row-cell:filled:hover { 
-    -fx-background-color: rgba(160, 28, 236, 0.25);
-}
-
-.table-view:row-selection .table-row-cell:filled:selected { 
-    -fx-background-color: rgba(101, 28, 236, 0.404);
-}
  
-.table-view .column-header .label{
-    -fx-text-fill: #1e012c;
-    -fx-alignment: CENTER;
-}
-
-.table-view .column-header:hover {
-    -fx-background-color: #4f037231;
-}
-
-.table-view .column-header, .table-view .filler {
-    -fx-background-color: white;    
-    -fx-size: 45;
-    -fx-border-color: -fx-box-border;
-    -fx-border-width: 0 1 3 0;
-    -fx-border-insets: 0;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: transparent;
-}
-
-.table-view .show-hide-columns-button {
-    -fx-background-color: white;
-    -fx-border-color: -fx-box-border;
-    -fx-border-insets: 0;
-}
- /*
- * **********
- * DATE PICKER
- * **********
- * 
- */
-
-.date-picker{
-	-fx-background-color : transparent;
-}
-
-.date-picker>*.arrow-button{
-	-fx-background-color : #220032;
-}
- 
- .date-picker>*.arrow-button>*.arrow{
-	-fx-background-color : white;
-}
-
-/*
- * **********
- * COMBOBOX
- * **********
- * 
- */
-
-.combo-box {
-	-fx-background-color : -gray;
-}
-
-.check-box>*.box{
-	-fx-background-color : -color;
-}
-
-/*
- * **********
- * Checkbox
- * **********
- */
-
- .check-box>*.box{
-	 -fx-background-color : -gray;
- }
- 
- .check-box:selected>*.box>*.mark{
-	 -fx-background-color : -black;
- }
-.check-box:indeterminate>*.box>*.mark{
-	 -fx-background-color : -black;
- }
- 
- /*
- * **********
- * RADIO BUTTONS
- * **********
- */
-
- .radio-button>*.radio{
-	-fx-background-color : -gray; 
- }
- 
- .radio-button:selected>*.radio>*.dot{
-	 -fx-background-color : #220032;
- }
- 
-/*
- * **********
- * Text fields / inputs
- * **********
- * 
- */
-
-.text-field{
-	-fx-highlight-fill : -color;
-	-fx-highlight-text-fill : black;
-        -fx-background-color: transparent;
-        -fx-border-color: 
-        transparent
-        transparent
-        rgb(170, 170, 170)
-        transparent;
-        -fx-border-insets: 0 0 1 0;
-}
-
-.text-field:hover{
-        -fx-background-color: transparent;
-        -fx-border-color: 
-        transparent
-        transparent
-        rgb(67, 2, 105)
-        transparent;
-        -fx-border-insets: 0 0 1 0;
-}
-
-/*
- * **********
- * Color picker
- * **********
- * 
- */
-
-.color-picker{
-	-fx-background-color : -gray;
-}
-
-/*
- * **********
- * Scroll pane
- * **********
- * 
- */
-
-.scroll-pane>*.scroll-bar{
-	-fx-background-color : -gray;
-}
-
-.scroll-pane>*.scroll-bar>*.thumb{
-	-fx-background-color : #1e0033;
-}

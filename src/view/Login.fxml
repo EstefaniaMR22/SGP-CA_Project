@@ -12,20 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="893.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-   <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="893.0" style="-fx-background-color: white;" BorderPane.alignment="TOP_RIGHT">
-         <children>
-            <Label text="Sistema Gestor de Productividad de Cuerpo Académico (SGP-CA)" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-         </children>
-         <padding>
-            <Insets left="10.0" />
-         </padding></HBox>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1149.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -40,38 +27,47 @@
             </BorderPane>
             <BorderPane prefHeight="481.0" prefWidth="524.0" HBox.hgrow="ALWAYS">
                 <center>
-                    <VBox alignment="CENTER" prefHeight="481.0" prefWidth="475.0" spacing="5.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <VBox alignment="CENTER" prefHeight="481.0" prefWidth="475.0" spacing="10.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                        <children>
-                          <Label maxWidth="1.7976931348623157E308" text="INICIO" VBox.vgrow="ALWAYS">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label styleClass="title-label" text="Sistema de Gestión de Productividad de Cuerpo Académico" textAlignment="CENTER" wrapText="true" />
+                           </children>
+                        </VBox>
+                          <Label maxWidth="1.7976931348623157E308" styleClass="section-label" text="Iniciar sesión" VBox.vgrow="ALWAYS">
                              <font>
                                 <Font name="System Bold" size="39.0" />
                              </font>
                           </Label>
-                          <Label maxWidth="1.7976931348623157E308" text="Correo institucional">
+                          <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Correo institucional">
                            <font>
                               <Font size="15.0" />
                            </font></Label>
-                          <TextField fx:id="txtFieldEmailUv" prefHeight="32.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
-                          <Label maxWidth="1.7976931348623157E308" text="Contraseña">
+                          <TextField fx:id="txtFieldEmailUv" prefHeight="32.0" prefWidth="387.0" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                          <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Contraseña">
                            <font>
                               <Font size="15.0" />
                            </font>
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin></Label>
-                          <PasswordField fx:id="passFieldPasswordUvmail" prefHeight="32.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
-                          <Label maxWidth="1.7976931348623157E308" text="Clave de Cuerpo Académico perteneciente">
+                          <PasswordField fx:id="passFieldPasswordUvmail" prefHeight="32.0" prefWidth="387.0" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                          <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Clave de Cuerpo Académico perteneciente">
                            <font>
                               <Font size="15.0" />
                            </font>
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin></Label>
-                          <TextField fx:id="txtFieldBodyAcademyKey" prefHeight="34.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
-                          <Button fx:id="btnSignIn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signIn" prefHeight="35.0" prefWidth="387.0" text="INGRESAR" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin></Button>
+                          <TextField fx:id="txtFieldBodyAcademyKey" prefHeight="34.0" prefWidth="387.0" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" styleClass="secondary-button" text="Cancelar" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnSignIn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signIn" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="optional-button" text="Button" />
+                        <Label styleClass="system-label" text="SystemLabel" />
                        </children>
                        <padding>
                           <Insets bottom="30.0" left="50.0" right="50.0" top="65.0" />

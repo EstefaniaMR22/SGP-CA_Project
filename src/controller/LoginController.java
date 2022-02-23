@@ -1,5 +1,5 @@
 /*
- * @author Josué 
+ * @author Josué
  * @versión v1.0
  * Last modification date: 17-06-2021
  */
@@ -9,7 +9,10 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import controller.pattern.GenericWindowDriver;
+import controller.old.GeneralResumeEditableController;
+import controller.old.IntegrantEditableController;
+import controller.old.StartController;
+import controller.old.WindowControllerB;
 import model.domain.Integrant;
 import model.dataaccess.IntegrantDAO;
 import javafx.event.ActionEvent;
@@ -22,8 +25,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class LoginController implements Initializable{
-
+public class LoginController extends Controller implements Initializable {
     @FXML
     private Button btnSignIn;
     @FXML
@@ -36,69 +38,73 @@ public class LoginController implements Initializable{
     private PasswordField passFieldPasswordUvmail;
     @FXML
     private TextField txtFieldBodyAcademyKey;
-    
     private final IntegrantDAO INTEGRANT_DAO = new IntegrantDAO();
     private Integrant integrantLogger;
-    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         integrantLogger = new Integrant();
-    }    
+    }
+
+    public void showStage() {
+        loadFXMLFile(getClass().getResource("/view/Login.fxml"), this);
+        stage.show();
+    }
 
     @FXML
-    private void signIn(ActionEvent event){
-        if(checkUserLoginWithBodyKey()){
-            FXMLLoader loader = GenericWindowDriver.getGenericWindowDriver().changeWindow("Start.fxml", btnSignIn);
+    private void signIn(ActionEvent event) {
+        if (checkUserLoginWithBodyKey()) {
+            FXMLLoader loader = WindowControllerB.getWindowController().changeWindow("Start.fxml", btnSignIn);
             StartController controller = loader.getController();
             controller.receiveIntegrantToken(integrantLogger);
-        }else{
-            GenericWindowDriver.getGenericWindowDriver().showErrorAlert(event, "Hay campos inválidos en el formulario");
+        } else {
+            WindowControllerB.getWindowController().showErrorAlert(event, "Hay campos inválidos en el formulario");
         }
     }
-    
+
     @FXML
-    private void signUpNewBdyAcademy(MouseEvent event){
-        if(checkUserLogin() && this.integrantLogger.getBodyAcademyKey()== null){
-            FXMLLoader loader = GenericWindowDriver.getGenericWindowDriver().changeWindow("GeneralResumeEditable.fxml", btnSignIn);
+    private void signUpNewBdyAcademy(MouseEvent event) {
+        if (checkUserLogin() && this.integrantLogger.getBodyAcademyKey() == null) {
+            FXMLLoader loader = WindowControllerB.getWindowController().changeWindow("GeneralResumeEditable.fxml", btnSignIn);
             GeneralResumeEditableController controller = loader.getController();
             controller.showGeneralResumeInsertForm(integrantLogger);
-        }else{
+        } else {
             txtFieldEmailUv.setStyle("-fx-border-color: red;");
             passFieldPasswordUvmail.setStyle("-fx-border-color: red;");
-            GenericWindowDriver.getGenericWindowDriver().showErrorAlert(
-                event, "El email y contraseña deben estar llenos correctamente y No debes pertenecer a ningún cuerpo académico"
+            WindowControllerB.getWindowController().showErrorAlert(
+                    event, "El email y contraseña deben estar llenos correctamente y No debes pertenecer a ningún cuerpo académico"
             );
         }
     }
 
     @FXML
-    private void signUpNewUser(MouseEvent event){
-        FXMLLoader loader = GenericWindowDriver.getGenericWindowDriver().changeWindow("IntegrantEditable.fxml", btnSignIn);
+    private void signUpNewUser(MouseEvent event) {
+        FXMLLoader loader = WindowControllerB.getWindowController().changeWindow("IntegrantEditable.fxml", btnSignIn);
         IntegrantEditableController controller = loader.getController();
         controller.showResponsibleInscriptionForm();
     }
-    
-    private boolean checkUserLogin(){
+
+    private boolean checkUserLogin() {
         integrantLogger.setEmailUV(this.txtFieldEmailUv.getText());
         integrantLogger.setPassword(this.passFieldPasswordUvmail.getText());
         integrantLogger = INTEGRANT_DAO.getIntegrantToken(this.integrantLogger.getEmailUV(), this.integrantLogger.getPassword());
         boolean isVerify = false;
-        if(integrantLogger.getFullName() != null){
+        if (integrantLogger.getFullName() != null) {
             isVerify = true;
         }
         return isVerify;
     }
-    
-    private boolean checkUserLoginWithBodyKey(){
+
+    private boolean checkUserLoginWithBodyKey() {
         integrantLogger.setEmailUV(this.txtFieldEmailUv.getText());
         integrantLogger.setPassword(this.passFieldPasswordUvmail.getText());
         integrantLogger.setBodyAcademyKey(this.txtFieldBodyAcademyKey.getText());
         boolean isVerify = false;
         integrantLogger = INTEGRANT_DAO.getIntegrantTocken(integrantLogger);
-        if(integrantLogger.getFullName() != null && integrantLogger.getParticipationStatus().equalsIgnoreCase("Activo")){
+        if (integrantLogger.getFullName() != null && integrantLogger.getParticipationStatus().equalsIgnoreCase("Activo")) {
             isVerify = true;
         }
         return isVerify;
     }
-    
 }
+

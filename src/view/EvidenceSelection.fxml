@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="330.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EvidenceSelectionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="330.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.old.EvidenceSelectionController">
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="330.0" spacing="10.0" style="-fx-background-color: #300050;" BorderPane.alignment="CENTER">
          <children>

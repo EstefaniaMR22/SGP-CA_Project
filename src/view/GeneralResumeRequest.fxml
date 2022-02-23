@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="653.0" prefWidth="1157.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GeneralResumeRequestController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="653.0" prefWidth="1157.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.old.GeneralResumeRequestController">
    <bottom>
       <HBox fx:id="hbGeneralResumeOptions" alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="1300.0" spacing="10.0" style="-fx-background-color: #300050;" BorderPane.alignment="CENTER_RIGHT">
          <children>
