@@ -1,3 +1,4 @@
 out/
-SGP-CA_Project/build
-SGP-CA_Project/dist
+/build
+/dist
+/aditionallibraries
