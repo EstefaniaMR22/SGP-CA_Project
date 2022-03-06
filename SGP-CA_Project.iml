@@ -12,5 +12,6 @@
     <orderEntry type="library" name="aditionallibraries" level="project" />
     <orderEntry type="library" name="SGP-CA_Project" level="project" />
     <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
   </component>
 </module>
