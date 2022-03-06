@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1149.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="1149.0" styleClass="background-main" stylesheets="@../../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -65,9 +65,6 @@
                            </children>
                         </HBox>
                         <Label fx:id="systemLabel" styleClass="system-label" text="SystemLabel" VBox.vgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#adminOnAction" styleClass="main-button" text="Administrador" />
-                        <Button mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
-                        <Button mnemonicParsing="false" onAction="#responsableOnAction" styleClass="main-button" text="Responsable" />
                        </children>
                      <BorderPane.margin>
                         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />

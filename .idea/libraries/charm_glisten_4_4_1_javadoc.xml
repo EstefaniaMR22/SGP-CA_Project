@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="charm-glisten-4.4.1-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/aditionallibraries/charm-glisten-4.4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/aditionallibraries/commons-net-3.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/aditionallibraries/jfoenix-8.0.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/aditionallibraries/mysql-connector-java-5.1.23.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/aditionallibraries/charm-glisten-4.4.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

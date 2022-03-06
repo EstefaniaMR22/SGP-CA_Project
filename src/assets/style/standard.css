@@ -5,7 +5,6 @@
  */
  -fx-font-family:"Times New Roman";
 
-
   /* **************
  * TEXT COLORS
  * **************
@@ -24,6 +23,24 @@
  -button_secondary_clr: transparent;
  -button_optional_clr: transparent;
 }
+
+
+  /* **************
+ * BACKGROUND
+ * **************
+ */
+
+.background-main {
+    -fx-background-color:#f2f2f2;
+}
+
+.background-form {
+    -fx-background-color:#fff;
+    -fx-border-color:#8a8a8a;
+    -fx-border-radius:3px;
+}
+
+
 
 
  /*
@@ -120,4 +137,3 @@
  * **********
  *
  */
- 

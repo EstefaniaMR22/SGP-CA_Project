@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.LoginController;
+import controller.general.LoginController;
 import controller.old.pattern.InvalidFormException;
 import model.dataaccess.BookDAO;
 import model.dataaccess.ChapterBookDAO;
