@@ -20,11 +20,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import controller.old.pattern.InvalidFormException;
-import model.domain.Agreement;
-import model.domain.Integrant;
-import model.domain.Meeting;
-import model.dataaccess.IntegrantDAO;
-import model.dataaccess.MeetingDAO;
+import model.old.domain.Agreement;
+import model.old.domain.Integrant;
+import model.old.domain.Meeting;
+import model.old.dataaccess.IntegrantDAO;
+import model.old.dataaccess.MeetingDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

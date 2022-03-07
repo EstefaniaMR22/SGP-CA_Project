@@ -45,21 +45,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.dataaccess.ArticleDAO;
-import model.dataaccess.BookDAO;
-import model.dataaccess.CollaboratorDAO;
-import model.dataaccess.EvidenceDAO;
-import model.dataaccess.IntegrantDAO;
-import model.dataaccess.ProjectDAO;
-import model.dataaccess.PrototypeDAO;
-import utils.FtpClient;
-import model.domain.Article;
-import model.domain.Book;
-import model.domain.Collaborator;
-import model.domain.Evidence;
-import model.domain.Integrant;
-import model.domain.Member;
-import model.domain.Prototype;
+import model.old.dataaccess.ArticleDAO;
+import model.old.dataaccess.BookDAO;
+import model.old.dataaccess.CollaboratorDAO;
+import model.old.dataaccess.EvidenceDAO;
+import model.old.dataaccess.IntegrantDAO;
+import model.old.dataaccess.ProjectDAO;
+import model.old.dataaccess.PrototypeDAO;
+import utils.FTPClient;
+import model.old.domain.Article;
+import model.old.domain.Book;
+import model.old.domain.Collaborator;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
+import model.old.domain.Member;
+import model.old.domain.Prototype;
 
 public class EvidenceEditController implements Initializable{
 
@@ -331,7 +331,7 @@ public class EvidenceEditController implements Initializable{
     }
     
     private void uploadFile(String path, String fileName) throws InvalidFormException{
-        String link = new FtpClient().saveFileIntoFilesSystem(path, fileName);
+        String link = new FTPClient().saveFileIntoFilesSystem(path, fileName);
         if(link != null){
             this.lbDocumentName.setText(link);
             this.evidence.setUrlFile(link);
@@ -343,7 +343,7 @@ public class EvidenceEditController implements Initializable{
     }
     
     private void checkExistFile(String fileName) throws InvalidFormException{
-        if(new FtpClient().checkExistFile(fileName)){
+        if(new FTPClient().checkExistFile(fileName)){
             throw new InvalidFormException("El archivo ya existe en el sistema");
         }
     }
@@ -561,7 +561,7 @@ public class EvidenceEditController implements Initializable{
         if(documentPath != null){
             String documentName = dialogBox.getFileNameSelected();
             try{
-                new FtpClient().deleteFileFromFilesSystemByName(this.evidence.getUrlFile());
+                new FTPClient().deleteFileFromFilesSystemByName(this.evidence.getUrlFile());
                 checkExistFile(documentName);
                 uploadFile(documentPath, documentName);
             }catch(InvalidFormException ex){

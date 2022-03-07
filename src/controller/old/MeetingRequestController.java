@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 import controller.old.pattern.InvalidFormException;
 import controller.old.pattern.ValidatorForm;
-import model.dataaccess.MeetingDAO;
+import model.old.dataaccess.MeetingDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,13 +30,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.domain.Agreement;
-import model.domain.AssistantRol;
-import model.domain.Comment;
-import model.domain.Meeting;
-import model.domain.Prerequisite;
-import model.domain.Topic;
-import model.domain.Integrant;
+import model.old.domain.Agreement;
+import model.old.domain.AssistantRol;
+import model.old.domain.Comment;
+import model.old.domain.Meeting;
+import model.old.domain.Prerequisite;
+import model.old.domain.Topic;
+import model.old.domain.Integrant;
 
 public class MeetingRequestController implements Initializable{
     

@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import model.domain.Collaborator;
-import model.domain.Integrant;
-import model.dataaccess.CollaboratorDAO;
+import model.old.domain.Collaborator;
+import model.old.domain.Integrant;
+import model.old.dataaccess.CollaboratorDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

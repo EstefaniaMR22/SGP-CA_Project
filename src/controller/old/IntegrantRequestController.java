@@ -11,8 +11,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import model.domain.Integrant;
-import model.dataaccess.IntegrantDAO;
+import model.old.domain.Integrant;
+import model.old.dataaccess.IntegrantDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

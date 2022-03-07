@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import model.domain.Book;
-import model.domain.ChapterBook;
-import model.domain.Collaborator;
-import model.domain.Integrant;
-import model.dataaccess.ChapterBookDAO;
+import model.old.domain.Book;
+import model.old.domain.ChapterBook;
+import model.old.domain.Collaborator;
+import model.old.domain.Integrant;
+import model.old.dataaccess.ChapterBookDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

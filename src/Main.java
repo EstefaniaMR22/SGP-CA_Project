@@ -1,9 +1,3 @@
-/*
- * @author Todos
- * @versión v1.0
- * Last modification date: 17-06-2021
- */
-
 import controller.general.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;

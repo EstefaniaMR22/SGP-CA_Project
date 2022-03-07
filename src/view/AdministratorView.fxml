@@ -1,16 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="588.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1255.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="153.0" layoutY="214.0" text="ADMINISTRADOR">
-         <font>
-            <Font size="58.0" />
-         </font>
-      </Label>
+      <VBox prefHeight="660.0" prefWidth="1255.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+               <children>
+                  <TextField fx:id="searchTextField" styleClass="textfield" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="searchButton" mnemonicParsing="false" styleClass="main-button" text="Buscar" />
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ListView fx:id="membersListView" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <HBox prefWidth="200.0">
+               <children>
+                  <VBox prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="Miembros totales" />
+                              <Label fx:id="totalMembersTextField" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Responsables" />
+                                    <Label fx:id="totalResponsablesTextField" text="?" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Integrantes" />
+                                    <Label fx:id="totalIntegrantsTextField" text="?" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#removeMemberOnAction" styleClass="main-button" text="Dar de baja" />
+                        <Button mnemonicParsing="false" onAction="#lookMemberDetailsOnAction" styleClass="main-button" text="Consultar detalles" />
+                        <Button mnemonicParsing="false" onAction="#addMemberOnAction" styleClass="main-button" text="Registrar" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER_RIGHT" prefWidth="100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#closeOnAction" styleClass="main-button" text="Cerrar" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>

@@ -5,8 +5,6 @@ import controller.IntegrantController;
 import controller.ResponsableController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-import model.domain.Integrant;
-import model.dataaccess.IntegrantDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -19,8 +17,6 @@ public class LoginController extends Controller {
     private PasswordField passwordField;
     @FXML
     private Label systemLabel;
-    private final IntegrantDAO INTEGRANT_DAO = new IntegrantDAO();
-    private Integrant integrantLogger;
 
 
     public void showStage() {

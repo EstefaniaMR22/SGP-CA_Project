@@ -94,6 +94,16 @@
  -fx-border-color:derive(-button_first_clr, -50%);
 }
 
+.main-button:hover {
+    -fx-background-color:derive(-button_first_clr, 40%);
+     -fx-border-radius: 5px;
+}
+
+.main-button:pressed {
+    -fx-border-color:derive(-button_first_clr, -10%);
+    -fx-border-width:1 0 2 0;
+    -fx-border-radius:5px;
+}
 
 .secondary-button {
  -fx-background-color:-button_secondary_clr;
@@ -104,11 +114,27 @@
  -fx-min-height:38px;
 }
 
+.secondary-button:hover {
+ -fx-background-color:derive(-button_first_clr, 160%);
+ -fx-border-radius:5px;
+}
+
+.secondary-button:pressed {
+    fx-border-color:derive(-button_first_clr, -10%);
+    -fx-border-width:0.5 1 0.5 1;
+    -fx-border-radius:5px;
+}
+
+
 .optional-button { 
  -fx-background-color:-button_optional_clr;
- -fx-text-fill:derive(-button_first_clr, 70%);
- -fx-underline:true;
+ -fx-text-fill:derive(-button_first_clr, 0%);
  -fx-min-height:38px;
+}
+
+.optional-button:hover {
+ -fx-text-fill:derive(-button_first_clr, 50%);
+  -fx-border-radius: 5px;
 }
 
  /*

@@ -18,10 +18,10 @@ import java.util.logging.Logger;
 
 import controller.general.LoginController;
 import controller.old.pattern.InvalidFormException;
-import model.dataaccess.BookDAO;
-import model.dataaccess.ChapterBookDAO;
-import model.dataaccess.CollaboratorDAO;
-import model.dataaccess.IntegrantDAO;
+import model.old.dataaccess.BookDAO;
+import model.old.dataaccess.ChapterBookDAO;
+import model.old.dataaccess.CollaboratorDAO;
+import model.old.dataaccess.IntegrantDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,12 +46,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import controller.old.pattern.DialogBox;
 import controller.old.pattern.ValidatorForm;
-import utils.FtpClient;
-import model.domain.Book;
-import model.domain.ChapterBook;
-import model.domain.Collaborator;
-import model.domain.Integrant;
-import model.domain.Member;
+import utils.FTPClient;
+import model.old.domain.Book;
+import model.old.domain.ChapterBook;
+import model.old.domain.Collaborator;
+import model.old.domain.Integrant;
+import model.old.domain.Member;
 
 public class ChapterBookEditController implements Initializable{
 
@@ -204,7 +204,7 @@ public class ChapterBookEditController implements Initializable{
     }
     
     private void uploadFile(String path, String fileName) throws InvalidFormException{
-        String link = new FtpClient().saveFileIntoFilesSystem(path, fileName);
+        String link = new FTPClient().saveFileIntoFilesSystem(path, fileName);
         if(link != null){
             this.lbDocumentName.setText(link);
             this.lbDocumentName.setVisible(true);
@@ -218,7 +218,7 @@ public class ChapterBookEditController implements Initializable{
     }
     
     private void checkExistFile(String fileName) throws InvalidFormException{
-        if(new FtpClient().checkExistFile(fileName)){
+        if(new FTPClient().checkExistFile(fileName)){
             throw new InvalidFormException("El archivo ya existe en el sistema");
         }
     }
@@ -332,7 +332,7 @@ public class ChapterBookEditController implements Initializable{
         if(documentPath != null){
             String documentName = dialogBox.getFileNameSelected();
             try{
-                new FtpClient().deleteFileFromFilesSystemByName(this.chapterBook.getUrlFile());
+                new FTPClient().deleteFileFromFilesSystemByName(this.chapterBook.getUrlFile());
                 checkExistFile(documentName);
                 uploadFile(documentPath, documentName);
             }catch(InvalidFormException ex){

@@ -11,8 +11,8 @@ import java.util.List;
 
 import controller.old.ArticleController;
 import controller.old.ReceptionWorkController;
-import model.domain.Evidence;
-import model.domain.Integrant;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
 import javafx.scene.Node;
 import controller.old.BookController;
 import controller.old.PrototypeController;

@@ -9,11 +9,11 @@ package controller.old;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import model.domain.Evidence;
-import model.domain.Integrant;
-import model.domain.Project;
-import model.dataaccess.ProjectDAO;
-import model.dataaccess.ReceptionWorkDAO;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
+import model.old.domain.Project;
+import model.old.dataaccess.ProjectDAO;
+import model.old.dataaccess.ReceptionWorkDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

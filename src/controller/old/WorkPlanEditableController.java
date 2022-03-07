@@ -6,7 +6,6 @@
 
 package controller.old;
 
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -14,11 +13,11 @@ import java.util.ResourceBundle;
 
 import controller.old.pattern.InvalidFormException;
 import controller.old.pattern.ValidatorForm;
-import model.domain.Action;
-import model.domain.Goal;
-import model.domain.Integrant;
-import model.domain.WorkPlan;
-import model.dataaccess.WorkPlanDAO;
+import model.old.domain.Action;
+import model.old.domain.Goal;
+import model.old.domain.Integrant;
+import model.old.domain.WorkPlan;
+import model.old.dataaccess.WorkPlanDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

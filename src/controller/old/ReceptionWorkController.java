@@ -10,11 +10,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import model.domain.Collaborator;
-import model.domain.Evidence;
-import model.domain.Integrant;
-import model.domain.ReceptionWork;
-import model.dataaccess.ReceptionWorkDAO;
+import model.old.domain.Collaborator;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
+import model.old.domain.ReceptionWork;
+import model.old.dataaccess.ReceptionWorkDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

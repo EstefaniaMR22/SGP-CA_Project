@@ -9,10 +9,10 @@ package controller.old;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import model.domain.Article;
-import model.domain.Book;
-import model.domain.Integrant;
-import model.domain.Prototype;
+import model.old.domain.Article;
+import model.old.domain.Book;
+import model.old.domain.Integrant;
+import model.old.domain.Prototype;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

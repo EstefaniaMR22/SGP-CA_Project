@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import model.domain.Integrant;
-import model.domain.Member;
-import model.domain.Schooling;
-import model.dataaccess.IntegrantDAO;
+import model.old.domain.Integrant;
+import model.old.domain.Member;
+import model.old.domain.Schooling;
+import model.old.dataaccess.IntegrantDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

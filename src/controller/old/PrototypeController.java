@@ -10,10 +10,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import controller.old.pattern.EvidenceWindow;
-import model.domain.Evidence;
-import model.domain.Integrant;
-import model.domain.Prototype;
-import model.dataaccess.PrototypeDAO;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
+import model.old.domain.Prototype;
+import model.old.dataaccess.PrototypeDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

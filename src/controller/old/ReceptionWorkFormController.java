@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.old.pattern.*;
-import model.dataaccess.CollaboratorDAO;
-import model.dataaccess.IntegrantDAO;
-import model.dataaccess.ProjectDAO;
-import model.dataaccess.ReceptionWorkDAO;
+import model.old.dataaccess.CollaboratorDAO;
+import model.old.dataaccess.IntegrantDAO;
+import model.old.dataaccess.ProjectDAO;
+import model.old.dataaccess.ReceptionWorkDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,13 +41,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
-import utils.FtpClient;
+import utils.FTPClient;
 import javafx.stage.Stage;
-import model.domain.Collaborator;
-import model.domain.Integrant;
-import model.domain.Member;
-import model.domain.Project;
-import model.domain.ReceptionWork;
+import model.old.domain.Collaborator;
+import model.old.domain.Integrant;
+import model.old.domain.Member;
+import model.old.domain.Project;
+import model.old.domain.ReceptionWork;
 
 public class ReceptionWorkFormController implements Initializable {
 
@@ -410,7 +410,7 @@ public class ReceptionWorkFormController implements Initializable {
         if(documentPath != null){
             String documentName = dialogBox.getFileNameSelected();
             try{
-                new FtpClient().deleteFileFromFilesSystemByName(this.UrlReception);
+                new FTPClient().deleteFileFromFilesSystemByName(this.UrlReception);
                 checkExistFile(documentName);
                 uploadFile(documentPath, documentName);
             }catch(InvalidFormException ex){
@@ -420,7 +420,7 @@ public class ReceptionWorkFormController implements Initializable {
     }
     
     private void uploadFile(String path, String fileName) throws InvalidFormException {
-        String link = new FtpClient().saveFileIntoFilesSystem(path, fileName);
+        String link = new FTPClient().saveFileIntoFilesSystem(path, fileName);
         if(link != null){
             this.lbDocumentName.setText(link);
             UrlReception = link;
@@ -432,7 +432,7 @@ public class ReceptionWorkFormController implements Initializable {
     }
     
     private void checkExistFile(String fileName) throws InvalidFormException {
-        if(new FtpClient().checkExistFile(fileName)){
+        if(new FTPClient().checkExistFile(fileName)){
             throw new InvalidFormException("El archivo ya existe en el sistema");
         }
     }

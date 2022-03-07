@@ -6,8 +6,8 @@
 
 package controller.old.pattern;
 
-import model.domain.Evidence;
-import model.domain.Integrant;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
 import javafx.scene.Node;
 
 public interface EvidenceWindow{

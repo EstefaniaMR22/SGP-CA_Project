@@ -10,11 +10,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import model.domain.Action;
-import model.domain.Goal;
-import model.domain.Integrant;
-import model.domain.WorkPlan;
-import model.dataaccess.WorkPlanDAO;
+import model.old.domain.Action;
+import model.old.domain.Goal;
+import model.old.domain.Integrant;
+import model.old.domain.WorkPlan;
+import model.old.dataaccess.WorkPlanDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

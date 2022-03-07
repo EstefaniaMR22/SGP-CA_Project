@@ -1,4 +1,6 @@
 out/
 /build
 /dist
-/aditionallibraries
+/lib
+dataAccess.txt
+database.properties

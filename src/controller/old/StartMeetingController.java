@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import model.dataaccess.MeetingDAO;
+import model.old.dataaccess.MeetingDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,11 +32,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import controller.old.pattern.InvalidFormException;
 import controller.old.pattern.ValidatorForm;
-import model.domain.Agreement;
-import model.domain.Integrant;
-import model.domain.Meeting;
-import model.domain.MeetingAgenda;
-import model.domain.Topic;
+import model.old.domain.Agreement;
+import model.old.domain.Integrant;
+import model.old.domain.Meeting;
+import model.old.domain.MeetingAgenda;
+import model.old.domain.Topic;
 
 public class StartMeetingController implements Initializable{
 

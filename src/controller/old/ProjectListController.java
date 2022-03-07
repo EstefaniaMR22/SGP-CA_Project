@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import model.domain.Integrant;
-import model.domain.Project;
-import model.dataaccess.ProjectDAO;
+import model.old.domain.Integrant;
+import model.old.domain.Project;
+import model.old.dataaccess.ProjectDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

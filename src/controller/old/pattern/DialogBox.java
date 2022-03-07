@@ -10,7 +10,7 @@ import java.io.File;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import utils.FtpClient;
+import utils.FTPClient;
 
 
 public class DialogBox{
@@ -19,7 +19,7 @@ public class DialogBox{
     private String directorySelectedPath = "";
     private String fileNameSelected = "";
     private Stage stage;
-    private final FtpClient FTPCLIENT = new FtpClient();
+    private final FTPClient FTPCLIENT = new FTPClient();
 
     public DialogBox(Stage stage){
         this.stage = stage;

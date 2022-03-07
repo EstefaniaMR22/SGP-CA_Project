@@ -16,11 +16,11 @@ import java.util.ResourceBundle;
 
 import controller.old.pattern.InvalidFormException;
 import controller.old.pattern.ValidatorForm;
-import model.domain.GeneralResume;
-import model.domain.Integrant;
-import model.domain.Lgac;
-import model.dataaccess.GeneralResumeDAO;
-import model.dataaccess.IntegrantDAO;
+import model.old.domain.GeneralResume;
+import model.old.domain.Integrant;
+import model.old.domain.Lgac;
+import model.old.dataaccess.GeneralResumeDAO;
+import model.old.dataaccess.IntegrantDAO;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;

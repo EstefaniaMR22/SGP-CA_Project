@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.old.pattern.EvidenceWindowFactory;
-import model.domain.Evidence;
-import model.domain.Integrant;
-import model.dataaccess.ReceptionWorkDAO;
+import model.old.domain.Evidence;
+import model.old.domain.Integrant;
+import model.old.dataaccess.ReceptionWorkDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import model.domain.Integrant;
-import model.domain.Member;
-import model.dataaccess.GeneralResumeDAO;
-import model.dataaccess.IntegrantDAO;
+import model.old.domain.Integrant;
+import model.old.domain.Member;
+import model.old.dataaccess.GeneralResumeDAO;
+import model.old.dataaccess.IntegrantDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
