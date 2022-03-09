@@ -30,7 +30,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label text="Miembros totales" />
+                              <Label styleClass="bold-label" text="Miembros totales" />
                               <Label fx:id="totalMembersTextField" text="?" />
                            </children>
                         </HBox>
@@ -38,13 +38,13 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label text="Responsables" />
+                                    <Label styleClass="bold-label" text="Responsables" />
                                     <Label fx:id="totalResponsablesTextField" text="?" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label text="Integrantes" />
+                                    <Label styleClass="bold-label" text="Integrantes" />
                                     <Label fx:id="totalIntegrantsTextField" text="?" />
                                  </children>
                               </HBox>

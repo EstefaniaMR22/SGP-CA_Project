@@ -1,7 +1,5 @@
 package controller;
 
-import controller.general.Controller;
-
 public class IntegrantController extends Controller {
 
     public void showStage() {

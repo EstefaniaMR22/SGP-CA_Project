@@ -79,6 +79,13 @@
 }
 
 
+.bold-label {
+ -fx-text-fill:#000;
+ -fx-font-weight:bold;  
+}
+
+
+
  /*
   * **********
   * BUTTONS
@@ -153,6 +160,23 @@
   -fx-border-radius:5px;
 }
 
+.datepicker {
+    -fx-min-height:38px;
+    -fx-border-radius:5px;
+}
+
+
+
+
+ /*
+  * **********
+  * TABLE VIEW
+  * **********
+  */
+
+.tableview {
+    -fx-background-color:#fff;
+}
 
 
 

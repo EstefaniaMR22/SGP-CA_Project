@@ -65,6 +65,7 @@
                            </children>
                         </HBox>
                         <Label fx:id="systemLabel" styleClass="system-label" text="SystemLabel" VBox.vgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" styleClass="optional-button" text="Button" />
                         <Button mnemonicParsing="false" onAction="#adminOnAction" styleClass="main-button" text="Administrador" />
                         <Button mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
                         <Button mnemonicParsing="false" onAction="#responsableOnAction" styleClass="main-button" text="Responsable" />

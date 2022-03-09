@@ -1,4 +1,4 @@
-package controller.general;
+package controller;
 
 public class Validator {
 }

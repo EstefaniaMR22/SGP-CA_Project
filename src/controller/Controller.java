@@ -1,4 +1,4 @@
-package controller.general;
+package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /***
  * You should use this class for every class which works like a
- * GUI controller for an user.
+ * GUI controller for a user.
  */
 public abstract class Controller {
     protected Stage stage;

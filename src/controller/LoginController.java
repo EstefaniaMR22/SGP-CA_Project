@@ -1,8 +1,5 @@
-package controller.general;
+package controller;
 
-import controller.AdministratorController;
-import controller.IntegrantController;
-import controller.ResponsableController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.fxml.FXML;
@@ -20,7 +17,7 @@ public class LoginController extends Controller {
 
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/Login.fxml"), this);
+        loadFXMLFile(getClass().getResource("/view/LoginView.fxml"), this);
         stage.show();
     }
 
