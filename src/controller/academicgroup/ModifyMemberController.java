@@ -1,7 +1,5 @@
 package controller.academicgroup;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.Part;
-import controller.AdministratorController;
 import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +12,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Modality;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.CivilStatus;
+import model.domain.Integrant;
+import model.domain.Member;
+import model.domain.ParticipationType;
+import model.domain.Responsable;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -68,12 +70,89 @@ public class ModifyMemberController extends Controller implements Initializable 
 
     @FXML
     void ModifyMemberOnAction(ActionEvent event) {
-
+        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT ) {
+            updateIntegrant();
+        } else if( memberSelected.getParticipationType() == ParticipationType.RESPONSABLE){
+            updateResponsable();
+        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR) {
+            // Example
+        } else {
+            // Example
+        }
     }
 
     @FXML
     void cancelButtonPressed(ActionEvent event) {
         stage.close();
+    }
+
+    private void updateIntegrant() {
+        boolean isUpdated = false;
+        Integrant integrante = new Integrant();
+        integrante.setId(memberSelected.getId());
+        integrante.setName(nameTextField.getText());
+        integrante.setPaternalLastname(paternalLastnameTextField.getText());
+        integrante.setMaternalLastname(maternalLastnameTextField.getText());
+        integrante.setNationality(nationalityTextField.getText());
+        integrante.setCivilStatus(civilStatusComboBox.getValue());
+        integrante.setCurp(curpTextField.getText());
+        integrante.setTelephone(telephoneTextField.getText());
+        integrante.setRfc(rfcTextField.getText());
+        integrante.setState(stateTextField.getText());
+        integrante.setPersonalNumber(personalNumberTextField.getText());
+        integrante.setUvEmail(uvEmailTextField.getText());
+        integrante.setEducationalProgram(educationalProgramTextField.getText());
+        integrante.setHomeTelephone(homePhoneNumberTextField.getText());
+        integrante.setWorkTelephone(workTelephoneTextField.getText());
+        integrante.setAditionalEmail(aditionalEmailTextField.getText());
+        integrante.setAppointment(appointmentTextField.getText());
+        integrante.setParticipationType(ParticipationType.INTEGRANT);
+        try {
+            isUpdated = new MiembroDAO().updateMember(integrante);
+        } catch(SQLException sqlException) {
+            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        System.out.println(isUpdated);
+    }
+
+    private void updateResponsable() {
+        boolean isUpdated = false;
+        Responsable responsable = new Responsable();
+        responsable.setId(memberSelected.getId());
+        responsable.setName(nameTextField.getText());
+        responsable.setPaternalLastname(paternalLastnameTextField.getText());
+        responsable.setMaternalLastname(maternalLastnameTextField.getText());
+        responsable.setNationality(nationalityTextField.getText());
+        responsable.setCivilStatus(civilStatusComboBox.getValue());
+        responsable.setCurp(curpTextField.getText());
+        responsable.setTelephone(telephoneTextField.getText());
+        responsable.setRfc(rfcTextField.getText());
+        responsable.setState(stateTextField.getText());
+        responsable.setPersonalNumber(personalNumberTextField.getText());
+        responsable.setUvEmail(uvEmailTextField.getText());
+        responsable.setEducationalProgram(educationalProgramTextField.getText());
+        responsable.setHomeTelephone(homePhoneNumberTextField.getText());
+        responsable.setWorkTelephone(workTelephoneTextField.getText());
+        responsable.setAditionalEmail(aditionalEmailTextField.getText());
+        responsable.setAppointment(appointmentTextField.getText());
+        responsable.setParticipationType(ParticipationType.RESPONSABLE);
+        try {
+            isUpdated = new MiembroDAO().updateMember(responsable);
+        } catch (SQLException sqlException) {
+            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        System.out.println(isUpdated);
+    }
+
+    private void getCivilStatesFromDatabase() {
+        List<CivilStatus> civilStatusList = new ArrayList<>();
+        try {
+            civilStatusList = new MiembroDAO().getCivilStatus();
+        } catch(SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+        ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
+        civilStatusComboBox.setItems(civilStatusObservableList);
     }
 
     private void setMemberDataIntoFields() {
@@ -106,28 +185,4 @@ public class ModifyMemberController extends Controller implements Initializable 
 
         }
     }
-
-    private void getCivilStatesFromDatabase() {
-        List<CivilStatus> civilStatusList = new ArrayList<>();
-        try {
-            civilStatusList = new MiembroDAO().getCivilStatus();
-        } catch(SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
-        }
-        ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
-        civilStatusComboBox.setItems(civilStatusObservableList);
-    }
-
-    private void updateMember(Member member) {
-        if(member.getParticipationType() == ParticipationType.RESPONSABLE) {
-            
-        } else if(member.getParticipationType() == ParticipationType.INTEGRANT) {
-
-        } else if(member.getParticipationType() == ParticipationType.COLABORATOR) {
-
-        } else {
-
-        }
-    }
-
 }

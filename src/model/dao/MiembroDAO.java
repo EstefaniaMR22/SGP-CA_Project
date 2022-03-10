@@ -217,43 +217,110 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return responsable;
     }
-
+    /***
+     * Update integrant.
+     * <p>
+     * Update the integrant data by newer information.
+     * </p>
+     * @param Integrant that contains all the data
+     * @return true if integrant was updated otherwise it returns false
+     */
     @Override
     public boolean updateMember(Integrant integrant) throws SQLException {
         boolean isUpdated = false;
         try(Connection conn = database.getConnection() ) {
+            int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String statement = "CALL agregarResponsable(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            CallableStatement callableStatement = conn.prepareCall(statement);
-            callableStatement.setString(1,integrant.getName());
-            callableStatement.setString(2,integrant.getPaternalLastname());
-            callableStatement.setString(3, integrant.getMaternalLastname());
-            callableStatement.setString(4, integrant.getNationality());
-            callableStatement.setString(5, integrant.getEducationalProgram());
-            callableStatement.setString(6, integrant.getPersonalNumber());
-            callableStatement.setString(7, integrant.getUvEmail());
-            callableStatement.setString(8, integrant.getRfc());
-            callableStatement.setString(9, integrant.getTelephone());
-            callableStatement.setString(10, integrant.getState());
-            callableStatement.setString(11, integrant.getCurp());
-            callableStatement.setString(12, integrant.getCivilStatus().getCivilStatus());
-            callableStatement.setString(13, integrant.getAppointment());
-            callableStatement.setString(14, integrant.getHomeTelephone());
-            callableStatement.setString(15, integrant.getWorkTelephone());
-            callableStatement.setString(16, integrant.getAditionalEmail());
-            callableStatement.setString(17, password);
-            callableStatement.registerOutParameter(18, Types.INTEGER);
-            callableStatement.execute();
-            idMember = callableStatement.getInt(18);
+            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ? WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
+            preparedStatement.setString(1, integrant.getName());
+            preparedStatement.setString(2, integrant.getPaternalLastname());
+            preparedStatement.setString(3, integrant.getMaternalLastname());
+            preparedStatement.setString(4, integrant.getNationality());
+            preparedStatement.setString(5, integrant.getEducationalProgram());
+            preparedStatement.setString(6, integrant.getPersonalNumber());
+            preparedStatement.setString(7, integrant.getRfc());
+            preparedStatement.setString(8, integrant.getTelephone());
+            preparedStatement.setString(9, integrant.getState());
+            preparedStatement.setString(10, integrant.getCurp());
+            preparedStatement.setString(11, integrant.getCivilStatus().getCivilStatus());
+            preparedStatement.setString(12, integrant.getUvEmail());
+            preparedStatement.setInt(13, integrant.getId());
+            rowsAffected = preparedStatement.executeUpdate();
+            String updateIntegranteStatement = "UPDATE Integrante SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
+            preparedStatement = conn.prepareStatement(updateIntegranteStatement);
+            preparedStatement.setString(1, integrant.getAppointment());
+            preparedStatement.setString(2, integrant.getHomeTelephone());
+            preparedStatement.setString(3, integrant.getWorkTelephone());
+            preparedStatement.setString(4, integrant.getAditionalEmail());
+            preparedStatement.setInt(5, integrant.getId());
+            rowsAffected += preparedStatement.executeUpdate();
+            String updateCuentaStatement = "UPDATE Cuenta SET email = ? WHERE id_miembro = ?";
+            preparedStatement = conn.prepareStatement(updateCuentaStatement);
+            preparedStatement.setString(1,integrant.getUvEmail());
+            preparedStatement.setInt(2, integrant.getId());
+            rowsAffected += preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+            conn.commit();
         }
         return isUpdated;
     }
-
+    /***
+     * Update Responsable
+     * <p>
+     * Update the responsable data by newer information.
+     * </p>
+     * @param Responsable that contains all the data
+     * @return true if responsable was updated otherwise it returns false
+     */
     @Override
     public boolean updateMember(Responsable responsable) throws SQLException {
-        return false;
+        boolean isUpdated = false;
+        try(Connection conn = database.getConnection() ) {
+            int rowsAffected = 0;
+            conn.setAutoCommit(false);
+            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ? WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
+            preparedStatement.setString(1, responsable.getName());
+            preparedStatement.setString(2, responsable.getPaternalLastname());
+            preparedStatement.setString(3, responsable.getMaternalLastname());
+            preparedStatement.setString(4, responsable.getNationality());
+            preparedStatement.setString(5, responsable.getEducationalProgram());
+            preparedStatement.setString(6, responsable.getPersonalNumber());
+            preparedStatement.setString(7, responsable.getRfc());
+            preparedStatement.setString(8, responsable.getTelephone());
+            preparedStatement.setString(9, responsable.getState());
+            preparedStatement.setString(10, responsable.getCurp());
+            preparedStatement.setString(11, responsable.getCivilStatus().getCivilStatus());
+            preparedStatement.setString(12, responsable.getUvEmail());
+            preparedStatement.setInt(13, responsable.getId());
+            rowsAffected = preparedStatement.executeUpdate();
+            String updateResponsableStatement = "UPDATE Responsable SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
+            preparedStatement = conn.prepareStatement(updateResponsableStatement);
+            preparedStatement.setString(1, responsable.getAppointment());
+            preparedStatement.setString(2, responsable.getHomeTelephone());
+            preparedStatement.setString(3, responsable.getWorkTelephone());
+            preparedStatement.setString(4, responsable.getAditionalEmail());
+            preparedStatement.setInt(5, responsable.getId());
+            rowsAffected += preparedStatement.executeUpdate();
+            String updateCuentaStatement = "UPDATE Cuenta SET email = ? WHERE id_miembro = ?";
+            preparedStatement = conn.prepareStatement(updateCuentaStatement);
+            preparedStatement.setString(1,responsable.getUvEmail());
+            preparedStatement.setInt(2, responsable.getId());
+            rowsAffected += preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+            conn.commit();
+        }
+        return isUpdated;
     }
-
+    /***
+     * Update colaborator
+     * <p>
+     * Update the colaborator data by newer information.
+     * </p>
+     * @param Colaborator that contains all the data
+     * @return true if colaborator was updated otherwise it returns false
+     */
     @Override
     public boolean updateMember(Colaborator colaborator) throws SQLException {
         return false;

@@ -37,6 +37,16 @@ public class Integrant extends Member{
         return aditionalEmail;
     }
 
+    @Override
+    public String toString() {
+        return "Integrant{" +
+                "appointment='" + appointment + '\'' +
+                ", workTelephone='" + workTelephone + '\'' +
+                ", homeTelephone='" + homeTelephone + '\'' +
+                ", aditionalEmail='" + aditionalEmail + '\'' +
+                '}';
+    }
+
     public void setAditionalEmail(String aditionalEmail) {
         this.aditionalEmail = aditionalEmail;
     }

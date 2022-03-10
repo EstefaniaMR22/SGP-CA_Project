@@ -62,8 +62,10 @@ public class MemberDetailsController extends Controller implements Initializable
 
     @FXML
     void updateMemberOnAction(ActionEvent event) {
+        stage.hide();
         ModifyMemberController modifyMemberController = new ModifyMemberController(memberSelected);
         modifyMemberController.showStage();
+        stage.show();
     }
 
     private void setMemberDataToTextField() {

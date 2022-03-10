@@ -40,4 +40,15 @@ public class Responsable extends Member {
     public void setAditionalEmail(String aditionalEmail) {
         this.aditionalEmail = aditionalEmail;
     }
+
+    @Override
+    public String toString() {
+        return "Responsable{" +
+                "appointment='" + appointment + '\'' +
+                ", workTelephone='" + workTelephone + '\'' +
+                ", homeTelephone='" + homeTelephone + '\'' +
+                ", aditionalEmail='" + aditionalEmail + '\'' +
+                '}';
+
+    }
 }
