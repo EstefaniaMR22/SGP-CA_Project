@@ -31,7 +31,7 @@ public class AddMemberController extends Controller implements Initializable {
     @FXML private ComboBox<CivilStatus> civilStatusComboBox;
     @FXML private TextField curpTextField;
     @FXML private TextField educationalProgramTextField;
-    @FXML private TextField homeTextField;
+    @FXML private TextField homePhoneNumberTextField;
     @FXML private TextField maternalLastnameTextField;
     @FXML private TextField nameTextField;
     @FXML private TextField nationalityTextField;
@@ -53,6 +53,7 @@ public class AddMemberController extends Controller implements Initializable {
         getCivilStatesFromDatabase();
         responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
         integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
+        colaboratorToggleButton.setUserData(ParticipationType.COLABORATOR);
     }
 
     public void showStage() {
@@ -94,7 +95,7 @@ public class AddMemberController extends Controller implements Initializable {
         integrante.setPersonalNumber(personalNumberTextField.getText());
         integrante.setUvEmail(uvEmailTextField.getText());
         integrante.setEducationalProgram(educationalProgramTextField.getText());
-        integrante.setHomeTelephone(homeTextField.getText());
+        integrante.setHomeTelephone(homePhoneNumberTextField.getText());
         integrante.setWorkTelephone(workTelephoneTextField.getText());
         integrante.setAditionalEmail(aditionalEmailTextField.getText());
         integrante.setAppointment(appointmentTextField.getText());
@@ -120,7 +121,7 @@ public class AddMemberController extends Controller implements Initializable {
         responsable.setPersonalNumber(personalNumberTextField.getText());
         responsable.setUvEmail(uvEmailTextField.getText());
         responsable.setEducationalProgram(educationalProgramTextField.getText());
-        responsable.setHomeTelephone(homeTextField.getText());
+        responsable.setHomeTelephone(homePhoneNumberTextField.getText());
         responsable.setWorkTelephone(workTelephoneTextField.getText());
         responsable.setAditionalEmail(aditionalEmailTextField.getText());
         responsable.setAppointment(appointmentTextField.getText());

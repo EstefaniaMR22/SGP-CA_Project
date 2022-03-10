@@ -70,4 +70,32 @@ public interface IMiembroDAO {
      * @return Responsable that contains some details.
      */
     Responsable getResponsableDetails(int id) throws SQLException;
+
+    /***
+     * Update integrant.
+     * <p>
+     * Update the integrant data by newer information.
+     * </p>
+     * @param Integrant that contains all the data
+     * @return true if integrant was updated otherwise it returns false
+     */
+    boolean updateMember(Integrant integrant) throws SQLException;
+    /***
+     * Update Responsable
+     * <p>
+     * Update the responsable data by newer information.
+     * </p>
+     * @param Responsable that contains all the data
+     * @return true if responsable was updated otherwise it returns false
+     */
+    boolean updateMember(Responsable responsable) throws SQLException;
+    /***
+     * Update colaborator
+     * <p>
+     * Update the colaborator data by newer information.
+     * </p>
+     * @param Colaborator that contains all the data
+     * @return true if colaborator was updated otherwise it returns false
+     */
+    boolean updateMember(Colaborator colaborator) throws SQLException;
 }

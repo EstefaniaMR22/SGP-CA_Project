@@ -218,6 +218,47 @@ public class MiembroDAO implements IMiembroDAO {
         return responsable;
     }
 
+    @Override
+    public boolean updateMember(Integrant integrant) throws SQLException {
+        boolean isUpdated = false;
+        try(Connection conn = database.getConnection() ) {
+            conn.setAutoCommit(false);
+            String statement = "CALL agregarResponsable(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            CallableStatement callableStatement = conn.prepareCall(statement);
+            callableStatement.setString(1,integrant.getName());
+            callableStatement.setString(2,integrant.getPaternalLastname());
+            callableStatement.setString(3, integrant.getMaternalLastname());
+            callableStatement.setString(4, integrant.getNationality());
+            callableStatement.setString(5, integrant.getEducationalProgram());
+            callableStatement.setString(6, integrant.getPersonalNumber());
+            callableStatement.setString(7, integrant.getUvEmail());
+            callableStatement.setString(8, integrant.getRfc());
+            callableStatement.setString(9, integrant.getTelephone());
+            callableStatement.setString(10, integrant.getState());
+            callableStatement.setString(11, integrant.getCurp());
+            callableStatement.setString(12, integrant.getCivilStatus().getCivilStatus());
+            callableStatement.setString(13, integrant.getAppointment());
+            callableStatement.setString(14, integrant.getHomeTelephone());
+            callableStatement.setString(15, integrant.getWorkTelephone());
+            callableStatement.setString(16, integrant.getAditionalEmail());
+            callableStatement.setString(17, password);
+            callableStatement.registerOutParameter(18, Types.INTEGER);
+            callableStatement.execute();
+            idMember = callableStatement.getInt(18);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateMember(Responsable responsable) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateMember(Colaborator colaborator) throws SQLException {
+        return false;
+    }
+
     private void getMemberData(Member member, int id) throws SQLException {
         try (Connection conn = database.getConnection()) {
             String statement = "SELECT * FROM Miembro WHERE id = ?";

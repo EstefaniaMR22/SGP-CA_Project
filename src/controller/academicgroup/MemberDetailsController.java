@@ -66,18 +66,6 @@ public class MemberDetailsController extends Controller implements Initializable
         modifyMemberController.showStage();
     }
 
-    private void getMembersDetailsFromDatabase() {
-
-    }
-
-    private void getResponsableData() {
-
-    }
-
-    private void getIntegrantData() {
-
-    }
-
     private void setMemberDataToTextField() {
         nameLabel.setText(memberSelected.getName() + " " + memberSelected.getPaternalLastname() + " " + memberSelected.getMaternalLastname());
         rfcLabel.setText(memberSelected.getRfc());

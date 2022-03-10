@@ -117,7 +117,7 @@
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
                            <children>
                               <Label styleClass="bold-label" text="Telefono casa" />
-                              <TextField fx:id="homeTextField" styleClass="textfield" />
+                              <TextField fx:id="homePhoneNumberTextField" styleClass="textfield" />
                               <Label text="Integrante o responsable data" />
                            </children>
                         </HBox>
