@@ -1,9 +1,6 @@
 package model.dao.interfaces;
 
-import model.domain.CivilStatus;
-import model.domain.Colaborator;
-import model.domain.Integrant;
-import model.domain.Responsable;
+import model.domain.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,5 +44,30 @@ public interface IMiembroDAO {
      * @return List that contain all the available civil status.
      */
     List<CivilStatus> getCivilStatus() throws SQLException;
-
+    /***
+     * Get all members registered in database
+     * <p>
+     * Get all the members including colaborators, responsables and integrants
+     * </p>
+     * @return List that contain all the registered members
+     */
+    List<Member> getMembers() throws SQLException;
+    /***
+     * Get Integrant details from database.
+     * <p>
+     * Get all the details from Integrant.
+     * </p>
+     * @param id The member ID.
+     * @return Integrant that contains some details.
+     */
+    Integrant getIntegrantDetails(int id) throws SQLException;
+    /***
+     * Get Responsable details from database.
+     * <p>
+     * Get all the details from Responsable.
+     * </p>
+     * @param id The member ID.
+     * @return Responsable that contains some details.
+     */
+    Responsable getResponsableDetails(int id) throws SQLException;
 }

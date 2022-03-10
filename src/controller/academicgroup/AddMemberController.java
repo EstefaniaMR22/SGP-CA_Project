@@ -8,9 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Integrant;
+import model.domain.ParticipationType;
 import model.domain.Responsable;
 
 import java.net.URL;
@@ -23,57 +26,33 @@ import java.util.logging.Logger;
 
 
 public class AddMemberController extends Controller implements Initializable {
-    @FXML
-    private TextField aditionalEmailTextField;
+    @FXML private TextField aditionalEmailTextField;
+    @FXML private TextField appointmentTextField;
+    @FXML private ComboBox<CivilStatus> civilStatusComboBox;
+    @FXML private TextField curpTextField;
+    @FXML private TextField educationalProgramTextField;
+    @FXML private TextField homeTextField;
+    @FXML private TextField maternalLastnameTextField;
+    @FXML private TextField nameTextField;
+    @FXML private TextField nationalityTextField;
+    @FXML private TextField paternalLastnameTextField;
+    @FXML private TextField personalNumberTextField;
+    @FXML private TextField rfcTextField;
+    @FXML private TextField stateTextField;
+    @FXML private TextField telephoneTextField;
+    @FXML private TextField uvEmailTextField;
+    @FXML private TextField workTelephoneTextField;
+    @FXML private ToggleButton responsableToggleButton;
+    @FXML private ToggleGroup typeParticipationToggleGroup;
+    @FXML private ToggleButton integrantToggleButton;
+    @FXML private ToggleButton colaboratorToggleButton;
 
-    @FXML
-    private TextField appointmentTextField;
-
-    @FXML
-    private ComboBox<CivilStatus> civilStatusComboBox;
-
-    @FXML
-    private TextField curpTextField;
-
-    @FXML
-    private TextField educationalProgramTextField;
-
-    @FXML
-    private TextField homeTextField;
-
-    @FXML
-    private TextField maternalLastnameTextField;
-
-    @FXML
-    private TextField nameTextField;
-
-    @FXML
-    private TextField nationalityTextField;
-
-    @FXML
-    private TextField paternalLastnameTextField;
-
-    @FXML
-    private TextField personalNumberTextField;
-
-    @FXML
-    private TextField rfcTextField;
-
-    @FXML
-    private TextField stateTextField;
-
-    @FXML
-    private TextField telephoneTextField;
-
-    @FXML
-    private TextField uvEmailTextField;
-
-    @FXML
-    private TextField workTelephoneTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getCivilStatesFromDatabase();
+        responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
+        integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
     }
 
     public void showStage() {
@@ -88,12 +67,21 @@ public class AddMemberController extends Controller implements Initializable {
 
     @FXML
     void AddMemberOnAction(ActionEvent event) {
-        // CHECK USER TYPE
+        ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
+        if(participationType == ParticipationType.INTEGRANT ) {
+            addIntegrant();
+        } else if( participationType == ParticipationType.RESPONSABLE){
+            addResponsable();
+        } else if(participationType == ParticipationType.COLABORATOR) {
+            // Example
+        } else {
+            // Example
+        }
     }
 
 
-    private void addIntengrat() {
-        Responsable integrante = new Responsable();
+    private void addIntegrant() {
+        Integrant integrante = new Integrant();
         integrante.setName(nameTextField.getText());
         integrante.setPaternalLastname(paternalLastnameTextField.getText());
         integrante.setMaternalLastname(maternalLastnameTextField.getText());
@@ -110,6 +98,7 @@ public class AddMemberController extends Controller implements Initializable {
         integrante.setWorkTelephone(workTelephoneTextField.getText());
         integrante.setAditionalEmail(aditionalEmailTextField.getText());
         integrante.setAppointment(appointmentTextField.getText());
+        integrante.setParticipationType(ParticipationType.INTEGRANT);
         try {
             integrante.setId(new MiembroDAO().addMember(integrante, "hola"));
         } catch(SQLException sqlException) {
@@ -135,6 +124,7 @@ public class AddMemberController extends Controller implements Initializable {
         responsable.setWorkTelephone(workTelephoneTextField.getText());
         responsable.setAditionalEmail(aditionalEmailTextField.getText());
         responsable.setAppointment(appointmentTextField.getText());
+        responsable.setParticipationType(ParticipationType.INTEGRANT);
         try {
             responsable.setId(new MiembroDAO().addMember(responsable, "hola"));
         } catch(SQLException sqlException) {

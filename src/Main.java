@@ -1,3 +1,4 @@
+import controller.AdministratorController;
 import controller.LoginController;
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.ModifyMemberController;
@@ -17,8 +18,10 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 //        LoginController loginController = new LoginController();
 //        loginController.showStage();
-        ModifyMemberController modifyMemberController = new ModifyMemberController();
-        modifyMemberController.showStage();
+//        ModifyMemberController modifyMemberController = new ModifyMemberController();
+//        modifyMemberController.showStage();
+        AdministratorController administratorController = new AdministratorController();
+        administratorController.showStage();
     }
 
 

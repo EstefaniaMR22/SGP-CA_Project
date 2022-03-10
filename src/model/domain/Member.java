@@ -1,6 +1,6 @@
 package model.domain;
 
-public abstract class Member {
+public class Member {
     private int id;
     private String name;
     private String maternalLastname;
@@ -14,6 +14,7 @@ public abstract class Member {
     private CivilStatus civilStatus;
     private String uvEmail;
     private String state;
+    private ParticipationType participationType;
 
     public Member() {
     }
@@ -120,5 +121,33 @@ public abstract class Member {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public ParticipationType getParticipationType() {
+        return participationType;
+    }
+
+    public void setParticipationType(ParticipationType participationType) {
+        this.participationType = participationType;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", maternalLastname='" + maternalLastname + '\'' +
+                ", paternalLastname='" + paternalLastname + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", educationalProgram='" + educationalProgram + '\'' +
+                ", personalNumber='" + personalNumber + '\'' +
+                ", rfc='" + rfc + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", curp='" + curp + '\'' +
+                ", civilStatus=" + civilStatus +
+                ", uvEmail='" + uvEmail + '\'' +
+                ", state='" + state + '\'' +
+                ", participationType=" + participationType +
+                '}';
     }
 }

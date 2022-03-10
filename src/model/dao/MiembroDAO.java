@@ -4,6 +4,8 @@ import model.dao.interfaces.IMiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Colaborator;
 import model.domain.Integrant;
+import model.domain.Member;
+import model.domain.ParticipationType;
 import model.domain.Responsable;
 import utils.Database;
 
@@ -101,7 +103,6 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return idMember;
     }
-
     @Override
     public int addMember(Colaborator colaborator) {
         return 0;
@@ -126,6 +127,130 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return civilStatuses;
     }
+    /***
+     * Get all members registered in database
+     * <p>
+     * Get all the members including colaborators, responsables and integrants
+     * </p>
+     * @return List that contain all the registered members
+     */
+    @Override
+    public List<Member> getMembers() throws SQLException {
+        List<Member> memberList = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            memberList = new ArrayList<>();
+            while(resultSet.next()) {
+                Member member = new Member();
+                member.setId(resultSet.getInt("id"));
+                member.setName(resultSet.getString("nombre"));
+                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
+                member.setMaternalLastname(resultSet.getString("apellido_materno"));
+                member.setNationality(resultSet.getString("nacionalidad"));
+                member.setEducationalProgram(resultSet.getString("programa_educativo"));
+                member.setPersonalNumber(resultSet.getString("numero_personal"));
+                member.setRfc(resultSet.getString("rfc"));
+                member.setTelephone(resultSet.getString("telefono"));
+                member.setState(resultSet.getString("estado"));
+                member.setCurp(resultSet.getString("curp"));
+                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
+                member.setUvEmail(resultSet.getString("email"));
+                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                memberList.add(member);
+            }
+        }
+        return memberList;
+    }
+    /***
+     * Get Integrant details from database.
+     * <p>
+     * Get all the details from Integrant.
+     * </p>
+     * @param id The member ID.
+     * @return Integrant that contains some details.
+     */
+    @Override
+    public Integrant getIntegrantDetails(int id) throws SQLException {
+        Integrant integrant = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Integrante WHERE id_miembro = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                integrant = new Integrant();
+                getMemberData(integrant,id);
+                integrant.setAppointment(resultSet.getString("nombramiento"));
+                integrant.setHomeTelephone(resultSet.getString("telefono_casa"));
+                integrant.setWorkTelephone(resultSet.getString("telefono_trabajo"));
+                integrant.setAditionalEmail(resultSet.getString("correo_adicional"));
+            }
+        }
+        return integrant;
+    }
+    /***
+     * Get Responsable details from database.
+     * <p>
+     * Get all the details from Responsable.
+     * </p>
+     * @param id The member ID.
+     * @return Responsable that contains some details.
+     */
+    @Override
+    public Responsable getResponsableDetails(int id) throws SQLException {
+        Responsable responsable = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Responsable WHERE id_miembro = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                responsable = new Responsable();
+                getMemberData(responsable, id);
+                responsable.setAppointment(resultSet.getString("nombramiento"));
+                responsable.setHomeTelephone(resultSet.getString("telefono_casa"));
+                responsable.setWorkTelephone(resultSet.getString("telefono_trabajo"));
+                responsable.setAditionalEmail(resultSet.getString("correo_adicional"));
+            }
+        }
+        return responsable;
+    }
+
+    private void getMemberData(Member member, int id) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                member.setId(resultSet.getInt("id"));
+                member.setName(resultSet.getString("nombre"));
+                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
+                member.setMaternalLastname(resultSet.getString("apellido_materno"));
+                member.setNationality(resultSet.getString("nacionalidad"));
+                member.setEducationalProgram(resultSet.getString("programa_educativo"));
+                member.setPersonalNumber(resultSet.getString("numero_personal"));
+                member.setRfc(resultSet.getString("rfc"));
+                member.setTelephone(resultSet.getString("telefono"));
+                member.setState(resultSet.getString("estado"));
+                member.setCurp(resultSet.getString("curp"));
+                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
+                member.setUvEmail(resultSet.getString("email"));
+                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+            }
+        }
+    }
+
+    private ParticipationType getParticipationType(String type) {
+        for(ParticipationType participationType : ParticipationType.values()) {
+            if(type.equalsIgnoreCase(participationType.getParticipationType())){
+                return participationType;
+            }
+        }
+        return null;
+    }
 
     private CivilStatus getCivilStatus(String status) {
         for(CivilStatus civilStatus : CivilStatus.values()) {
@@ -135,8 +260,4 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return null;
     }
-
-
-
-
 }

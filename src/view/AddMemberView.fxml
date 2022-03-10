@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -78,6 +80,18 @@
                            <children>
                               <Label styleClass="bold-label" text="Estado" />
                               <TextField fx:id="stateTextField" styleClass="textfield" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                           <children>
+                              <Label styleClass="bold-label" text="Tipo de participacion" />
+                              <ToggleButton fx:id="integrantToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Integrante">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="typeParticipationToggleGroup" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="responsableToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Responsable" toggleGroup="$typeParticipationToggleGroup" />
+                              <ToggleButton fx:id="colaboratorToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Colaborador" toggleGroup="$typeParticipationToggleGroup" />
                            </children>
                         </HBox>
                      </children>
