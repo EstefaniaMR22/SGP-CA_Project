@@ -3,20 +3,20 @@ package model.domain;
 import java.util.Date;
 
 public class Workplan {
-    private int id;
+    private String id;
     private int yearsDuration;
     private Date startDate;
-    private Date finalDate;
-    private String objetiveGeneral;
+    private Date endDate;
+    private String generalObjetive;
 
     public Workplan() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,19 +36,30 @@ public class Workplan {
         this.startDate = startDate;
     }
 
-    public Date getFinalDate() {
-        return finalDate;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setFinalDate(Date finalDate) {
-        this.finalDate = finalDate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public String getObjetiveGeneral() {
-        return objetiveGeneral;
+    public String getGeneralObjetive() {
+        return generalObjetive;
     }
 
-    public void setObjetiveGeneral(String objetiveGeneral) {
-        this.objetiveGeneral = objetiveGeneral;
+    public void setGeneralObjetive(String generalObjetive) {
+        this.generalObjetive = generalObjetive;
+    }
+
+    @Override
+    public String toString() {
+        return "Workplan{" +
+                "id='" + id + '\'' +
+                ", yearsDuration=" + yearsDuration +
+                ", startDate=" + startDate +
+                ", finalDate=" + endDate +
+                ", objetiveGeneral='" + generalObjetive + '\'' +
+                '}';
     }
 }

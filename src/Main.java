@@ -1,5 +1,6 @@
 import controller.AdministratorController;
 import controller.LoginController;
+import controller.ResponsableController;
 import controller.academicgroup.AddAcademicGroupProgramController;
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.ModifyMemberController;
@@ -26,10 +27,11 @@ public class Main extends Application {
 //        administratorController.showStage();
 //        AddAcademicGroupProgramController addAcademicGroupProgramController = new AddAcademicGroupProgramController();
 //        addAcademicGroupProgramController.showStage();
-
+        ResponsableController responsableController = new ResponsableController();
+        responsableController.showStage();
         //new AcademicGroupProgramDAO().getAllAcademicGroupPrograms().forEach(System.out::println);
         //System.out.println("");
-        //System.out.println(new AcademicGroupProgramDAO().getAcademicGroupProgramDetails("hola"));
+//        System.out.println(new AcademicGroupProgramDAO().getAcademicGroupProgramDetails("hola"));
     }
 
 
