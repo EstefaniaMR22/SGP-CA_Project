@@ -325,6 +325,26 @@ public class MiembroDAO implements IMiembroDAO {
     public boolean updateMember(Colaborator colaborator) throws SQLException {
         return false;
     }
+    /***
+     * Remove Member
+     * <p>
+     * Remove all the member data in the database.
+     * </p>
+     * @param Member member to be removed.
+     * @return true if it was removed otherwise false.
+     */
+    @Override
+    public boolean removeMember(int idMember) throws SQLException {
+        boolean wasRemoved = false;
+        try (Connection conn = database.getConnection()) {
+            String statement = "DELETE FROM Miembro WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, idMember);
+            int rowsAffected = preparedStatement.executeUpdate();
+            wasRemoved = rowsAffected > 0;
+        }
+        return wasRemoved;
+    }
 
     private void getMemberData(Member member, int id) throws SQLException {
         try (Connection conn = database.getConnection()) {

@@ -98,4 +98,13 @@ public interface IMiembroDAO {
      * @return true if colaborator was updated otherwise it returns false
      */
     boolean updateMember(Colaborator colaborator) throws SQLException;
+    /***
+     * Remove Member
+     * <p>
+     * Remove all the member data in the database.
+     * </p>
+     * @param Member member to be removed.
+     * @return true if it was removed otherwise false.
+     */
+    boolean removeMember(int idMember) throws SQLException;
 }

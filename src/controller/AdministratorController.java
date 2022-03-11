@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.dao.MiembroDAO;
 import model.domain.Member;
 
@@ -72,6 +69,17 @@ public class AdministratorController extends Controller implements Initializable
 
     @FXML
     void removeMemberOnAction(ActionEvent event) {
+        Member memberSelected = membersListView.getSelectionModel().getSelectedItem();
+        if(memberSelected != null ) {
+           if(AlertController.showConfirmationAlert()) {
+               try {
+                   System.out.println(new MiembroDAO().removeMember(memberSelected.getId()));
+               } catch (SQLException sqlException) {
+                   Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
+               }
+           }
+        }
+
 
     }
 
@@ -85,6 +93,4 @@ public class AdministratorController extends Controller implements Initializable
             Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
-
-
 }
