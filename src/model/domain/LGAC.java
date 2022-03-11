@@ -31,4 +31,13 @@ public class LGAC {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "LGAC{" +
+                "id=" + id +
+                ", identification='" + identification + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

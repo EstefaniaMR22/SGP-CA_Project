@@ -1,9 +1,10 @@
 package model.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class AcademicGroupProgram {
-    private int id;
+    private String id;
     private String name;
     private String vision;
     private String generalObjetive;
@@ -11,18 +12,21 @@ public class AcademicGroupProgram {
     private ConsolidationGrade consolidationGrade;
     private Date registerDate;
     private Date lastEvaluationDate;
-    private String secondmentUnit;
-    private String descriptionAscription;
+    private String adscriptionUnit;
+    private String descriptionAdscription;
+    private String adscriptionArea;
+    private List<Colaborator> colaborators;
+    private List<LGAC> lgacList;
 
     public AcademicGroupProgram() {
     }
 
-    public int getId() {
-        return id;
+    public String getAdscriptionArea() {
+        return adscriptionArea;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAdscriptionArea(String adscriptionArea) {
+        this.adscriptionArea = adscriptionArea;
     }
 
     public String getName() {
@@ -81,21 +85,62 @@ public class AcademicGroupProgram {
         this.lastEvaluationDate = lastEvaluationDate;
     }
 
-    public String getSecondmentUnit() {
-        return secondmentUnit;
+    public String getAdscriptionUnit() {
+        return adscriptionUnit;
     }
 
-    public void setSecondmentUnit(String secondmentUnit) {
-        this.secondmentUnit = secondmentUnit;
+    public void setAdscriptionUnit(String adscriptionUnit) {
+        this.adscriptionUnit = adscriptionUnit;
     }
 
-    public String getDescriptionAscription() {
-        return descriptionAscription;
+    public String getDescriptionAdscription() {
+        return descriptionAdscription;
     }
 
-    public void setDescriptionAscription(String descriptionAscription) {
-        this.descriptionAscription = descriptionAscription;
+    public void setDescriptionAdscription(String descriptionAdscription) {
+        this.descriptionAdscription = descriptionAdscription;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Colaborator> getColaborators() {
+        return colaborators;
+    }
+
+    public void setColaborators(List<Colaborator> colaborators) {
+        this.colaborators = colaborators;
+    }
+
+    public List<LGAC> getLgacList() {
+        return lgacList;
+    }
+
+    public void setLgacList(List<LGAC> lgacList) {
+        this.lgacList = lgacList;
+    }
+
+    @Override
+    public String toString() {
+        return "AcademicGroupProgram{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", vision='" + vision + '\'' +
+                ", generalObjetive='" + generalObjetive + '\'' +
+                ", mission='" + mission + '\'' +
+                ", consolidationGrade=" + consolidationGrade +
+                ", registerDate=" + registerDate +
+                ", lastEvaluationDate=" + lastEvaluationDate +
+                ", adscriptionUnit='" + adscriptionUnit + '\'' +
+                ", descriptionAscription='" + descriptionAdscription + '\'' +
+                ", adscriptionArea='" + adscriptionArea + '\'' +
+                ", colaborators=" + colaborators +
+                ", lgacList=" + lgacList +
+                '}';
+    }
 }

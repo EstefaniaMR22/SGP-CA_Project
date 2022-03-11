@@ -20,6 +20,6 @@ public enum CivilStatus {
 
     @Override
     public String toString() {
-        return civilStatus;
+        return civilStatus.replaceAll("_", " ");
     }
 }

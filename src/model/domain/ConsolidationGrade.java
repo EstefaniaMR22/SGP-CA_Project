@@ -5,7 +5,7 @@ public enum ConsolidationGrade {
     IN_CONSOLIDATION("EN_CONSOLIDACION"),
     IN_FORMATION("EN_FORMACION");
 
-    private String consolidationGrade;
+    private final String consolidationGrade;
 
     ConsolidationGrade(String consolidationGrade) {
         this.consolidationGrade = consolidationGrade;
@@ -13,5 +13,10 @@ public enum ConsolidationGrade {
 
     public String getConsolidationGrade() {
         return consolidationGrade;
+    }
+
+    @Override
+    public String toString() {
+        return consolidationGrade.replaceAll("_", " ");
     }
 }
