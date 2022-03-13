@@ -81,7 +81,7 @@ public class MiembroDAO implements IMiembroDAO {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarResponsable(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarResponsable(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
             callableStatement.setString(1,responsable.getName());
             callableStatement.setString(2,responsable.getPaternalLastname());
@@ -100,9 +100,11 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setString(15, responsable.getWorkTelephone());
             callableStatement.setString(16, responsable.getAditionalEmail());
             callableStatement.setString(17, password);
-            callableStatement.registerOutParameter(18, Types.INTEGER);
+            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(responsable.getAdmissionDate()));
+            callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(responsable.getBirthDate()));
+            callableStatement.registerOutParameter(20, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(18);
+            idMember = callableStatement.getInt(20);
         }
         return idMember;
     }
