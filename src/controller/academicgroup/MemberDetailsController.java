@@ -75,7 +75,7 @@ public class MemberDetailsController extends Controller implements Initializable
         personalNumberLabel.setText(memberSelected.getPersonalNumber());
         uvEmailNumberLabel.setText(memberSelected.getUvEmail());
         educationalProgramLabel.setText(memberSelected.getEducationalProgram());
-        stateLabel.setText(memberSelected.getState());
+        stateLabel.setText(memberSelected.getBirthState());
         typeMemberLabel.setText(memberSelected.getParticipationType().getParticipationType());
         nationalityLabel.setText(memberSelected.getNationality());
     }

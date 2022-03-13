@@ -98,7 +98,7 @@ public class ModifyMemberController extends Controller implements Initializable 
         integrante.setCurp(curpTextField.getText());
         integrante.setTelephone(telephoneTextField.getText());
         integrante.setRfc(rfcTextField.getText());
-        integrante.setState(stateTextField.getText());
+        integrante.setBirthState(stateTextField.getText());
         integrante.setPersonalNumber(personalNumberTextField.getText());
         integrante.setUvEmail(uvEmailTextField.getText());
         integrante.setEducationalProgram(educationalProgramTextField.getText());
@@ -127,7 +127,7 @@ public class ModifyMemberController extends Controller implements Initializable 
         responsable.setCurp(curpTextField.getText());
         responsable.setTelephone(telephoneTextField.getText());
         responsable.setRfc(rfcTextField.getText());
-        responsable.setState(stateTextField.getText());
+        responsable.setBirthState(stateTextField.getText());
         responsable.setPersonalNumber(personalNumberTextField.getText());
         responsable.setUvEmail(uvEmailTextField.getText());
         responsable.setEducationalProgram(educationalProgramTextField.getText());
@@ -167,7 +167,7 @@ public class ModifyMemberController extends Controller implements Initializable 
         personalNumberTextField.setText(memberSelected.getPersonalNumber());
         uvEmailTextField.setText(memberSelected.getUvEmail());
         educationalProgramTextField.setText(memberSelected.getEducationalProgram());
-        stateTextField.setText(memberSelected.getState());
+        stateTextField.setText(memberSelected.getBirthState());
         //typeParticipationToggleGroup.
         if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
             homePhoneNumberTextField.setText(((Integrant) memberSelected).getHomeTelephone());

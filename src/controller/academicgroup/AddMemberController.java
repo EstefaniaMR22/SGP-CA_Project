@@ -6,19 +6,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Integrant;
 import model.domain.ParticipationType;
 import model.domain.Responsable;
+import utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -46,7 +45,8 @@ public class AddMemberController extends Controller implements Initializable {
     @FXML private ToggleGroup typeParticipationToggleGroup;
     @FXML private ToggleButton integrantToggleButton;
     @FXML private ToggleButton colaboratorToggleButton;
-
+    @FXML private DatePicker admissionDateDatePicker;
+    @FXML private DatePicker birthDateDatePicker;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,7 +91,7 @@ public class AddMemberController extends Controller implements Initializable {
         integrante.setCurp(curpTextField.getText());
         integrante.setTelephone(telephoneTextField.getText());
         integrante.setRfc(rfcTextField.getText());
-        integrante.setState(stateTextField.getText());
+        integrante.setBirthState(stateTextField.getText());
         integrante.setPersonalNumber(personalNumberTextField.getText());
         integrante.setUvEmail(uvEmailTextField.getText());
         integrante.setEducationalProgram(educationalProgramTextField.getText());
@@ -100,6 +100,8 @@ public class AddMemberController extends Controller implements Initializable {
         integrante.setAditionalEmail(aditionalEmailTextField.getText());
         integrante.setAppointment(appointmentTextField.getText());
         integrante.setParticipationType(ParticipationType.INTEGRANT);
+        integrante.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
+        integrante.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         try {
             integrante.setId(new MiembroDAO().addMember(integrante, "hola"));
         } catch(SQLException sqlException) {
@@ -117,7 +119,7 @@ public class AddMemberController extends Controller implements Initializable {
         responsable.setCurp(curpTextField.getText());
         responsable.setTelephone(telephoneTextField.getText());
         responsable.setRfc(rfcTextField.getText());
-        responsable.setState(stateTextField.getText());
+        responsable.setBirthState(stateTextField.getText());
         responsable.setPersonalNumber(personalNumberTextField.getText());
         responsable.setUvEmail(uvEmailTextField.getText());
         responsable.setEducationalProgram(educationalProgramTextField.getText());
@@ -126,6 +128,8 @@ public class AddMemberController extends Controller implements Initializable {
         responsable.setAditionalEmail(aditionalEmailTextField.getText());
         responsable.setAppointment(appointmentTextField.getText());
         responsable.setParticipationType(ParticipationType.INTEGRANT);
+        responsable.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
+        responsable.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         try {
             responsable.setId(new MiembroDAO().addMember(responsable, "hola"));
         } catch(SQLException sqlException) {

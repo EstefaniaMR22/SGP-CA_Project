@@ -25,7 +25,6 @@ public class LoginController extends Controller {
         stage.show();
     }
 
-
     @FXML
     void signInOnAction(ActionEvent event) {
        if(validateInputs()) {

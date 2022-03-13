@@ -8,6 +8,7 @@ import model.domain.Member;
 import model.domain.ParticipationType;
 import model.domain.Responsable;
 import utils.Database;
+import utils.DateFormatter;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -30,8 +31,8 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Add an Member as Integrant to database, include an Access Account.
      * </p>
-     * @param Integrant The member of the Academic Group Program
-     * @param String the account password.
+     * @param integrant The member of the Academic Group Program
+     * @param password the account password.
      * @return id representing the user's id in database.
      */
     @Override
@@ -39,7 +40,7 @@ public class MiembroDAO implements IMiembroDAO {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
             callableStatement.setString(1,integrant.getName());
             callableStatement.setString(2, integrant.getPaternalLastname());
@@ -50,7 +51,7 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setString(7, integrant.getUvEmail());
             callableStatement.setString(8, integrant.getRfc());
             callableStatement.setString(9, integrant.getTelephone());
-            callableStatement.setString(10, integrant.getState());
+            callableStatement.setString(10, integrant.getBirthState());
             callableStatement.setString(11, integrant.getCurp());
             callableStatement.setString(12, integrant.getCivilStatus().getCivilStatus());
             callableStatement.setString(13, integrant.getAppointment());
@@ -58,9 +59,11 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setString(15, integrant.getWorkTelephone());
             callableStatement.setString(16, integrant.getAditionalEmail());
             callableStatement.setString(17, password);
-            callableStatement.registerOutParameter(18, Types.INTEGER);
+            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(integrant.getAdmissionDate()));
+            callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(integrant.getBirthDate()));
+            callableStatement.registerOutParameter(20, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(18);
+            idMember = callableStatement.getInt(20);
         }
         return idMember;
     }
@@ -89,7 +92,7 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setString(7, responsable.getUvEmail());
             callableStatement.setString(8, responsable.getRfc());
             callableStatement.setString(9, responsable.getTelephone());
-            callableStatement.setString(10, responsable.getState());
+            callableStatement.setString(10, responsable.getBirthState());
             callableStatement.setString(11, responsable.getCurp());
             callableStatement.setString(12, responsable.getCivilStatus().getCivilStatus());
             callableStatement.setString(13, responsable.getAppointment());
@@ -153,7 +156,7 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setPersonalNumber(resultSet.getString("numero_personal"));
                 member.setRfc(resultSet.getString("rfc"));
                 member.setTelephone(resultSet.getString("telefono"));
-                member.setState(resultSet.getString("estado"));
+                member.setBirthState(resultSet.getString("estado"));
                 member.setCurp(resultSet.getString("curp"));
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
@@ -241,7 +244,7 @@ public class MiembroDAO implements IMiembroDAO {
             preparedStatement.setString(6, integrant.getPersonalNumber());
             preparedStatement.setString(7, integrant.getRfc());
             preparedStatement.setString(8, integrant.getTelephone());
-            preparedStatement.setString(9, integrant.getState());
+            preparedStatement.setString(9, integrant.getBirthState());
             preparedStatement.setString(10, integrant.getCurp());
             preparedStatement.setString(11, integrant.getCivilStatus().getCivilStatus());
             preparedStatement.setString(12, integrant.getUvEmail());
@@ -289,7 +292,7 @@ public class MiembroDAO implements IMiembroDAO {
             preparedStatement.setString(6, responsable.getPersonalNumber());
             preparedStatement.setString(7, responsable.getRfc());
             preparedStatement.setString(8, responsable.getTelephone());
-            preparedStatement.setString(9, responsable.getState());
+            preparedStatement.setString(9, responsable.getBirthState());
             preparedStatement.setString(10, responsable.getCurp());
             preparedStatement.setString(11, responsable.getCivilStatus().getCivilStatus());
             preparedStatement.setString(12, responsable.getUvEmail());
@@ -372,7 +375,7 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setPersonalNumber(resultSet.getString("numero_personal"));
                 member.setRfc(resultSet.getString("rfc"));
                 member.setTelephone(resultSet.getString("telefono"));
-                member.setState(resultSet.getString("estado"));
+                member.setBirthState(resultSet.getString("estado"));
                 member.setCurp(resultSet.getString("curp"));
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
@@ -398,7 +401,7 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setPersonalNumber(resultSet.getString("numero_personal"));
                 member.setRfc(resultSet.getString("rfc"));
                 member.setTelephone(resultSet.getString("telefono"));
-                member.setState(resultSet.getString("estado"));
+                member.setBirthState(resultSet.getString("estado"));
                 member.setCurp(resultSet.getString("curp"));
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));

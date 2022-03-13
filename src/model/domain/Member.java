@@ -1,5 +1,7 @@
 package model.domain;
 
+import java.util.Date;
+
 public class Member {
     private int id;
     private String name;
@@ -8,12 +10,14 @@ public class Member {
     private String nationality;
     private String educationalProgram;
     private String personalNumber;
+    private Date admissionDate;
     private String rfc;
     private String telephone;
     private String curp;
     private CivilStatus civilStatus;
     private String uvEmail;
-    private String state;
+    private String birthState;
+    private Date birthDate;
     private ParticipationType participationType;
 
     public Member() {
@@ -115,12 +119,12 @@ public class Member {
         this.uvEmail = uvEmail;
     }
 
-    public String getState() {
-        return state;
+    public String getBirthState() {
+        return birthState;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setBirthState(String birthState) {
+        this.birthState = birthState;
     }
 
     public ParticipationType getParticipationType() {
@@ -129,6 +133,22 @@ public class Member {
 
     public void setParticipationType(ParticipationType participationType) {
         this.participationType = participationType;
+    }
+
+    public Date getAdmissionDate() {
+        return admissionDate;
+    }
+
+    public void setAdmissionDate(Date admissionDate) {
+        this.admissionDate = admissionDate;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     @Override
@@ -141,12 +161,14 @@ public class Member {
                 ", nationality='" + nationality + '\'' +
                 ", educationalProgram='" + educationalProgram + '\'' +
                 ", personalNumber='" + personalNumber + '\'' +
+                ", admissionDate=" + admissionDate +
                 ", rfc='" + rfc + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", curp='" + curp + '\'' +
                 ", civilStatus=" + civilStatus +
                 ", uvEmail='" + uvEmail + '\'' +
-                ", state='" + state + '\'' +
+                ", birthState='" + birthState + '\'' +
+                ", birthDate=" + birthDate +
                 ", participationType=" + participationType +
                 '}';
     }
