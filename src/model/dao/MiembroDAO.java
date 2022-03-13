@@ -345,6 +345,42 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return wasRemoved;
     }
+    /***
+     * Get Member
+     * <p>
+     * Get member data by id
+     * </p>
+     * @param id the member's id registered in database.
+     * @return Member that contains all the information about member.
+     */
+    @Override
+    public Member getMember(int id) throws SQLException {
+        Member member = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                member = new Member();
+                member.setId(resultSet.getInt("id"));
+                member.setName(resultSet.getString("nombre"));
+                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
+                member.setMaternalLastname(resultSet.getString("apellido_materno"));
+                member.setNationality(resultSet.getString("nacionalidad"));
+                member.setEducationalProgram(resultSet.getString("programa_educativo"));
+                member.setPersonalNumber(resultSet.getString("numero_personal"));
+                member.setRfc(resultSet.getString("rfc"));
+                member.setTelephone(resultSet.getString("telefono"));
+                member.setState(resultSet.getString("estado"));
+                member.setCurp(resultSet.getString("curp"));
+                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
+                member.setUvEmail(resultSet.getString("email"));
+                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+            }
+        }
+        return member;
+    }
 
     private void getMemberData(Member member, int id) throws SQLException {
         try (Connection conn = database.getConnection()) {

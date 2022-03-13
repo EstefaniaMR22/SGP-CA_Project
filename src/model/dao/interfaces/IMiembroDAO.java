@@ -107,4 +107,14 @@ public interface IMiembroDAO {
      * @return true if it was removed otherwise false.
      */
     boolean removeMember(int idMember) throws SQLException;
+
+    /***
+     * Get Member
+     * <p>
+     * Get member data by id
+     * </p>
+     * @param id the member's id registered in database.
+     * @return Member that contains all the information about member.
+     */
+    Member getMember(int id) throws SQLException;
 }

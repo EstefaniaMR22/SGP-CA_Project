@@ -46,7 +46,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                                <TextField fx:id="userTExtField" prefHeight="32.0" prefWidth="387.0" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                                <TextField fx:id="userTextField" prefHeight="32.0" prefWidth="387.0" styleClass="textfield" VBox.vgrow="ALWAYS" />
                                 <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Contraseña">
                                  <font>
                                     <Font size="15.0" />
