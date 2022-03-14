@@ -39,6 +39,8 @@ public class MemberDetailsController extends Controller implements Initializable
     @FXML private Label typeMemberLabel;
     @FXML private Label uvEmailNumberLabel;
     @FXML private Label workTelephoneNumberLabel;
+    @FXML private Label admissionDateLabel;
+    @FXML private Label birtdateLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,6 +80,9 @@ public class MemberDetailsController extends Controller implements Initializable
         stateLabel.setText(memberSelected.getBirthState());
         typeMemberLabel.setText(memberSelected.getParticipationType().getParticipationType());
         nationalityLabel.setText(memberSelected.getNationality());
+        // Ternary operator here!
+        admissionDateLabel.setText(memberSelected.getAdmissionDate() != null ?  memberSelected.getAdmissionDate().toString() : null );
+        birtdateLabel.setText(memberSelected.getBirthDate() != null ? memberSelected.getBirthState().toString() : null);
     }
 
     private void getMemberDetails() {
