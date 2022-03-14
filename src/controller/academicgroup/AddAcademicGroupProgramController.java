@@ -13,6 +13,7 @@ import model.dao.interfaces.AcademicGroupProgramDAO;
 import model.domain.AcademicGroupProgram;
 import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
+import utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -70,8 +71,8 @@ public class AddAcademicGroupProgramController extends Controller implements Ini
         academicGroupProgram.setName(nameTextField.getText());
         academicGroupProgram.setAdscriptionUnit(adscriptionUnitTextField.getText());
         academicGroupProgram.setConsolidationGrade(consolidationGradeComboBox.getSelectionModel().getSelectedItem());
-        academicGroupProgram.setRegisterDate(new Date(registerDateDatePicker.getValue().toEpochDay()));
-        academicGroupProgram.setLastEvaluationDate(new Date(lastEvaluationDatePicker.getValue().toEpochDay()));
+        academicGroupProgram.setRegisterDate(DateFormatter.getDateFromDatepickerValue(registerDateDatePicker.getValue()));
+        academicGroupProgram.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(lastEvaluationDatePicker.getValue()));
         academicGroupProgram.setGeneralObjetive(generalObjetiveTextArea.getText());
         academicGroupProgram.setMission(misionTextArea.getText());
         academicGroupProgram.setVision(visionTextArea.getText());
@@ -151,6 +152,5 @@ public class AddAcademicGroupProgramController extends Controller implements Ini
                 totalLGACInProgramLabel.setText(( String.valueOf(lgacProgramListView.getItems().size())));
             }
         });
-
     }
 }

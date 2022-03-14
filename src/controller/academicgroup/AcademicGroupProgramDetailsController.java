@@ -71,7 +71,8 @@ public class AcademicGroupProgramDetailsController extends Controller implements
 
     @FXML
     void updateOnAction(ActionEvent event) {
-
+        ModifyAcademicGroupProgramController modifyAcademicGroupProgramController = new ModifyAcademicGroupProgramController(academicGroupProgramSelected);
+        modifyAcademicGroupProgramController.showStage();
     }
 
 
