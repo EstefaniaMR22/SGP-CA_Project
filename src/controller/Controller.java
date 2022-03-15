@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /***
@@ -28,4 +29,6 @@ public abstract class Controller {
         Scene scene = new Scene(root);
         stage.setScene(scene);
     }
+
+    public abstract void initialize(URL url, ResourceBundle rb);
 }
