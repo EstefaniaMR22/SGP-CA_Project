@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -98,7 +99,16 @@ public class DateFormatter {
             calendar.set(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
             date = calendar.getTime();
         }
+        System.out.println(date);
         return date;
+    }
+
+    public static LocalDate getLocalDateFromUtilDate(java.util.Date utilDate) {
+        LocalDate localDate = null;
+        Instant instant = utilDate.toInstant();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        localDate = instant.atZone(defaultZoneId).toLocalDate();
+        return localDate;
     }
 
 }

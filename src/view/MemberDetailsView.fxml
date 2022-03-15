@@ -152,6 +152,18 @@
                               <Label fx:id="directedEvidencesLabel" text="?" />
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                           <children>
+                              <Label styleClass="bold-label" text="Fecha de admision" />
+                              <Label fx:id="admissionDateLabel" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                           <children>
+                              <Label styleClass="bold-label" text="Fecha de nacimiento" />
+                              <Label fx:id="birtdateLabel" text="?" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

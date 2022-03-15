@@ -3,20 +3,12 @@ package model.domain;
 import java.util.Date;
 
 public class Goal {
-    private int id;
+    private String id;
     private String description;
     private String state;
     private Date endDate;
 
     public Goal() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -41,5 +33,23 @@ public class Goal {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                ", endDate=" + endDate +
+                '}';
     }
 }

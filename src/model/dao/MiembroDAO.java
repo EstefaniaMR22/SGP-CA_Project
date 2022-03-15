@@ -10,12 +10,7 @@ import model.domain.Responsable;
 import utils.Database;
 import utils.DateFormatter;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +67,8 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Add an Member as Responsalbe to database, include an Access Account.
      * </p>
-     * @param Responsable The member of the Academic Group Program
-     * @param String the account password.
+     * @param responsable The member of the Academic Group Program
+     * @param password the account password.
      * @return id representing the user's id in database.
      */
     @Override
@@ -164,6 +159,8 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
                 member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
+                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
                 memberList.add(member);
             }
         }
@@ -228,7 +225,7 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Update the integrant data by newer information.
      * </p>
-     * @param Integrant that contains all the data
+     * @param integrant that contains all the data
      * @return true if integrant was updated otherwise it returns false
      */
     @Override
@@ -237,7 +234,7 @@ public class MiembroDAO implements IMiembroDAO {
         try(Connection conn = database.getConnection() ) {
             int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ? WHERE id = ?";
+            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ?, fecha_nacimiento = ?, fecha_ingreso = ? WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
             preparedStatement.setString(1, integrant.getName());
             preparedStatement.setString(2, integrant.getPaternalLastname());
@@ -251,7 +248,9 @@ public class MiembroDAO implements IMiembroDAO {
             preparedStatement.setString(10, integrant.getCurp());
             preparedStatement.setString(11, integrant.getCivilStatus().getCivilStatus());
             preparedStatement.setString(12, integrant.getUvEmail());
-            preparedStatement.setInt(13, integrant.getId());
+            preparedStatement.setDate(13, DateFormatter.convertUtilDateToSQLDate(integrant.getBirthDate()));
+            preparedStatement.setDate(14, DateFormatter.convertUtilDateToSQLDate(integrant.getAdmissionDate()));
+            preparedStatement.setInt(15, integrant.getId());
             rowsAffected = preparedStatement.executeUpdate();
             String updateIntegranteStatement = "UPDATE Integrante SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
             preparedStatement = conn.prepareStatement(updateIntegranteStatement);
@@ -276,7 +275,7 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Update the responsable data by newer information.
      * </p>
-     * @param Responsable that contains all the data
+     * @param responsable that contains all the data
      * @return true if responsable was updated otherwise it returns false
      */
     @Override
@@ -299,7 +298,9 @@ public class MiembroDAO implements IMiembroDAO {
             preparedStatement.setString(10, responsable.getCurp());
             preparedStatement.setString(11, responsable.getCivilStatus().getCivilStatus());
             preparedStatement.setString(12, responsable.getUvEmail());
-            preparedStatement.setInt(13, responsable.getId());
+            preparedStatement.setDate(13, DateFormatter.convertUtilDateToSQLDate(responsable.getBirthDate()));
+            preparedStatement.setDate(14, DateFormatter.convertUtilDateToSQLDate(responsable.getAdmissionDate()));
+            preparedStatement.setInt(15, responsable.getId());
             rowsAffected = preparedStatement.executeUpdate();
             String updateResponsableStatement = "UPDATE Responsable SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
             preparedStatement = conn.prepareStatement(updateResponsableStatement);
@@ -324,7 +325,7 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Update the colaborator data by newer information.
      * </p>
-     * @param Colaborator that contains all the data
+     * @param colaborator that contains all the data
      * @return true if colaborator was updated otherwise it returns false
      */
     @Override
@@ -336,7 +337,7 @@ public class MiembroDAO implements IMiembroDAO {
      * <p>
      * Remove all the member data in the database.
      * </p>
-     * @param Member member to be removed.
+     * @param idMember member to be removed.
      * @return true if it was removed otherwise false.
      */
     @Override
@@ -383,6 +384,8 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
                 member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
+                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
             }
         }
         return member;
@@ -409,6 +412,8 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
                 member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
+                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
             }
         }
     }

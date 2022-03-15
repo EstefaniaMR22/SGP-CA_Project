@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
@@ -17,6 +14,7 @@ import model.domain.Integrant;
 import model.domain.Member;
 import model.domain.ParticipationType;
 import model.domain.Responsable;
+import utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,6 +46,8 @@ public class ModifyMemberController extends Controller implements Initializable 
     @FXML private ToggleButton integrantToggleButton;
     @FXML private ToggleButton responsableToggleButton;
     @FXML private ToggleGroup typeParticipationToggleGroup;
+    @FXML private DatePicker admissionDateDatePicker;
+    @FXML private DatePicker birthDateDatePicker;
 
     public ModifyMemberController(Member member) {
         this.memberSelected = member;
@@ -107,6 +107,8 @@ public class ModifyMemberController extends Controller implements Initializable 
         integrante.setAditionalEmail(aditionalEmailTextField.getText());
         integrante.setAppointment(appointmentTextField.getText());
         integrante.setParticipationType(ParticipationType.INTEGRANT);
+        integrante.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
+        integrante.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
         try {
             isUpdated = new MiembroDAO().updateMember(integrante);
         } catch(SQLException sqlException) {
@@ -136,6 +138,8 @@ public class ModifyMemberController extends Controller implements Initializable 
         responsable.setAditionalEmail(aditionalEmailTextField.getText());
         responsable.setAppointment(appointmentTextField.getText());
         responsable.setParticipationType(ParticipationType.RESPONSABLE);
+        responsable.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
+        responsable.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
         try {
             isUpdated = new MiembroDAO().updateMember(responsable);
         } catch (SQLException sqlException) {
@@ -168,6 +172,8 @@ public class ModifyMemberController extends Controller implements Initializable 
         uvEmailTextField.setText(memberSelected.getUvEmail());
         educationalProgramTextField.setText(memberSelected.getEducationalProgram());
         stateTextField.setText(memberSelected.getBirthState());
+        birthDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getBirthDate()));
+        admissionDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getAdmissionDate()));
         //typeParticipationToggleGroup.
         if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
             homePhoneNumberTextField.setText(((Integrant) memberSelected).getHomeTelephone());
