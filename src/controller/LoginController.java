@@ -47,16 +47,15 @@ public class LoginController extends Controller {
     @FXML
     void integranOnAction(ActionEvent event) {
         try{
-            stage.hide();
+            stage.close();
             IntegrantController integrantController = new IntegrantController();
             integrantController.showStage();
-            stage.show();
 
-        }catch(Exception ex){
-            Alert alertaVentana;
-            alertaVentana = AlertException.builderAlert("Error FXML", "No se encuentra "
-                    + "el FXML por: " + ex, Alert.AlertType.ERROR);
-            alertaVentana.showAndWait();
+        }catch(Exception integrantOnActionExeception){
+            Alert alertView;
+            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
+                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
+            alertView.showAndWait();
         }
     }
 

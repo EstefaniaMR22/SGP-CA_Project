@@ -1,11 +1,10 @@
 package controller;
 
+import controller.exceptions.AlertException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.domain.Project;
 
 import java.net.URL;
@@ -40,13 +39,45 @@ public class ProjectsInvestigationController extends Controller {
         stage.show();
     }
 
-    public void returnView(ActionEvent actionEvent) {
+    private void setTableComponents() {
+        colNameProject.setCellValueFactory(new PropertyValueFactory<>("projectName"));
+        colDuration.setCellValueFactory(new PropertyValueFactory<>("durationProjectInMonths"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
+    }
+
+    public void addProjectInvestigation(ActionEvent actionEvent) {
+
+    }
+
+    public void updateProjectInvestigation(ActionEvent actionEvent) {
+
+    }
+
+    public void consultProjectsInvestigation(ActionEvent actionEvent) {
+
+    }
+
+    public void returnView(ActionEvent actionEvent) {
+        try{
+            stage.close();
+            IntegrantController viewReturn = new IntegrantController();
+            viewReturn.showStage();
+
+        }catch(Exception integrantOnActionExeception){
+            Alert alertView;
+            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
+                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
+            alertView.showAndWait();
+        }
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        txtFieldSearch.setText("Buscar");
+        setTableComponents();
     }
 }

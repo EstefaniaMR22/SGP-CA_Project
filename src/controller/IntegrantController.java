@@ -1,6 +1,7 @@
 package controller;
 
 
+import controller.exceptions.AlertException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,20 +28,37 @@ public class IntegrantController extends Controller {
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/IntegrantView.fxml"), this);
 
-        stage.showAndWait();
+        stage.show();
     }
 
     @FXML
-    public void consultProjectsInvestigation(ActionEvent event) {
-        stage.hide();
-        ProjectsInvestigationController projectsView = new ProjectsInvestigationController();
-        projectsView.showStage();
-        stage.show();
+    void consultProjectsInvestigation(ActionEvent event) {
+        try{
+            stage.close();
+            ProjectsInvestigationController projectsInvestigationController = new ProjectsInvestigationController();
+            projectsInvestigationController.showStage();
+
+        }catch(Exception integrantOnActionExeception){
+            Alert alertView;
+            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
+                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
+            alertView.showAndWait();
         }
+    }
 
     @FXML
     public void returnView(ActionEvent actionEvent) {
+        try{
+            stage.close();
+            LoginController viewReturn = new LoginController();
+            viewReturn.showStage();
 
+        }catch(Exception integrantOnActionExeception){
+            Alert alertView;
+            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
+                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
+            alertView.showAndWait();
+        }
     }
 
 }

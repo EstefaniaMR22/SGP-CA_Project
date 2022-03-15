@@ -23,6 +23,19 @@ public class Member {
     public Member() {
     }
 
+    public Member(int id, String name, String maternalLastname, String paternalLastname, String nationality,
+                  String educationalProgram, String personalNumber, Date admissionDate, String rfc, String telephone,
+                  String curp, CivilStatus civilStatus, String uvEmail, String birthState, Date birthDate,
+                  ParticipationType participationType) {
+
+    }
+
+    public Member(ParticipationType participationType, String name, String maternalLastname, String paternalLastname, String uvEmail, String telephone) {
+    }
+
+    public Member(String rfc, String name, String maternalLastname, String paternalLastnam) {
+    }
+
     public int getId() {
         return id;
     }
