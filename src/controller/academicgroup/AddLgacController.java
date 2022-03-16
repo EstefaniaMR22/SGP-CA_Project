@@ -8,11 +8,13 @@ import javafx.scene.control.TextField;
 import model.dao.LgacDAO;
 import model.domain.LGAC;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddLgacController extends Controller {
+public class AddLgacController extends Controller{
     @FXML private TextField identificatorTextField;
     @FXML private TextArea descriptionTextArea;
 
@@ -39,7 +41,4 @@ public class AddLgacController extends Controller {
         System.out.println(lgac.getId());
 
     }
-
-
-
 }

@@ -30,5 +30,4 @@ public abstract class Controller {
         stage.setScene(scene);
     }
 
-    public abstract void initialize(URL url, ResourceBundle rb);
 }
