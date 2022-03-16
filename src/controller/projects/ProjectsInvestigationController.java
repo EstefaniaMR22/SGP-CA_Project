@@ -149,9 +149,4 @@ public class ProjectsInvestigationController extends Controller {
         }
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
 }

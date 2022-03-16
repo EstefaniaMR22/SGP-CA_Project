@@ -5,12 +5,13 @@ import controller.exceptions.AlertException;
 import controller.projects.ProjectsInvestigationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class IntegrantController extends Controller {
+public class IntegrantController extends Controller implements Initializable {
     @FXML
     private Label lbBienvenida;
     @FXML

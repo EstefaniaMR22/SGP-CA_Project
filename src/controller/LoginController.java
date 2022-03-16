@@ -113,10 +113,5 @@ public class LoginController extends Controller {
         }
         return isLogged;
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
 }
 

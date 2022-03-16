@@ -50,10 +50,4 @@ public class AddProjectsInvestigationController extends Controller {
             alertView.showAndWait();
         }
     }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
 }
