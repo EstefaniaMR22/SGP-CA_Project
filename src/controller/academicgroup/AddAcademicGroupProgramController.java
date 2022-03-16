@@ -9,7 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.dao.interfaces.AcademicGroupProgramDAO;
+import model.dao.AcademicGroupProgramDAO;
+import model.dao.LgacDAO;
 import model.domain.AcademicGroupProgram;
 import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
@@ -17,8 +18,6 @@ import utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -135,7 +134,7 @@ public class AddAcademicGroupProgramController extends Controller implements Ini
     private void getAlllgacsFromDatabase() {
         List<LGAC> lgacs = null;
         try {
-            lgacs = new AcademicGroupProgramDAO().getAlllgacs();
+            lgacs = new LgacDAO().getAlllgacs();
             ObservableList<LGAC> lgacObservableList = FXCollections.observableArrayList(lgacs);
             lgacAvailableTableView.setItems(lgacObservableList);
         } catch(SQLException sqlException) {

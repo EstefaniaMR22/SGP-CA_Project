@@ -25,14 +25,7 @@ public interface IAcademicGroupProgramDAO {
      * @return List that contain all consolidation grades
      */
     List<ConsolidationGrade> getConsolidationGrades() throws SQLException;
-    /***
-     * Get all LGACs
-     * <p>
-     * Get all the registered LGACS in database.
-     * </p>
-     * @return List that contain all LGACS.
-     */
-    List<LGAC> getAlllgacs() throws SQLException;
+
     /***
      * Get all Academic Group Programs
      * <p>

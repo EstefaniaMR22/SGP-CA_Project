@@ -1,9 +1,7 @@
 package controller.academicgroup;
 
 import controller.Controller;
-import controller.ResponsableController;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.dao.interfaces.AcademicGroupProgramDAO;
+import model.dao.AcademicGroupProgramDAO;
 import model.domain.AcademicGroupProgram;
 import model.domain.LGAC;
 import model.domain.Member;
