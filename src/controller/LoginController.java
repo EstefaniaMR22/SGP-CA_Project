@@ -1,17 +1,21 @@
 package controller;
 
+import controller.exceptions.AlertException;
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.domain.ParticipationType;
 import utils.Autentication;
 
 import java.net.SocketException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +23,7 @@ public class LoginController extends Controller {
     @FXML private TextField userTextField;
     @FXML private PasswordField passwordPasswordField;
     @FXML private Label systemLabel;
+    @FXML private Button btIntegrant;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/LoginView.fxml"), this);
@@ -41,10 +46,17 @@ public class LoginController extends Controller {
 
     @FXML
     void integranOnAction(ActionEvent event) {
-        stage.hide();
-        IntegrantController integrantController = new IntegrantController();
-        integrantController.showStage();
-        stage.show();
+        try{
+            stage.close();
+            IntegrantController integrantController = new IntegrantController();
+            integrantController.showStage();
+
+        }catch(Exception integrantOnActionExeception){
+            Alert alertView;
+            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
+                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
+            alertView.showAndWait();
+        }
     }
 
     @FXML
@@ -102,5 +114,9 @@ public class LoginController extends Controller {
         return isLogged;
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+    }
 }
 

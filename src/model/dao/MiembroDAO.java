@@ -103,6 +103,7 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return idMember;
     }
+
     @Override
     public int addMember(Colaborator colaborator) {
         return 0;
