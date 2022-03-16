@@ -10,7 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.AlertController;
 import controller.exceptions.AlertException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.dao.interfaces.IProjectDAO;
 import model.domain.Project;
@@ -25,31 +28,43 @@ public class ProjectDAO implements IProjectDAO{
     }
 
     @Override
-    public List<Project> getProjectList() {
-        List<Project> projectList = null;
+    public ObservableList<Project> getProjectList() {
+        ObservableList<Project> projectList;
+        projectList = FXCollections.observableArrayList();
+
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * FROM Project";
+            String statement = "SELECT * FROM ProyectoInvestigacion;";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             ResultSet resultSet = preparedStatement.executeQuery();
-            projectList = new ArrayList<>();
-            while(resultSet.next()) {
+
+            while (resultSet.next()) {
                 Project projectDataTable = new Project();
                 projectDataTable.setIdProject(resultSet.getInt("id"));
-                projectDataTable.setProjectName(resultSet.getString("projectName"));
-                projectDataTable.setIdBodyAcademyProgram(resultSet.getString("bodyAcademyKey"));
-                projectDataTable.setDurationProjectInMonths(resultSet.getInt("durationProjectInMonths"));
-                projectDataTable.setStatus(resultSet.getString("status"));
-                projectDataTable.setStartDate(resultSet.getString("startDate"));
-                projectDataTable.setEndDate(resultSet.getString("endDate"));
-                projectDataTable.setEstimatedEndDate(resultSet.getString("estimatedEndDate"));
-                projectDataTable.setDescription(resultSet.getString("description"));
+                projectDataTable.setProjectName(resultSet.getString("nombre"));
+                projectDataTable.setDescription(resultSet.getString("descripcion"));
+                projectDataTable.setStatus(resultSet.getString("estado"));
+                projectDataTable.setDurationProjectInMonths(resultSet.getInt("duracion_meses"));
+                String startDate = String.valueOf(resultSet.getDate("fecha_inicio"));
+                projectDataTable.setStartDate(startDate);
+                String estimatedEndDate = String.valueOf(resultSet.getDate("fecha_fin_estimada"));
+                projectDataTable.setEstimatedEndDate(estimatedEndDate);
+
+                    if(resultSet.wasNull()){
+                        String endDate = String.valueOf(resultSet.getDate("fecha_real"));
+                        projectDataTable.setEndDate(endDate);
+                    }else {
+                        projectDataTable.setEndDate("Pendiente");
+                    }
+                projectDataTable.setIdLGCA(resultSet.getInt("identificador_lgca"));
                 projectList.add(projectDataTable);
+
             }
-        }catch(Exception addProjectException){
-            Alert alertView;
-            alertView = AlertException.builderAlert("Error", "Al momento de 'Consultar Proyectos'" +
-                    " se presento un error debido a: " + addProjectException, Alert.AlertType.ERROR);
-            alertView.showAndWait();
+
+        }catch(Exception listProjectsException){
+
+                AlertController alertView = new AlertController();
+                alertView.showActionFailedAlert(" " + listProjectsException);
+
         }finally{
             databaseConection.disconnect();
         }
@@ -71,18 +86,18 @@ public class ProjectDAO implements IProjectDAO{
 
         try(Connection conn = databaseConection.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarProyecto(?, ?, ?, ?, ?, ?, ?, ?)";
+            String statement = "INSERT INTO ProyectoInvestigacion(?, ?, ?, ?, ?, ?, ?, ?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
 
             callableStatement.setString(1, newProject.getProjectName());
-            callableStatement.setString(2, newProject.getIdBodyAcademyProgram());
-            callableStatement.setInt(3, newProject.getDurationProjectInMonths());
-            callableStatement.setString(4, newProject.getStatus());
+            callableStatement.setString(2, newProject.getDescription());
+            callableStatement.setString(3, newProject.getStatus());
+            callableStatement.setInt(4, newProject.getDurationProjectInMonths());
             callableStatement.setString(5, newProject.getStartDate());
-            callableStatement.setString(6, newProject.getEndDate());
-            callableStatement.setString(7, newProject.getEstimatedEndDate());
-            callableStatement.setString(8, newProject.getDescription());
-;
+            callableStatement.setString(6, newProject.getEstimatedEndDate());
+            callableStatement.setString(7, newProject.getEndDate());
+            callableStatement.setInt(8, newProject.getIdLGCA());
+
             result = callableStatement.executeUpdate();
 
         }catch(Exception addProjectException){
@@ -109,7 +124,7 @@ public class ProjectDAO implements IProjectDAO{
     public Project getProjectDetails(int idProject) {
         Project projectDetails = new Project();
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * FROM Project WHERE id = ?";
+            String statement = "SELECT * FROM ProyectoInvestigacion WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setInt(1, idProject);
 
@@ -118,14 +133,14 @@ public class ProjectDAO implements IProjectDAO{
             if(resultSet.next()){
                 projectDetails = new Project();
                         projectDetails.setIdProject(resultSet.getInt("id"));
-                        projectDetails.setProjectName(resultSet.getString("projectName"));
-                        projectDetails.setIdBodyAcademyProgram(resultSet.getString("bodyAcademyKey"));
-                        projectDetails.setDurationProjectInMonths(resultSet.getInt("durationProjectInMonths"));
-                        projectDetails.setStatus(resultSet.getString("status"));
-                        projectDetails.setStartDate(resultSet.getString("startDate"));
-                        projectDetails.setEndDate(resultSet.getString("endDate"));
-                        projectDetails.setEstimatedEndDate(resultSet.getString("estimatedEndDate"));
-                        projectDetails.setDescription(resultSet.getString("description"));
+                        projectDetails.setProjectName(resultSet.getString("name"));
+                        projectDetails.setIdLGCA(resultSet.getInt("identificador_lgca"));
+                        projectDetails.setDurationProjectInMonths(resultSet.getInt("duracion_meses"));
+                        projectDetails.setStatus(resultSet.getString("estado"));
+                        projectDetails.setStartDate(resultSet.getString("fecha_incio"));
+                        projectDetails.setEndDate(resultSet.getString("fecha_real"));
+                        projectDetails.setEstimatedEndDate(resultSet.getString("fecha_fin_estimada"));
+                        projectDetails.setDescription(resultSet.getString("descripcion"));
 
             }
         }catch(Exception addProjectException){
@@ -156,20 +171,21 @@ public class ProjectDAO implements IProjectDAO{
 
         try(Connection conn = databaseConection.getConnection() ) {
             conn.setAutoCommit(false);
-            String updateStatement = "UPDATE Project SET projectName = ?, bodyAcademyKey = ?, durationProjectInMonths = ?, " +
-                    "status = ?, startDate = ?, endDate = ?, estimatedEndDate = ?, description= ? " +
-                    "WHERE projectName = ?;";
+            String updateStatement = "UPDATE ProyectoInvestigacion SET name = ?, descripcion = ?, estado = ?, " +
+                    "duracion_meses = ?, fecha_inicio = ?, fecha_fin_estimada = ?, fecha_real = ?, " +
+                    "identificador_lgca= ? WHERE id = ?;";
             CallableStatement callableStatement = conn.prepareCall(updateStatement);
 
             callableStatement.setString(1, updateProject.getProjectName());
-            callableStatement.setString(2, updateProject.getIdBodyAcademyProgram());
-            callableStatement.setInt(3, updateProject.getDurationProjectInMonths());
-            callableStatement.setString(4, updateProject.getStatus());
+            callableStatement.setString(2, updateProject.getDescription());
+            callableStatement.setString(3, updateProject.getStatus());
+            callableStatement.setInt(4, updateProject.getDurationProjectInMonths());
             callableStatement.setString(5, updateProject.getStartDate());
-            callableStatement.setString(6, updateProject.getEndDate());
-            callableStatement.setString(7, updateProject.getEstimatedEndDate());
-            callableStatement.setString(8, updateProject.getDescription());
-            ;
+            callableStatement.setString(6, updateProject.getEstimatedEndDate());
+            callableStatement.setString(7, updateProject.getEndDate());
+            callableStatement.setInt(8, updateProject.getIdLGCA());
+            callableStatement.setInt(9, updateProject.getIdProject());
+
             result = callableStatement.executeUpdate();
 
         }catch(Exception addProjectException){
