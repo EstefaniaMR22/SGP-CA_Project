@@ -6,13 +6,14 @@
 
 package model.dao.interfaces;
 
+import javafx.collections.ObservableList;
 import model.domain.Project;
 
 import java.util.List;
 
 public interface IProjectDAO{
 
-    public List<Project> getProjectList();
+    public ObservableList<Project> getProjectList();
 
     public int addProject(Project newProject);
     public Project getProjectDetails(int idProject);

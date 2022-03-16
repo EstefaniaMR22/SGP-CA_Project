@@ -50,7 +50,7 @@
                   </Button>
                   <ImageView fitHeight="39.0" fitWidth="42.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../img/back.png" />
+                        <Image url="file:img/back.png" />
                      </image>
                   </ImageView>
                   <Button fx:id="btNewProject" layoutX="361.0" layoutY="128.0" mnemonicParsing="false" onAction="#addProjectInvestigation" prefHeight="31.0" prefWidth="137.0" style="-fx-background-color: #09AEBE;" text="AGREGAR PROYECTO" textFill="WHITE">

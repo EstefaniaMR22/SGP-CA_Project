@@ -10,7 +10,7 @@ import java.util.List;
 
         private int idProject;
         private String projectName;
-        private String idBodyAcademyProgram;
+        private int idLGCA;
         private String status;
         private String startDate;
         private String endDate;
@@ -20,10 +20,10 @@ import java.util.List;
         private List<Evidence> evidence;
 
 
-        public Project(String projectName, String idBodyAcademyProgram, int durationProjectInMonths, String status, String startDate,
+        public Project(String projectName, int idLGCA, int durationProjectInMonths, String status, String startDate,
                        String endDate, String estimatedEndDate, String description){
             this.projectName = projectName;
-            this.idBodyAcademyProgram = idBodyAcademyProgram;
+            this.idLGCA = idLGCA;
             this.durationProjectInMonths = durationProjectInMonths;
             this.status = status;
             this.startDate = startDate;
@@ -126,12 +126,12 @@ import java.util.List;
         }
 
 
-        public String getIdBodyAcademyProgram() {
-            return idBodyAcademyProgram;
+        public int getIdLGCA() {
+            return idLGCA;
         }
 
-        public void setIdBodyAcademyProgram(String idBodyAcademyProgram) {
-            this.idBodyAcademyProgram = idBodyAcademyProgram;
+        public void setIdLGCA(int idLGCA) {
+            this.idLGCA = idLGCA;
         }
 
         public int getIdProject() {

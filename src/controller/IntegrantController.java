@@ -2,12 +2,10 @@ package controller;
 
 
 import controller.exceptions.AlertException;
+import controller.projects.ProjectsInvestigationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,10 +52,9 @@ public class IntegrantController extends Controller {
             viewReturn.showStage();
 
         }catch(Exception integrantOnActionExeception){
-            Alert alertView;
-            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
-                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
-            alertView.showAndWait();
+
+            AlertController alertView = new AlertController();
+            alertView.showActionFailedAlert(" " + integrantOnActionExeception);
         }
     }
 
