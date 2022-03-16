@@ -1,5 +1,6 @@
 package controller.academicgroup;
 
+import controller.AlertController;
 import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -106,7 +107,9 @@ public class AddAcademicGroupProgramController extends Controller implements Ini
 
     @FXML
     void cancelOnAction(ActionEvent event) {
-        stage.close();
+        if(AlertController.showCancelationConfirmationAlert()) {
+            stage.close();
+        }
     }
 
     @FXML

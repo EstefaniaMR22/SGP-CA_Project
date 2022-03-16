@@ -1,5 +1,6 @@
 package controller.academicgroup;
 
+import controller.AlertController;
 import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,11 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.dao.MiembroDAO;
-import model.domain.CivilStatus;
-import model.domain.Integrant;
-import model.domain.ParticipationType;
-import model.domain.Responsable;
+import model.domain.*;
 import utils.DateFormatter;
+import utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,9 +47,14 @@ public class AddMemberController extends Controller implements Initializable {
     @FXML private DatePicker admissionDateDatePicker;
     @FXML private DatePicker birthDateDatePicker;
 
+
+    @FXML private ComboBox<StudyGrade> studyGradeComboBox;
+    @FXML private TextField studyAreaTextField;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getCivilStatesFromDatabase();
+        getStudyGradesFromDatabase();
         responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
         integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
         colaboratorToggleButton.setUserData(ParticipationType.COLABORATOR);
@@ -63,7 +67,9 @@ public class AddMemberController extends Controller implements Initializable {
 
     @FXML
     void cancelButtonPressed(ActionEvent event) {
-        stage.close();
+        if(AlertController.showCancelationConfirmationAlert()) {
+            stage.close();
+        }
     }
 
     @FXML
@@ -74,12 +80,11 @@ public class AddMemberController extends Controller implements Initializable {
         } else if( participationType == ParticipationType.RESPONSABLE){
             addResponsable();
         } else if(participationType == ParticipationType.COLABORATOR) {
-            // Example
+            addColaborator();
         } else {
-            // Example
+            // FUNCTIONALITY NOT SUPPORTED YET
         }
     }
-
 
     private void addIntegrant() {
         Integrant integrante = new Integrant();
@@ -105,7 +110,7 @@ public class AddMemberController extends Controller implements Initializable {
         try {
             integrante.setId(new MiembroDAO().addMember(integrante, "hola"));
         } catch(SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
+            deterMinateSQLState(sqlException);
         }
     }
 
@@ -133,8 +138,35 @@ public class AddMemberController extends Controller implements Initializable {
         try {
             responsable.setId(new MiembroDAO().addMember(responsable, "hola"));
         } catch(SQLException sqlException) {
-            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            deterMinateSQLState(sqlException);
         }
+    }
+
+    private void addColaborator() {
+        Colaborator colaborator = new Colaborator();
+        colaborator.setName(nameTextField.getText());
+        colaborator.setPaternalLastname(paternalLastnameTextField.getText());
+        colaborator.setMaternalLastname(maternalLastnameTextField.getText());
+        colaborator.setNationality(nationalityTextField.getText());
+        colaborator.setCivilStatus(civilStatusComboBox.getValue());
+        colaborator.setCurp(curpTextField.getText());
+        colaborator.setTelephone(telephoneTextField.getText());
+        colaborator.setRfc(rfcTextField.getText());
+        colaborator.setBirthState(stateTextField.getText());
+        colaborator.setPersonalNumber(personalNumberTextField.getText());
+        colaborator.setUvEmail(uvEmailTextField.getText());
+        colaborator.setEducationalProgram(educationalProgramTextField.getText());
+        colaborator.setStudyArea(studyAreaTextField.getText());
+        colaborator.setMaxStudyGrade(studyGradeComboBox.getValue());
+        colaborator.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
+        colaborator.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
+
+        try {
+            colaborator.setId(new MiembroDAO().addMember(colaborator));
+        } catch (SQLException sqlException) {
+            deterMinateSQLState(sqlException);
+        }
+
     }
 
     private void getCivilStatesFromDatabase() {
@@ -142,10 +174,30 @@ public class AddMemberController extends Controller implements Initializable {
         try {
             civilStatusList = new MiembroDAO().getCivilStatus();
         } catch(SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
+            deterMinateSQLState(sqlException);
         }
         ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
         civilStatusComboBox.setItems(civilStatusObservableList);
     }
+
+    private void getStudyGradesFromDatabase() {
+        List<StudyGrade> studyGradeList = new ArrayList<>();
+        try {
+            studyGradeList = new MiembroDAO().getStudyGrades();
+        } catch (SQLException sqlException) {
+            deterMinateSQLState(sqlException);
+        }
+        ObservableList<StudyGrade> studyGradeObservableList = FXCollections.observableArrayList(studyGradeList);
+        studyGradeComboBox.setItems(studyGradeObservableList);
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+    }
+
 
 }
