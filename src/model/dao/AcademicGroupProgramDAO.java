@@ -1,5 +1,6 @@
-package model.dao.interfaces;
+package model.dao;
 
+import model.dao.interfaces.IAcademicGroupProgramDAO;
 import model.domain.AcademicGroupProgram;
 import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcademicGroupProgramDAO implements IAcademicGroupProgramDAO{
+public class AcademicGroupProgramDAO implements IAcademicGroupProgramDAO {
     private final Database database;
 
     public AcademicGroupProgramDAO() {
@@ -78,24 +79,6 @@ public class AcademicGroupProgramDAO implements IAcademicGroupProgramDAO{
         return list;
     }
 
-    @Override
-    public List<LGAC> getAlllgacs() throws SQLException {
-        List<LGAC> list;
-        try (Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM LGAC";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            list = new ArrayList<>();
-            while (resultSet.next()) {
-                LGAC lgac = new LGAC();
-                lgac.setId(resultSet.getInt("id"));
-                lgac.setIdentification(resultSet.getString("identificador"));
-                lgac.setDescription(resultSet.getString("descripcion"));
-                list.add(lgac);
-            }
-        }
-        return list;
-    }
 
     @Override
     public AcademicGroupProgram getAcademicGroupProgramDetails(String id) throws SQLException {
