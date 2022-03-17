@@ -8,7 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Colaborator;
@@ -22,7 +27,9 @@ import utils.SQLStates;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,18 +88,27 @@ public class AddMemberController extends ValidatorController implements Initiali
     void AddMemberOnAction(ActionEvent event) {
         try {
             if(validateInputs()) {
-                ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
-                if(participationType == ParticipationType.INTEGRANT ) {
-                    addIntegrant();
-                } else if( participationType == ParticipationType.RESPONSABLE){
-                    addResponsable();
-                } else if(participationType == ParticipationType.COLABORATOR) {
-                    addColaborator();
+                if(!validatePersonalNumber()) {
+                    ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
+                    if(participationType == ParticipationType.INTEGRANT ) {
+                        addIntegrant();
+                    } else if( participationType == ParticipationType.RESPONSABLE){
+                        addResponsable();
+                    } else if(participationType == ParticipationType.COLABORATOR) {
+                        addColaborator();
+                    }
+                } else {
+                    systemLabel.setText("¡Al parecer ya existe un miembro con ese numero de personal!");
                 }
+
             }
         } catch (Exception e) {
            systemLabel.setText(e.getLocalizedMessage());
         }
+    }
+
+    private boolean validatePersonalNumber() throws SQLException {
+        return new MiembroDAO().checkMember(personalNumberTextField.getText());
     }
 
     private void addIntegrant() {
