@@ -1,7 +1,8 @@
 package controller.academicgroup;
 
 import controller.AlertController;
-import controller.Controller;
+import controller.ValidatorController;
+import controller.validator.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,21 +10,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.CivilStatus;
+import model.domain.Colaborator;
+import model.domain.Integrant;
+import model.domain.ParticipationType;
+import model.domain.Responsable;
+import model.domain.StudyGrade;
 import utils.DateFormatter;
 import utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class AddMemberController extends Controller implements Initializable {
+public class AddMemberController extends ValidatorController implements Initializable {
     @FXML private TextField aditionalEmailTextField;
     @FXML private TextField appointmentTextField;
     @FXML private ComboBox<CivilStatus> civilStatusComboBox;
@@ -46,15 +51,15 @@ public class AddMemberController extends Controller implements Initializable {
     @FXML private ToggleButton colaboratorToggleButton;
     @FXML private DatePicker admissionDateDatePicker;
     @FXML private DatePicker birthDateDatePicker;
-
-
     @FXML private ComboBox<StudyGrade> studyGradeComboBox;
     @FXML private TextField studyAreaTextField;
+    @FXML private Label systemLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getCivilStatesFromDatabase();
         getStudyGradesFromDatabase();
+        initValidatorToTextInput();
         responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
         integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
         colaboratorToggleButton.setUserData(ParticipationType.COLABORATOR);
@@ -74,15 +79,19 @@ public class AddMemberController extends Controller implements Initializable {
 
     @FXML
     void AddMemberOnAction(ActionEvent event) {
-        ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
-        if(participationType == ParticipationType.INTEGRANT ) {
-            addIntegrant();
-        } else if( participationType == ParticipationType.RESPONSABLE){
-            addResponsable();
-        } else if(participationType == ParticipationType.COLABORATOR) {
-            addColaborator();
-        } else {
-            // FUNCTIONALITY NOT SUPPORTED YET
+        try {
+            if(validateInputs()) {
+                ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
+                if(participationType == ParticipationType.INTEGRANT ) {
+                    addIntegrant();
+                } else if( participationType == ParticipationType.RESPONSABLE){
+                    addResponsable();
+                } else if(participationType == ParticipationType.COLABORATOR) {
+                    addColaborator();
+                }
+            }
+        } catch (Exception e) {
+           systemLabel.setText(e.getLocalizedMessage());
         }
     }
 
@@ -199,5 +208,37 @@ public class AddMemberController extends Controller implements Initializable {
         AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
+    private void initValidatorToTextInput() {
+        Function<Object, Boolean> validateBirthDate = a -> {
+            LocalDate now = LocalDate.now();
+            now = now.minusYears(Validator.MIN_YEARS_OLD);
+            return now.compareTo( (LocalDate) a) >= 0;
+        };
 
+        Function<Object, Boolean> validateAdmissionDate = a -> {
+            return DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
+        };
+        addComponentToValidator(new ValidatorToggleGroup(typeParticipationToggleGroup, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(paternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(maternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(nationalityTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(civilStatusComboBox, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(curpTextField, Validator.PATTERN_CURP, Validator.LENGTH_CURP, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(telephoneTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(rfcTextField, Validator.PATTERN_RFC, Validator.LENGTH_RFC, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(personalNumberTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(uvEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(educationalProgramTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(stateTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(birthDateDatePicker, this, validateBirthDate), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(admissionDateDatePicker, this, validateAdmissionDate),false);
+        addComponentToValidator(new ValidatorTextInputControl(homePhoneNumberTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(workTelephoneTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(aditionalEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(appointmentTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(studyAreaTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(studyGradeComboBox, this), false);
+        initListenerToControls();
+    }
 }
