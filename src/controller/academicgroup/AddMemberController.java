@@ -2,7 +2,11 @@ package controller.academicgroup;
 
 import controller.AlertController;
 import controller.ValidatorController;
-import controller.validator.*;
+import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
+import controller.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.validator.ValidatorTextInputControl;
+import controller.validator.ValidatorToggleGroup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
