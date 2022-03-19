@@ -1,61 +1,49 @@
 package controller;
 
-
-import controller.exceptions.AlertException;
 import controller.projects.ProjectsInvestigationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class IntegrantController extends Controller implements Initializable {
+public class IntegrantController extends Controller {
     @FXML
     private Label lbBienvenida;
     @FXML
-    private Button btExit;
+    private Button exitButton;
     @FXML
-    private Button btProjectsInvestigation;
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
+    private Button projectsInvestigationButton;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/IntegrantView.fxml"), this);
-
-        stage.show();
+        stage.showAndWait();
     }
 
     @FXML
-    void consultProjectsInvestigation(ActionEvent event) {
+    void consultProjectsInvestigationOnAction(ActionEvent event) {
         try{
             stage.close();
             ProjectsInvestigationController projectsInvestigationController = new ProjectsInvestigationController();
             projectsInvestigationController.showStage();
 
-        }catch(Exception integrantOnActionExeception){
-            Alert alertView;
-            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
-                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
-            alertView.showAndWait();
+        }catch (Exception addProjectInvestigationException) {
+            AlertController alertView = new AlertController();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "ProjectsInvestigation. Causa: " + addProjectInvestigationException);
+
         }
     }
 
     @FXML
-    public void returnView(ActionEvent actionEvent) {
+    void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();
             LoginController viewReturn = new LoginController();
             viewReturn.showStage();
 
-        }catch(Exception integrantOnActionExeception){
-
+        }catch(Exception returnViewOnActionExeception){
             AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" " + integrantOnActionExeception);
+            alertView.showActionFailedAlert(" Error en el metodo returnViewOnActionExeception:  " + returnViewOnActionExeception);
+
         }
     }
 

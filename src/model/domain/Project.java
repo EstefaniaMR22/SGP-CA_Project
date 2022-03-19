@@ -1,9 +1,7 @@
 package model.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import java.util.ArrayList;
 import java.util.List;
 
     public class Project {
@@ -12,42 +10,15 @@ import java.util.List;
         private String projectName;
         private int idLGCA;
         private String status;
-        private String startDate;
-        private String endDate;
-        private String estimatedEndDate;
+        private Date startDate;
+        private Date endDate;
+        private Date estimatedEndDate;
+        private String startDateString;
+        private String endDateString;
+        private String estimatedEndDateString;
         private String description;
         private int durationProjectInMonths;
         private List<Evidence> evidence;
-
-
-        public Project(String projectName, int idLGCA, int durationProjectInMonths, String status, String startDate,
-                       String endDate, String estimatedEndDate, String description){
-            this.projectName = projectName;
-            this.idLGCA = idLGCA;
-            this.durationProjectInMonths = durationProjectInMonths;
-            this.status = status;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.estimatedEndDate = estimatedEndDate;
-            this.description = description;
-            this.evidence = new ArrayList<>();
-        }
-
-        public Project(String projectName, int durationProjectInMonths, String status, String startDate, String endDate){
-            this.projectName = projectName;
-            this.durationProjectInMonths = durationProjectInMonths;
-            this.status = status;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.evidence = new ArrayList<>();
-        }
-
-        public Project(String projectName, String status, int durationProjectInMonths, String startDate){
-            this.projectName = projectName;
-            this.status = status;
-            this.durationProjectInMonths = durationProjectInMonths;
-            this.startDate = startDate;
-        }
 
         public Project() {
         }
@@ -58,32 +29,6 @@ import java.util.List;
 
         public void setProjectName(String projectName){
             this.projectName = projectName;
-        }
-
-
-
-        public String getStartDate(){
-            return startDate;
-        }
-
-        public void setStartDate(String startDate){
-            this.startDate = startDate;
-        }
-
-        public String getEndDate(){
-            return endDate;
-        }
-
-        public void setEndDate(String endDate){
-            this.endDate = endDate;
-        }
-
-        public String getEstimatedEndDate(){
-            return estimatedEndDate;
-        }
-
-        public void setEstimatedEndDate(String estimatedEndDate){
-            this.estimatedEndDate = estimatedEndDate;
         }
 
         public String getDescription(){
@@ -125,6 +70,9 @@ import java.util.List;
             return evidence;
         }
 
+        public void setEvidence(List<Evidence> evidence) {
+            this.evidence = evidence;
+        }
 
         public int getIdLGCA() {
             return idLGCA;
@@ -140,6 +88,55 @@ import java.util.List;
 
         public void setIdProject(int idProject) {
             this.idProject = idProject;
+        }
+
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+
+        public Date getEstimatedEndDate() {
+            return estimatedEndDate;
+        }
+
+        public void setEstimatedEndDate(Date estimatedEndDate) {
+            this.estimatedEndDate = estimatedEndDate;
+        }
+
+        public String getStartDateString() {
+            return startDateString;
+        }
+
+        public void setStartDateString(String startDateString) {
+            this.startDateString = startDateString;
+        }
+
+        public String getEndDateString() {
+            return endDateString;
+        }
+
+        public void setEndDateString(String endDateString) {
+            this.endDateString = endDateString;
+        }
+
+        public String getEstimatedEndDateString() {
+            return estimatedEndDateString;
+        }
+
+        public void setEstimatedEndDateString(String estimatedEndDateString) {
+            this.estimatedEndDateString = estimatedEndDateString;
         }
     }
 

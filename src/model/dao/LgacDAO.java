@@ -1,5 +1,7 @@
 package model.dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.dao.interfaces.ILgacDAO;
 import model.domain.LGAC;
 import utils.Database;
@@ -8,8 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LgacDAO implements ILgacDAO {
     private final Database database;
@@ -55,13 +55,12 @@ public class LgacDAO implements ILgacDAO {
     }
 
     @Override
-    public List<LGAC> getAlllgacs() throws SQLException {
-        List<LGAC> list;
+    public ObservableList<LGAC> getAlllgacs() throws SQLException {
+        ObservableList<LGAC> list = FXCollections.observableArrayList();
         try (Connection conn = database.getConnection()) {
             String statement = "SELECT * FROM LGAC";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             ResultSet resultSet = preparedStatement.executeQuery();
-            list = new ArrayList<>();
             while (resultSet.next()) {
                 LGAC lgac = new LGAC();
                 lgac.setId(resultSet.getInt("id"));
@@ -70,7 +69,34 @@ public class LgacDAO implements ILgacDAO {
                 list.add(lgac);
             }
         }
+
+        database.disconnect();
         return list;
+    }
+
+    @Override
+    public String getLGAC(int idLGAC) throws SQLException {
+        String lgacString = "";
+        try (Connection conn = database.getConnection()) {
+
+            conn.setAutoCommit(false);
+            String statement = "SELECT * FROM LGAC where id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, idLGAC);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                lgacString = "| LGAC |  " + resultSet.getInt("id");
+                lgacString += " |  " + resultSet.getString("identificador");
+                lgacString += " |  " + resultSet.getString("descripcion");
+                lgacString += " | ";
+            }
+        }
+
+        database.disconnect();
+        
+        return lgacString;
     }
 
 

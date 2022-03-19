@@ -40,8 +40,17 @@
     -fx-border-radius:3px;
 }
 
+.background-bar {
+    -fx-background-color:#300050;
+    -fx-border-color:#8a8a8a;
+    -fx-border-radius:3px;
+}
 
-
+.background-menu {
+    -fx-background-color:#9b94a9;
+    -fx-border-color:#8a8a8a;
+    -fx-border-radius:3px;
+}
 
  /*
   * **********
@@ -51,8 +60,9 @@
 
 .title-label {
  -fx-text-fill:-text_first_clr;
- -fx-font-size:26px;
+ -fx-font-size:16px;
  -fx-font-weight:bold;
+
 }
 
 .section-label {
