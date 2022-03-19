@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import model.dao.MiembroDAO;
-import model.domain.Integrant;
-import model.domain.Member;
-import model.domain.ParticipationType;
-import model.domain.Responsable;
+import model.domain.*;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -41,7 +38,8 @@ public class MemberDetailsController extends Controller implements Initializable
     @FXML private Label workTelephoneNumberLabel;
     @FXML private Label admissionDateLabel;
     @FXML private Label birtdateLabel;
-
+    @FXML private Label studyAreaLabel;
+    @FXML private Label studyGradeLabel;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getMemberDetails();
@@ -103,6 +101,14 @@ public class MemberDetailsController extends Controller implements Initializable
                 homeTelephoneLabel.setText(((Responsable) memberSelected).getHomeTelephone());
                 workTelephoneNumberLabel.setText(((Responsable) memberSelected).getWorkTelephone());
                 aditionalEmailLabel.setText(((Responsable) memberSelected).getAditionalEmail());
+            } catch (SQLException sqlException) {
+                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
+            }
+        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR ) {
+            try {
+                memberSelected = new MiembroDAO().getColaboratorDetails(memberSelected.getId());
+                studyAreaLabel.setText( ((Colaborator) memberSelected).getStudyArea());
+                studyGradeLabel.setText( ((Colaborator) memberSelected).getMaxStudyGrade().toString());
             } catch (SQLException sqlException) {
                 Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
             }
