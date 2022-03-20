@@ -15,149 +15,167 @@
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="707.0" prefWidth="1120.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Nombre" />
-                              <TextField fx:id="nameTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Apellido Paterno" />
-                              <TextField fx:id="paternalLastnameTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Apellido Materno" />
-                              <TextField fx:id="maternalLastnameTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Nacionalidad" />
-                              <TextField fx:id="nationalityTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Estado civil" />
-                              <ComboBox fx:id="civilStatusComboBox" prefWidth="150.0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="CURP" />
-                              <TextField fx:id="curpTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Numero de personal" />
-                              <TextField fx:id="personalNumberTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Correo UV" />
-                              <TextField fx:id="uvEmailTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Programa educativo" />
-                              <TextField fx:id="educationalProgramTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Estado" />
-                              <TextField fx:id="stateTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Tipo de participacion" />
-                              <ToggleButton fx:id="integrantToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Integrante">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="typeParticipationToggleGroup" />
-                                 </toggleGroup>
-                              </ToggleButton>
-                              <ToggleButton fx:id="responsableToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Responsable" toggleGroup="$typeParticipationToggleGroup" />
-                              <ToggleButton fx:id="colaboratorToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Colaborador" toggleGroup="$typeParticipationToggleGroup" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Fecha nacimiento" />
-                              <DatePicker fx:id="birthDateDatePicker" styleClass="datepicker" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Fecha ingreso" />
-                              <DatePicker fx:id="admissionDateDatePicker" styleClass="datepicker" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <Label styleClass="bold-label" text="Tipo de participacion" />
+                  <ToggleButton fx:id="integrantToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Integrante">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="typeParticipationToggleGroup" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="responsableToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Responsable" toggleGroup="$typeParticipationToggleGroup" />
+                  <ToggleButton fx:id="colaboratorToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Colaborador" toggleGroup="$typeParticipationToggleGroup" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <VBox fx:id="memberDataVBox" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="bold-label" text="Telefono" />
-                              <TextField fx:id="telephoneTextField" styleClass="textfield" />
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Nombre" />
+                                    <TextField fx:id="nameTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Apellido Paterno" />
+                                    <TextField fx:id="paternalLastnameTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Apellido Materno" />
+                                    <TextField fx:id="maternalLastnameTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Nacionalidad" />
+                                    <TextField fx:id="nationalityTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Estado civil" />
+                                    <ComboBox fx:id="civilStatusComboBox" prefWidth="150.0" styleClass="comboBox" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="CURP" />
+                                    <TextField fx:id="curpTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="bold-label" text="RFC" />
-                              <TextField fx:id="rfcTextField" styleClass="textfield" />
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Numero de personal" />
+                                    <TextField fx:id="personalNumberTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Correo UV" />
+                                    <TextField fx:id="uvEmailTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Programa educativo" />
+                                    <TextField fx:id="educationalProgramTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Estado" />
+                                    <TextField fx:id="stateTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Fecha nacimiento" />
+                                    <DatePicker fx:id="birthDateDatePicker" minHeight="38.0" styleClass="datepicker" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Fecha ingreso" />
+                                    <DatePicker fx:id="admissionDateDatePicker" minHeight="38.0" styleClass="datepicker" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Telefono casa" />
-                              <TextField fx:id="homePhoneNumberTextField" styleClass="textfield" />
-                              <Label text="Integrante o responsable data" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Telefono trabajo" />
-                              <TextField fx:id="workTelephoneTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Correo adicional" />
-                              <TextField fx:id="aditionalEmailTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Nombramiento" />
-                              <TextField fx:id="appointmentTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Telefono" />
+                                    <TextField fx:id="telephoneTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="RFC" />
+                                    <TextField fx:id="rfcTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Telefono casa" />
+                                    <TextField fx:id="homePhoneNumberTextField" styleClass="textfield" />
+                                    <Label text="Integrante o responsable data" />
+                                    <Label fx:id="systemLabel" text="Label" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Telefono trabajo" />
+                                    <TextField fx:id="workTelephoneTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Correo adicional" />
+                                    <TextField fx:id="aditionalEmailTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Nombramiento" />
+                                    <TextField fx:id="appointmentTextField" styleClass="textfield" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Area de estudio" />
+                                    <TextField fx:id="studyAreaTextField" styleClass="textfield" />
+                                    <Label text="Colaborador data" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Label styleClass="bold-label" text="Grado de estudios" />
+                                    <ComboBox fx:id="studyGradeComboBox" prefWidth="150.0" styleClass="comboBox" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#AddMemberOnAction" styleClass="main-button" text="Registrar" />
+                  <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="secondary-button" text="Cancelar" />
                </children>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#AddMemberOnAction" styleClass="main-button" text="Registrar" />
-            <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="secondary-button" text="Cancelar" />
+            </VBox>
          </children>
       </VBox>
    </children>

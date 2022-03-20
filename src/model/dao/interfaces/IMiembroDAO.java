@@ -70,7 +70,15 @@ public interface IMiembroDAO {
      * @return Responsable that contains some details.
      */
     Responsable getResponsableDetails(int id) throws SQLException;
-
+    /***
+     * Get colaborators details from database.
+     * <p>
+     * Get all the details from colaborator
+     * </p>
+     * @param id The member ID.
+     * @return Colaborator that contains some details.
+     */
+    Colaborator getColaboratorDetails(int id) throws SQLException;
     /***
      * Update integrant.
      * <p>
@@ -117,4 +125,23 @@ public interface IMiembroDAO {
      * @return Member that contains all the information about member.
      */
     Member getMember(int id) throws SQLException;
+    /***
+     * Get all the study grades
+     * <p>
+     * Get all the study grades like PRIMARY, SECONDARY, HIGH SCHOOL...
+     * </p>
+     * @return List that contain all the available Study grades;
+     */
+    List<StudyGrade> getStudyGrades() throws SQLException;
+    /***
+     * Check if Member already exists in database.
+     * <p>
+     * From a Personal Number check if member exist in database
+     * </p>
+     * @param personalNumber the string code.
+     * @return true if member already existe in database otherwise false.
+     */
+    boolean checkMember(String personalNumber) throws SQLException;
+
+
 }

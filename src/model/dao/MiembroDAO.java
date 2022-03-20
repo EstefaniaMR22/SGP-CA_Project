@@ -7,10 +7,16 @@ import model.domain.Integrant;
 import model.domain.Member;
 import model.domain.ParticipationType;
 import model.domain.Responsable;
+import model.domain.StudyGrade;
 import utils.Database;
 import utils.DateFormatter;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,8 +111,33 @@ public class MiembroDAO implements IMiembroDAO {
     }
 
     @Override
-    public int addMember(Colaborator colaborator) {
-        return 0;
+    public int addMember(Colaborator colaborator) throws SQLException {
+        int idMember = -1;
+        try(Connection conn = database.getConnection() ) {
+            conn.setAutoCommit(false);
+            String statement = "CALL agregarColaborador(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            CallableStatement callableStatement = conn.prepareCall(statement);
+            callableStatement.setString(1,colaborator.getName());
+            callableStatement.setString(2,colaborator.getPaternalLastname());
+            callableStatement.setString(3, colaborator.getMaternalLastname());
+            callableStatement.setString(4, colaborator.getNationality());
+            callableStatement.setString(5, colaborator.getEducationalProgram());
+            callableStatement.setString(6, colaborator.getPersonalNumber());
+            callableStatement.setString(7, colaborator.getUvEmail());
+            callableStatement.setString(8, colaborator.getRfc());
+            callableStatement.setString(9, colaborator.getTelephone());
+            callableStatement.setString(10, colaborator.getBirthState());
+            callableStatement.setString(11, colaborator.getCurp());
+            callableStatement.setString(12, colaborator.getCivilStatus().getCivilStatus());
+            callableStatement.setString(13, colaborator.getStudyArea());
+            callableStatement.setString(14, colaborator.getMaxStudyGrade().getStudyGrade());
+            callableStatement.setDate(15, DateFormatter.convertUtilDateToSQLDate(colaborator.getAdmissionDate()));
+            callableStatement.setDate(16, DateFormatter.convertUtilDateToSQLDate(colaborator.getBirthDate()));
+            callableStatement.registerOutParameter(17, Types.INTEGER);
+            callableStatement.execute();
+            idMember = callableStatement.getInt(17);
+        }
+        return idMember;
     }
     /***
      * Get all the civil status
@@ -390,6 +421,27 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return member;
     }
+    /***
+     * Get all the study grades
+     * <p>
+     * Get all the study grades like PRIMARY, SECONDARY, HIGH SCHOOL...
+     * </p>
+     * @return List that contain all the available Study grades;
+     */
+    @Override
+    public List<StudyGrade> getStudyGrades() throws SQLException {
+        List<StudyGrade> studyGradeList = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM GradoEstudios";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            studyGradeList = new ArrayList<>();
+            while(resultSet.next()) {
+                studyGradeList.add(getStudyGradeType(resultSet.getString("grado_estudios")));
+            }
+        }
+        return studyGradeList;
+    }
 
     private void getMemberData(Member member, int id) throws SQLException {
         try (Connection conn = database.getConnection()) {
@@ -416,6 +468,48 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
             }
         }
+    }
+
+    @Override
+    public boolean checkMember(String personalNumber) throws SQLException {
+        boolean memberAlreadyExist = false;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro WHERE numero_personal = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, personalNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                memberAlreadyExist = true;
+            }
+        }
+        return memberAlreadyExist;
+    }
+
+    @Override
+    public Colaborator getColaboratorDetails(int id) throws SQLException {
+        Colaborator colaborator = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Colaborador WHERE id_miembro = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                colaborator = new Colaborator();
+                getMemberData(colaborator, id);
+                colaborator.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
+                colaborator.setStudyArea(resultSet.getString("area_estudio"));
+            }
+        }
+        return colaborator;
+    }
+
+    private StudyGrade getStudyGradeType(String studyGradeType) {
+        for(StudyGrade studyGrade : StudyGrade.values() ) {
+            if(studyGradeType.equalsIgnoreCase(studyGrade.getStudyGrade())) {
+                return studyGrade;
+            }
+        }
+        return null;
     }
 
     private ParticipationType getParticipationType(String type) {

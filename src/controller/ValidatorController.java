@@ -26,6 +26,14 @@ public class ValidatorController extends Controller {
     }
 
     /***
+     * Clear the LinkedHashMap
+     */
+    public void clearMap() {
+        controlsMap.clear();
+    }
+
+
+    /***
      * This method initialize a Listener to every component.
      * <p> This method must be used when you have finished entering the components using
      *      the addComponentToValidator. Once this done, this method will generate a

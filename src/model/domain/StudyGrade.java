@@ -17,4 +17,9 @@ public enum StudyGrade {
     public String getStudyGrade() {
         return studyGrade;
     }
+
+    @Override
+    public String toString() {
+        return studyGrade.replaceAll("_", " ");
+    }
 }

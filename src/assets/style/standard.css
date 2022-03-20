@@ -185,12 +185,35 @@
   -fx-border-radius:5px;
 }
 
+.wrongTextInput {
+    -fx-min-height:38px;
+    -fx-background-color:red;
+}
+
 .datepicker {
     -fx-min-height:38px;
     -fx-border-radius:5px;
 }
 
+.wrongDatepicker {
+    -fx-min-height:38px;
+    -fx-border-radius:5px;
+    -fx-background-color:blue;
+}
 
+.wrongInput {
+-fx-background-color:red;
+}
+
+.comboBox {
+  -fx-min-height:38px;
+  -fx-border-radius:4px;
+}
+
+.wrongComboBox {
+    -fx-background-color:red;
+    -fx-min-height:38px;
+}
 
 
  /*
@@ -202,8 +225,6 @@
 .tableview {
     -fx-background-color:#fff;
 }
-
-
 
 
  /*

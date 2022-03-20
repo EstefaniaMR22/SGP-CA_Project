@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -99,16 +101,36 @@ public class DateFormatter {
             calendar.set(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
             date = calendar.getTime();
         }
-        System.out.println(date);
         return date;
     }
-
+    /***
+     * Convertion java.util.Date to LocalDate
+     * <p>
+     * This method should be used to convert java.util.date to LocalDate
+     * </p>
+     * @param utilDate the java.util.date
+     * @return LocalDate from LocalDate
+     */
     public static LocalDate getLocalDateFromUtilDate(java.util.Date utilDate) {
         LocalDate localDate = null;
         Instant instant = utilDate.toInstant();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         localDate = instant.atZone(defaultZoneId).toLocalDate();
         return localDate;
+    }
+
+    /***
+     * Compare the actual Date to Other Date
+     * <p>
+     * This method compare actual day e.p. (2020-13-09) to any other e.g (2020-15-09).
+     * </p>
+     * @param chronoLocalDate the date in yyyy-MM-dd
+     * @return returns 0 if both dates are equal. returns 1 if actual is greather than chronoLocalDate.
+     * returns -1 if actual date is less than chronoLocalDate.
+     */
+    public static int compareActualDateToLocalDate(ChronoLocalDate chronoLocalDate) {
+        LocalDate actual = LocalDate.from(ZonedDateTime.now());
+        return actual.compareTo(chronoLocalDate);
     }
 
 }

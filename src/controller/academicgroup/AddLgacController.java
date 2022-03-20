@@ -38,7 +38,6 @@ public class AddLgacController extends Controller{
         } catch (SQLException sqlException) {
             Logger.getLogger(AddLgacController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-        System.out.println(lgac.getId());
 
     }
 }
