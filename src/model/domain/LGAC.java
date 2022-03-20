@@ -34,10 +34,10 @@ public class LGAC {
 
     @Override
     public String toString() {
-        return "LGAC{" +
-                "id=" + id +
-                ", identification='" + identification + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "| LGAC | " +
+                " ID -> " + id +
+                " | Identification -> " + identification +
+                " | description -> " + description +
+                " |";
     }
 }

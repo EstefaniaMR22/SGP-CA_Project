@@ -1,5 +1,6 @@
 package model.dao.interfaces;
 
+import javafx.collections.ObservableList;
 import model.domain.LGAC;
 
 import java.sql.SQLException;
@@ -31,5 +32,7 @@ public interface ILgacDAO {
      * </p>
      * @return List that contain all LGACS.
      */
-    List<LGAC> getAlllgacs() throws SQLException;
+    ObservableList<LGAC> getAlllgacs() throws SQLException;
+
+    String getLGAC(int idLGAC) throws SQLException;
 }

@@ -1,21 +1,14 @@
 package controller;
 
-import controller.exceptions.AlertException;
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 import model.domain.ParticipationType;
 import utils.Autentication;
-
 import java.net.SocketException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,11 +45,11 @@ public class LoginController extends Controller {
             integrantController.showStage();
 
         }catch(Exception integrantOnActionExeception){
-            Alert alertView;
-            alertView = AlertException.builderAlert("Error FXML", "No se encuentra "
-                    + "el FXML por: " + integrantOnActionExeception, Alert.AlertType.ERROR);
-            alertView.showAndWait();
-        }
+            AlertController alertView = new AlertController();
+            alertView.showActionFailedAlert(" " + integrantOnActionExeception);
+
+            }
+
     }
 
     @FXML

@@ -15,6 +15,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DateFormatter {
+
+    /***
+     * Get datetime today
+     * <p>
+     * This method it's used when you need the actual date
+     * </p>
+     * @return String representing the date on a string.
+     */
+    public static String getActualDate(){
+        String actualDate;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+
+        Date calendarTime = calendar.getTime();
+        actualDate = simpleDateFormat.format(calendarTime);
+        System.out.println(actualDate);
+
+        return actualDate;
+    }
     /***
      * Get datetime in sql by a string.
      * <p>
@@ -34,6 +53,40 @@ public class DateFormatter {
         }
         return dateSQL;
     }
+    /***
+     * Get datetime in a string.
+     * <p>
+     * This method it's used when you need to format a date to a type string
+     * for example: string -> 2020-06-26 12:30:00
+     * This method will return a type Date -> 2020-06-26
+     * </p>
+     * @return String representing the date of string.
+     * @param date
+     */
+
+    public static String getParseDate(Date date){
+        String parseDateString;
+        parseDateString = String.valueOf(date);
+
+        return parseDateString;
+    }
+
+    /***
+     * Get datetime in a Date.
+     * <p>
+     * This method it's used when you need to format a String to a type Date
+     * </p>
+     * @return String representing the date of string.
+     */
+    public static java.sql.Date getSQLParseDate(String date){
+        java.sql.Date dateSQL = null;
+        if(date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateSQL = java.sql.Date.valueOf(date);
+        }
+        return dateSQL;
+    }
+
 
     /***
      * Get Timestamp by a string.
