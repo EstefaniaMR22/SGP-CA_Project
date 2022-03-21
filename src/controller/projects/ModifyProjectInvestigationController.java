@@ -3,6 +3,11 @@ package controller.projects;
 import controller.AlertController;
 import controller.Controller;
 import controller.ResponsableController;
+import controller.ValidatorController;
+import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
+import controller.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.validator.ValidatorTextInputControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,10 +21,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ModifyProjectInvestigationController extends Controller implements Initializable {
+public class ModifyProjectInvestigationController extends ValidatorController implements Initializable {
 
     @FXML private TextField projectNameTextField;
     @FXML private TextArea descriptionTextArea;
@@ -31,6 +37,7 @@ public class ModifyProjectInvestigationController extends Controller implements 
     @FXML private Button updateButton;
     @FXML private Button exitButton;
     @FXML private Button endProjectStatusButton;
+    @FXML private Label systemLabel;
 
     private Project updatedProject;
 
@@ -40,12 +47,12 @@ public class ModifyProjectInvestigationController extends Controller implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        getProjectDetails();
+        initValidatorToTextInput();
     }
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ModifyProjectView.fxml"), this);
-        getProjectDetails();
         stage.showAndWait();
 
     }
@@ -105,6 +112,27 @@ public class ModifyProjectInvestigationController extends Controller implements 
 
     @FXML
     public void updateProjectInvestigationOnAction(ActionEvent actionEvent){
+        try {
+            if(validateInputs()) {
+                if(!validateProjectName()) {
+                    updateProjectInvestigation();
+
+                } else {
+                    systemLabel.setText("¡Al parecer ya existe un proyecto de investigación con \n" +
+                            " el mismo nombre,de favor ingrese un nombre distinto!");
+                }
+
+            }else {
+                AlertController alertView = new AlertController();
+                alertView.showActionFailedAlert("Algunos datos ingresados son inválidos, por favor verifíquelos");
+            }
+        } catch (Exception e) {
+            systemLabel.setText(e.getLocalizedMessage());
+        }
+
+    }
+
+    private void updateProjectInvestigation(){
         boolean correctUpdatedProject = false;
         ProjectDAO projectDAO = new ProjectDAO();
         Project updateProjectInvestigation = new Project();
@@ -132,9 +160,10 @@ public class ModifyProjectInvestigationController extends Controller implements 
                     " Causa: " + addProjectInvestigationException);
 
         }
+    }
 
-
-
+    private boolean validateProjectName() throws SQLException {
+        return new ProjectDAO().checkProject(projectNameTextField.getText());
     }
 
     @FXML
@@ -147,6 +176,15 @@ public class ModifyProjectInvestigationController extends Controller implements 
                     "Causa: " + returnViewOnActionExeception);
 
         }
+    }
+
+    private void initValidatorToTextInput() {
+
+        addComponentToValidator(new ValidatorTextInputControl(projectNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+
+        addComponentToValidator(new ValidatorTextInputControl(descriptionTextArea, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+
+        initListenerToControls();
     }
 
 }

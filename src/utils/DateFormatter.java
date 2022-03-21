@@ -186,4 +186,25 @@ public class DateFormatter {
         return actual.compareTo(chronoLocalDate);
     }
 
+    /***
+     * Compare the actual Date to Selected Date
+     * <p>
+     * This method compare actual day to any other date
+     * </p>
+     * @param selectedLocalDate the date in yyyy-MM-dd
+     * @return returns true if actual is less than selectedLocalDate.
+     * returns false if actual date is after than selectedLocalDate.
+     */
+    public static int compareActualDateToSelectedDate(LocalDate selectedLocalDate) {
+        LocalDate actual = LocalDate.from(ZonedDateTime.now());
+        int resultCompareDate = 0;
+        if (selectedLocalDate.isBefore(actual)){
+            resultCompareDate = -1;
+        }else if (selectedLocalDate.isAfter(actual)){
+            resultCompareDate = 1;
+        }
+
+        return resultCompareDate;
+    }
+
 }
