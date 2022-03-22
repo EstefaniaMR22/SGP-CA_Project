@@ -5,17 +5,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import controller.AlertController;
-import controller.exceptions.AlertException;
 import controller.projects.AddProjectsInvestigationController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import model.dao.interfaces.IProjectDAO;
 import model.domain.Project;
 import utils.Database;
 import utils.DateFormatter;
-
-import static utils.DateFormatter.getSQLParseDate;
 
 public class ProjectDAO implements IProjectDAO{
 
@@ -236,6 +232,37 @@ public class ProjectDAO implements IProjectDAO{
         return projectDetails;
     }
 
+    /***
+     * Check if Project exist in database
+     * <p>
+     *
+     * </p>
+     * @param projectName The name from investigation project
+     * @return projectAlreadyExist representing Project exist in database
+     */
+    @Override
+    public boolean checkProject(String projectName) throws SQLException {
+        boolean projectAlreadyExist = false;
+        try(Connection conn = databaseConection.getConnection()) {
+            String statement = "SELECT * FROM ProyectoInvestigacion WHERE nombre = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, projectName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                projectAlreadyExist = true;
+            }
+        }
+        return projectAlreadyExist;
+    }
+
+    /***
+     * Get id LGAC from the Project
+     * <p>
+     *
+     * </p>
+     * @param idProject The id from investigation project
+     * @return idLGAC from Project in database
+     */
     @Override
     public int getIdLGAC(int idProject) throws SQLException{
         int idLGAC = 0;

@@ -92,6 +92,11 @@
             </Label>
             <TextArea fx:id="descriptionTextArea" layoutX="40.0" layoutY="406.0" prefHeight="110.0" prefWidth="798.0" />
             <Label fx:id="statusProjectLabel" layoutX="443.0" layoutY="222.0" prefHeight="34.0" prefWidth="395.0" style="-fx-background-color: white;" />
+            <Label fx:id="systemLabel" layoutX="443.0" layoutY="324.0" prefHeight="54.0" prefWidth="395.0">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

@@ -1,7 +1,11 @@
 package controller.projects;
 
 import controller.AlertController;
-import controller.Controller;
+import controller.ValidatorController;
+import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
+import controller.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.validator.ValidatorTextInputControl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +25,11 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddProjectsInvestigationController extends Controller implements Initializable {
+public class AddProjectsInvestigationController extends ValidatorController implements Initializable {
 
     @FXML private TextField projectNameTextField;
     @FXML private TextArea descriptionTextArea;
@@ -34,6 +39,7 @@ public class AddProjectsInvestigationController extends Controller implements In
     @FXML private ComboBox<LGAC> lgacComboBox;
     @FXML private Button newProjectButton;
     @FXML private Button exitButton;
+    @FXML private Label systemLabel;
 
     private List<LGAC> listProjectLGAC;
 
@@ -48,41 +54,66 @@ public class AddProjectsInvestigationController extends Controller implements In
         startDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
         startDateDataPicker.setDisable(true);
         statusProjectLabel.setText("En proceso");
+        initValidatorToTextInput();
     }
 
     @FXML
     void addProjectInvestigationOnAction(ActionEvent actionEvent) {
 
+        try {
+            if(validateInputs()) {
+                if(!validateProjectName()) {
+                        addProjectInvestigation();
+
+                } else {
+                    systemLabel.setText("¡Al parecer ya existe un proyecto de investigación con \n"+
+                           " el mismo nombre,de favor ingrese un nombre distinto!");
+                }
+
+            }else {
+                AlertController alertView = new AlertController();
+                alertView.showActionFailedAlert("Algunos datos ingresados son inválidos, por favor verifíquelos");
+            }
+        } catch (Exception e) {
+            systemLabel.setText(e.getLocalizedMessage());
+        }
+
+    }
+
+    private boolean validateProjectName() throws SQLException {
+        return new ProjectDAO().checkProject(projectNameTextField.getText());
+    }
+
+    private void addProjectInvestigation(){
         ProjectDAO projectDAO = new ProjectDAO();
 
         Project addProjectInvestigation = new Project();
-         addProjectInvestigation.setProjectName(projectNameTextField.getText());
-         addProjectInvestigation.setDescription(descriptionTextArea.getText());
-         addProjectInvestigation.setStatus(statusProjectLabel.getText());
+        addProjectInvestigation.setProjectName(projectNameTextField.getText());
+        addProjectInvestigation.setDescription(descriptionTextArea.getText());
+        addProjectInvestigation.setStatus(statusProjectLabel.getText());
 
-         int positionLGAC = lgacComboBox.getSelectionModel().getSelectedIndex();
-         addProjectInvestigation.setIdLGCA(listProjectLGAC.get(positionLGAC).getId());
-         addProjectInvestigation.setStartDate(DateFormatter.getDateFromDatepickerValue(startDateDataPicker.getValue()));
-         addProjectInvestigation.setEstimatedEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
-         addProjectInvestigation.setDurationProjectInMonths(calculateMonths());
+        int positionLGAC = lgacComboBox.getSelectionModel().getSelectedIndex();
+        addProjectInvestigation.setIdLGCA(listProjectLGAC.get(positionLGAC).getId());
+        addProjectInvestigation.setStartDate(DateFormatter.getDateFromDatepickerValue(startDateDataPicker.getValue()));
+        addProjectInvestigation.setEstimatedEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+        addProjectInvestigation.setDurationProjectInMonths(calculateMonths());
 
-         try {
-             boolean correctAddProject = false;
+        try {
+            boolean correctAddProject = false;
 
-             correctAddProject = projectDAO.addProject(addProjectInvestigation);
-             if (correctAddProject == true) {
-                 AlertController.showSuccessfullRegisterAlert();
-                 stage.close();
-             }
+            correctAddProject = projectDAO.addProject(addProjectInvestigation);
+            if (correctAddProject == true) {
+                AlertController.showSuccessfullRegisterAlert();
+                stage.close();
+            }
 
-         } catch (Exception addProjectInvestigationException) {
-             Logger.getLogger(ModifyProjectInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
-             AlertController alertView = new AlertController();
-             alertView.showActionFailedAlert(" No se pudo guardar el proyecto de investigación." +
-                     " Causa: " + addProjectInvestigationException);
+        } catch (Exception addProjectInvestigationException) {
+            Logger.getLogger(ModifyProjectInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
+            AlertController alertView = new AlertController();
+            alertView.showActionFailedAlert(" No se pudo guardar el proyecto de investigación." +
+                    " Causa: " + addProjectInvestigationException);
 
-         }
-
+        }
     }
 
     private int calculateMonths(){
@@ -119,6 +150,22 @@ public class AddProjectsInvestigationController extends Controller implements In
                     "Causa: " + returnViewOnActionExeception);
 
         }
+    }
+
+    private void initValidatorToTextInput() {
+        Function<Object, Boolean> validateEstimatedEndDate = a -> {
+            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
+        };
+
+        addComponentToValidator(new ValidatorTextInputControl(projectNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+
+        addComponentToValidator(new ValidatorTextInputControl(descriptionTextArea, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+
+        addComponentToValidator(new ValidatorComboBoxBase(lgacComboBox, this), false);
+
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateEstimatedEndDate), false);
+
+        initListenerToControls();
     }
 
 }

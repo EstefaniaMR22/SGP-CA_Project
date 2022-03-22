@@ -8,6 +8,7 @@ import controller.academicgroup.ModifyMemberController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import model.dao.LgacDAO;
@@ -33,7 +34,8 @@ public class ConsultProjectController extends Controller implements Initializabl
     @FXML private Label descriptionLabel;
     @FXML private Label durationInMonthsProject;
     @FXML private TableView<Evidence> evidencesTableView;
-
+    @FXML private Button modifyButton;
+    @FXML private Button exitButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,6 +54,24 @@ public class ConsultProjectController extends Controller implements Initializabl
     }
 
 
+    @FXML
+    public void modifyProjectOnAction(ActionEvent actionEvent) {
+        try {
+            ModifyProjectInvestigationController updateProjectInvestigationController = new ModifyProjectInvestigationController(projectSelected);
+            updateProjectInvestigationController.showStage();
+
+        } catch (Exception addProjectInvestigationException) {
+            Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
+
+            AlertController alertView = new AlertController();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "ModifyProyectInvestigation. Causa: " + addProjectInvestigationException);
+
+        }
+
+    }
+
+    @FXML
     public void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();

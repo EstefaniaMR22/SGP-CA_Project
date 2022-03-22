@@ -155,6 +155,13 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="-147.0" layoutY="606.0" prefHeight="64.0" prefWidth="1216.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css" />
+      <AnchorPane layoutX="-147.0" layoutY="606.0" prefHeight="64.0" prefWidth="1216.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
+         <children>
+            <Button fx:id="modifyButton" layoutX="1060.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" prefHeight="38.0" prefWidth="108.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

@@ -20,6 +20,9 @@ public interface IProjectDAO{
     public int addProjectLGAC(int idProject, int idLGAC) throws SQLException;
     public int getIdProject(String nameProject) throws SQLException;
     public Project getProjectDetails(int idProject) throws SQLException;
+
+    boolean checkProject(String projectName) throws SQLException;
+
     public int getIdLGAC(int idProject) throws SQLException;
     public boolean updateProject(Project project) throws SQLException;
 }
