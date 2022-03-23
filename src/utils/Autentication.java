@@ -24,7 +24,7 @@ public class Autentication {
      * Logout from actual current logged user.
      */
     public void logOut() {
-        //currentUser = null;
+        member = null;
     }
 
     public Member getMember() {
@@ -88,13 +88,12 @@ public class Autentication {
      * any reason.
      * </p>
      * @param newPassword to be set it in database.
+     * @param idUser the id of Member in database.
      * @return boolean true if password was reset and false if was not reset.
      * @throws SQLException if any error happened in database.
      */
-    public boolean resetPassword(String newPassword) throws SQLException {
-       // int currentUserId = Autentication.getInstance().getCurrentUser().getId();
-        // ESTPKOTSEKPOSEAKPTKPOKPOKPOKPO
-        boolean isPasswordChanged = new CuentaDAO().changePasswordByIdUser(newPassword, 1);
+    public boolean resetPassword(String newPassword, int idUser) throws SQLException {
+        boolean isPasswordChanged = new CuentaDAO().changePasswordByIdUser(newPassword, idUser);
         return isPasswordChanged;
     }
 

@@ -422,6 +422,24 @@ public class MiembroDAO implements IMiembroDAO {
         return member;
     }
     /***
+     * Get member by personal number
+     * @param personalNumber the member's id.
+     * @return int that represents the member's id.
+     */
+    public int getMemberIdByPersonalNumber(String personalNumber) throws SQLException {
+        int idMember = -1;
+        try(Connection conn = database.getConnection()) {
+           String statement = "SELECT id FROM Miembro WHERE numero_personal = ?";
+           PreparedStatement preparedStatement = conn.prepareStatement(statement);
+           preparedStatement.setString(1, personalNumber);
+           ResultSet resultSet = preparedStatement.executeQuery();
+           if(resultSet.next()) {
+               idMember = resultSet.getInt(1);
+           }
+        }
+        return idMember;
+    }
+    /***
      * Get all the study grades
      * <p>
      * Get all the study grades like PRIMARY, SECONDARY, HIGH SCHOOL...
@@ -441,33 +459,6 @@ public class MiembroDAO implements IMiembroDAO {
             }
         }
         return studyGradeList;
-    }
-
-    private void getMemberData(Member member, int id) throws SQLException {
-        try (Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Miembro WHERE id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                member.setId(resultSet.getInt("id"));
-                member.setName(resultSet.getString("nombre"));
-                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
-                member.setMaternalLastname(resultSet.getString("apellido_materno"));
-                member.setNationality(resultSet.getString("nacionalidad"));
-                member.setEducationalProgram(resultSet.getString("programa_educativo"));
-                member.setPersonalNumber(resultSet.getString("numero_personal"));
-                member.setRfc(resultSet.getString("rfc"));
-                member.setTelephone(resultSet.getString("telefono"));
-                member.setBirthState(resultSet.getString("estado"));
-                member.setCurp(resultSet.getString("curp"));
-                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
-                member.setUvEmail(resultSet.getString("email"));
-                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
-                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
-                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
-            }
-        }
     }
 
     @Override
@@ -501,6 +492,33 @@ public class MiembroDAO implements IMiembroDAO {
             }
         }
         return colaborator;
+    }
+
+    private void getMemberData(Member member, int id) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                member.setId(resultSet.getInt("id"));
+                member.setName(resultSet.getString("nombre"));
+                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
+                member.setMaternalLastname(resultSet.getString("apellido_materno"));
+                member.setNationality(resultSet.getString("nacionalidad"));
+                member.setEducationalProgram(resultSet.getString("programa_educativo"));
+                member.setPersonalNumber(resultSet.getString("numero_personal"));
+                member.setRfc(resultSet.getString("rfc"));
+                member.setTelephone(resultSet.getString("telefono"));
+                member.setBirthState(resultSet.getString("estado"));
+                member.setCurp(resultSet.getString("curp"));
+                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
+                member.setUvEmail(resultSet.getString("email"));
+                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
+                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
+            }
+        }
     }
 
     private StudyGrade getStudyGradeType(String studyGradeType) {

@@ -3,14 +3,13 @@ package model.dao;
 import controller.exceptions.LimitReachedException;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.sql.SQLException;
 
 public class AccountDAOTest {
 
     @Test
     public void changePasswordByIdUser() throws SQLException {
-        String newPassword = "hello";
+        String newPassword = "hola";
         int idUser = 1;
         boolean isPasswordChanged = new CuentaDAO().changePasswordByIdUser(newPassword, idUser);
         Assert.assertTrue(isPasswordChanged);
@@ -41,8 +40,8 @@ public class AccountDAOTest {
     @Test
     public void changePasswordByEmail() throws SQLException {
         String email = "angeladriancamalgarcia@hotmail.com";
-        String password = "hola123";
-        boolean isPasswordChanged = new CuentaDAO().changePasswordByEmail(email, password);
+        String password = "hola";
+        boolean isPasswordChanged = new CuentaDAO().changePasswordByEmail(password, email);
         Assert.assertTrue(isPasswordChanged);
     }
 
@@ -71,10 +70,15 @@ public class AccountDAOTest {
     }
 
     @Test
-    public void sendActualMacAddress() throws SQLException, LimitReachedException {
+    public void sendActualMacAddress() throws SQLException {
         String macaddress = "test";
-        boolean isSent = new CuentaDAO().sendActualMacAddress(macaddress);
-        Assert.assertTrue(isSent);
+        LimitReachedException expected = null;
+        try {
+            boolean isSent = new CuentaDAO().sendActualMacAddress(macaddress);
+        } catch (LimitReachedException e) {
+            expected = e;
+        }
+        Assert.assertNotNull(expected);
     }
 
     @Test
@@ -84,7 +88,12 @@ public class AccountDAOTest {
         Assert.assertTrue(isAttemptsReset);
     }
 
-
-
-
+    @Test
+    public void getMemberIDByEmailAndPassword() throws SQLException {
+        String email = "angeladriancamalgarcia@hotmail.com";
+        String password = "hola";
+        int expected = 1;
+        int actual = new CuentaDAO().getMemberIDByEmailAndPassword(email,password);
+        Assert.assertEquals(expected, actual);
+    }
 }

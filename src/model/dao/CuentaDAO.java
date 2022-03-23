@@ -48,17 +48,17 @@ public class CuentaDAO implements ICuentaDAO {
 
     @Override
     public boolean changePasswordByEmail(String password, String email) throws SQLException {
-        int rowsAffected = 0;
+        boolean isUpdated = false;
         try( Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "UPDATE Cuenta SET contrasena = ? WHERE email = ?";
+            String statement = "UPDATE Cuenta SET contrasena = SHA2(?,512) WHERE email = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, password);
             preparedStatement.setString(2, email);
-            rowsAffected = preparedStatement.executeUpdate();
+            isUpdated = preparedStatement.executeUpdate() > 0;
             conn.commit();
         }
-        return rowsAffected > 0;
+        return isUpdated;
     }
 
     @Override

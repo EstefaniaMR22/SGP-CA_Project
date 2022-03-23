@@ -32,7 +32,12 @@ public interface ILgacDAO {
      * </p>
      * @return List that contain all LGACS.
      */
-    ObservableList<LGAC> getAlllgacs() throws SQLException;
+    List<LGAC> getAlllgacs() throws SQLException;
 
-    String getLGAC(int idLGAC) throws SQLException;
+    /***
+     * Get a specific LGAC.
+     * @param idLGAC LGAC's ID.
+     * @return LGAC object that contains all data of LGAC.
+     */
+    LGAC getLGACById(int idLGAC) throws SQLException;
 }

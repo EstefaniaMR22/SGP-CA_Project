@@ -126,6 +126,12 @@ public interface IMiembroDAO {
      */
     Member getMember(int id) throws SQLException;
     /***
+     * Get member by personal number
+     * @param personalNumber the member's id.
+     * @return int that represents the member's id.
+     */
+    int getMemberIdByPersonalNumber(String personalNumber) throws SQLException;
+    /***
      * Get all the study grades
      * <p>
      * Get all the study grades like PRIMARY, SECONDARY, HIGH SCHOOL...

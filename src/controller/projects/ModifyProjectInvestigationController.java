@@ -81,13 +81,14 @@ public class ModifyProjectInvestigationController extends ValidatorController im
         descriptionTextArea.setText(updatedProject.getDescription());
 
         LgacDAO lgacDAO = new LgacDAO();
-        try {
-            lgacLabel.setText(lgacDAO.getLGAC(updatedProject.getIdLGCA()));
-        } catch (SQLException lgacSqlException) {
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
-                    " Causa: " + lgacSqlException);
-        }
+//        try {
+//            // FIX THIS
+//            //lgacLabel.setText(lgacDAO.getLGAC(updatedProject.getIdLGCA()).toString());
+//        } catch (SQLException lgacSqlException) {
+//            AlertController alertView = new AlertController();
+//            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
+//                    " Causa: " + lgacSqlException);
+//        }
 
         startDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(updatedProject.getStartDate()));
         estimatedEndDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(updatedProject.getEstimatedEndDate()));

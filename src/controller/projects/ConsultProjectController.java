@@ -93,13 +93,14 @@ public class ConsultProjectController extends Controller implements Initializabl
         endDateLabel.setText(projectSelected.getEndDateString());
         durationInMonthsProject.setText(projectSelected.getDurationProjectInMonths() + " meses");
         LgacDAO lgacDAO = new LgacDAO();
-        try {
-            lgacLabel.setText(lgacDAO.getLGAC(projectSelected.getIdLGCA()));
-        } catch (SQLException lgacSqlException) {
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
-                    " Causa: " + lgacSqlException);
-        }
+//        try {
+//            //FIX THIS
+//            //lgacLabel.setText(lgacDAO.getLGAC(projectSelected.getIdLGCA()).toString());
+//        } catch (SQLException lgacSqlException) {
+//            AlertController alertView = new AlertController();
+//            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
+//                    " Causa: " + lgacSqlException);
+//        }
         descriptionLabel.setText(projectSelected.getDescription());
     }
 

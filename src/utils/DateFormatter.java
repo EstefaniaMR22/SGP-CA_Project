@@ -30,8 +30,6 @@ public class DateFormatter {
 
         Date calendarTime = calendar.getTime();
         actualDate = simpleDateFormat.format(calendarTime);
-        System.out.println(actualDate);
-
         return actualDate;
     }
     /***
@@ -67,7 +65,6 @@ public class DateFormatter {
     public static String getParseDate(Date date){
         String parseDateString;
         parseDateString = String.valueOf(date);
-
         return parseDateString;
     }
 
@@ -75,10 +72,11 @@ public class DateFormatter {
      * Get datetime in a Date.
      * <p>
      * This method it's used when you need to format a String to a type Date
+     * Example: String: 2000-09-13 as parameter.
      * </p>
      * @return String representing the date of string.
      */
-    public static java.sql.Date getSQLParseDate(String date){
+    public static java.sql.Date getSQLDateFromString(String date){
         java.sql.Date dateSQL = null;
         if(date != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,7 +84,6 @@ public class DateFormatter {
         }
         return dateSQL;
     }
-
 
     /***
      * Get Timestamp by a string.
@@ -177,7 +174,7 @@ public class DateFormatter {
      * <p>
      * This method compare actual day e.p. (2020-13-09) to any other e.g (2020-15-09).
      * </p>
-     * @param chronoLocalDate the date in yyyy-MM-dd
+     * @param chronoLocalDate the date in yyyy-MM-dd implemented class: HijrahDate, JapaneseDate, LocalDate, MinguoDate, ThaiBuddhistDate
      * @return returns 0 if both dates are equal. returns 1 if actual is greather than chronoLocalDate.
      * returns -1 if actual date is less than chronoLocalDate.
      */
