@@ -4,6 +4,7 @@ import controller.AlertController;
 import controller.Controller;
 import controller.IntegrantController;
 import controller.ResponsableController;
+import controller.academicgroup.AddMemberController;
 import controller.academicgroup.ModifyMemberController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import model.dao.MiembroDAO;
 import model.dao.ProjectDAO;
 import model.domain.*;
 import utils.DateFormatter;
+import utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -93,15 +95,23 @@ public class ConsultProjectController extends Controller implements Initializabl
         endDateLabel.setText(projectSelected.getEndDateString());
         durationInMonthsProject.setText(projectSelected.getDurationProjectInMonths() + " meses");
         LgacDAO lgacDAO = new LgacDAO();
-//        try {
-//            //FIX THIS
-//            //lgacLabel.setText(lgacDAO.getLGAC(projectSelected.getIdLGCA()).toString());
-//        } catch (SQLException lgacSqlException) {
-//            AlertController alertView = new AlertController();
-//            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
-//                    " Causa: " + lgacSqlException);
-//        }
+     try {
+         lgacLabel.setText(lgacDAO.getLGACById(projectSelected.getIdLGCA()).toString());
+
+     } catch (SQLException lgacSqlException) {
+
+         deterMinateSQLState(lgacSqlException);
+
+      }
         descriptionLabel.setText(projectSelected.getDescription());
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void getProjectDetails() {
@@ -112,10 +122,8 @@ public class ConsultProjectController extends Controller implements Initializabl
             setProjectDataToTextField();
 
         }catch(SQLException getProjectDetailsExeception){
-            Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, getProjectDetailsExeception);
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo obtener datos del proyecto. " +
-                    "Causa: " + getProjectDetailsExeception);
+
+            deterMinateSQLState(getProjectDetailsExeception);
 
         }
 

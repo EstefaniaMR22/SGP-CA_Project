@@ -2,6 +2,7 @@ package controller.projects;
 
 import controller.AlertController;
 import controller.ValidatorController;
+import controller.academicgroup.AddMemberController;
 import controller.validator.Validator;
 import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
@@ -17,6 +18,7 @@ import model.dao.ProjectDAO;
 import model.domain.LGAC;
 import model.domain.Project;
 import utils.DateFormatter;
+import utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -107,11 +109,9 @@ public class AddProjectsInvestigationController extends ValidatorController impl
                 stage.close();
             }
 
-        } catch (Exception addProjectInvestigationException) {
-            Logger.getLogger(ModifyProjectInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo guardar el proyecto de investigación." +
-                    " Causa: " + addProjectInvestigationException);
+        } catch (SQLException addProjectInvestigationException) {
+
+            deterMinateSQLState(addProjectInvestigationException);
 
         }
     }
@@ -133,12 +133,17 @@ public class AddProjectsInvestigationController extends ValidatorController impl
             lgacComboBox.setItems(observableLististProjectLGAC);
 
         } catch(SQLException chargeLGACException) {
-            Logger.getLogger(ModifyProjectInvestigationController.class.getName()).log(Level.SEVERE, null, chargeLGACException);
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo cargar las LGAC al combobox. Causa: " + chargeLGACException);
-
+            deterMinateSQLState(chargeLGACException);
         }
 
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     public void returnViewOnAction(ActionEvent actionEvent) {
