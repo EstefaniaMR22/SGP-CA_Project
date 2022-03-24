@@ -44,11 +44,12 @@ public class LoginController extends Controller {
             IntegrantController integrantController = new IntegrantController();
             integrantController.showStage();
 
-        }catch(Exception integrantOnActionExeception){
+        }catch (Exception addProjectInvestigationException) {
             AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" " + integrantOnActionExeception);
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "ProyectsInvestigation. Causa: " + addProjectInvestigationException);
 
-            }
+        }
 
     }
 

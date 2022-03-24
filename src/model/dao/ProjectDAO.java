@@ -53,7 +53,7 @@ public class ProjectDAO implements IProjectDAO{
 
                 projectDataTable.setEstimatedEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_fin_estimada")));
                 projectDataTable.setEstimatedEndDateString(DateFormatter.getParseDate(projectDataTable.getStartDate()));
-                    if(resultSet.wasNull()){
+                    if(!resultSet.wasNull()){
                         projectDataTable.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_real")));
                         projectDataTable.setEndDateString(DateFormatter.getParseDate(projectDataTable.getStartDate()));
                     }else {

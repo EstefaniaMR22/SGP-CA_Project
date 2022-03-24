@@ -4,6 +4,7 @@ import controller.AlertController;
 import controller.Controller;
 import controller.ResponsableController;
 import controller.ValidatorController;
+import controller.academicgroup.AddMemberController;
 import controller.validator.Validator;
 import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
@@ -16,6 +17,8 @@ import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.Project;
 import utils.DateFormatter;
+import utils.SQLStates;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -65,13 +68,19 @@ public class ModifyProjectInvestigationController extends ValidatorController im
             chargeProjectInvestigationUpdate();
 
         }catch(SQLException getProjectDetailsExeception){
-            Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, getProjectDetailsExeception);
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo obtener datos del proyecto. " +
-                    "Causa: " + getProjectDetailsExeception);
+
+            deterMinateSQLState(getProjectDetailsExeception);
 
         }
 
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void chargeProjectInvestigationUpdate() {
@@ -81,14 +90,12 @@ public class ModifyProjectInvestigationController extends ValidatorController im
         descriptionTextArea.setText(updatedProject.getDescription());
 
         LgacDAO lgacDAO = new LgacDAO();
-//        try {
-//            // FIX THIS
-//            //lgacLabel.setText(lgacDAO.getLGAC(updatedProject.getIdLGCA()).toString());
-//        } catch (SQLException lgacSqlException) {
-//            AlertController alertView = new AlertController();
-//            alertView.showActionFailedAlert(" No se pudo obtener lgac." +
-//                    " Causa: " + lgacSqlException);
-//        }
+            try {
+
+                lgacLabel.setText(lgacDAO.getLGACById(updatedProject.getIdLGCA()).toString());
+            } catch (SQLException lgacSqlException) {
+                deterMinateSQLState(lgacSqlException);
+       }
 
         startDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(updatedProject.getStartDate()));
         estimatedEndDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(updatedProject.getEstimatedEndDate()));
@@ -115,20 +122,27 @@ public class ModifyProjectInvestigationController extends ValidatorController im
     public void updateProjectInvestigationOnAction(ActionEvent actionEvent){
         try {
             if(validateInputs()) {
-                if(!validateProjectName()) {
-                    updateProjectInvestigation();
+                try {
 
-                } else {
-                    systemLabel.setText("¡Al parecer ya existe un proyecto de investigación con \n" +
-                            " el mismo nombre,de favor ingrese un nombre distinto!");
+
+                    if (!validateProjectName()) {
+                        updateProjectInvestigation();
+
+                    } else {
+                        systemLabel.setText("¡Al parecer ya existe un proyecto de investigación con \n" +
+                                " el mismo nombre,de favor ingrese un nombre distinto!");
+                    }
+                }catch (SQLException validateProjectName){
+                    deterMinateSQLState(validateProjectName);
                 }
 
             }else {
                 AlertController alertView = new AlertController();
                 alertView.showActionFailedAlert("Algunos datos ingresados son inválidos, por favor verifíquelos");
             }
-        } catch (Exception e) {
-            systemLabel.setText(e.getLocalizedMessage());
+        } catch (Exception exception) {
+
+            systemLabel.setText(exception.getLocalizedMessage());
         }
 
     }
@@ -156,9 +170,8 @@ public class ModifyProjectInvestigationController extends ValidatorController im
             }
 
         }catch (SQLException addProjectInvestigationException) {
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo 'actualizar' el proyecto de investigación." +
-                    " Causa: " + addProjectInvestigationException);
+
+            deterMinateSQLState(addProjectInvestigationException);
 
         }
     }

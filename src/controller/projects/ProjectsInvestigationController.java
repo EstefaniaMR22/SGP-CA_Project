@@ -3,6 +3,7 @@ package controller.projects;
 import controller.AlertController;
 import controller.Controller;
 import controller.IntegrantController;
+import controller.academicgroup.AddMemberController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.LGAC;
 import model.domain.Project;
+import utils.SQLStates;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -118,12 +120,17 @@ public class ProjectsInvestigationController extends Controller {
             projectsTableView.setItems(Projects);
 
         }catch(SQLException chargeProjectsExeception){
-            Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, chargeProjectsExeception);
-            AlertController alertView = new AlertController();
-            alertView.showActionFailedAlert(" No se pudo obtener la lista de datos de los proyectos. " +
-                    "Causa: " + chargeProjectsExeception);
+            deterMinateSQLState(chargeProjectsExeception);
         }
 
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     @FXML
