@@ -125,6 +125,7 @@
                            <children>
                               <Label styleClass="bold-label" text="RFC" />
                               <TextField fx:id="rfcTextField" styleClass="textfield" />
+                              <Label fx:id="systemLabel" text="Label" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">

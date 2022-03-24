@@ -22,23 +22,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdministratorController extends Controller implements Initializable {
-    @FXML
-    private ListView<Member> membersListView;
-
-    @FXML
-    private Button searchButton;
-
-    @FXML
-    private TextField searchTextField;
-
-    @FXML
-    private Label totalIntegrantsTextField;
-
-    @FXML
-    private Label totalMembersTextField;
-
-    @FXML
-    private Label totalResponsablesTextField;
+    @FXML private ListView<Member> membersListView;
+    @FXML private Button searchButton;
+    @FXML private TextField searchTextField;
+    @FXML private Label totalIntegrantsTextField;
+    @FXML private Label totalMembersTextField;
+    @FXML private Label totalResponsablesTextField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -59,7 +48,9 @@ public class AdministratorController extends Controller implements Initializable
     void addMemberOnAction(ActionEvent event) {
         AddMemberController addMemberController = new AddMemberController();
         addMemberController.showStage();
-
+        if(addMemberController.getRegisteredMember() != null ) {
+            membersListView.getItems().add(addMemberController.getRegisteredMember());
+        }
     }
 
     @FXML
@@ -77,14 +68,14 @@ public class AdministratorController extends Controller implements Initializable
         if(memberSelected != null ) {
            if(AlertController.showConfirmationAlert()) {
                try {
-                   System.out.println(new MiembroDAO().removeMember(memberSelected.getId()));
+                   if(new MiembroDAO().removeMember(memberSelected.getId())) {
+                       membersListView.getItems().remove(memberSelected);
+                   }
                } catch (SQLException sqlException) {
                    Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
                }
            }
         }
-
-
     }
 
     private void getMembersFromDatabase() {

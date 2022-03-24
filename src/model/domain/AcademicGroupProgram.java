@@ -15,7 +15,6 @@ public class AcademicGroupProgram {
     private String adscriptionUnit;
     private String descriptionAdscription;
     private String adscriptionArea;
-    private List<Colaborator> colaborators;
     private List<LGAC> lgacList;
 
     public AcademicGroupProgram() {
@@ -109,14 +108,6 @@ public class AcademicGroupProgram {
         this.id = id;
     }
 
-    public List<Colaborator> getColaborators() {
-        return colaborators;
-    }
-
-    public void setColaborators(List<Colaborator> colaborators) {
-        this.colaborators = colaborators;
-    }
-
     public List<LGAC> getLgacList() {
         return lgacList;
     }
@@ -137,9 +128,8 @@ public class AcademicGroupProgram {
                 ", registerDate=" + registerDate +
                 ", lastEvaluationDate=" + lastEvaluationDate +
                 ", adscriptionUnit='" + adscriptionUnit + '\'' +
-                ", descriptionAscription='" + descriptionAdscription + '\'' +
+                ", descriptionAdscription='" + descriptionAdscription + '\'' +
                 ", adscriptionArea='" + adscriptionArea + '\'' +
-                ", colaborators=" + colaborators +
                 ", lgacList=" + lgacList +
                 '}';
     }

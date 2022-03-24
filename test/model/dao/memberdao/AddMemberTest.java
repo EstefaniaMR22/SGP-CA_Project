@@ -2,10 +2,7 @@ package model.dao.memberdao;
 
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
-import model.domain.Colaborator;
-import model.domain.Integrant;
 import model.domain.ParticipationType;
-import model.domain.Responsable;
 import model.domain.StudyGrade;
 import org.junit.Assert;
 import org.junit.Test;

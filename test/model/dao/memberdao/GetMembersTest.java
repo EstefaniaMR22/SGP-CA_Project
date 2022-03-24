@@ -64,4 +64,17 @@ public class GetMembersTest {
         Assert.assertEquals(expected, idMember);
     }
 
+    @Test
+    public void checkMemberTest() throws SQLException {
+        String personalNumber = "ADMIN";
+        boolean existMember = new MiembroDAO().checkMember(personalNumber);
+        Assert.assertTrue(existMember);
+    }
+
+    @Test
+    public void checkMemberByNoExistingPersonalNumber() throws SQLException {
+        String personalNumber = "noexist";
+        boolean existMember = new MiembroDAO().checkMember(personalNumber);
+        Assert.assertFalse(existMember);
+    }
 }

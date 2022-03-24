@@ -6,6 +6,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 
+/***
+ * Only for TextArea, TextField
+ */
 public class ValidatorTextInputControl extends Control implements IValidatorControlFX {
     private final TextInputControl component;
     private final String regexConstraint;
@@ -41,5 +44,10 @@ public class ValidatorTextInputControl extends Control implements IValidatorCont
     @Override
     public void setInvalidStyleClass() {
         component.getStyleClass().add("wrongTextInput");
+    }
+
+    @Override
+    public void clearStyleClass() {
+        component.getStyleClass().remove("wrongTextInput");
     }
 }

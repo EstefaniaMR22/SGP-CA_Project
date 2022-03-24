@@ -32,6 +32,15 @@ public class ValidatorController extends Controller {
         controlsMap.clear();
     }
 
+    /***
+     * This method clear the style to all the elements defined in LinkedHashMap Controlsmap.
+     */
+    public void clearStyleToInputs() {
+        for( Map.Entry<IValidatorControlFX, Boolean> entry : controlsMap.entrySet() ) {
+                entry.getKey().clearStyleClass();
+                controlsMap.put(entry.getKey(), false);
+        }
+    }
 
     /***
      * This method initialize a Listener to every component.

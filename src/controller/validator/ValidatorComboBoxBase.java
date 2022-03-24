@@ -34,4 +34,9 @@ public class ValidatorComboBoxBase extends Control implements IValidatorControlF
     public void setInvalidStyleClass() {
         component.getStyleClass().add("wrongInput");
     }
+
+    @Override
+    public void clearStyleClass() {
+        component.getStyleClass().remove("wrongInput");
+    }
 }

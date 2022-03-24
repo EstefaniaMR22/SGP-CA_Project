@@ -8,34 +8,24 @@ import java.util.List;
 public interface IMiembroDAO {
 
     /***
-     * Add Integrant to database
-     * <p>
-     * Add an Member as Integrant to database, include an Access Account.
-     * </p>
-     * @param integrant The member of the Academic Group Program
-     * @param password the account password.
-     * @return id representing the user's id in database.
-     */
-    int addMember(Integrant integrant, String password) throws SQLException;
-    /***
-     * Add Responsable to database
+     * Add Member to database including Account to system access.
      * <p>
      * Add an Member as Responsalbe to database, include an Access Account.
      * </p>
-     * @param responsable The member of the Academic Group Program
+     * @param member The member of the Academic Group Program
      * @param password the account password.
      * @return id representing the user's id in database.
      */
-    int addMember(Responsable responsable, String password) throws SQLException;
+    int addMember(Member member, String password) throws SQLException;
     /***
      * Add Colaborator to database
      * <p>
-     * Add an Member as Colaborator to database, include an Access Account.
+     * Add an Member as Colaborator to database.
      * </p>
      * @param colaborator The member of the Academic Group Program
      * @return int representing the user's id in database.
      */
-    int addMember(Colaborator colaborator) throws SQLException;
+    int addMember(Member colaborator) throws SQLException;
     /***
      * Get all the civil status
      * <p>
@@ -53,59 +43,23 @@ public interface IMiembroDAO {
      */
     List<Member> getMembers() throws SQLException;
     /***
-     * Get Integrant details from database.
+     * Get member details from database.
      * <p>
-     * Get all the details from Integrant.
+     * Get all the details from member
      * </p>
      * @param id The member ID.
-     * @return Integrant that contains some details.
+     * @return Member that contains more details.
      */
-    Integrant getIntegrantDetails(int id) throws SQLException;
+    Member getMemberDetails(int id) throws SQLException;
     /***
-     * Get Responsable details from database.
+     * Update member
      * <p>
-     * Get all the details from Responsable.
+     * Update the member data by newer information.
      * </p>
-     * @param id The member ID.
-     * @return Responsable that contains some details.
-     */
-    Responsable getResponsableDetails(int id) throws SQLException;
-    /***
-     * Get colaborators details from database.
-     * <p>
-     * Get all the details from colaborator
-     * </p>
-     * @param id The member ID.
-     * @return Colaborator that contains some details.
-     */
-    Colaborator getColaboratorDetails(int id) throws SQLException;
-    /***
-     * Update integrant.
-     * <p>
-     * Update the integrant data by newer information.
-     * </p>
-     * @param integrant that contains all the data
+     * @param member that contains all the data
      * @return true if integrant was updated otherwise it returns false
      */
-    boolean updateMember(Integrant integrant) throws SQLException;
-    /***
-     * Update Responsable
-     * <p>
-     * Update the responsable data by newer information.
-     * </p>
-     * @param responsable that contains all the data
-     * @return true if responsable was updated otherwise it returns false
-     */
-    boolean updateMember(Responsable responsable) throws SQLException;
-    /***
-     * Update colaborator
-     * <p>
-     * Update the colaborator data by newer information.
-     * </p>
-     * @param colaborator that contains all the data
-     * @return true if colaborator was updated otherwise it returns false
-     */
-    boolean updateMember(Colaborator colaborator) throws SQLException;
+    boolean updateMember(Member member) throws SQLException;
     /***
      * Remove Member
      * <p>

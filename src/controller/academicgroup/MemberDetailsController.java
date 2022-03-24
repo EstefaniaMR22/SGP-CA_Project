@@ -84,35 +84,26 @@ public class MemberDetailsController extends Controller implements Initializable
     }
 
     private void getMemberDetails() {
-        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
-            try {
-                memberSelected = new MiembroDAO().getIntegrantDetails(memberSelected.getId());
-                appointmentLabel.setText(((Integrant) memberSelected).getAppointment());
-                homeTelephoneLabel.setText(((Integrant) memberSelected).getHomeTelephone());
-                workTelephoneNumberLabel.setText(((Integrant) memberSelected).getWorkTelephone());
-                aditionalEmailLabel.setText(((Integrant) memberSelected).getAditionalEmail());
-            } catch (SQLException sqlException) {
-                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
-            }
-        } else if (memberSelected.getParticipationType() == ParticipationType.RESPONSABLE) {
-            try {
-                memberSelected = new MiembroDAO().getResponsableDetails(memberSelected.getId());
-                appointmentLabel.setText(((Responsable) memberSelected).getAppointment());
-                homeTelephoneLabel.setText(((Responsable) memberSelected).getHomeTelephone());
-                workTelephoneNumberLabel.setText(((Responsable) memberSelected).getWorkTelephone());
-                aditionalEmailLabel.setText(((Responsable) memberSelected).getAditionalEmail());
-            } catch (SQLException sqlException) {
-                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
-            }
-        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR ) {
-            try {
-                memberSelected = new MiembroDAO().getColaboratorDetails(memberSelected.getId());
-                studyAreaLabel.setText( ((Colaborator) memberSelected).getStudyArea());
-                studyGradeLabel.setText( ((Colaborator) memberSelected).getMaxStudyGrade().toString());
-            } catch (SQLException sqlException) {
-                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
-            }
-        }
+//        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
+//        } else if (memberSelected.getParticipationType() == ParticipationType.RESPONSABLE) {
+//            try {
+//                memberSelected = new MiembroDAO().getResponsableDetails(memberSelected.getId());
+//                appointmentLabel.setText(((Responsable) memberSelected).getAppointment());
+//                homeTelephoneLabel.setText(((Responsable) memberSelected).getHomeTelephone());
+//                workTelephoneNumberLabel.setText(((Responsable) memberSelected).getWorkTelephone());
+//                aditionalEmailLabel.setText(((Responsable) memberSelected).getAditionalEmail());
+//            } catch (SQLException sqlException) {
+//                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
+//            }
+//        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR ) {
+//            try {
+//                memberSelected = new MiembroDAO().getColaboratorDetails(memberSelected.getId());
+//                studyAreaLabel.setText( ((Colaborator) memberSelected).getStudyArea());
+//                studyGradeLabel.setText( ((Colaborator) memberSelected).getMaxStudyGrade().toString());
+//            } catch (SQLException sqlException) {
+//                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
+//            }
+//        }
     }
 
 }

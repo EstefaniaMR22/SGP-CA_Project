@@ -19,21 +19,14 @@ public class Member {
     private String birthState;
     private Date birthDate;
     private ParticipationType participationType;
+    private String appointment;
+    private String workTelephone;
+    private String homeTelephone;
+    private String aditionalEmail;
+    private String studyArea;
+    private StudyGrade maxStudyGrade;
 
     public Member() {
-    }
-
-    public Member(int id, String name, String maternalLastname, String paternalLastname, String nationality,
-                  String educationalProgram, String personalNumber, Date admissionDate, String rfc, String telephone,
-                  String curp, CivilStatus civilStatus, String uvEmail, String birthState, Date birthDate,
-                  ParticipationType participationType) {
-
-    }
-
-    public Member(ParticipationType participationType, String name, String maternalLastname, String paternalLastname, String uvEmail, String telephone) {
-    }
-
-    public Member(String rfc, String name, String maternalLastname, String paternalLastnam) {
     }
 
     public int getId() {
@@ -164,6 +157,54 @@ public class Member {
         this.birthDate = birthDate;
     }
 
+    public String getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(String appointment) {
+        this.appointment = appointment;
+    }
+
+    public String getWorkTelephone() {
+        return workTelephone;
+    }
+
+    public void setWorkTelephone(String workTelephone) {
+        this.workTelephone = workTelephone;
+    }
+
+    public String getHomeTelephone() {
+        return homeTelephone;
+    }
+
+    public void setHomeTelephone(String homeTelephone) {
+        this.homeTelephone = homeTelephone;
+    }
+
+    public String getAditionalEmail() {
+        return aditionalEmail;
+    }
+
+    public void setAditionalEmail(String aditionalEmail) {
+        this.aditionalEmail = aditionalEmail;
+    }
+
+    public String getStudyArea() {
+        return studyArea;
+    }
+
+    public void setStudyArea(String studyArea) {
+        this.studyArea = studyArea;
+    }
+
+    public StudyGrade getMaxStudyGrade() {
+        return maxStudyGrade;
+    }
+
+    public void setMaxStudyGrade(StudyGrade maxStudyGrade) {
+        this.maxStudyGrade = maxStudyGrade;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -183,6 +224,12 @@ public class Member {
                 ", birthState='" + birthState + '\'' +
                 ", birthDate=" + birthDate +
                 ", participationType=" + participationType +
+                ", appointment='" + appointment + '\'' +
+                ", workTelephone='" + workTelephone + '\'' +
+                ", homeTelephone='" + homeTelephone + '\'' +
+                ", aditionalEmail='" + aditionalEmail + '\'' +
+                ", studyArea='" + studyArea + '\'' +
+                ", maxStudyGrade=" + maxStudyGrade +
                 '}';
     }
 }

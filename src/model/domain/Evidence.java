@@ -22,9 +22,7 @@ public abstract class Evidence{
     private String projectName;
     private String evidenceType;
     private List<String> students;
-    private List<Integrant> integrants;
-    private List<Collaborator> collaborators;
-
+    private List<Member> integrants;
 
 
     public Evidence(){
@@ -128,25 +126,19 @@ public abstract class Evidence{
         this.students = students;
     }
 
+    public boolean isImpactAB() {
+        return impactAB;
+    }
 
-    public List<Integrant> getIntegrants(){
+    public List<Member> getIntegrants() {
         return integrants;
     }
 
-    public void setIntegrants(List<Integrant> integrants){
+    public void setIntegrants(List<Member> integrants) {
         this.integrants = integrants;
     }
 
 
-    public List<Collaborator> getCollaborators(){
-        return collaborators;
-    }
-
-    public void setCollaborators(List<Collaborator> collaborators){
-        this.collaborators = collaborators;
-    }
-
-    
     @Override
     public abstract String toString();
     public abstract Evidence getSpecificEvidenceInstance(String evidenceType, String evidenceTitle, 

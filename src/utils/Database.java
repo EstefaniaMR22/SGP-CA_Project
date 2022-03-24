@@ -18,7 +18,7 @@ public class Database {
      * @see DatabaseProperties
      */
     public Database() {
-        DatabaseProperties databaseProperties = new DatabaseProperties("databaseTest.properties");
+        DatabaseProperties databaseProperties = new DatabaseProperties("database.properties");
         Map<String, String> propertiesMap = databaseProperties.readProperties();
         user = propertiesMap.get("db.user");
         pass = propertiesMap.get("db.password");

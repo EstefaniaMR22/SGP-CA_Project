@@ -26,4 +26,10 @@ public class ValidatorToggleGroup extends Control implements IValidatorControlFX
     public void setInvalidStyleClass() throws Exception {
         throw new Exception("Debes seleccionar un tipo.");
     }
+
+    // RESOLVE INTERFACE SEGREGATION
+    @Override
+    public void clearStyleClass() {
+
+    }
 }

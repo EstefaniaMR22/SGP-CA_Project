@@ -2,11 +2,8 @@ package model.dao;
 
 import model.dao.interfaces.IMiembroDAO;
 import model.domain.CivilStatus;
-import model.domain.Colaborator;
-import model.domain.Integrant;
 import model.domain.Member;
 import model.domain.ParticipationType;
-import model.domain.Responsable;
 import model.domain.StudyGrade;
 import utils.Database;
 import utils.DateFormatter;
@@ -28,94 +25,63 @@ public class MiembroDAO implements IMiembroDAO {
     }
 
     /***
-     * Add Integrant to database
+     * Add Member to database including Account to system access.
      * <p>
-     * Add an Member as Integrant to database, include an Access Account.
+     * Add an Member as Responsalbe to database, include an Access Account.
      * </p>
-     * @param integrant The member of the Academic Group Program
+     * @param member The member of the Academic Group Program
      * @param password the account password.
      * @return id representing the user's id in database.
      */
     @Override
-    public int addMember(Integrant integrant, String password) throws SQLException {
+    public int addMember(Member member, String password) throws SQLException {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarResponsableIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
-            callableStatement.setString(1,integrant.getName());
-            callableStatement.setString(2, integrant.getPaternalLastname());
-            callableStatement.setString(3, integrant.getMaternalLastname());
-            callableStatement.setString(4, integrant.getNationality());
-            callableStatement.setString(5, integrant.getEducationalProgram());
-            callableStatement.setString(6, integrant.getPersonalNumber());
-            callableStatement.setString(7, integrant.getUvEmail());
-            callableStatement.setString(8, integrant.getRfc());
-            callableStatement.setString(9, integrant.getTelephone());
-            callableStatement.setString(10, integrant.getBirthState());
-            callableStatement.setString(11, integrant.getCurp());
-            callableStatement.setString(12, integrant.getCivilStatus().getCivilStatus());
-            callableStatement.setString(13, integrant.getAppointment());
-            callableStatement.setString(14, integrant.getHomeTelephone());
-            callableStatement.setString(15, integrant.getWorkTelephone());
-            callableStatement.setString(16, integrant.getAditionalEmail());
+            callableStatement.setString(1,member.getName());
+            callableStatement.setString(2,member.getPaternalLastname());
+            callableStatement.setString(3, member.getMaternalLastname());
+            callableStatement.setString(4, member.getNationality());
+            callableStatement.setString(5, member.getEducationalProgram());
+            callableStatement.setString(6, member.getPersonalNumber());
+            callableStatement.setString(7, member.getUvEmail());
+            callableStatement.setString(8, member.getRfc());
+            callableStatement.setString(9, member.getTelephone());
+            callableStatement.setString(10, member.getBirthState());
+            callableStatement.setString(11, member.getCurp());
+            callableStatement.setString(12, member.getCivilStatus().getCivilStatus());
+            callableStatement.setString(13, member.getAppointment());
+            callableStatement.setString(14, member.getHomeTelephone());
+            callableStatement.setString(15, member.getWorkTelephone());
+            callableStatement.setString(16, member.getAditionalEmail());
             callableStatement.setString(17, password);
-            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(integrant.getAdmissionDate()));
-            callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(integrant.getBirthDate()));
-            callableStatement.registerOutParameter(20, Types.INTEGER);
+            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(member.getAdmissionDate()));
+            callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(member.getBirthDate()));
+            callableStatement.setString(20, member.getStudyArea());
+            callableStatement.setString(21, member.getMaxStudyGrade().getStudyGrade());
+            callableStatement.setString(22, member.getParticipationType().getParticipationType());
+            callableStatement.registerOutParameter(23, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(20);
+            idMember = callableStatement.getInt(23);
         }
         return idMember;
     }
     /***
-     * Add Responsable to database
+     * Add Colaborator to database
      * <p>
-     * Add an Member as Responsalbe to database, include an Access Account.
+     * Add an Member as Colaborator to database.
      * </p>
-     * @param responsable The member of the Academic Group Program
-     * @param password the account password.
-     * @return id representing the user's id in database.
+     * @param colaborator The member of the Academic Group Program
+     * @return int representing the user's id in database.
      */
     @Override
-    public int addMember(Responsable responsable, String password) throws SQLException {
+    public int addMember(Member colaborator) throws SQLException {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarResponsable(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            CallableStatement callableStatement = conn.prepareCall(statement);
-            callableStatement.setString(1,responsable.getName());
-            callableStatement.setString(2,responsable.getPaternalLastname());
-            callableStatement.setString(3, responsable.getMaternalLastname());
-            callableStatement.setString(4, responsable.getNationality());
-            callableStatement.setString(5, responsable.getEducationalProgram());
-            callableStatement.setString(6, responsable.getPersonalNumber());
-            callableStatement.setString(7, responsable.getUvEmail());
-            callableStatement.setString(8, responsable.getRfc());
-            callableStatement.setString(9, responsable.getTelephone());
-            callableStatement.setString(10, responsable.getBirthState());
-            callableStatement.setString(11, responsable.getCurp());
-            callableStatement.setString(12, responsable.getCivilStatus().getCivilStatus());
-            callableStatement.setString(13, responsable.getAppointment());
-            callableStatement.setString(14, responsable.getHomeTelephone());
-            callableStatement.setString(15, responsable.getWorkTelephone());
-            callableStatement.setString(16, responsable.getAditionalEmail());
-            callableStatement.setString(17, password);
-            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(responsable.getAdmissionDate()));
-            callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(responsable.getBirthDate()));
-            callableStatement.registerOutParameter(20, Types.INTEGER);
-            callableStatement.execute();
-            idMember = callableStatement.getInt(20);
-        }
-        return idMember;
-    }
-
-    @Override
-    public int addMember(Colaborator colaborator) throws SQLException {
-        int idMember = -1;
-        try(Connection conn = database.getConnection() ) {
-            conn.setAutoCommit(false);
-            String statement = "CALL agregarColaborador(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarColaborador(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
             callableStatement.setString(1,colaborator.getName());
             callableStatement.setString(2,colaborator.getPaternalLastname());
@@ -129,13 +95,18 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setString(10, colaborator.getBirthState());
             callableStatement.setString(11, colaborator.getCurp());
             callableStatement.setString(12, colaborator.getCivilStatus().getCivilStatus());
-            callableStatement.setString(13, colaborator.getStudyArea());
-            callableStatement.setString(14, colaborator.getMaxStudyGrade().getStudyGrade());
-            callableStatement.setDate(15, DateFormatter.convertUtilDateToSQLDate(colaborator.getAdmissionDate()));
-            callableStatement.setDate(16, DateFormatter.convertUtilDateToSQLDate(colaborator.getBirthDate()));
-            callableStatement.registerOutParameter(17, Types.INTEGER);
+            callableStatement.setString(13, colaborator.getAppointment());
+            callableStatement.setString(14, colaborator.getHomeTelephone());
+            callableStatement.setString(15, colaborator.getWorkTelephone());
+            callableStatement.setString(16, colaborator.getAditionalEmail());
+            callableStatement.setDate(17, DateFormatter.convertUtilDateToSQLDate(colaborator.getAdmissionDate()));
+            callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(colaborator.getBirthDate()));
+            callableStatement.setString(19, colaborator.getStudyArea());
+            callableStatement.setString(20, colaborator.getMaxStudyGrade().getStudyGrade());
+            callableStatement.setString(21, colaborator.getParticipationType().getParticipationType());
+            callableStatement.registerOutParameter(22, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(17);
+            idMember = callableStatement.getInt(22);
         }
         return idMember;
     }
@@ -198,170 +169,52 @@ public class MiembroDAO implements IMiembroDAO {
         return memberList;
     }
     /***
-     * Get Integrant details from database.
+     * Update member
      * <p>
-     * Get all the details from Integrant.
+     * Update the member data by newer information.
      * </p>
-     * @param id The member ID.
-     * @return Integrant that contains some details.
-     */
-    @Override
-    public Integrant getIntegrantDetails(int id) throws SQLException {
-        Integrant integrant = null;
-        try(Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Integrante WHERE id_miembro = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                integrant = new Integrant();
-                getMemberData(integrant,id);
-                integrant.setAppointment(resultSet.getString("nombramiento"));
-                integrant.setHomeTelephone(resultSet.getString("telefono_casa"));
-                integrant.setWorkTelephone(resultSet.getString("telefono_trabajo"));
-                integrant.setAditionalEmail(resultSet.getString("correo_adicional"));
-            }
-        }
-        return integrant;
-    }
-    /***
-     * Get Responsable details from database.
-     * <p>
-     * Get all the details from Responsable.
-     * </p>
-     * @param id The member ID.
-     * @return Responsable that contains some details.
-     */
-    @Override
-    public Responsable getResponsableDetails(int id) throws SQLException {
-        Responsable responsable = null;
-        try(Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Responsable WHERE id_miembro = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                responsable = new Responsable();
-                getMemberData(responsable, id);
-                responsable.setAppointment(resultSet.getString("nombramiento"));
-                responsable.setHomeTelephone(resultSet.getString("telefono_casa"));
-                responsable.setWorkTelephone(resultSet.getString("telefono_trabajo"));
-                responsable.setAditionalEmail(resultSet.getString("correo_adicional"));
-            }
-        }
-        return responsable;
-    }
-    /***
-     * Update integrant.
-     * <p>
-     * Update the integrant data by newer information.
-     * </p>
-     * @param integrant that contains all the data
+     * @param member that contains all the data
      * @return true if integrant was updated otherwise it returns false
      */
     @Override
-    public boolean updateMember(Integrant integrant) throws SQLException {
+    public boolean updateMember(Member member) throws SQLException {
         boolean isUpdated = false;
         try(Connection conn = database.getConnection() ) {
             int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ?, fecha_nacimiento = ?, fecha_ingreso = ? WHERE id = ?";
+            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ?, fecha_nacimiento = ?, fecha_ingreso = ?, area_estudio = ?, grado_estudios = ?, nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
-            preparedStatement.setString(1, integrant.getName());
-            preparedStatement.setString(2, integrant.getPaternalLastname());
-            preparedStatement.setString(3, integrant.getMaternalLastname());
-            preparedStatement.setString(4, integrant.getNationality());
-            preparedStatement.setString(5, integrant.getEducationalProgram());
-            preparedStatement.setString(6, integrant.getPersonalNumber());
-            preparedStatement.setString(7, integrant.getRfc());
-            preparedStatement.setString(8, integrant.getTelephone());
-            preparedStatement.setString(9, integrant.getBirthState());
-            preparedStatement.setString(10, integrant.getCurp());
-            preparedStatement.setString(11, integrant.getCivilStatus().getCivilStatus());
-            preparedStatement.setString(12, integrant.getUvEmail());
-            preparedStatement.setDate(13, DateFormatter.convertUtilDateToSQLDate(integrant.getBirthDate()));
-            preparedStatement.setDate(14, DateFormatter.convertUtilDateToSQLDate(integrant.getAdmissionDate()));
-            preparedStatement.setInt(15, integrant.getId());
+            preparedStatement.setString(1, member.getName());
+            preparedStatement.setString(2, member.getPaternalLastname());
+            preparedStatement.setString(3, member.getMaternalLastname());
+            preparedStatement.setString(4, member.getNationality());
+            preparedStatement.setString(5, member.getEducationalProgram());
+            preparedStatement.setString(6, member.getPersonalNumber());
+            preparedStatement.setString(7, member.getRfc());
+            preparedStatement.setString(8, member.getTelephone());
+            preparedStatement.setString(9, member.getBirthState());
+            preparedStatement.setString(10, member.getCurp());
+            preparedStatement.setString(11, member.getCivilStatus().getCivilStatus());
+            preparedStatement.setString(12, member.getUvEmail());
+            preparedStatement.setDate(13, DateFormatter.convertUtilDateToSQLDate(member.getBirthDate()));
+            preparedStatement.setDate(14, DateFormatter.convertUtilDateToSQLDate(member.getAdmissionDate()));
+            preparedStatement.setString(15, member.getStudyArea());
+            preparedStatement.setString(16, member.getMaxStudyGrade().getStudyGrade());
+            preparedStatement.setString(17, member.getAppointment());
+            preparedStatement.setString(18, member.getHomeTelephone());
+            preparedStatement.setString(19, member.getWorkTelephone());
+            preparedStatement.setString(20, member.getAditionalEmail());
+            preparedStatement.setInt(21, member.getId());
             rowsAffected = preparedStatement.executeUpdate();
-            String updateIntegranteStatement = "UPDATE Integrante SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
-            preparedStatement = conn.prepareStatement(updateIntegranteStatement);
-            preparedStatement.setString(1, integrant.getAppointment());
-            preparedStatement.setString(2, integrant.getHomeTelephone());
-            preparedStatement.setString(3, integrant.getWorkTelephone());
-            preparedStatement.setString(4, integrant.getAditionalEmail());
-            preparedStatement.setInt(5, integrant.getId());
-            rowsAffected += preparedStatement.executeUpdate();
             String updateCuentaStatement = "UPDATE Cuenta SET email = ? WHERE id_miembro = ?";
             preparedStatement = conn.prepareStatement(updateCuentaStatement);
-            preparedStatement.setString(1,integrant.getUvEmail());
-            preparedStatement.setInt(2, integrant.getId());
+            preparedStatement.setString(1,member.getUvEmail());
+            preparedStatement.setInt(2, member.getId());
             rowsAffected += preparedStatement.executeUpdate();
             isUpdated = rowsAffected > 0;
             conn.commit();
         }
         return isUpdated;
-    }
-    /***
-     * Update Responsable
-     * <p>
-     * Update the responsable data by newer information.
-     * </p>
-     * @param responsable that contains all the data
-     * @return true if responsable was updated otherwise it returns false
-     */
-    @Override
-    public boolean updateMember(Responsable responsable) throws SQLException {
-        boolean isUpdated = false;
-        try(Connection conn = database.getConnection() ) {
-            int rowsAffected = 0;
-            conn.setAutoCommit(false);
-            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ? WHERE id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
-            preparedStatement.setString(1, responsable.getName());
-            preparedStatement.setString(2, responsable.getPaternalLastname());
-            preparedStatement.setString(3, responsable.getMaternalLastname());
-            preparedStatement.setString(4, responsable.getNationality());
-            preparedStatement.setString(5, responsable.getEducationalProgram());
-            preparedStatement.setString(6, responsable.getPersonalNumber());
-            preparedStatement.setString(7, responsable.getRfc());
-            preparedStatement.setString(8, responsable.getTelephone());
-            preparedStatement.setString(9, responsable.getBirthState());
-            preparedStatement.setString(10, responsable.getCurp());
-            preparedStatement.setString(11, responsable.getCivilStatus().getCivilStatus());
-            preparedStatement.setString(12, responsable.getUvEmail());
-            preparedStatement.setDate(13, DateFormatter.convertUtilDateToSQLDate(responsable.getBirthDate()));
-            preparedStatement.setDate(14, DateFormatter.convertUtilDateToSQLDate(responsable.getAdmissionDate()));
-            preparedStatement.setInt(15, responsable.getId());
-            rowsAffected = preparedStatement.executeUpdate();
-            String updateResponsableStatement = "UPDATE Responsable SET nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id_miembro = ?";
-            preparedStatement = conn.prepareStatement(updateResponsableStatement);
-            preparedStatement.setString(1, responsable.getAppointment());
-            preparedStatement.setString(2, responsable.getHomeTelephone());
-            preparedStatement.setString(3, responsable.getWorkTelephone());
-            preparedStatement.setString(4, responsable.getAditionalEmail());
-            preparedStatement.setInt(5, responsable.getId());
-            rowsAffected += preparedStatement.executeUpdate();
-            String updateCuentaStatement = "UPDATE Cuenta SET email = ? WHERE id_miembro = ?";
-            preparedStatement = conn.prepareStatement(updateCuentaStatement);
-            preparedStatement.setString(1,responsable.getUvEmail());
-            preparedStatement.setInt(2, responsable.getId());
-            rowsAffected += preparedStatement.executeUpdate();
-            isUpdated = rowsAffected > 0;
-            conn.commit();
-        }
-        return isUpdated;
-    }
-    /***
-     * Update colaborator
-     * <p>
-     * Update the colaborator data by newer information.
-     * </p>
-     * @param colaborator that contains all the data
-     * @return true if colaborator was updated otherwise it returns false
-     */
-    @Override
-    public boolean updateMember(Colaborator colaborator) throws SQLException {
-        return false;
     }
     /***
      * Remove Member
@@ -417,6 +270,12 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
                 member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
                 member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
+                member.setAppointment(resultSet.getString("nombramiento"));
+                member.setHomeTelephone(resultSet.getString("telefono_casa"));
+                member.setWorkTelephone(resultSet.getString("telefono_trabajo"));
+                member.setAditionalEmail(resultSet.getString("correo_adicional"));
+                member.setStudyArea(resultSet.getString("area_estudio"));
+                member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
             }
         }
         return member;
@@ -476,49 +335,17 @@ public class MiembroDAO implements IMiembroDAO {
         return memberAlreadyExist;
     }
 
+    /***
+     * Get member details from database.
+     * <p>
+     * Get all the details from member
+     * </p>
+     * @param id The member ID.
+     * @return Member that contains more details.
+     */
     @Override
-    public Colaborator getColaboratorDetails(int id) throws SQLException {
-        Colaborator colaborator = null;
-        try(Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Colaborador WHERE id_miembro = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                colaborator = new Colaborator();
-                getMemberData(colaborator, id);
-                colaborator.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
-                colaborator.setStudyArea(resultSet.getString("area_estudio"));
-            }
-        }
-        return colaborator;
-    }
-
-    private void getMemberData(Member member, int id) throws SQLException {
-        try (Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Miembro WHERE id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(statement);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                member.setId(resultSet.getInt("id"));
-                member.setName(resultSet.getString("nombre"));
-                member.setPaternalLastname(resultSet.getString("apellido_paterno"));
-                member.setMaternalLastname(resultSet.getString("apellido_materno"));
-                member.setNationality(resultSet.getString("nacionalidad"));
-                member.setEducationalProgram(resultSet.getString("programa_educativo"));
-                member.setPersonalNumber(resultSet.getString("numero_personal"));
-                member.setRfc(resultSet.getString("rfc"));
-                member.setTelephone(resultSet.getString("telefono"));
-                member.setBirthState(resultSet.getString("estado"));
-                member.setCurp(resultSet.getString("curp"));
-                member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
-                member.setUvEmail(resultSet.getString("email"));
-                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
-                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
-                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
-            }
-        }
+    public Member getMemberDetails(int id) throws SQLException {
+        return null;
     }
 
     private StudyGrade getStudyGradeType(String studyGradeType) {

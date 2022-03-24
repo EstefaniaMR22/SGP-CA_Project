@@ -1,6 +1,6 @@
 package controller.academicgroup;
 
-import controller.Controller;
+import controller.AlertController;
 import controller.ValidatorController;
 import controller.validator.*;
 import javafx.collections.FXCollections;
@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import model.dao.MiembroDAO;
 import model.domain.*;
 import utils.DateFormatter;
+import utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -50,6 +51,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @FXML private DatePicker birthDateDatePicker;
     @FXML private ComboBox<StudyGrade> studyGradeComboBox;
     @FXML private TextField studyAreaTextField;
+    @FXML private Label systemLabel;
 
     public ModifyMemberController(Member member) {
         this.memberSelected = member;
@@ -73,14 +75,14 @@ public class ModifyMemberController extends ValidatorController implements Initi
 
     @FXML
     void ModifyMemberOnAction(ActionEvent event) {
-        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT ) {
-            updateIntegrant();
-        } else if( memberSelected.getParticipationType() == ParticipationType.RESPONSABLE){
-            updateResponsable();
-        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR) {
-            // Example
-        } else {
-            // Example
+        try {
+            if (validateInputs()) {
+                updateMember();
+            } else {
+                systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
+            }
+        } catch (Exception e) {
+            systemLabel.setText(e.getLocalizedMessage());
         }
     }
 
@@ -89,62 +91,33 @@ public class ModifyMemberController extends ValidatorController implements Initi
         stage.close();
     }
 
-    private void updateIntegrant() {
+    private void updateMember() {
         boolean isUpdated = false;
-        Integrant integrante = new Integrant();
-        integrante.setId(memberSelected.getId());
-        integrante.setName(nameTextField.getText());
-        integrante.setPaternalLastname(paternalLastnameTextField.getText());
-        integrante.setMaternalLastname(maternalLastnameTextField.getText());
-        integrante.setNationality(nationalityTextField.getText());
-        integrante.setCivilStatus(civilStatusComboBox.getValue());
-        integrante.setCurp(curpTextField.getText());
-        integrante.setTelephone(telephoneTextField.getText());
-        integrante.setRfc(rfcTextField.getText());
-        integrante.setBirthState(stateTextField.getText());
-        integrante.setPersonalNumber(personalNumberTextField.getText());
-        integrante.setUvEmail(uvEmailTextField.getText());
-        integrante.setEducationalProgram(educationalProgramTextField.getText());
-        integrante.setHomeTelephone(homePhoneNumberTextField.getText());
-        integrante.setWorkTelephone(workTelephoneTextField.getText());
-        integrante.setAditionalEmail(aditionalEmailTextField.getText());
-        integrante.setAppointment(appointmentTextField.getText());
-        integrante.setParticipationType(ParticipationType.INTEGRANT);
-        integrante.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
-        integrante.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
+        Member member = new Member();
+        member.setName(nameTextField.getText());
+        member.setPaternalLastname(paternalLastnameTextField.getText());
+        member.setMaternalLastname(maternalLastnameTextField.getText());
+        member.setNationality(nationalityTextField.getText());
+        member.setCivilStatus(civilStatusComboBox.getValue());
+        member.setCurp(curpTextField.getText());
+        member.setTelephone(telephoneTextField.getText());
+        member.setRfc(rfcTextField.getText());
+        member.setBirthState(stateTextField.getText());
+        member.setPersonalNumber(personalNumberTextField.getText());
+        member.setUvEmail(uvEmailTextField.getText());
+        member.setEducationalProgram(educationalProgramTextField.getText());
+        member.setHomeTelephone(homePhoneNumberTextField.getText());
+        member.setWorkTelephone(workTelephoneTextField.getText());
+        member.setAditionalEmail(aditionalEmailTextField.getText());
+        member.setAppointment(appointmentTextField.getText());
+        member.setParticipationType((ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData());
+        member.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
+        member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
+        member.setMaxStudyGrade(studyGradeComboBox.getValue());
+        member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
+        member.setStudyArea(studyAreaTextField.getText());
         try {
-            isUpdated = new MiembroDAO().updateMember(integrante);
-        } catch(SQLException sqlException) {
-            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
-        System.out.println(isUpdated);
-    }
-
-    private void updateResponsable() {
-        boolean isUpdated = false;
-        Responsable responsable = new Responsable();
-        responsable.setId(memberSelected.getId());
-        responsable.setName(nameTextField.getText());
-        responsable.setPaternalLastname(paternalLastnameTextField.getText());
-        responsable.setMaternalLastname(maternalLastnameTextField.getText());
-        responsable.setNationality(nationalityTextField.getText());
-        responsable.setCivilStatus(civilStatusComboBox.getValue());
-        responsable.setCurp(curpTextField.getText());
-        responsable.setTelephone(telephoneTextField.getText());
-        responsable.setRfc(rfcTextField.getText());
-        responsable.setBirthState(stateTextField.getText());
-        responsable.setPersonalNumber(personalNumberTextField.getText());
-        responsable.setUvEmail(uvEmailTextField.getText());
-        responsable.setEducationalProgram(educationalProgramTextField.getText());
-        responsable.setHomeTelephone(homePhoneNumberTextField.getText());
-        responsable.setWorkTelephone(workTelephoneTextField.getText());
-        responsable.setAditionalEmail(aditionalEmailTextField.getText());
-        responsable.setAppointment(appointmentTextField.getText());
-        responsable.setParticipationType(ParticipationType.RESPONSABLE);
-        responsable.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
-        responsable.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
-        try {
-            isUpdated = new MiembroDAO().updateMember(responsable);
+            isUpdated = new MiembroDAO().updateMember(member);
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
@@ -155,11 +128,30 @@ public class ModifyMemberController extends ValidatorController implements Initi
         List<CivilStatus> civilStatusList = new ArrayList<>();
         try {
             civilStatusList = new MiembroDAO().getCivilStatus();
-        } catch(SQLException sqlException) {
+        } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
         civilStatusComboBox.setItems(civilStatusObservableList);
+    }
+
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.showConnectionErrorAlert();
+        }
+        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+    }
+
+    private void getStudyGradesFromDatabase() {
+        List<StudyGrade> studyGradeList = new ArrayList<>();
+        try {
+            studyGradeList = new MiembroDAO().getStudyGrades();
+        } catch (SQLException sqlException) {
+            deterMinateSQLState(sqlException);
+        }
+        ObservableList<StudyGrade> studyGradeObservableList = FXCollections.observableArrayList(studyGradeList);
+        studyGradeComboBox.setItems(studyGradeObservableList);
     }
 
     private void setMemberDataIntoFields() {
@@ -178,33 +170,25 @@ public class ModifyMemberController extends ValidatorController implements Initi
         birthDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getBirthDate()));
         admissionDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getAdmissionDate()));
         //typeParticipationToggleGroup.
-        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
-            homePhoneNumberTextField.setText(((Integrant) memberSelected).getHomeTelephone());
-            workTelephoneTextField.setText(((Integrant) memberSelected).getWorkTelephone());
-            aditionalEmailTextField.setText(((Integrant) memberSelected).getAditionalEmail());
-            appointmentTextField.setText(((Integrant) memberSelected).getAppointment());
-        } else if(memberSelected.getParticipationType() == ParticipationType.RESPONSABLE) {
-            homePhoneNumberTextField.setText(((Responsable) memberSelected).getHomeTelephone());
-            workTelephoneTextField.setText(((Responsable) memberSelected).getWorkTelephone());
-            aditionalEmailTextField.setText(((Responsable) memberSelected).getAditionalEmail());
-            appointmentTextField.setText(((Responsable) memberSelected).getAppointment());
-        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR) {
-            studyGradeComboBox.getSelectionModel().select( ((Colaborator) memberSelected).getMaxStudyGrade());
-            studyAreaTextField.setText(((Colaborator) memberSelected).getStudyArea());
-        }
+        homePhoneNumberTextField.setText(memberSelected.getHomeTelephone());
+        workTelephoneTextField.setText(memberSelected.getWorkTelephone());
+        aditionalEmailTextField.setText(memberSelected.getAditionalEmail());
+        appointmentTextField.setText(memberSelected.getAppointment());
+        studyGradeComboBox.getSelectionModel().select(memberSelected.getMaxStudyGrade());
+        studyAreaTextField.setText(memberSelected.getStudyArea());
     }
 
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateBirthDate = a -> {
             LocalDate now = LocalDate.now();
             now = now.minusYears(Validator.MIN_YEARS_OLD);
-            return now.compareTo( (LocalDate) a) >= 0;
+            return now.compareTo((LocalDate) a) >= 0;
         };
 
         Function<Object, Boolean> validateAdmissionDate = a -> {
             return DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
         };
-        addComponentToValidator(new ValidatorToggleGroup(typeParticipationToggleGroup, this), false);
+        //addComponentToValidator(new ValidatorToggleGroup(typeParticipationToggleGroup, this), false);
         addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(paternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(maternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
@@ -218,7 +202,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
         addComponentToValidator(new ValidatorTextInputControl(educationalProgramTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(stateTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(birthDateDatePicker, this, validateBirthDate), false);
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(admissionDateDatePicker, this, validateAdmissionDate),false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(admissionDateDatePicker, this, validateAdmissionDate), false);
         addComponentToValidator(new ValidatorTextInputControl(homePhoneNumberTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
         addComponentToValidator(new ValidatorTextInputControl(workTelephoneTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
         addComponentToValidator(new ValidatorTextInputControl(aditionalEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
