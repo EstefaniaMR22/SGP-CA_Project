@@ -102,6 +102,13 @@ public interface IMiembroDAO {
      * @return true if member already existe in database otherwise false.
      */
     boolean checkMember(String personalNumber) throws SQLException;
-
+    /***
+     * Get all educational Programs.
+     * <p>
+     *  Get a list with all registered educational program in database.
+     * </p>
+     * @return List that contains strings of educational program.
+     */
+    List<String> getAllEducationProgram() throws SQLException;
 
 }

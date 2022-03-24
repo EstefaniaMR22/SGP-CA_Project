@@ -3,6 +3,7 @@ package controller;
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.MemberDetailsController;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import model.dao.MiembroDAO;
 import model.domain.Member;
+import model.domain.ParticipationType;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,13 +27,16 @@ public class AdministratorController extends Controller implements Initializable
     @FXML private ListView<Member> membersListView;
     @FXML private Button searchButton;
     @FXML private TextField searchTextField;
-    @FXML private Label totalIntegrantsTextField;
-    @FXML private Label totalMembersTextField;
-    @FXML private Label totalResponsablesTextField;
+    @FXML private Label totalIntegrantsLabel;
+    @FXML private Label totalMembersLabel;
+    @FXML private Label totalResponsablesLabel;
+    @FXML private Label totalOtherUsersLabel;
+    @FXML private Label totalColaboratorsLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getMembersFromDatabase();
+        initializeListViewListener();
     }
 
     public void showStage() {
@@ -83,9 +88,43 @@ public class AdministratorController extends Controller implements Initializable
         try {
             memberList = new MiembroDAO().getMembers();
             ObservableList<Member> observableList = FXCollections.observableArrayList(memberList);
+            countIntegrants(observableList);
             membersListView.setItems(observableList);
         } catch(SQLException sqlException) {
             Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
+        };
     }
+
+    private void initializeListViewListener() {
+        membersListView.getItems().addListener(new ListChangeListener<Member>() {
+            @Override
+            public void onChanged(Change<? extends Member> c) {
+                countIntegrants(membersListView.getItems());
+            }
+        });
+    }
+
+    private void countIntegrants(ObservableList<Member> members) {
+        int integrants = 0;
+        int colaborators = 0;
+        int responsables = 0;
+        int otherUsers = 0;
+        for (Member member : members) {
+            if(member.getParticipationType() == ParticipationType.INTEGRANT) {
+                integrants++;
+            } else if(member.getParticipationType() == ParticipationType.COLABORATOR ) {
+                colaborators++;
+            } else if(member.getParticipationType() == ParticipationType.RESPONSABLE ) {
+                responsables++;
+            } else {
+                otherUsers++;
+            }
+        }
+        totalOtherUsersLabel.setText(String.valueOf(otherUsers));
+        totalColaboratorsLabel.setText(String.valueOf(colaborators));
+        totalResponsablesLabel.setText(String.valueOf(responsables));
+        totalIntegrantsLabel.setText(String.valueOf(integrants));
+        totalMembersLabel.setText(String.valueOf(integrants + colaborators + responsables + otherUsers));
+    }
+
 }

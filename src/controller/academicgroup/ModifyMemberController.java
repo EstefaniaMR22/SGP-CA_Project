@@ -67,6 +67,10 @@ public class ModifyMemberController extends ValidatorController implements Initi
         getCivilStatesFromDatabase();
     }
 
+    public Member getMemberSelected() {
+        return memberSelected;
+    }
+
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ModifyMemberView.fxml"), this);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -92,7 +96,6 @@ public class ModifyMemberController extends ValidatorController implements Initi
     }
 
     private void updateMember() {
-        boolean isUpdated = false;
         Member member = new Member();
         member.setName(nameTextField.getText());
         member.setPaternalLastname(paternalLastnameTextField.getText());
@@ -117,11 +120,12 @@ public class ModifyMemberController extends ValidatorController implements Initi
         member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         member.setStudyArea(studyAreaTextField.getText());
         try {
-            isUpdated = new MiembroDAO().updateMember(member);
+            if( new MiembroDAO().updateMember(member) ) {
+                memberSelected = member;
+            }
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-        System.out.println(isUpdated);
     }
 
     private void getCivilStatesFromDatabase() {

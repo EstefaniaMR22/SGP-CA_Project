@@ -43,8 +43,8 @@ public class AddMemberController extends ValidatorController implements Initiali
     @FXML private TextField aditionalEmailTextField;
     @FXML private TextField appointmentTextField;
     @FXML private ComboBox<CivilStatus> civilStatusComboBox;
+    @FXML private ComboBox<String> educationalProgramComboBox;
     @FXML private TextField curpTextField;
-    @FXML private TextField educationalProgramTextField;
     @FXML private TextField homePhoneNumberTextField;
     @FXML private TextField maternalLastnameTextField;
     @FXML private TextField nameTextField;
@@ -72,6 +72,7 @@ public class AddMemberController extends ValidatorController implements Initiali
         setValuesToToggleButtons();
         getCivilStatesFromDatabase();
         getStudyGradesFromDatabase();
+        getEducationProgramFromDatabase();
         initMemberTypeListener();
         disableMemberInput(true);
     }
@@ -170,6 +171,17 @@ public class AddMemberController extends ValidatorController implements Initiali
         studyGradeComboBox.setItems(studyGradeObservableList);
     }
 
+    private void getEducationProgramFromDatabase() {
+        List<String> educationalProgramList = new ArrayList<>();
+        try {
+            educationalProgramList = new MiembroDAO().getAllEducationProgram();
+        } catch (SQLException sqlException ) {
+            deterMinateSQLState(sqlException);
+        }
+        ObservableList<String> educationalProgramObservableList = FXCollections.observableArrayList(educationalProgramList);
+        educationalProgramComboBox.setItems(educationalProgramObservableList);
+    }
+
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
@@ -220,7 +232,7 @@ public class AddMemberController extends ValidatorController implements Initiali
         addComponentToValidator(new ValidatorTextInputControl(rfcTextField, Validator.PATTERN_RFC, Validator.LENGTH_RFC, this), false);
         addComponentToValidator(new ValidatorTextInputControl(personalNumberTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(uvEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(educationalProgramTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(educationalProgramComboBox, this), false);
         addComponentToValidator(new ValidatorTextInputControl(stateTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(birthDateDatePicker, this, validateBirthDate), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(admissionDateDatePicker, this, validateAdmissionDate), false);
@@ -244,7 +256,7 @@ public class AddMemberController extends ValidatorController implements Initiali
         rfcTextField.setDisable(state);
         personalNumberTextField.setDisable(state);
         uvEmailTextField.setDisable(state);
-        educationalProgramTextField.setDisable(state);
+        educationalProgramComboBox.setDisable(state);
         stateTextField.setDisable(state);
         birthDateDatePicker.setDisable(state);
         admissionDateDatePicker.setDisable(state);
@@ -276,7 +288,7 @@ public class AddMemberController extends ValidatorController implements Initiali
         member.setBirthState(stateTextField.getText());
         member.setPersonalNumber(personalNumberTextField.getText());
         member.setUvEmail(uvEmailTextField.getText());
-        member.setEducationalProgram(educationalProgramTextField.getText());
+        member.setEducationalProgram(educationalProgramComboBox.getValue());
         member.setHomeTelephone(homePhoneNumberTextField.getText());
         member.setWorkTelephone(workTelephoneTextField.getText());
         member.setAditionalEmail(aditionalEmailTextField.getText());

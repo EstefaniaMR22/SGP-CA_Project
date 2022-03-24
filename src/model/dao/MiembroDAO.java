@@ -163,6 +163,12 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
                 member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
                 member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
+                member.setAppointment(resultSet.getString("nombramiento"));
+                member.setHomeTelephone(resultSet.getString("telefono_casa"));
+                member.setWorkTelephone(resultSet.getString("telefono_trabajo"));
+                member.setAditionalEmail(resultSet.getString("correo_adicional"));
+                member.setStudyArea(resultSet.getString("area_estudio"));
+                member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
                 memberList.add(member);
             }
         }
@@ -346,6 +352,27 @@ public class MiembroDAO implements IMiembroDAO {
     @Override
     public Member getMemberDetails(int id) throws SQLException {
         return null;
+    }
+    /***
+     * Get all educational Programs.
+     * <p>
+     *  Get a list with all registered educational program in database.
+     * </p>
+     * @return List that contains strings of educational program.
+     */
+    @Override
+    public List<String> getAllEducationProgram() throws SQLException {
+        List<String> educationalProgramList = null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM ProgramaEducativo ORDER BY programa_educativo ASC";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            educationalProgramList = new ArrayList<>();
+            while(resultSet.next()) {
+                educationalProgramList.add(resultSet.getString(1));
+            }
+        }
+        return educationalProgramList;
     }
 
     private StudyGrade getStudyGradeType(String studyGradeType) {

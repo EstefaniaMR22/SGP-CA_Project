@@ -5,14 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.Member;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MemberDetailsController extends Controller implements Initializable {
     private Member memberSelected;
@@ -40,9 +36,9 @@ public class MemberDetailsController extends Controller implements Initializable
     @FXML private Label birtdateLabel;
     @FXML private Label studyAreaLabel;
     @FXML private Label studyGradeLabel;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        getMemberDetails();
         setMemberDataToTextField();
     }
 
@@ -78,32 +74,12 @@ public class MemberDetailsController extends Controller implements Initializable
         stateLabel.setText(memberSelected.getBirthState());
         typeMemberLabel.setText(memberSelected.getParticipationType().getParticipationType());
         nationalityLabel.setText(memberSelected.getNationality());
-        // Ternary operator here!
-        admissionDateLabel.setText(memberSelected.getAdmissionDate() != null ?  memberSelected.getAdmissionDate().toString() : null );
-        birtdateLabel.setText(memberSelected.getBirthDate() != null ? memberSelected.getBirthState().toString() : null);
+        admissionDateLabel.setText(memberSelected.getAdmissionDate().toString());
+        birtdateLabel.setText(memberSelected.getBirthDate().toString());
+        appointmentLabel.setText(memberSelected.getAppointment());
+        homeTelephoneLabel.setText(memberSelected.getHomeTelephone());
+        workTelephoneNumberLabel.setText(memberSelected.getWorkTelephone());
+        aditionalEmailLabel.setText(memberSelected.getAditionalEmail());
+        studyGradeLabel.setText(memberSelected.getMaxStudyGrade().toString());
     }
-
-    private void getMemberDetails() {
-//        if(memberSelected.getParticipationType() == ParticipationType.INTEGRANT) {
-//        } else if (memberSelected.getParticipationType() == ParticipationType.RESPONSABLE) {
-//            try {
-//                memberSelected = new MiembroDAO().getResponsableDetails(memberSelected.getId());
-//                appointmentLabel.setText(((Responsable) memberSelected).getAppointment());
-//                homeTelephoneLabel.setText(((Responsable) memberSelected).getHomeTelephone());
-//                workTelephoneNumberLabel.setText(((Responsable) memberSelected).getWorkTelephone());
-//                aditionalEmailLabel.setText(((Responsable) memberSelected).getAditionalEmail());
-//            } catch (SQLException sqlException) {
-//                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
-//            }
-//        } else if(memberSelected.getParticipationType() == ParticipationType.COLABORATOR ) {
-//            try {
-//                memberSelected = new MiembroDAO().getColaboratorDetails(memberSelected.getId());
-//                studyAreaLabel.setText( ((Colaborator) memberSelected).getStudyArea());
-//                studyGradeLabel.setText( ((Colaborator) memberSelected).getMaxStudyGrade().toString());
-//            } catch (SQLException sqlException) {
-//                Logger.getLogger(MemberDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
-//            }
-//        }
-    }
-
 }
