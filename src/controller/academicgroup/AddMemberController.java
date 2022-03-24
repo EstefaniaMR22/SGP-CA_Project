@@ -6,6 +6,7 @@ import controller.validator.Validator;
 import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.validator.ValidatorTextInputControl;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
@@ -25,7 +27,6 @@ import model.domain.ParticipationType;
 import model.domain.StudyGrade;
 import utils.DateFormatter;
 import utils.SQLStates;
-import utils.Timer;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -123,28 +124,28 @@ public class AddMemberController extends ValidatorController implements Initiali
         Member member = getMemberFromInputs();
         try {
             member.setId(new MiembroDAO().addMember(member, "hola"));
-            registeredMember = member;
-            systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
-            disableMemberInput(true);
-            Timer.pause(2000);
-            stage.close();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
+        registeredMember = member;
+        systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
+        disableMemberInput(true);
+        disableToggleButton();
+        pause();
     }
 
     private void addColaborator() {
         Member colaborator = getMemberFromInputs();
         try {
             colaborator.setId(new MiembroDAO().addMember(colaborator));
-            registeredMember = colaborator;
-            systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
-            disableMemberInput(true);
-            Timer.pause(2000);
-            stage.close();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
+        registeredMember = colaborator;
+        systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
+        disableMemberInput(true);
+        disableToggleButton();
+        pause();
     }
 
     private void getCivilStatesFromDatabase() {
@@ -185,6 +186,12 @@ public class AddMemberController extends ValidatorController implements Initiali
                 initValidatorToTextInput();
             }
         });
+    }
+
+    private void pause() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> stage.close());
+        pause.play();
     }
 
     private void setValuesToToggleButtons() {
@@ -241,32 +248,18 @@ public class AddMemberController extends ValidatorController implements Initiali
         stateTextField.setDisable(state);
         birthDateDatePicker.setDisable(state);
         admissionDateDatePicker.setDisable(state);
-
+        workTelephoneTextField.setDisable(state);
+        homePhoneNumberTextField.setDisable(state);
+        aditionalEmailTextField.setDisable(state);
+        appointmentTextField.setDisable(state);
+        studyAreaTextField.setDisable(state);
+        studyGradeComboBox.setDisable(state);
     }
 
-    private void clearInputs() {
-        nameTextField.clear();
-        paternalLastnameTextField.clear();
-        maternalLastnameTextField.clear();
-        nationalityTextField.clear();
-        civilStatusComboBox.getSelectionModel().clearSelection();
-        curpTextField.clear();
-        telephoneTextField.clear();
-        rfcTextField.clear();
-        personalNumberTextField.clear();
-        uvEmailTextField.clear();
-        educationalProgramTextField.clear();
-        stateTextField.clear();
-        birthDateDatePicker.setValue(null);
-        admissionDateDatePicker.setValue(null);
-        workTelephoneTextField.clear();
-        homePhoneNumberTextField.clear();
-        aditionalEmailTextField.clear();
-        appointmentTextField.clear();
-        studyAreaTextField.clear();
-        studyGradeComboBox.getSelectionModel().clearSelection();
-        typeParticipationToggleGroup.getSelectedToggle().setSelected(false);
-        clearStyleToInputs();
+    private void disableToggleButton() {
+        integrantToggleButton.setDisable(true);
+        responsableToggleButton.setDisable(true);
+        colaboratorToggleButton.setDisable(true);
     }
 
 
