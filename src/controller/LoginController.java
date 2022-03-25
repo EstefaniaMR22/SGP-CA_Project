@@ -27,7 +27,7 @@ public class LoginController extends Controller {
     void signInOnAction(ActionEvent event) {
        if(validateInputs()) {
            if(login()) {
-               openMemberWindow(Autentication.getInstance().getMember().getParticipationType());
+               //openMemberWindow(Autentication.getInstance().getMember().getParticipationType());
            }
        }
     }

@@ -12,12 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import model.dao.MiembroDAO;
@@ -56,25 +51,20 @@ public class AddMemberController extends ValidatorController implements Initiali
     @FXML private TextField telephoneTextField;
     @FXML private TextField uvEmailTextField;
     @FXML private TextField workTelephoneTextField;
-    @FXML private ToggleButton responsableToggleButton;
-    @FXML private ToggleGroup typeParticipationToggleGroup;
-    @FXML private ToggleButton integrantToggleButton;
-    @FXML private ToggleButton colaboratorToggleButton;
     @FXML private DatePicker admissionDateDatePicker;
     @FXML private DatePicker birthDateDatePicker;
     @FXML private ComboBox<StudyGrade> studyGradeComboBox;
     @FXML private TextField studyAreaTextField;
     @FXML private Label systemLabel;
     @FXML private VBox memberDataVBox;
+    @FXML private Button registerButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setValuesToToggleButtons();
         getCivilStatesFromDatabase();
         getStudyGradesFromDatabase();
         getEducationProgramFromDatabase();
-        initMemberTypeListener();
-        disableMemberInput(true);
+        initValidatorToTextInput();
     }
 
     public void showStage() {
@@ -95,58 +85,50 @@ public class AddMemberController extends ValidatorController implements Initiali
 
     @FXML
     void AddMemberOnAction(ActionEvent event) {
-        try {
-            if (validateInputs()) {
-                if (!validatePersonalNumber()) {
-                    ParticipationType participationType = (ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData();
-                    if (participationType == ParticipationType.COLABORATOR) {
-                        addColaborator();
-                    } else if (participationType == ParticipationType.OTHER) {
-                        System.out.println("FUNCTIONALITY NOT IMPLEMENT YET");
-                    } else {
-                        addMember();
-                    }
-                } else {
-                    systemLabel.setText("¡Al parecer ya existe un miembro con ese numero de personal!");
-                }
+        if (validateInputs()) {
+            if (!validatePersonalNumber()) {
+                addMember();
             } else {
-                systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
+                systemLabel.setText("¡Al parecer ya existe un miembro con ese numero de personal!");
             }
-        } catch (Exception e) {
-            systemLabel.setText(e.getLocalizedMessage());
+        } else {
+            systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
         }
     }
 
-    private boolean validatePersonalNumber() throws SQLException {
-        return new MiembroDAO().checkMember(personalNumberTextField.getText());
+    private boolean validatePersonalNumber() {
+        try {
+            return new MiembroDAO().checkMember(personalNumberTextField.getText());
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        return false;
     }
 
     private void addMember() {
         Member member = getMemberFromInputs();
         try {
             member.setId(new MiembroDAO().addMember(member, "hola"));
+            registeredMember = member;
+            systemLabel.setText("¡Se ha registrado de manera exitosa!");
+            disableMemberInput(true);
+            pause();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
-        registeredMember = member;
-        systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
-        disableMemberInput(true);
-        disableToggleButton();
-        pause();
     }
 
     private void addColaborator() {
         Member colaborator = getMemberFromInputs();
         try {
             colaborator.setId(new MiembroDAO().addMember(colaborator));
+            registeredMember = colaborator;
+            systemLabel.setText("¡Se ha registrado de manera exitosa!");
+            disableMemberInput(true);
+            pause();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
-        registeredMember = colaborator;
-        systemLabel.setText("¡Se ha registrado con exito el nuevo miembro");
-        disableMemberInput(true);
-        disableToggleButton();
-        pause();
     }
 
     private void getCivilStatesFromDatabase() {
@@ -190,26 +172,10 @@ public class AddMemberController extends ValidatorController implements Initiali
         AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
-    private void initMemberTypeListener() {
-        typeParticipationToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                clearMap();
-                disableMemberInput(true);
-                initValidatorToTextInput();
-            }
-        });
-    }
-
     private void pause() {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
         pause.setOnFinished(event -> stage.close());
         pause.play();
-    }
-
-    private void setValuesToToggleButtons() {
-        responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
-        integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
-        colaboratorToggleButton.setUserData(ParticipationType.COLABORATOR);
     }
 
     private void initValidatorToTextInput() {
@@ -221,7 +187,6 @@ public class AddMemberController extends ValidatorController implements Initiali
 
         Function<Object, Boolean> validateAdmissionDate = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
         disableMemberInput(false);
-        //addComponentToValidator(new ValidatorToggleGroup(typeParticipationToggleGroup, this), false);
         addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(paternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(maternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
@@ -266,14 +231,8 @@ public class AddMemberController extends ValidatorController implements Initiali
         appointmentTextField.setDisable(state);
         studyAreaTextField.setDisable(state);
         studyGradeComboBox.setDisable(state);
+        registerButton.setDisable(state);
     }
-
-    private void disableToggleButton() {
-        integrantToggleButton.setDisable(true);
-        responsableToggleButton.setDisable(true);
-        colaboratorToggleButton.setDisable(true);
-    }
-
 
     private Member getMemberFromInputs() {
         Member member = new Member();
@@ -293,7 +252,6 @@ public class AddMemberController extends ValidatorController implements Initiali
         member.setWorkTelephone(workTelephoneTextField.getText());
         member.setAditionalEmail(aditionalEmailTextField.getText());
         member.setAppointment(appointmentTextField.getText());
-        member.setParticipationType((ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData());
         member.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
         member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         member.setMaxStudyGrade(studyGradeComboBox.getValue());

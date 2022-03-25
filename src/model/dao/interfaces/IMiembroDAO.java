@@ -41,7 +41,7 @@ public interface IMiembroDAO {
      * </p>
      * @return List that contain all the registered members
      */
-    List<Member> getMembers() throws SQLException;
+    List<Member> getAllMembers() throws SQLException;
     /***
      * Get member details from database.
      * <p>

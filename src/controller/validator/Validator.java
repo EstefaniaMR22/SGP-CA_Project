@@ -17,6 +17,10 @@ public class Validator {
     public static final int LENGTH_CURP = 18;
     public static final int LENGTH_EMAIL = 120;
     public static final int MIN_YEARS_OLD = 18;
+    public static final int LENGTH_LONG_TEXT = 1200;
+    public static final int LENGTH_LONG_MEDIUM_TEXT = 600;
+    public static final int LENGTH_LONG_SMALL_TEXT = 300;
+    public static final int LENGTH_LONG_LONG_TEXT = 1600;
 
 
     public static boolean validateCURP() {

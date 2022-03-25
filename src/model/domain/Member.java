@@ -18,7 +18,6 @@ public class Member {
     private String uvEmail;
     private String birthState;
     private Date birthDate;
-    private ParticipationType participationType;
     private String appointment;
     private String workTelephone;
     private String homeTelephone;
@@ -133,14 +132,6 @@ public class Member {
         this.birthState = birthState;
     }
 
-    public ParticipationType getParticipationType() {
-        return participationType;
-    }
-
-    public void setParticipationType(ParticipationType participationType) {
-        this.participationType = participationType;
-    }
-
     public Date getAdmissionDate() {
         return admissionDate;
     }
@@ -223,7 +214,6 @@ public class Member {
                 ", uvEmail='" + uvEmail + '\'' +
                 ", birthState='" + birthState + '\'' +
                 ", birthDate=" + birthDate +
-                ", participationType=" + participationType +
                 ", appointment='" + appointment + '\'' +
                 ", workTelephone='" + workTelephone + '\'' +
                 ", homeTelephone='" + homeTelephone + '\'' +

@@ -28,8 +28,8 @@ public class AcademicGroupProgramDAO implements IAcademicGroupProgramDAO {
      * @return boolean true if it was added to database.
      */
     @Override
-    public boolean addAcademicGroupProgram(AcademicGroupProgram academicGroupProgram) throws SQLException {
-        boolean wasAdded = false;
+    public String addAcademicGroupProgram(AcademicGroupProgram academicGroupProgram) throws SQLException {
+        String id = null;
         try (Connection conn = database.getConnection()) {
             conn.setAutoCommit(false);
             String statement = "INSERT INTO ProgramaCuerpoAcademico(id, nombre, vision, objetivo_general, mision, grado_consolidacion, fecha_registro, fecha_ultima_evaluacion, unidad_adscripcion, descripcion_adscripcion) VALUES(?,?,?,?,?,?,?,?,?,?)";
@@ -44,17 +44,27 @@ public class AcademicGroupProgramDAO implements IAcademicGroupProgramDAO {
             preparedStatement.setDate(8, new java.sql.Date(academicGroupProgram.getLastEvaluationDate().getTime()));
             preparedStatement.setString(9, academicGroupProgram.getAdscriptionUnit());
             preparedStatement.setString(10, academicGroupProgram.getDescriptionAdscription());
-            wasAdded = preparedStatement.executeUpdate() > 0;
-            String statementLgac = "INSERT INTO LGACProgramaCuerpoAcademico(id_programa_cuerpo_academico, id_lgac) VALUES(?,?);";
-            for(LGAC lgac : academicGroupProgram.getLgacList() ) {
-                preparedStatement = conn.prepareStatement(statementLgac);
-                preparedStatement.setString(1, academicGroupProgram.getId());
-                preparedStatement.setInt(2, 1);
-                preparedStatement.executeUpdate();
+            if( preparedStatement.executeUpdate() > 0 ) {
+                String lastInsertStatement = "SELECT id FROM ProgramaCuerpoAcademico WHERE nombre = ? AND vision = ? AND grado_consolidacion = ?";
+                preparedStatement = conn.prepareStatement(lastInsertStatement);
+                preparedStatement.setString(1, academicGroupProgram.getName());
+                preparedStatement.setString(2, academicGroupProgram.getVision());
+                preparedStatement.setString(3, academicGroupProgram.getConsolidationGrade().getConsolidationGrade());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    id = resultSet.getString(1);
+                    String statementLgac = "INSERT INTO LGACProgramaCuerpoAcademico(id_programa_cuerpo_academico, id_lgac) VALUES(?,?);";
+                    for (LGAC lgac : academicGroupProgram.getLgacList()) {
+                        preparedStatement = conn.prepareStatement(statementLgac);
+                        preparedStatement.setString(1, academicGroupProgram.getId());
+                        preparedStatement.setInt(2, 1);
+                        preparedStatement.executeUpdate();
+                    }
+                }
             }
             conn.commit();
         }
-        return wasAdded;
+        return id;
     }
 
     /***

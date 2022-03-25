@@ -2,7 +2,11 @@ package controller.academicgroup;
 
 import controller.AlertController;
 import controller.ValidatorController;
-import controller.validator.*;
+import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
+import controller.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.validator.ValidatorTextInputControl;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,8 +14,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
+import javafx.util.Duration;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.CivilStatus;
+import model.domain.Member;
+import model.domain.StudyGrade;
 import utils.DateFormatter;
 import utils.SQLStates;
 
@@ -31,9 +38,9 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @FXML private TextField appointmentTextField;
     @FXML private ComboBox<CivilStatus> civilStatusComboBox;
     @FXML private TextField curpTextField;
-    @FXML private TextField educationalProgramTextField;
     @FXML private TextField homePhoneNumberTextField;
     @FXML private TextField maternalLastnameTextField;
+    @FXML private ComboBox<String> educationalProgramComboBox;
     @FXML private TextField nameTextField;
     @FXML private TextField nationalityTextField;
     @FXML private TextField paternalLastnameTextField;
@@ -43,15 +50,12 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @FXML private TextField telephoneTextField;
     @FXML private TextField uvEmailTextField;
     @FXML private TextField workTelephoneTextField;
-    @FXML private ToggleButton colaboratorToggleButton;
-    @FXML private ToggleButton integrantToggleButton;
-    @FXML private ToggleButton responsableToggleButton;
-    @FXML private ToggleGroup typeParticipationToggleGroup;
     @FXML private DatePicker admissionDateDatePicker;
     @FXML private DatePicker birthDateDatePicker;
     @FXML private ComboBox<StudyGrade> studyGradeComboBox;
     @FXML private TextField studyAreaTextField;
     @FXML private Label systemLabel;
+    @FXML private Button modifyButton;
 
     public ModifyMemberController(Member member) {
         this.memberSelected = member;
@@ -60,11 +64,10 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initValidatorToTextInput();
-        responsableToggleButton.setUserData(ParticipationType.RESPONSABLE);
-        integrantToggleButton.setUserData(ParticipationType.INTEGRANT);
-        colaboratorToggleButton.setUserData(ParticipationType.COLABORATOR);
         setMemberDataIntoFields();
         getCivilStatesFromDatabase();
+        getStudyGradesFromDatabase();
+        getEducationProgramFromDatabase();
     }
 
     public Member getMemberSelected() {
@@ -79,20 +82,18 @@ public class ModifyMemberController extends ValidatorController implements Initi
 
     @FXML
     void ModifyMemberOnAction(ActionEvent event) {
-        try {
-            if (validateInputs()) {
-                updateMember();
-            } else {
-                systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
-            }
-        } catch (Exception e) {
-            systemLabel.setText(e.getLocalizedMessage());
+        if (validateInputs()) {
+            updateMember();
+        } else {
+            systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
         }
     }
 
     @FXML
     void cancelButtonPressed(ActionEvent event) {
-        stage.close();
+        if (AlertController.showCancelationConfirmationAlert()) {
+            stage.close();
+        }
     }
 
     private void updateMember() {
@@ -108,35 +109,59 @@ public class ModifyMemberController extends ValidatorController implements Initi
         member.setBirthState(stateTextField.getText());
         member.setPersonalNumber(personalNumberTextField.getText());
         member.setUvEmail(uvEmailTextField.getText());
-        member.setEducationalProgram(educationalProgramTextField.getText());
+        member.setEducationalProgram(educationalProgramComboBox.getSelectionModel().getSelectedItem());
         member.setHomeTelephone(homePhoneNumberTextField.getText());
         member.setWorkTelephone(workTelephoneTextField.getText());
         member.setAditionalEmail(aditionalEmailTextField.getText());
         member.setAppointment(appointmentTextField.getText());
-        member.setParticipationType((ParticipationType) typeParticipationToggleGroup.getSelectedToggle().getUserData());
         member.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(admissionDateDatePicker.getValue()));
         member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         member.setMaxStudyGrade(studyGradeComboBox.getValue());
         member.setBirthDate(DateFormatter.getDateFromDatepickerValue(birthDateDatePicker.getValue()));
         member.setStudyArea(studyAreaTextField.getText());
+        member.setId(memberSelected.getId());
         try {
             if( new MiembroDAO().updateMember(member) ) {
                 memberSelected = member;
+                systemLabel.setText("¡Se ha actualizado de manera exitosa!");
+                disableMemberInput(true);
+                pause();
+            } else {
+                systemLabel.setText("¡No se ha podido modificar!");
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 
-    private void getCivilStatesFromDatabase() {
-        List<CivilStatus> civilStatusList = new ArrayList<>();
-        try {
-            civilStatusList = new MiembroDAO().getCivilStatus();
-        } catch (SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
-        }
-        ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
-        civilStatusComboBox.setItems(civilStatusObservableList);
+    private void pause() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> stage.close());
+        pause.play();
+    }
+
+    private void disableMemberInput(boolean state) {
+        nameTextField.setDisable(state);
+        paternalLastnameTextField.setDisable(state);
+        maternalLastnameTextField.setDisable(state);
+        nationalityTextField.setDisable(state);
+        civilStatusComboBox.setDisable(state);
+        curpTextField.setDisable(state);
+        telephoneTextField.setDisable(state);
+        rfcTextField.setDisable(state);
+        personalNumberTextField.setDisable(state);
+        uvEmailTextField.setDisable(state);
+        educationalProgramComboBox.setDisable(state);
+        stateTextField.setDisable(state);
+        birthDateDatePicker.setDisable(state);
+        admissionDateDatePicker.setDisable(state);
+        workTelephoneTextField.setDisable(state);
+        homePhoneNumberTextField.setDisable(state);
+        aditionalEmailTextField.setDisable(state);
+        appointmentTextField.setDisable(state);
+        studyAreaTextField.setDisable(state);
+        studyGradeComboBox.setDisable(state);
+        modifyButton.setDisable(state);
     }
 
     private void deterMinateSQLState(SQLException sqlException) {
@@ -145,6 +170,17 @@ public class ModifyMemberController extends ValidatorController implements Initi
             AlertController.showConnectionErrorAlert();
         }
         AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+    }
+
+    private void getCivilStatesFromDatabase() {
+        List<CivilStatus> civilStatusList = new ArrayList<>();
+        try {
+            civilStatusList = new MiembroDAO().getCivilStatus();
+        } catch (SQLException sqlException) {
+            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
+        civilStatusComboBox.setItems(civilStatusObservableList);
     }
 
     private void getStudyGradesFromDatabase() {
@@ -158,6 +194,17 @@ public class ModifyMemberController extends ValidatorController implements Initi
         studyGradeComboBox.setItems(studyGradeObservableList);
     }
 
+    private void getEducationProgramFromDatabase() {
+        List<String> educationalProgramList = new ArrayList<>();
+        try {
+            educationalProgramList = new MiembroDAO().getAllEducationProgram();
+        } catch (SQLException sqlException ) {
+            deterMinateSQLState(sqlException);
+        }
+        ObservableList<String> educationalProgramObservableList = FXCollections.observableArrayList(educationalProgramList);
+        educationalProgramComboBox.setItems(educationalProgramObservableList);
+    }
+
     private void setMemberDataIntoFields() {
         nameTextField.setText(memberSelected.getName());
         paternalLastnameTextField.setText(memberSelected.getPaternalLastname());
@@ -169,11 +216,10 @@ public class ModifyMemberController extends ValidatorController implements Initi
         rfcTextField.setText(memberSelected.getRfc());
         personalNumberTextField.setText(memberSelected.getPersonalNumber());
         uvEmailTextField.setText(memberSelected.getUvEmail());
-        educationalProgramTextField.setText(memberSelected.getEducationalProgram());
+        educationalProgramComboBox.getSelectionModel().select(memberSelected.getEducationalProgram());
         stateTextField.setText(memberSelected.getBirthState());
         birthDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getBirthDate()));
         admissionDateDatePicker.setValue(DateFormatter.getLocalDateFromUtilDate(memberSelected.getAdmissionDate()));
-        //typeParticipationToggleGroup.
         homePhoneNumberTextField.setText(memberSelected.getHomeTelephone());
         workTelephoneTextField.setText(memberSelected.getWorkTelephone());
         aditionalEmailTextField.setText(memberSelected.getAditionalEmail());
@@ -189,10 +235,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
             return now.compareTo((LocalDate) a) >= 0;
         };
 
-        Function<Object, Boolean> validateAdmissionDate = a -> {
-            return DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
-        };
-        //addComponentToValidator(new ValidatorToggleGroup(typeParticipationToggleGroup, this), false);
+        Function<Object, Boolean> validateAdmissionDate = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
         addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(paternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(maternalLastnameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
@@ -203,7 +246,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
         addComponentToValidator(new ValidatorTextInputControl(rfcTextField, Validator.PATTERN_RFC, Validator.LENGTH_RFC, this), false);
         addComponentToValidator(new ValidatorTextInputControl(personalNumberTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(uvEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(educationalProgramTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(educationalProgramComboBox, this), false);
         addComponentToValidator(new ValidatorTextInputControl(stateTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(birthDateDatePicker, this, validateBirthDate), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(admissionDateDatePicker, this, validateAdmissionDate), false);
@@ -215,5 +258,4 @@ public class ModifyMemberController extends ValidatorController implements Initi
         addComponentToValidator(new ValidatorComboBoxBase(studyGradeComboBox, this), false);
         initListenerToControls();
     }
-
 }

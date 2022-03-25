@@ -21,15 +21,11 @@ public class MemberDetailsController extends Controller implements Initializable
     @FXML private Label homeTelephoneLabel;
     @FXML private Label nameLabel;
     @FXML private Label nationalityLabel;
-    @FXML private Label numberAsistanceRoleLabel;
-    @FXML private Label numberParticipationLAbel;
     @FXML private Label personalNumberLabel;
     @FXML private Label rfcLabel;
     @FXML private Label stateLabel;
     @FXML private Label telephoneLabel;
     @FXML private Label themesNumberLabel;
-    @FXML private Label totalActionsLabel;
-    @FXML private Label typeMemberLabel;
     @FXML private Label uvEmailNumberLabel;
     @FXML private Label workTelephoneNumberLabel;
     @FXML private Label admissionDateLabel;
@@ -60,6 +56,10 @@ public class MemberDetailsController extends Controller implements Initializable
     void updateMemberOnAction(ActionEvent event) {
         ModifyMemberController modifyMemberController = new ModifyMemberController(memberSelected);
         modifyMemberController.showStage();
+        if(!modifyMemberController.getMemberSelected().equals(memberSelected)) {
+            memberSelected = modifyMemberController.getMemberSelected();
+            setMemberDataToTextField();
+        }
     }
 
     private void setMemberDataToTextField() {
@@ -72,7 +72,6 @@ public class MemberDetailsController extends Controller implements Initializable
         uvEmailNumberLabel.setText(memberSelected.getUvEmail());
         educationalProgramLabel.setText(memberSelected.getEducationalProgram());
         stateLabel.setText(memberSelected.getBirthState());
-        typeMemberLabel.setText(memberSelected.getParticipationType().getParticipationType());
         nationalityLabel.setText(memberSelected.getNationality());
         admissionDateLabel.setText(memberSelected.getAdmissionDate().toString());
         birtdateLabel.setText(memberSelected.getBirthDate().toString());
@@ -81,5 +80,6 @@ public class MemberDetailsController extends Controller implements Initializable
         workTelephoneNumberLabel.setText(memberSelected.getWorkTelephone());
         aditionalEmailLabel.setText(memberSelected.getAditionalEmail());
         studyGradeLabel.setText(memberSelected.getMaxStudyGrade().toString());
+        studyAreaLabel.setText(memberSelected.getStudyArea());
     }
 }

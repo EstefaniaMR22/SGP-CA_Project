@@ -1,9 +1,8 @@
 package controller;
 
 import controller.academicgroup.AcademicGroupProgramDetailsController;
-import controller.academicgroup.AddAcademicGroupProgramController;
+import controller.academicgroup.AddAcademicGroupController;
 import controller.academicgroup.AddLgacController;
-import controller.academicgroup.ModifyAcademicGroupProgramController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,7 +68,7 @@ public class ResponsableController extends Controller implements Initializable {
 
     @FXML
     void registerAcademicGroupProgramOnAction(ActionEvent event) {
-        AddAcademicGroupProgramController addAcademicGroupProgramController = new AddAcademicGroupProgramController();
+        AddAcademicGroupController addAcademicGroupProgramController = new AddAcademicGroupController();
         addAcademicGroupProgramController.showStage();
     }
 

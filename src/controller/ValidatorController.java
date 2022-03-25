@@ -60,7 +60,7 @@ public class ValidatorController extends Controller {
      * @return true if ALL Contorl Components has its flag in true otherwise false.
      * @throws Exception only if it happend a exception.
      */
-    public boolean validateInputs() throws Exception {
+    public boolean validateInputs() {
         boolean dataInputValid = true;
         for( Map.Entry<IValidatorControlFX, Boolean> entry : controlsMap.entrySet() ) {
             if( !entry.getValue() ){

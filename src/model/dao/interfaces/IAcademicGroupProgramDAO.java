@@ -14,9 +14,9 @@ public interface IAcademicGroupProgramDAO {
      * Add an AGP to database. This is so important for the activities.
      * </p>
      * @param academicGroupProgram the AGP to register.
-     * @return boolean true if it was added to database.
+     * @return String represeting the academic group ID in database.
      */
-    boolean addAcademicGroupProgram(AcademicGroupProgram academicGroupProgram) throws SQLException;
+    String addAcademicGroupProgram(AcademicGroupProgram academicGroupProgram) throws SQLException;
     /***
      * Get all consolidation grades from database
      * <p>

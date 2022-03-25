@@ -38,7 +38,7 @@ public class MiembroDAO implements IMiembroDAO {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarResponsableIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarResponsableIntegrante(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
             callableStatement.setString(1,member.getName());
             callableStatement.setString(2,member.getPaternalLastname());
@@ -61,10 +61,9 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setDate(19, DateFormatter.convertUtilDateToSQLDate(member.getBirthDate()));
             callableStatement.setString(20, member.getStudyArea());
             callableStatement.setString(21, member.getMaxStudyGrade().getStudyGrade());
-            callableStatement.setString(22, member.getParticipationType().getParticipationType());
-            callableStatement.registerOutParameter(23, Types.INTEGER);
+            callableStatement.registerOutParameter(22, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(23);
+            idMember = callableStatement.getInt(22);
         }
         return idMember;
     }
@@ -81,7 +80,7 @@ public class MiembroDAO implements IMiembroDAO {
         int idMember = -1;
         try(Connection conn = database.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "CALL agregarColaborador(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String statement = "CALL agregarColaborador(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             CallableStatement callableStatement = conn.prepareCall(statement);
             callableStatement.setString(1,colaborator.getName());
             callableStatement.setString(2,colaborator.getPaternalLastname());
@@ -103,10 +102,9 @@ public class MiembroDAO implements IMiembroDAO {
             callableStatement.setDate(18, DateFormatter.convertUtilDateToSQLDate(colaborator.getBirthDate()));
             callableStatement.setString(19, colaborator.getStudyArea());
             callableStatement.setString(20, colaborator.getMaxStudyGrade().getStudyGrade());
-            callableStatement.setString(21, colaborator.getParticipationType().getParticipationType());
-            callableStatement.registerOutParameter(22, Types.INTEGER);
+            callableStatement.registerOutParameter(21, Types.INTEGER);
             callableStatement.execute();
-            idMember = callableStatement.getInt(22);
+            idMember = callableStatement.getInt(21);
         }
         return idMember;
     }
@@ -138,7 +136,7 @@ public class MiembroDAO implements IMiembroDAO {
      * @return List that contain all the registered members
      */
     @Override
-    public List<Member> getMembers() throws SQLException {
+    public List<Member> getAllMembers() throws SQLException {
         List<Member> memberList = null;
         try(Connection conn = database.getConnection()) {
             String statement = "SELECT * FROM Miembro";
@@ -160,7 +158,6 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setCurp(resultSet.getString("curp"));
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
-                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
                 member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
                 member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
                 member.setAppointment(resultSet.getString("nombramiento"));
@@ -273,7 +270,6 @@ public class MiembroDAO implements IMiembroDAO {
                 member.setCurp(resultSet.getString("curp"));
                 member.setCivilStatus(getCivilStatus(resultSet.getString("estado_civil")));
                 member.setUvEmail(resultSet.getString("email"));
-                member.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
                 member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_nacimiento")));
                 member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_ingreso")));
                 member.setAppointment(resultSet.getString("nombramiento"));

@@ -5,8 +5,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -74,25 +72,13 @@
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
                            <children>
                               <Label styleClass="bold-label" text="Programa educativo" />
-                              <TextField fx:id="educationalProgramTextField" styleClass="textfield" />
+                              <ComboBox fx:id="educationalProgramComboBox" prefHeight="38.0" prefWidth="270.0" styleClass="comboBox" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
                            <children>
                               <Label styleClass="bold-label" text="Estado" />
                               <TextField fx:id="stateTextField" styleClass="textfield" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Tipo de participacion" />
-                              <ToggleButton fx:id="integrantToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Integrante">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="typeParticipationToggleGroup" />
-                                 </toggleGroup>
-                              </ToggleButton>
-                              <ToggleButton fx:id="responsableToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Responsable" toggleGroup="$typeParticipationToggleGroup" />
-                              <ToggleButton fx:id="colaboratorToggleButton" mnemonicParsing="false" styleClass="secondary-button" text="Colaborador" toggleGroup="$typeParticipationToggleGroup" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
@@ -156,7 +142,6 @@
                            <children>
                               <Label styleClass="bold-label" text="Area de estudio" />
                               <TextField fx:id="studyAreaTextField" styleClass="textfield" />
-                              <Label text="Colaborador data" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
@@ -169,7 +154,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#ModifyMemberOnAction" styleClass="main-button" text="Modificar" />
+            <Button fx:id="modifyButton" mnemonicParsing="false" onAction="#ModifyMemberOnAction" styleClass="main-button" text="Modificar" />
             <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="secondary-button" text="Cancelar" />
          </children>
       </VBox>

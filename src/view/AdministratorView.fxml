@@ -32,34 +32,6 @@
                            <children>
                               <Label styleClass="bold-label" text="Miembros totales" />
                               <Label fx:id="totalMembersLabel" text="?" />
-                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                                 <children>
-                                    <Label styleClass="bold-label" text="Otros usuarios" />
-                                    <Label fx:id="totalOtherUsersLabel" text="?" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Label styleClass="bold-label" text="Responsables" />
-                                    <Label fx:id="totalResponsablesLabel" text="?" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Label styleClass="bold-label" text="Integrantes" />
-                                    <Label fx:id="totalIntegrantsLabel" text="?" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                                 <children>
-                                    <Label styleClass="bold-label" text="Colaboradores" />
-                                    <Label fx:id="totalColaboratorsLabel" text="?" />
-                                 </children>
-                              </HBox>
                            </children>
                         </HBox>
                      </children>
