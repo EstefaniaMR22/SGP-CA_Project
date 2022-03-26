@@ -19,9 +19,13 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.dao.AcademicGroupDAO;
-import model.dao.LgacDAO;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.AcademicGroup;
+import model.domain.ConsolidationGrade;
+import model.domain.LGAC;
+import model.domain.Member;
+import model.domain.Participation;
+import model.domain.ParticipationType;
 import utils.DateFormatter;
 
 import java.net.URL;

@@ -2,10 +2,7 @@ package controller.projects;
 
 import controller.AlertController;
 import controller.Controller;
-import controller.IntegrantController;
-import controller.ResponsableController;
 import controller.academicgroup.AddMemberController;
-import controller.academicgroup.ModifyMemberController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import model.dao.LgacDAO;
-import model.dao.MiembroDAO;
 import model.dao.ProjectDAO;
 import model.domain.*;
 import utils.DateFormatter;

@@ -1,6 +1,7 @@
 package model.dao.interfaces;
 
 import controller.exceptions.LimitReachedException;
+import model.domain.Participation;
 
 import java.sql.SQLException;
 
@@ -86,7 +87,19 @@ public interface ICuentaDAO {
      * </p>
      * @param email the members email.
      * @param password the password in plain text.
-     * @return int the member's id in database. Returns -1 if not exist in database.
+     * @param academicGroupID the id of academic group where this user is registered.
+     * @return the participation that contains member and typeParticipation.
      */
-    int getMemberIDByEmailAndPassword(String email, String password) throws SQLException;
+    Participation getMemberByEmailPasswordParticipation(String email, String password, String academicGroupID) throws SQLException;
+    /***
+     * Get Member ID
+     * <p>
+     * This method get a Member ID using an email and a encrypted password.
+     * It should be used like login method.
+     * </p>
+     * @param email the members email.
+     * @param password the password in plain text.
+     * @return the participation that contains member and typeParticipation.
+     */
+    Participation getMemberByEmailAndPassword(String email, String password) throws SQLException;
 }

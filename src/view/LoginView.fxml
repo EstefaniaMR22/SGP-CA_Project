@@ -3,10 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -16,18 +15,14 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <BorderPane prefHeight="481.0" prefWidth="524.0" style="-fx-background-color: #1e1842;" HBox.hgrow="ALWAYS">
-               <center>
-                  <ImageView fitHeight="419.0" fitWidth="429.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-                     <image>
-                        <Image url="file:img/login.gif" />
-                     </image>
-                  </ImageView>
-               </center>
-            </BorderPane>
+            <VBox prefHeight="706.0" prefWidth="517.0">
+               <children>
+                  <ListView fx:id="academicGroupProgramListView" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
             <BorderPane prefHeight="481.0" prefWidth="524.0" HBox.hgrow="ALWAYS">
                 <center>
-                    <VBox alignment="TOP_CENTER" prefHeight="481.0" prefWidth="475.0" spacing="10.0" styleClass="background-form" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <VBox fx:id="formVBox" alignment="TOP_CENTER" prefHeight="481.0" prefWidth="475.0" spacing="10.0" styleClass="background-form" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                        <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -60,14 +55,14 @@
                         </VBox>
                         <HBox alignment="CENTER" prefWidth="200.0" spacing="15.0">
                            <children>
-                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" HBox.hgrow="ALWAYS" />
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="cancelButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <Label fx:id="systemLabel" styleClass="system-label" text="SystemLabel" VBox.vgrow="ALWAYS" />
                         <Button mnemonicParsing="false" styleClass="optional-button" text="Redirección a menú temporal" />
                         <Button mnemonicParsing="false" onAction="#adminOnAction" styleClass="main-button" text="Administrador" />
-                        <Button fx:id="btIntegrant" mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
+                        <Button mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
                         <Button mnemonicParsing="false" onAction="#responsableOnAction" styleClass="main-button" text="Responsable" />
                        </children>
                      <BorderPane.margin>

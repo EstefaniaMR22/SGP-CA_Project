@@ -3,15 +3,14 @@ package utils;
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
 import model.dao.CuentaDAO;
-import model.dao.MiembroDAO;
-import model.domain.Member;
+import model.domain.Participation;
 
 import java.net.SocketException;
 import java.sql.SQLException;
 
 public class Autentication {
     private static Autentication instance;
-    private Member member;
+    private Participation participation;
 
     public static Autentication getInstance() {
         if(instance == null) {
@@ -24,17 +23,37 @@ public class Autentication {
      * Logout from actual current logged user.
      */
     public void logOut() {
-        member = null;
+        participation = null;
     }
 
-    public Member getMember() {
-        return member;
+    public Participation getParticipation() {
+        return participation;
     }
 
     /***
      * Log in an account.
      * <p>
      * This method it is used to accesss to the system.
+     * </p>
+     * @param email the user's email
+     * @param password the password to log in.
+     * @param idAcademicGroup the academic group to login.
+     * @return boolean true if login was successful and false if login was not successful
+     * @throws UserNotFoundException if user was not found in database.
+     * @throws LimitReachedException if user has reached the 5 attempts.
+     * @throws SQLException if it happened a error in database.
+     */
+    public boolean logIn(String email, String password, String idAcademicGroup) throws UserNotFoundException, LimitReachedException, SQLException, SocketException {
+        checkAttemptsLimit();
+        sendMacAddress();
+        participation = getMemberParticipation(email, password, idAcademicGroup);
+        resetAttempts();
+        return true;
+    }
+    /***
+     * Log in an account.
+     * <p>
+     * This method it is used to accesss to admin.
      * </p>
      * @param email the user's email
      * @param password the password to log in.
@@ -46,7 +65,7 @@ public class Autentication {
     public boolean logIn(String email, String password) throws UserNotFoundException, LimitReachedException, SQLException, SocketException {
         checkAttemptsLimit();
         sendMacAddress();
-        member = getCurrentUser(email, password);
+        participation = getMemberAdminParticipation(email, password);
         resetAttempts();
         return true;
     }
@@ -140,15 +159,20 @@ public class Autentication {
         return isAttemptsReset;
     }
 
-    private Member getCurrentUser(String email,String password) throws SQLException, UserNotFoundException {
-        Member member = null;
-        int idMember = new CuentaDAO().getMemberIDByEmailAndPassword(email,password);
-        if(idMember != -1) {
-            member = new MiembroDAO().getMember(idMember);
-        } else {
+    private Participation getMemberParticipation(String email, String password, String academicGroupID) throws SQLException, UserNotFoundException {
+        Participation participation = new CuentaDAO().getMemberByEmailPasswordParticipation(email,password,academicGroupID);
+        if(participation == null) {
             throw new UserNotFoundException("¡Usuario o contraseña incorrecta!");
         }
-        return member;
+        return participation;
+    }
+
+    private Participation getMemberAdminParticipation(String email, String password) throws SQLException, UserNotFoundException {
+        Participation participation = new CuentaDAO().getMemberByEmailAndPassword(email,password);
+        if(participation == null) {
+            throw new UserNotFoundException("¡Usuario o contraseña incorrecta!");
+        }
+        return participation;
     }
 
     private void Autentication() {

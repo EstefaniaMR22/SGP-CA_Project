@@ -28,7 +28,7 @@ public class ResponsableController extends Controller implements Initializable {
     }
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/ResponsableView.fxml"), this);
+        loadFXMLFile(getClass().getResource("/view/ResponsableController.fxml"), this);
         stage.showAndWait();
     }
 

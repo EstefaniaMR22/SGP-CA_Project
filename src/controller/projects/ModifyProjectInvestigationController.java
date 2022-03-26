@@ -1,13 +1,9 @@
 package controller.projects;
 
 import controller.AlertController;
-import controller.Controller;
-import controller.ResponsableController;
 import controller.ValidatorController;
 import controller.academicgroup.AddMemberController;
 import controller.validator.Validator;
-import controller.validator.ValidatorComboBoxBase;
-import controller.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.validator.ValidatorTextInputControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +20,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
