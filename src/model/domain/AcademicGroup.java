@@ -3,7 +3,7 @@ package model.domain;
 import java.util.Date;
 import java.util.List;
 
-public class AcademicGroupProgram {
+public class AcademicGroup {
     private String id;
     private String name;
     private String vision;
@@ -16,8 +16,9 @@ public class AcademicGroupProgram {
     private String descriptionAdscription;
     private String adscriptionArea;
     private List<LGAC> lgacList;
+    private List<Participation> participationList;
 
-    public AcademicGroupProgram() {
+    public AcademicGroup() {
     }
 
     public String getAdscriptionArea() {
@@ -116,9 +117,17 @@ public class AcademicGroupProgram {
         this.lgacList = lgacList;
     }
 
+    public List<Participation> getParticipationList() {
+        return participationList;
+    }
+
+    public void setParticipationList(List<Participation> participationList) {
+        this.participationList = participationList;
+    }
+
     @Override
     public String toString() {
-        return "AcademicGroupProgram{" +
+        return "AcademicGroup{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", vision='" + vision + '\'' +
@@ -131,6 +140,7 @@ public class AcademicGroupProgram {
                 ", descriptionAdscription='" + descriptionAdscription + '\'' +
                 ", adscriptionArea='" + adscriptionArea + '\'' +
                 ", lgacList=" + lgacList +
+                ", participationList=" + participationList +
                 '}';
     }
 }

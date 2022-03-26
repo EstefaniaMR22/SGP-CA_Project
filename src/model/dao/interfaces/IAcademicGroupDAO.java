@@ -1,13 +1,12 @@
 package model.dao.interfaces;
 
-import model.domain.AcademicGroupProgram;
+import model.domain.AcademicGroup;
 import model.domain.ConsolidationGrade;
-import model.domain.LGAC;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IAcademicGroupProgramDAO {
+public interface IAcademicGroupDAO {
     /***
      * Add an Academic Group Program to database.
      * <p>
@@ -16,7 +15,7 @@ public interface IAcademicGroupProgramDAO {
      * @param academicGroupProgram the AGP to register.
      * @return String represeting the academic group ID in database.
      */
-    String addAcademicGroupProgram(AcademicGroupProgram academicGroupProgram) throws SQLException;
+    String addAcademicGroupProgram(AcademicGroup academicGroupProgram) throws SQLException;
     /***
      * Get all consolidation grades from database
      * <p>
@@ -33,14 +32,25 @@ public interface IAcademicGroupProgramDAO {
      * </p>
      * @return List that contain all Academic Group Programs
      */
-    List<AcademicGroupProgram> getAllAcademicGroupPrograms() throws SQLException;
+    List<AcademicGroup> getAllAcademicGroupPrograms() throws SQLException;
     /***
-     * Get all details from Academic Group Programs
+     * Get all details from Academic Group.
      * <p>
-     * Get details from Academic Group Program.
+     * Get details from Academic Group..
+     * The details are Members and LGAS assigned to AG.
      * </p>
-     * @param id The id of Academic Group Program.
-     * @return List that contain all Academic Group Programs
+     * @param id The id of Academic Group.
+     * @return List that contain all Academic Group.
      */
-    AcademicGroupProgram getAcademicGroupProgramDetails(String id) throws SQLException;
+    AcademicGroup getAcademicGroupProgramDetails(String id) throws SQLException;
+
+    /***
+     * Update a registered Academic Group.
+     * <p>
+     *     Including his LGACS and Members.
+     * </p>
+     * @param academicGroup the new data to be registered in database.
+     * @return true if it was registered otherwise false.
+     */
+    boolean updateAcademicGroup(AcademicGroup academicGroup) throws SQLException;
 }

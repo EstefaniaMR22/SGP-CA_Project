@@ -1,7 +1,10 @@
 package controller.academicgroup;
 
 import controller.Controller;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,37 +12,26 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.dao.AcademicGroupProgramDAO;
-import model.domain.AcademicGroupProgram;
+import model.dao.AcademicGroupDAO;
+import model.domain.AcademicGroup;
 import model.domain.LGAC;
-import model.domain.Member;
-import model.domain.Workplan;
+import model.domain.Participation;
+import model.domain.ParticipationType;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AcademicGroupProgramDetailsController extends Controller implements Initializable {
-    private AcademicGroupProgram academicGroupProgramSelected;
-
-
-    @FXML private TableView<Member> memberTableView;
-    @FXML private TableColumn<Member, String> telephoneMemberTableColumn;
-    @FXML private TableColumn<Member, String> emailMemberTableColumn;
-    @FXML private TableColumn<Member, String> nameMemberTableColumn;
-    @FXML private TableColumn<Member, String> positionMemberTableColumn;
+    private AcademicGroup academicGroupProgramSelected;
     @FXML private Label adscriptionAreaLabel;
     @FXML private Label adscriptionUnitLabel;
     @FXML private Label consolidationGradeLabel;
-    @FXML private TableView<Workplan> workPlanTableView;
-    @FXML private TableColumn<Workplan, String> generalObjetiveWorkPlanTableColumn;
-    @FXML private TableColumn<Workplan, String> idWorkPlanTableColumn;
-    @FXML private TableColumn<Workplan, Date> endDateWorkPlanTableColumn;
-    @FXML private TableColumn<Workplan, Date> initialDateWorkPlanTableColumn;
     @FXML private Label generalObjetiveLabel;
     @FXML private Label keyLabel;
     @FXML private Label lastEvaluationLabel;
@@ -54,7 +46,11 @@ public class AcademicGroupProgramDetailsController extends Controller implements
     @FXML private TableView<LGAC> lgacTableView;
     @FXML private TableColumn<LGAC, String> identificationLgacTableColumn;
     @FXML private TableColumn<LGAC, String> descriptionLgacTableColumn;
-
+    @FXML private Label adscriptionDescriptionLabel;
+    @FXML private TableView<Participation> participationsTableView;
+    @FXML private TableColumn<Participation, String> personalNumberTableColumn;
+    @FXML private TableColumn<Participation, String> nameTableColumn;
+    @FXML private TableColumn<Participation, ParticipationType> typeParticipationColumn;
 
     @FXML
     void searchLGACOnAction(ActionEvent event) {
@@ -66,13 +62,15 @@ public class AcademicGroupProgramDetailsController extends Controller implements
 
     }
 
-
     @FXML
     void updateOnAction(ActionEvent event) {
         ModifyAcademicGroupProgramController modifyAcademicGroupProgramController = new ModifyAcademicGroupProgramController(academicGroupProgramSelected);
         modifyAcademicGroupProgramController.showStage();
+        if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
+            academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();
+            setAcademicGroupProgramDetailsIntoTextFields();
+        }
     }
-
 
     @FXML
     void cancelOnAction(ActionEvent event) {
@@ -85,7 +83,7 @@ public class AcademicGroupProgramDetailsController extends Controller implements
         getAcademicGroupProgramDetails();
     }
 
-    public AcademicGroupProgramDetailsController(AcademicGroupProgram academicGroupProgramSelected) {
+    public AcademicGroupProgramDetailsController(AcademicGroup academicGroupProgramSelected) {
         this.academicGroupProgramSelected = academicGroupProgramSelected;
     }
 
@@ -96,15 +94,15 @@ public class AcademicGroupProgramDetailsController extends Controller implements
 
     private void getAcademicGroupProgramDetails() {
         try{
-            academicGroupProgramSelected = new AcademicGroupProgramDAO().getAcademicGroupProgramDetails(academicGroupProgramSelected.getId());
+            academicGroupProgramSelected = new AcademicGroupDAO().getAcademicGroupProgramDetails(academicGroupProgramSelected.getId());
+            setAcademicGroupProgramDetailsIntoTextFields();
 
         }catch(SQLException sqlException) {
             Logger.getLogger(AcademicGroupProgramDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-        setAcademicGroupProgramDetailsIntoTextFields(academicGroupProgramSelected);
     }
 
-    private void setAcademicGroupProgramDetailsIntoTextFields(AcademicGroupProgram academicGroupProgram) {
+    private void setAcademicGroupProgramDetailsIntoTextFields() {
         keyLabel.setText(academicGroupProgramSelected.getId());
         adscriptionAreaLabel.setText(academicGroupProgramSelected.getAdscriptionArea());
         nameLabel.setText(academicGroupProgramSelected.getName());
@@ -115,32 +113,18 @@ public class AcademicGroupProgramDetailsController extends Controller implements
         generalObjetiveLabel.setText(academicGroupProgramSelected.getGeneralObjetive());
         misionLabel.setText(academicGroupProgramSelected.getMission());
         visionLabel.setText(academicGroupProgramSelected.getVision());
-
-        lgacTableView.setItems(FXCollections.observableArrayList(academicGroupProgram.getLgacList()));
-        totalLgacsLabel.setText(String.valueOf( lgacTableView.getItems().size()));
-        // GET MEMBERS ASSOCIATED TO A WORKPLAN -> ACADEMIC GROUP PROGRAM
-        // GET WORK PLAN ASSIGNED TO ACADEMIC GROUP PROGRAM
-
+        adscriptionDescriptionLabel.setText(academicGroupProgramSelected.getDescriptionAdscription());
+        lgacTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
+        participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
     }
-
 
     private void setTableComponents() {
         descriptionLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         identificationLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
-
-        positionMemberTableColumn.setCellValueFactory(new PropertyValueFactory<>("participationType"));
-        nameMemberTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        emailMemberTableColumn.setCellValueFactory(new PropertyValueFactory<>("uvEmail"));
-        telephoneMemberTableColumn.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-
-        idWorkPlanTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        generalObjetiveWorkPlanTableColumn.setCellValueFactory(new PropertyValueFactory<>("generalObjetive"));
-        initialDateWorkPlanTableColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        endDateWorkPlanTableColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-
-
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
+        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+        participationsTableView.setEditable(false);
     }
-
-
 
 }

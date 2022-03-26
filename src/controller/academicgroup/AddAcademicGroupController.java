@@ -7,15 +7,18 @@ import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
-import model.dao.AcademicGroupProgramDAO;
+import model.dao.AcademicGroupDAO;
 import model.dao.LgacDAO;
 import model.dao.MiembroDAO;
 import model.domain.*;
@@ -24,6 +27,7 @@ import utils.DateFormatter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -42,12 +46,13 @@ public class AddAcademicGroupController extends ValidatorController implements I
     @FXML private TextArea generalObjetiveTextArea;
     @FXML private TextField idTextField;
     @FXML private DatePicker lastEvaluationDatePicker;
-    @FXML private TableView<Member> membersAvailableTableView;
-    @FXML private ListView<Member> membersInProgramListView;
+    @FXML private ListView<Member> membersAvailableListView;
     @FXML private TextArea misionTextArea;
     @FXML private TextField nameTextField;
-    @FXML private TableColumn<Member, String> nameTableColumn;
-    @FXML private TableColumn<Member, String> personalNumberTableColumn;
+    @FXML private TableView<Participation> participationsTableView;
+    @FXML private TableColumn<Participation, String> nameTableColumn;
+    @FXML private TableColumn<Participation, String> personalNumberTableColumn;
+    @FXML private TableColumn<Participation, ParticipationType> typeParticipationColumn;
     @FXML private DatePicker registerDateDatePicker;
     @FXML private Label totalLGACInProgramLabel;
     @FXML private Label totalMembersInProgramLabel;
@@ -60,8 +65,8 @@ public class AddAcademicGroupController extends ValidatorController implements I
     @FXML private Label systemLabel;
     @FXML private Button removeMemberCAButton;
     @FXML private Button searchMemberButton;
-    @FXML private TableColumn<?, ?> typeParticipationColumn;
-    AcademicGroupProgram academicGroupProgramRegistered;
+    @FXML private TextArea descriptionAdscriptionTextArea;
+    private AcademicGroup academicGroupProgramRegistered;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddAcademicGroupProgramView.fxml"), this);
@@ -73,11 +78,10 @@ public class AddAcademicGroupController extends ValidatorController implements I
         initValidator();
         setTableComponents();
         getConsolidationGradeFromDatabase();
-        getAllLgacsFromDatabase();
         getAllMembersFromDatabase();
     }
 
-    public AcademicGroupProgram getAcademicGroupProgramRegistered() {
+    public AcademicGroup getAcademicGroupProgramRegistered() {
         return academicGroupProgramRegistered;
     }
 
@@ -90,17 +94,48 @@ public class AddAcademicGroupController extends ValidatorController implements I
 
     @FXML
     void addLGACToProgramOnAction(ActionEvent event) {
+        AddLgacController addLgacController = new AddLgacController(lgacRegisteredTableView.getItems());
+        LGAC registered = addLgacController.showStage();
+        if(lgacRegisteredTableView.getItems() == null ) {
+            ObservableList<LGAC> lgacObservableList = FXCollections.observableArrayList(new ArrayList<>());
+            lgacRegisteredTableView.setItems(lgacObservableList);
+        }
+        if(registered != null ) {
+            lgacRegisteredTableView.getItems().add(registered);
+        }
+    }
 
+    @FXML
+    void removeLGACFromProgramOnAction(ActionEvent event) {
+        LGAC lgacSelected = lgacRegisteredTableView.getSelectionModel().getSelectedItem();
+        if(lgacSelected != null ) {
+            lgacRegisteredTableView.getItems().remove(lgacSelected);
+        }
     }
 
     @FXML
     void addMemberToProgramOnAction(ActionEvent event) {
-
+        Member selected = membersAvailableListView.getSelectionModel().getSelectedItem();
+        if(selected != null ) {
+            Participation participation = new Participation();
+            participation.setMember(selected);
+            participation.setParticipationType(ParticipationType.INTEGRANT);
+            if(participationsTableView.getItems() == null) {
+                ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
+                participationsTableView.setItems(participationObservableList);
+            }
+            membersAvailableListView.getItems().remove(selected);
+            participationsTableView.getItems().add(participation);
+        }
     }
 
     @FXML
-    void removeMemberFromProgramOnAction(ActionEvent event) {
-
+    void removeMemberFromCAOnAction(ActionEvent event) {
+        Participation participation = participationsTableView.getSelectionModel().getSelectedItem();
+        if(participation != null ) {
+            membersAvailableListView.getItems().add(participation.getMember());
+            participationsTableView.getItems().remove(participation);
+        }
     }
 
     @FXML
@@ -110,10 +145,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
         }
     }
 
-    @FXML
-    void removeLGACFromProgramOnAction(ActionEvent event) {
-
-    }
 
     private void pause() {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
@@ -124,21 +155,10 @@ public class AddAcademicGroupController extends ValidatorController implements I
     private void getConsolidationGradeFromDatabase() {
         List<ConsolidationGrade> grades = null;
         try{
-            grades = new AcademicGroupProgramDAO().getConsolidationGrades();
+            grades = new AcademicGroupDAO().getConsolidationGrades();
             ObservableList<ConsolidationGrade> gradeObservableList = FXCollections.observableArrayList(grades);
             consolidationGradeComboBox.setItems(gradeObservableList);
         } catch (SQLException sqlException) {
-            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
-    }
-
-    private void getAllLgacsFromDatabase() {
-        List<LGAC> lgacs = null;
-        try {
-            lgacs = new LgacDAO().getAlllgacs();
-            ObservableList<LGAC> lgacObservableList = FXCollections.observableArrayList(lgacs);
-            lgacRegisteredTableView.setItems(lgacObservableList);
-        } catch(SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
@@ -148,8 +168,8 @@ public class AddAcademicGroupController extends ValidatorController implements I
         try {
             members = new MiembroDAO().getAllMembers();
             members.removeIf(member -> member.getId() == 1);
-            ObservableList<Member> memberObservableList = FXCollections.observableList(members);
-            membersAvailableTableView.setItems(memberObservableList);
+            ObservableList<Member> memberObservableList = FXCollections.observableArrayList(members);
+            membersAvailableListView.setItems(memberObservableList);
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
@@ -158,10 +178,14 @@ public class AddAcademicGroupController extends ValidatorController implements I
     private void setTableComponents() {
         identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-
-        nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        personalNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("personalNumber"));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
+        ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
+        participationTypeObservableList.remove(ParticipationType.OTHER);
+        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
+        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+        participationsTableView.setEditable(true);
     }
 
     private void initValidator() {
@@ -176,6 +200,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
         addComponentToValidator(new ValidatorTextInputControl(generalObjetiveTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_SMALL_TEXT, this), false);
         addComponentToValidator(new ValidatorTextInputControl(misionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
         addComponentToValidator(new ValidatorTextInputControl(visionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_MEDIUM_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
         initListenerToControls();
     }
 
@@ -191,8 +216,8 @@ public class AddAcademicGroupController extends ValidatorController implements I
         misionTextArea.setDisable(state);
         visionTextArea.setDisable(state);
         lgacRegisteredTableView.setDisable(state);
-        membersAvailableTableView.setDisable(state);
-        membersInProgramListView.setDisable(state);
+        participationsTableView.setDisable(state);
+        membersAvailableListView.setDisable(state);
         registerButton.setDisable(state);
         addLgacToCAButton.setDisable(state);
         removeLgacCAButton.setDisable(state);
@@ -200,10 +225,11 @@ public class AddAcademicGroupController extends ValidatorController implements I
         searchMemberTextField.setDisable(state);
         removeMemberCAButton.setDisable(state);
         searchMemberButton.setDisable(state);
+        descriptionAdscriptionTextArea.setDisable(state);
     }
 
     private void addAcademicGroup() {
-        AcademicGroupProgram academicGroupProgram = new AcademicGroupProgram();
+        AcademicGroup academicGroupProgram = new AcademicGroup();
         academicGroupProgram.setId(idTextField.getText());
         academicGroupProgram.setAdscriptionArea(adscriptionAreaTextField.getText());
         academicGroupProgram.setName(nameTextField.getText());
@@ -215,8 +241,10 @@ public class AddAcademicGroupController extends ValidatorController implements I
         academicGroupProgram.setMission(misionTextArea.getText());
         academicGroupProgram.setVision(visionTextArea.getText());
         academicGroupProgram.setLgacList(lgacRegisteredTableView.getItems());
+        academicGroupProgram.setParticipationList(participationsTableView.getItems());
+        academicGroupProgram.setDescriptionAdscription(descriptionAdscriptionTextArea.getText());
         try{
-            academicGroupProgram.setId(new AcademicGroupProgramDAO().addAcademicGroupProgram(academicGroupProgram));
+            academicGroupProgram.setId(new AcademicGroupDAO().addAcademicGroupProgram(academicGroupProgram));
             academicGroupProgramRegistered = academicGroupProgram;
             systemLabel.setText("¡Se ha registrado manera exitosa!");
             disableInput(true);

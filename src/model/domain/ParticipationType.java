@@ -15,4 +15,9 @@ public enum ParticipationType {
     public String getParticipationType() {
         return participationType;
     }
+
+    @Override
+    public String toString() {
+        return participationType.replaceAll("_", " ");
+    }
 }

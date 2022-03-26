@@ -1,62 +1,86 @@
 package controller.academicgroup;
 
-import controller.Controller;
+import controller.AlertController;
+import controller.ValidatorController;
+import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
+import controller.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.validator.ValidatorTextInputControl;
+import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.dao.AcademicGroupProgramDAO;
-import model.dao.LgacDAO;
-import model.domain.AcademicGroupProgram;
-import model.domain.ConsolidationGrade;
-import model.domain.LGAC;
-import model.domain.Member;
+import javafx.util.Duration;
+import model.dao.AcademicGroupDAO;
+import model.dao.MiembroDAO;
+import model.domain.*;
 import utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ModifyAcademicGroupProgramController extends Controller implements Initializable {
-    AcademicGroupProgram academicGroupProgramSelected;
+public class ModifyAcademicGroupProgramController extends ValidatorController implements Initializable {
+    private AcademicGroup academicGroupProgramSelected;
+    private List<LGAC> listAddedToProgram;
+    @FXML private TableView<LGAC> lgacRegisteredTableView;
+    @FXML private TableColumn<LGAC, Integer> identificatorTableColumn;
+    @FXML private TableColumn<LGAC, String> descriptionTableColumn;
+    @FXML private TextField activeMembersTextField;
     @FXML private TextField adscriptionAreaTextField;
-    @FXML private TableView<LGAC> lgacAvailableTableView;
-    @FXML private TableColumn<LGAC, String> descriptionLgacTableColumn;
-    @FXML private TableColumn<LGAC, String> identificatorLgacTableColumn;
     @FXML private TextField adscriptionUnitTextField;
     @FXML private ComboBox<ConsolidationGrade> consolidationGradeComboBox;
     @FXML private TextArea generalObjetiveTextArea;
     @FXML private TextField idTextField;
     @FXML private DatePicker lastEvaluationDatePicker;
-    @FXML private ListView<LGAC> lgacProgramListView;
-    @FXML private ListView<Member> membersInProgramListView;
+    @FXML private ListView<Member> membersAvailableListView;
     @FXML private TextArea misionTextArea;
-    @FXML private TableView<Member> membersAvailableTableView;
-    @FXML private TableColumn<Member, String> nameTableColumn;
-    @FXML private TableColumn<Member, String> positionTableColumn;
-    @FXML private TableColumn<Member, String> telephoneNumberTableColumn;
-    @FXML private TableColumn<Member, String> emailTableColumn;
     @FXML private TextField nameTextField;
+    @FXML private TableView<Participation> participationsTableView;
+    @FXML private TableColumn<Participation, String> nameTableColumn;
+    @FXML private TableColumn<Participation, String> personalNumberTableColumn;
+    @FXML private TableColumn<Participation, ParticipationType> typeParticipationColumn;
     @FXML private DatePicker registerDateDatePicker;
     @FXML private Label totalLGACInProgramLabel;
     @FXML private Label totalMembersInProgramLabel;
     @FXML private TextArea visionTextArea;
+    @FXML private Button modifyButton;
+    @FXML private Button addLgacToCAButton;
+    @FXML private Button removeLgacCAButton;
+    @FXML private Button addMemberToCAButton;
+    @FXML private TextField searchMemberTextField;
+    @FXML private Label systemLabel;
+    @FXML private Button removeMemberCAButton;
+    @FXML private Button searchMemberButton;
+    @FXML private TextArea descriptionAdscriptionTextArea;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initValidator();
         setTableComponents();
+        getConsolidationGradeFromDatabase();
+        getAllMembersFromDatabase();
         setAcademicGroupProgramDetailsIntoTextFields();
-        getAlllgacsFromDatabase();
     }
 
-    public ModifyAcademicGroupProgramController(AcademicGroupProgram academicGroupProgramSelected) {
+    public AcademicGroup getAcademicGroupProgramSelected() {
+        return academicGroupProgramSelected;
+    }
+
+    public ModifyAcademicGroupProgramController(AcademicGroup academicGroupProgramSelected) {
         this.academicGroupProgramSelected = academicGroupProgramSelected;
     }
 
@@ -67,55 +91,120 @@ public class ModifyAcademicGroupProgramController extends Controller implements 
 
     @FXML
     void addLGACToProgramOnAction(ActionEvent event) {
-        LGAC lgacSelected = lgacAvailableTableView.getSelectionModel().getSelectedItem();
+        AddLgacController addLgacController = new AddLgacController(lgacRegisteredTableView.getItems());
+        LGAC registered = addLgacController.showStage();
+        if(lgacRegisteredTableView.getItems() == null ) {
+            ObservableList<LGAC> lgacObservableList = FXCollections.observableArrayList(new ArrayList<>());
+            lgacRegisteredTableView.setItems(lgacObservableList);
+        }
+        if(registered != null ) {
+            lgacRegisteredTableView.getItems().add(registered);
+        }
+    }
+
+    @FXML
+    void removeLGACFromProgramOnAction(ActionEvent event) {
+        LGAC lgacSelected = lgacRegisteredTableView.getSelectionModel().getSelectedItem();
         if(lgacSelected != null ) {
-            lgacAvailableTableView.getSelectionModel().clearSelection();
-            lgacProgramListView.getItems().add(lgacSelected);
-            lgacAvailableTableView.getItems().remove(lgacSelected);
+            lgacRegisteredTableView.getItems().remove(lgacSelected);
         }
     }
 
     @FXML
     void addMemberToProgramOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void cancelOnAction(ActionEvent event) {
-        stage.close();
-    }
-
-    @FXML
-    void modifyAcademicGroupProgramOnAction(ActionEvent event) {
-        academicGroupProgramSelected.setId(idTextField.getText());
-        academicGroupProgramSelected.setAdscriptionArea(adscriptionAreaTextField.getText());
-        academicGroupProgramSelected.setName(nameTextField.getText());
-        academicGroupProgramSelected.setAdscriptionUnit(adscriptionUnitTextField.getText());
-        academicGroupProgramSelected.setConsolidationGrade(consolidationGradeComboBox.getSelectionModel().getSelectedItem());
-        academicGroupProgramSelected.setRegisterDate(DateFormatter.getDateFromDatepickerValue(registerDateDatePicker.getValue()));
-        academicGroupProgramSelected.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(lastEvaluationDatePicker.getValue()));
-        academicGroupProgramSelected.setGeneralObjetive(generalObjetiveTextArea.getText());
-        academicGroupProgramSelected.setMission(misionTextArea.getText());
-        academicGroupProgramSelected.setVision(visionTextArea.getText());
-        academicGroupProgramSelected.setLgacList(lgacProgramListView.getItems());
-        System.out.println(academicGroupProgramSelected);
-    }
-
-    @FXML
-    void removeLGACFromProgramOnAction(ActionEvent event) {
-        LGAC lgacSelected = lgacProgramListView.getSelectionModel().getSelectedItem();
-        if(lgacSelected != null ) {
-            lgacProgramListView.getItems().remove(lgacSelected);
-            lgacAvailableTableView.getItems().add(lgacSelected);
-            lgacProgramListView.getSelectionModel().clearSelection();
+        Member selected = membersAvailableListView.getSelectionModel().getSelectedItem();
+        if(selected != null ) {
+            Participation participation = new Participation();
+            participation.setMember(selected);
+            participation.setParticipationType(ParticipationType.INTEGRANT);
+            if(participationsTableView.getItems() == null) {
+                ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
+                participationsTableView.setItems(participationObservableList);
+            }
+            membersAvailableListView.getItems().remove(selected);
+            participationsTableView.getItems().add(participation);
         }
     }
 
     @FXML
-    void removeMemberFromProgramOnAction(ActionEvent event) {
+    void removeMemberFromCAOnAction(ActionEvent event) {
+        Participation participation = participationsTableView.getSelectionModel().getSelectedItem();
+        if(participation != null ) {
+            membersAvailableListView.getItems().add(participation.getMember());
+            participationsTableView.getItems().remove(participation);
+        }
+    }
+
+    @FXML
+    void cancelOnAction(ActionEvent event) {
+        if(AlertController.showCancelationConfirmationAlert()) {
+            stage.close();
+        }
+    }
+    @FXML
+    void modifyAcademicGroupProgramOnAction(ActionEvent event) {
+        if(validateInputs()) {
+            modifyAcademicGroup();
+        }
+    }
+
+    private void modifyAcademicGroup() {
+        AcademicGroup academicGroupProgram = new AcademicGroup();
+        academicGroupProgram.setId(idTextField.getText());
+        academicGroupProgram.setAdscriptionArea(adscriptionAreaTextField.getText());
+        academicGroupProgram.setName(nameTextField.getText());
+        academicGroupProgram.setAdscriptionUnit(adscriptionUnitTextField.getText());
+        academicGroupProgram.setConsolidationGrade(consolidationGradeComboBox.getSelectionModel().getSelectedItem());
+        academicGroupProgram.setRegisterDate(DateFormatter.getDateFromDatepickerValue(registerDateDatePicker.getValue()));
+        academicGroupProgram.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(lastEvaluationDatePicker.getValue()));
+        academicGroupProgram.setGeneralObjetive(generalObjetiveTextArea.getText());
+        academicGroupProgram.setMission(misionTextArea.getText());
+        academicGroupProgram.setVision(visionTextArea.getText());
+        academicGroupProgram.setLgacList(lgacRegisteredTableView.getItems());
+        academicGroupProgram.setParticipationList(participationsTableView.getItems());
+        academicGroupProgram.setDescriptionAdscription(descriptionAdscriptionTextArea.getText());
+        try{
+            if(new AcademicGroupDAO().updateAcademicGroup(academicGroupProgram)) {
+                academicGroupProgramSelected = academicGroupProgram;
+                systemLabel.setText("¡Se ha actualizado de manera exitosa!");
+                disableInput(true);
+                pause();
+            }
+        } catch(SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
 
     }
 
+    private void pause() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> stage.close());
+        pause.play();
+    }
+
+    private void disableInput(boolean state) {
+        idTextField.setDisable(state);
+        adscriptionAreaTextField.setDisable(state);
+        nameTextField.setDisable(state);
+        adscriptionUnitTextField.setDisable(state);
+        consolidationGradeComboBox.setDisable(state);
+        registerDateDatePicker.setDisable(state);
+        lastEvaluationDatePicker.setDisable(state);
+        generalObjetiveTextArea.setDisable(state);
+        misionTextArea.setDisable(state);
+        visionTextArea.setDisable(state);
+        lgacRegisteredTableView.setDisable(state);
+        participationsTableView.setDisable(state);
+        membersAvailableListView.setDisable(state);
+        modifyButton.setDisable(state);
+        addLgacToCAButton.setDisable(state);
+        removeLgacCAButton.setDisable(state);
+        addMemberToCAButton.setDisable(state);
+        searchMemberTextField.setDisable(state);
+        removeMemberCAButton.setDisable(state);
+        searchMemberButton.setDisable(state);
+        descriptionAdscriptionTextArea.setDisable(state);
+    }
 
     private void setAcademicGroupProgramDetailsIntoTextFields() {
         idTextField.setText(academicGroupProgramSelected.getId());
@@ -128,44 +217,65 @@ public class ModifyAcademicGroupProgramController extends Controller implements 
         generalObjetiveTextArea.setText(academicGroupProgramSelected.getGeneralObjetive());
         misionTextArea.setText(academicGroupProgramSelected.getMission());
         visionTextArea.setText(academicGroupProgramSelected.getVision());
-        lgacProgramListView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList()));
-        totalLGACInProgramLabel.setText(String.valueOf(lgacProgramListView.getItems().size()));
-        // GET MEMBERS ASSOCIATED TO A WORKPLAN -> ACADEMIC GROUP PROGRAM
-        // GET WORK PLAN ASSIGNED TO ACADEMIC GROUP PROGRAM
+        descriptionAdscriptionTextArea.setText(academicGroupProgramSelected.getDescriptionAdscription());
+        lgacRegisteredTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
+        participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
     }
 
-    private void getAlllgacsFromDatabase() {
-        List<LGAC> lgacs = null;
+    private void getConsolidationGradeFromDatabase() {
+        List<ConsolidationGrade> grades = null;
+        try{
+            grades = new AcademicGroupDAO().getConsolidationGrades();
+            ObservableList<ConsolidationGrade> gradeObservableList = FXCollections.observableArrayList(grades);
+            consolidationGradeComboBox.setItems(gradeObservableList);
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    private void getAllMembersFromDatabase() {
+        List<Member> members = null;
         try {
-            lgacs = new LgacDAO().getAlllgacs();
-            System.out.println(lgacs);
-            ObservableList<LGAC> lgacObservableList = FXCollections.observableArrayList(lgacs);
-            for(int i = 0; i < lgacProgramListView.getItems().size(); i++) {
-                if(lgacProgramListView.getItems().get(i).getId() == lgacObservableList.get(i).getId()) {
-                    lgacObservableList.remove(i);
+            members = new MiembroDAO().getAllMembers();
+            members.removeIf(member -> member.getId() == 1);
+            ObservableList<Member> memberObservableList = FXCollections.observableArrayList(members);
+            membersAvailableListView.setItems(memberObservableList);
+            if(academicGroupProgramSelected.getParticipationList() != null ) {
+                for (Participation participation : academicGroupProgramSelected.getParticipationList()) {
+                    membersAvailableListView.getItems().removeIf( obj -> obj.getId() == participation.getMember().getId());
                 }
             }
-            lgacAvailableTableView.setItems(lgacObservableList);
-        } catch(SQLException sqlException) {
-            Logger.getLogger(ModifyAcademicGroupProgramController.class.getName()).log(Level.SEVERE, null, sqlException);
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 
     private void setTableComponents() {
-        identificatorLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
-        descriptionLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        lgacProgramListView.getItems().addListener(new ListChangeListener<LGAC>() {
-            @Override
-            public void onChanged(Change<? extends LGAC> c) {
-                System.out.println("CHANGE");
-            }
-        });
-
-//        lgacProgramListView.getItems().addListener((ListChangeListener<LGAC>) c -> {
-//            System.out.println("Cambiooooo");
-//            totalLGACInProgramLabel.setText((String.valueOf(lgacProgramListView.getItems().size())));
-//        });
+        identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
+        ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
+        participationTypeObservableList.remove(ParticipationType.OTHER);
+        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
+        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+        participationsTableView.setEditable(true);
     }
 
+    private void initValidator() {
+        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
+        addComponentToValidator(new ValidatorTextInputControl(idTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_LETTERS,Validator.LENGTH_GENERAL, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionUnitTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), true);
+        addComponentToValidator(new ValidatorComboBoxBase(consolidationGradeComboBox, this), true);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(registerDateDatePicker, this, validateRegister), true);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(lastEvaluationDatePicker, this, validateRegister), true);
+        addComponentToValidator(new ValidatorTextInputControl(generalObjetiveTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_SMALL_TEXT, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(misionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(visionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_MEDIUM_TEXT, this), true);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), true);
+        initListenerToControls();
+    }
 }

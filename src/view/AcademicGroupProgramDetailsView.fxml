@@ -77,19 +77,14 @@
                                  <children>
                                     <Label styleClass="bold-label" text="Vision" />
                                     <Label fx:id="visionLabel" styleClass="description-label" text="Label" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="16.0" prefWidth="373.0" spacing="15.0">
+                                       <children>
+                                          <Label styleClass="bold-label" text="Descripcion adscripcion" />
+                                          <Label fx:id="adscriptionDescriptionLabel" styleClass="description-label" text="Label" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
-                              <TableView fx:id="memberTableView" prefHeight="200.0" prefWidth="200.0" styleClass="tableview">
-                                 <columns>
-                                    <TableColumn fx:id="positionMemberTableColumn" prefWidth="75.0" text="Cargo" />
-                                    <TableColumn fx:id="nameMemberTableColumn" prefWidth="75.0" text="Nombre" />
-                                    <TableColumn fx:id="emailMemberTableColumn" prefWidth="75.0" text="Correo" />
-                                    <TableColumn fx:id="telephoneMemberTableColumn" prefWidth="75.0" text="Celular" />
-                                 </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
                            </children>
                         </VBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
@@ -135,27 +130,16 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <TableView fx:id="workPlanTableView" prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn fx:id="idWorkPlanTableColumn" prefWidth="250.0" text="Identificador" />
-                            <TableColumn fx:id="generalObjetiveWorkPlanTableColumn" prefWidth="1059.0" text="Objetivo general" />
-                              <TableColumn fx:id="initialDateWorkPlanTableColumn" prefWidth="75.0" text="Fecha inicio" />
-                              <TableColumn fx:id="endDateWorkPlanTableColumn" prefWidth="75.0" text="Fecha final" />
-                          </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Total de planes de trabjao" />
-                              <Label fx:id="totalWorkPlanLabel" text="?" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <TableView fx:id="participationsTableView" prefHeight="252.0" prefWidth="655.0" styleClass="tableview">
+                     <columns>
+                        <TableColumn fx:id="personalNumberTableColumn" prefWidth="177.0" text="Numero de personal" />
+                        <TableColumn fx:id="nameTableColumn" prefWidth="476.0" text="Nombre" />
+                        <TableColumn fx:id="typeParticipationColumn" prefWidth="476.0" text="Tipo de participacion" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">

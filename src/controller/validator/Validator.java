@@ -16,6 +16,7 @@ public class Validator {
     public static final int LENGTH_TELEPHONE = 15;
     public static final int LENGTH_CURP = 18;
     public static final int LENGTH_EMAIL = 120;
+    public static final int LENGTH_SMALL_TEXT = 12;
     public static final int MIN_YEARS_OLD = 18;
     public static final int LENGTH_LONG_TEXT = 1200;
     public static final int LENGTH_LONG_MEDIUM_TEXT = 600;
