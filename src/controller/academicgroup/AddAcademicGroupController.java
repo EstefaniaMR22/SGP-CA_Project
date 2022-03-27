@@ -16,13 +16,26 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.dao.AcademicGroupDAO;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.AcademicGroup;
+import model.domain.ConsolidationGrade;
+import model.domain.LGAC;
+import model.domain.Member;
+import model.domain.Participation;
+import model.domain.ParticipationType;
 import utils.Autentication;
 import utils.DateFormatter;
 
@@ -72,7 +85,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
     private AcademicGroup academicGroupProgramRegistered;
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/AddAcademicGroupProgramView.fxml"), this);
+        loadFXMLFile(getClass().getResource("/view/AddAcademicGroupView.fxml"), this);
         stage.showAndWait();
     }
 
@@ -83,6 +96,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
         getConsolidationGradeFromDatabase();
         getAllMembersFromDatabase();
         initializeFilterSearchInput();
+        // For later version...
         //addSelfMemberToProgram();
     }
 
@@ -171,85 +185,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
         }
     }
 
-    private void setTableComponents() {
-        identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
-        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
-        personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
-        ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
-        participationTypeObservableList.remove(ParticipationType.OTHER);
-        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
-        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
-        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
-        participationsTableView.setEditable(true);
-    }
-
-    private void initValidator() {
-        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
-        addComponentToValidator(new ValidatorTextInputControl(idTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_LETTERS,Validator.LENGTH_GENERAL, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(adscriptionUnitTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
-        addComponentToValidator(new ValidatorComboBoxBase(consolidationGradeComboBox, this), false);
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(registerDateDatePicker, this, validateRegister), false);
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(lastEvaluationDatePicker, this, validateRegister), false);
-        addComponentToValidator(new ValidatorTextInputControl(generalObjetiveTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_SMALL_TEXT, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(misionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(visionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_MEDIUM_TEXT, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
-        initListenerToControls();
-    }
-
-    private void disableInput(boolean state) {
-        idTextField.setDisable(state);
-        adscriptionAreaTextField.setDisable(state);
-        nameTextField.setDisable(state);
-        adscriptionUnitTextField.setDisable(state);
-        consolidationGradeComboBox.setDisable(state);
-        registerDateDatePicker.setDisable(state);
-        lastEvaluationDatePicker.setDisable(state);
-        generalObjetiveTextArea.setDisable(state);
-        misionTextArea.setDisable(state);
-        visionTextArea.setDisable(state);
-        lgacRegisteredTableView.setDisable(state);
-        participationsTableView.setDisable(state);
-        membersAvailableListView.setDisable(state);
-        registerButton.setDisable(state);
-        addLgacToCAButton.setDisable(state);
-        removeLgacCAButton.setDisable(state);
-        addMemberToCAButton.setDisable(state);
-        searchMemberTextField.setDisable(state);
-        removeMemberCAButton.setDisable(state);
-        searchMemberButton.setDisable(state);
-        descriptionAdscriptionTextArea.setDisable(state);
-    }
-
-    private void addAcademicGroup() {
-        AcademicGroup academicGroupProgram = new AcademicGroup();
-        academicGroupProgram.setId(idTextField.getText());
-        academicGroupProgram.setAdscriptionArea(adscriptionAreaTextField.getText());
-        academicGroupProgram.setName(nameTextField.getText());
-        academicGroupProgram.setAdscriptionUnit(adscriptionUnitTextField.getText());
-        academicGroupProgram.setConsolidationGrade(consolidationGradeComboBox.getSelectionModel().getSelectedItem());
-        academicGroupProgram.setRegisterDate(DateFormatter.getDateFromDatepickerValue(registerDateDatePicker.getValue()));
-        academicGroupProgram.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(lastEvaluationDatePicker.getValue()));
-        academicGroupProgram.setGeneralObjetive(generalObjetiveTextArea.getText());
-        academicGroupProgram.setMission(misionTextArea.getText());
-        academicGroupProgram.setVision(visionTextArea.getText());
-        academicGroupProgram.setLgacList(lgacRegisteredTableView.getItems());
-        academicGroupProgram.setParticipationList(participationsTableView.getItems());
-        academicGroupProgram.setDescriptionAdscription(descriptionAdscriptionTextArea.getText());
-        try{
-            academicGroupProgram.setId(new AcademicGroupDAO().addAcademicGroupProgram(academicGroupProgram));
-            academicGroupProgramRegistered = academicGroupProgram;
-            systemLabel.setText("¡Se ha registrado manera exitosa!");
-            disableInput(true);
-            pause(3);
-        } catch(SQLException sqlException) {
-            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
-    }
-
     private void addSelfMemberToProgram() {
         Member selfResponsable = Autentication.getInstance().getParticipation().getMember();
         addParticipationToTableView(selfResponsable, ParticipationType.RESPONSABLE);
@@ -297,4 +232,82 @@ public class AddAcademicGroupController extends ValidatorController implements I
         });
     }
 
+    private void addAcademicGroup() {
+        AcademicGroup academicGroupProgram = new AcademicGroup();
+        academicGroupProgram.setId(idTextField.getText());
+        academicGroupProgram.setAdscriptionArea(adscriptionAreaTextField.getText());
+        academicGroupProgram.setName(nameTextField.getText());
+        academicGroupProgram.setAdscriptionUnit(adscriptionUnitTextField.getText());
+        academicGroupProgram.setConsolidationGrade(consolidationGradeComboBox.getSelectionModel().getSelectedItem());
+        academicGroupProgram.setRegisterDate(DateFormatter.getDateFromDatepickerValue(registerDateDatePicker.getValue()));
+        academicGroupProgram.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(lastEvaluationDatePicker.getValue()));
+        academicGroupProgram.setGeneralObjetive(generalObjetiveTextArea.getText());
+        academicGroupProgram.setMission(misionTextArea.getText());
+        academicGroupProgram.setVision(visionTextArea.getText());
+        academicGroupProgram.setLgacList(lgacRegisteredTableView.getItems());
+        academicGroupProgram.setParticipationList(participationsTableView.getItems());
+        academicGroupProgram.setDescriptionAdscription(descriptionAdscriptionTextArea.getText());
+        try{
+            academicGroupProgram.setId(new AcademicGroupDAO().addAcademicGroupProgram(academicGroupProgram));
+            academicGroupProgramRegistered = academicGroupProgram;
+            systemLabel.setText("¡Se ha registrado manera exitosa!");
+            disableInput(true);
+            pause(3);
+        } catch(SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    private void disableInput(boolean state) {
+        idTextField.setDisable(state);
+        adscriptionAreaTextField.setDisable(state);
+        nameTextField.setDisable(state);
+        adscriptionUnitTextField.setDisable(state);
+        consolidationGradeComboBox.setDisable(state);
+        registerDateDatePicker.setDisable(state);
+        lastEvaluationDatePicker.setDisable(state);
+        generalObjetiveTextArea.setDisable(state);
+        misionTextArea.setDisable(state);
+        visionTextArea.setDisable(state);
+        lgacRegisteredTableView.setDisable(state);
+        participationsTableView.setDisable(state);
+        membersAvailableListView.setDisable(state);
+        registerButton.setDisable(state);
+        addLgacToCAButton.setDisable(state);
+        removeLgacCAButton.setDisable(state);
+        addMemberToCAButton.setDisable(state);
+        searchMemberTextField.setDisable(state);
+        removeMemberCAButton.setDisable(state);
+        searchMemberButton.setDisable(state);
+        descriptionAdscriptionTextArea.setDisable(state);
+    }
+
+    private void setTableComponents() {
+        identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
+        personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
+        ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
+        participationTypeObservableList.remove(ParticipationType.OTHER);
+        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
+        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+        participationsTableView.setEditable(true);
+    }
+
+    private void initValidator() {
+        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
+        addComponentToValidator(new ValidatorTextInputControl(idTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_LETTERS,Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionUnitTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(consolidationGradeComboBox, this), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(registerDateDatePicker, this, validateRegister), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(lastEvaluationDatePicker, this, validateRegister), false);
+        addComponentToValidator(new ValidatorTextInputControl(generalObjetiveTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_SMALL_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(misionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(visionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_MEDIUM_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
+        initListenerToControls();
+    }
 }

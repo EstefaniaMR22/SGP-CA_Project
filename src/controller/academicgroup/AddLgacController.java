@@ -64,13 +64,6 @@ public class AddLgacController extends ValidatorController implements Initializa
         }
     }
 
-    private void initValidator() {
-        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
-        addComponentToValidator(new ValidatorTextInputControl(identificatorTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_SMALL_TEXT, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(descriptionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
-        initListenerToControls();
-    }
-
     private boolean validateIdentificator() {
         boolean isIdentificatorRepeated = false;
         for (LGAC lgac: lgacObservableList ) {
@@ -81,4 +74,10 @@ public class AddLgacController extends ValidatorController implements Initializa
         return isIdentificatorRepeated;
     }
 
+    private void initValidator() {
+        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
+        addComponentToValidator(new ValidatorTextInputControl(identificatorTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_SMALL_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(descriptionTextArea, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
+        initListenerToControls();
+    }
 }

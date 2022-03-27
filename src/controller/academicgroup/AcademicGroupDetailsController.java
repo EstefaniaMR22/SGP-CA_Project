@@ -4,7 +4,6 @@ import controller.Controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.AcademicGroupDAO;
 import model.domain.AcademicGroup;
@@ -27,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AcademicGroupProgramDetailsController extends Controller implements Initializable {
+public class AcademicGroupDetailsController extends Controller implements Initializable {
     private AcademicGroup academicGroupProgramSelected;
     @FXML private Label adscriptionAreaLabel;
     @FXML private Label adscriptionUnitLabel;
@@ -83,12 +81,12 @@ public class AcademicGroupProgramDetailsController extends Controller implements
         getAcademicGroupProgramDetails();
     }
 
-    public AcademicGroupProgramDetailsController(AcademicGroup academicGroupProgramSelected) {
+    public AcademicGroupDetailsController(AcademicGroup academicGroupProgramSelected) {
         this.academicGroupProgramSelected = academicGroupProgramSelected;
     }
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/AcademicGroupProgramDetailsView.fxml"), this);
+        loadFXMLFile(getClass().getResource("/view/AcademicGroupDetailsView.fxml"), this);
         stage.showAndWait();
     }
 
@@ -98,7 +96,7 @@ public class AcademicGroupProgramDetailsController extends Controller implements
             setAcademicGroupProgramDetailsIntoTextFields();
 
         }catch(SQLException sqlException) {
-            Logger.getLogger(AcademicGroupProgramDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
+            Logger.getLogger(AcademicGroupDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 
@@ -126,5 +124,4 @@ public class AcademicGroupProgramDetailsController extends Controller implements
         typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
         participationsTableView.setEditable(false);
     }
-
 }

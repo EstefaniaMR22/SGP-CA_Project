@@ -99,6 +99,13 @@ public class AdministratorController extends Controller implements Initializable
         };
     }
 
+    private void initializeListViewListener() {
+        membersListView.getItems().addListener((ListChangeListener<Member>) c -> countIntegrants(membersListView.getItems()));
+    }
+
+    private void countIntegrants(ObservableList<Member> members) {
+        totalMembersLabel.setText(String.valueOf(members.size()));
+    }
 
     private void initializeFilterSearchInput() {
         FilteredList<Member> filteredData = new FilteredList<>(membersListView.getItems(), p -> true);
@@ -122,13 +129,4 @@ public class AdministratorController extends Controller implements Initializable
             }
         });
     }
-
-    private void initializeListViewListener() {
-        membersListView.getItems().addListener((ListChangeListener<Member>) c -> countIntegrants(membersListView.getItems()));
-    }
-
-    private void countIntegrants(ObservableList<Member> members) {
-        totalMembersLabel.setText(String.valueOf(members.size()));
-    }
-
 }

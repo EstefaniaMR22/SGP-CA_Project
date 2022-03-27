@@ -16,13 +16,26 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.dao.AcademicGroupDAO;
 import model.dao.MiembroDAO;
-import model.domain.*;
+import model.domain.AcademicGroup;
+import model.domain.ConsolidationGrade;
+import model.domain.LGAC;
+import model.domain.Member;
+import model.domain.Participation;
+import model.domain.ParticipationType;
 import utils.DateFormatter;
 
 import java.net.URL;
@@ -37,6 +50,7 @@ import java.util.logging.Logger;
 
 public class ModifyAcademicGroupProgramController extends ValidatorController implements Initializable {
     private AcademicGroup academicGroupProgramSelected;
+    private FilteredList<Member> filteredData;
     private List<LGAC> listAddedToProgram;
     @FXML private TableView<LGAC> lgacRegisteredTableView;
     @FXML private TableColumn<LGAC, Integer> identificatorTableColumn;
@@ -88,7 +102,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     }
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/ModifyAcademicGroupProgramView.fxml"), this);
+        loadFXMLFile(getClass().getResource("/view/ModifyAcademicGroupView.fxml"), this);
         stage.showAndWait();
     }
 
@@ -143,6 +157,63 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         }
     }
 
+    private void pause() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> stage.close());
+        pause.play();
+    }
+
+
+    private void getConsolidationGradeFromDatabase() {
+        List<ConsolidationGrade> grades = null;
+        try{
+            grades = new AcademicGroupDAO().getConsolidationGrades();
+            ObservableList<ConsolidationGrade> gradeObservableList = FXCollections.observableArrayList(grades);
+            consolidationGradeComboBox.setItems(gradeObservableList);
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    private void getAllMembersFromDatabase() {
+        List<Member> members = null;
+        try {
+            members = new MiembroDAO().getAllMembers();
+            members.removeIf(member -> member.getId() == 1);
+            ObservableList<Member> memberObservableList = FXCollections.observableArrayList(members);
+            membersAvailableListView.setItems(memberObservableList);
+            if(academicGroupProgramSelected.getParticipationList() != null ) {
+                for (Participation participation : academicGroupProgramSelected.getParticipationList()) {
+                    membersAvailableListView.getItems().removeIf( obj -> obj.getId() == participation.getMember().getId());
+                }
+            }
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+    }
+
+    private void addParticipationToTableView(Member member, ParticipationType participationType) {
+        Participation participation = new Participation();
+        participation.setMember(member);
+        participation.setParticipationType(participationType);
+        if(participationsTableView.getItems() == null) {
+            ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
+            participationsTableView.setItems(participationObservableList);
+        }
+        participationsTableView.getItems().add(participation);
+        filteredData.getSource().remove(member);
+    }
+
+    private void removeParticipationFromTableView(Participation participation) {
+        searchMemberTextField.setText("");
+        ObservableList<Member> observableList = FXCollections.observableArrayList(new ArrayList<>());
+        observableList.setAll(membersAvailableListView.getItems());
+        observableList.add(participation.getMember());
+        membersAvailableListView.setItems(observableList);
+        initializeFilterSearchInput();
+        participationsTableView.getItems().remove(participation);
+    }
+
     private void modifyAcademicGroup() {
         AcademicGroup academicGroupProgram = new AcademicGroup();
         academicGroupProgram.setId(idTextField.getText());
@@ -168,13 +239,26 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         } catch(SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-
     }
 
-    private void pause() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(event -> stage.close());
-        pause.play();
+    private void initializeFilterSearchInput() {
+        filteredData = new FilteredList<>(membersAvailableListView.getItems(), p -> true);
+        searchMemberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate( object -> {
+                if(newValue == null | newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+            SortedList<Member> sortedList = new SortedList<>(filteredData);
+            membersAvailableListView.setItems(sortedList);
+        });
     }
 
     private void disableInput(boolean state) {
@@ -217,34 +301,6 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
     }
 
-    private void getConsolidationGradeFromDatabase() {
-        List<ConsolidationGrade> grades = null;
-        try{
-            grades = new AcademicGroupDAO().getConsolidationGrades();
-            ObservableList<ConsolidationGrade> gradeObservableList = FXCollections.observableArrayList(grades);
-            consolidationGradeComboBox.setItems(gradeObservableList);
-        } catch (SQLException sqlException) {
-            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
-    }
-
-    private void getAllMembersFromDatabase() {
-        List<Member> members = null;
-        try {
-            members = new MiembroDAO().getAllMembers();
-            members.removeIf(member -> member.getId() == 1);
-            ObservableList<Member> memberObservableList = FXCollections.observableArrayList(members);
-            membersAvailableListView.setItems(memberObservableList);
-            if(academicGroupProgramSelected.getParticipationList() != null ) {
-                for (Participation participation : academicGroupProgramSelected.getParticipationList()) {
-                    membersAvailableListView.getItems().removeIf( obj -> obj.getId() == participation.getMember().getId());
-                }
-            }
-        } catch (SQLException sqlException) {
-            Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
-        }
-    }
-
     private void setTableComponents() {
         identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -273,50 +329,4 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), true);
         initListenerToControls();
     }
-
-    private void addParticipationToTableView(Member member, ParticipationType participationType) {
-        Participation participation = new Participation();
-        participation.setMember(member);
-        participation.setParticipationType(participationType);
-        if(participationsTableView.getItems() == null) {
-            ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
-            participationsTableView.setItems(participationObservableList);
-        }
-        participationsTableView.getItems().add(participation);
-        filteredData.getSource().remove(member);
-    }
-
-    private void removeParticipationFromTableView(Participation participation) {
-        searchMemberTextField.setText("");
-        ObservableList<Member> observableList = FXCollections.observableArrayList(new ArrayList<>());
-        observableList.setAll(membersAvailableListView.getItems());
-        observableList.add(participation.getMember());
-        membersAvailableListView.setItems(observableList);
-        initializeFilterSearchInput();
-        participationsTableView.getItems().remove(participation);
-    }
-
-    FilteredList<Member> filteredData;
-
-    private void initializeFilterSearchInput() {
-        filteredData = new FilteredList<>(membersAvailableListView.getItems(), p -> true);
-        searchMemberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate( object -> {
-                if(newValue == null | newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false;
-            });
-            SortedList<Member> sortedList = new SortedList<>(filteredData);
-            membersAvailableListView.setItems(sortedList);
-        });
-    }
-
-
 }

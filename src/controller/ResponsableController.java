@@ -1,6 +1,6 @@
 package controller;
 
-import controller.academicgroup.AcademicGroupProgramDetailsController;
+import controller.academicgroup.AcademicGroupDetailsController;
 import controller.academicgroup.AddAcademicGroupController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +36,7 @@ public class ResponsableController extends Controller implements Initializable {
     void getAcademicGroupProgramDetailsOnAction(ActionEvent event) {
         AcademicGroup academicGroupProgramSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
         if(academicGroupProgramSelected != null ) {
-            AcademicGroupProgramDetailsController academicGroupProgramDetailsController = new AcademicGroupProgramDetailsController(academicGroupProgramSelected);
+            AcademicGroupDetailsController academicGroupProgramDetailsController = new AcademicGroupDetailsController(academicGroupProgramSelected);
             academicGroupProgramDetailsController.showStage();
         }
     }
