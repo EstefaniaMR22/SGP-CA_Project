@@ -2,9 +2,13 @@ package controller;
 
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.MemberDetailsController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +35,7 @@ public class AdministratorController extends Controller implements Initializable
     public void initialize(URL location, ResourceBundle resources) {
         getMembersFromDatabase();
         initializeListViewListener();
+        initializeFilterSearchInput();
     }
 
     public void showStage() {
@@ -58,6 +63,11 @@ public class AdministratorController extends Controller implements Initializable
         if(selected != null) {
             MemberDetailsController memberDetailsController = new MemberDetailsController(selected);
             memberDetailsController.showStage();
+            if(!memberDetailsController.getMemberSelected().equals(selected)) {
+                int indexOf = membersListView.getSelectionModel().getSelectedIndex();
+                membersListView.getItems().remove(indexOf);
+                membersListView.getItems().add(indexOf, memberDetailsController.getMemberSelected());
+            }
         }
     }
 
@@ -87,6 +97,30 @@ public class AdministratorController extends Controller implements Initializable
         } catch(SQLException sqlException) {
             Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
         };
+    }
+
+
+    private void initializeFilterSearchInput() {
+        FilteredList<Member> filteredData = new FilteredList<>(membersListView.getItems(), p -> true);
+        searchTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                filteredData.setPredicate( object -> {
+                    if(newValue == null | newValue.isEmpty()) {
+                        return true;
+                    }
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
+                        return true;
+                    } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                    return false;
+                });
+                SortedList<Member> sortedList = new SortedList<>(filteredData);
+                membersListView.setItems(sortedList);
+            }
+        });
     }
 
     private void initializeListViewListener() {

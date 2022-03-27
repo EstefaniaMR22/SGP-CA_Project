@@ -24,6 +24,7 @@ public class Member {
     private String aditionalEmail;
     private String studyArea;
     private StudyGrade maxStudyGrade;
+    private String fullName;
 
     public Member() {
     }
@@ -194,6 +195,10 @@ public class Member {
 
     public void setMaxStudyGrade(StudyGrade maxStudyGrade) {
         this.maxStudyGrade = maxStudyGrade;
+    }
+
+    public String getFullName() {
+        return name + " " + paternalLastname + " " + maternalLastname;
     }
 
     @Override

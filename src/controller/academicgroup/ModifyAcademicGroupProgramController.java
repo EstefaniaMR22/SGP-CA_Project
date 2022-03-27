@@ -11,6 +11,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,6 +76,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         getConsolidationGradeFromDatabase();
         getAllMembersFromDatabase();
         setAcademicGroupProgramDetailsIntoTextFields();
+        initializeFilterSearchInput();
     }
 
     public AcademicGroup getAcademicGroupProgramSelected() {
@@ -114,15 +117,8 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     void addMemberToProgramOnAction(ActionEvent event) {
         Member selected = membersAvailableListView.getSelectionModel().getSelectedItem();
         if(selected != null ) {
-            Participation participation = new Participation();
-            participation.setMember(selected);
-            participation.setParticipationType(ParticipationType.INTEGRANT);
-            if(participationsTableView.getItems() == null) {
-                ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
-                participationsTableView.setItems(participationObservableList);
-            }
-            membersAvailableListView.getItems().remove(selected);
-            participationsTableView.getItems().add(participation);
+            searchMemberTextField.setText("");
+            addParticipationToTableView(selected, ParticipationType.INTEGRANT);
         }
     }
 
@@ -130,8 +126,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     void removeMemberFromCAOnAction(ActionEvent event) {
         Participation participation = participationsTableView.getSelectionModel().getSelectedItem();
         if(participation != null ) {
-            membersAvailableListView.getItems().add(participation.getMember());
-            participationsTableView.getItems().remove(participation);
+            removeParticipationFromTableView(participation);
         }
     }
 
@@ -253,7 +248,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     private void setTableComponents() {
         identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
@@ -278,4 +273,50 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_LONG_LONG_TEXT, this), true);
         initListenerToControls();
     }
+
+    private void addParticipationToTableView(Member member, ParticipationType participationType) {
+        Participation participation = new Participation();
+        participation.setMember(member);
+        participation.setParticipationType(participationType);
+        if(participationsTableView.getItems() == null) {
+            ObservableList<Participation> participationObservableList = FXCollections.observableArrayList(new ArrayList<>());
+            participationsTableView.setItems(participationObservableList);
+        }
+        participationsTableView.getItems().add(participation);
+        filteredData.getSource().remove(member);
+    }
+
+    private void removeParticipationFromTableView(Participation participation) {
+        searchMemberTextField.setText("");
+        ObservableList<Member> observableList = FXCollections.observableArrayList(new ArrayList<>());
+        observableList.setAll(membersAvailableListView.getItems());
+        observableList.add(participation.getMember());
+        membersAvailableListView.setItems(observableList);
+        initializeFilterSearchInput();
+        participationsTableView.getItems().remove(participation);
+    }
+
+    FilteredList<Member> filteredData;
+
+    private void initializeFilterSearchInput() {
+        filteredData = new FilteredList<>(membersAvailableListView.getItems(), p -> true);
+        searchMemberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate( object -> {
+                if(newValue == null | newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+            SortedList<Member> sortedList = new SortedList<>(filteredData);
+            membersAvailableListView.setItems(sortedList);
+        });
+    }
+
+
 }

@@ -47,6 +47,10 @@ public class MemberDetailsController extends Controller implements Initializable
         this.memberSelected = member;
     }
 
+    public Member getMemberSelected() {
+        return memberSelected;
+    }
+
     @FXML
     void cancelOnAction(ActionEvent event) {
         stage.close();
