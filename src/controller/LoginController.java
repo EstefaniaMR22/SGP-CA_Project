@@ -93,12 +93,14 @@ public class LoginController extends Controller implements Initializable {
 
     private void openMemberWindow(ParticipationType participationType) {
         stage.hide();
-        if(participationType == ParticipationType.INTEGRANT) {
+        if (participationType == ParticipationType.INTEGRANT) {
             IntegrantController integrantController = new IntegrantController();
             integrantController.showStage();
-        } else if(participationType == ParticipationType.RESPONSABLE) {
+        } else if (participationType == ParticipationType.RESPONSABLE) {
             ResponsableController responsableController = new ResponsableController();
             responsableController.showStage();
+        } else if(participationType == ParticipationType.COLABORATOR ) {
+            systemLabel.setText("¡Estás asignado para este Cuerpo Académico como Colaborador!");
         } else if(participationType == ParticipationType.OTHER) {
             AdministratorController administratorController = new AdministratorController();
             administratorController.showStage();

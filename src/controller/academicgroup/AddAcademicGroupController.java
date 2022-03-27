@@ -182,7 +182,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
     private void setTableComponents() {
         identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName() + " " + cellData.getValue().getMember().getPaternalLastname() + " " + cellData.getValue().getMember().getMaternalLastname()));
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
