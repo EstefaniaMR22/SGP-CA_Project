@@ -83,7 +83,7 @@ public interface ICuentaDAO {
      * Get Member ID
      * <p>
      * This method get a Member ID using an email and a encrypted password.
-     * It should be used like login method.
+     * It should be used like login method for user administrator.
      * </p>
      * @param email the members email.
      * @param password the password in plain text.

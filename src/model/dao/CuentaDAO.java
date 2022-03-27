@@ -181,7 +181,7 @@ public class CuentaDAO implements ICuentaDAO {
      * Get Member ID
      * <p>
      * This method get a Member ID using an email and a encrypted password.
-     * It should be used like login method.
+     * It should be used like login method for user adminsitrator.
      * </p>
      * @param email the members email.
      * @param password the password in plain text.
@@ -192,7 +192,7 @@ public class CuentaDAO implements ICuentaDAO {
         Participation participation = null;
         try(Connection conn = database.getConnection() ){
             conn.setAutoCommit(false);
-            String statement = "SELECT id_miembro FROM Cuenta WHERE email = ? AND contrasena = SHA2(?,512)";
+            String statement = "SELECT id_miembro FROM Cuenta WHERE email = ? AND contrasena = SHA2(?,512) AND tipo_usuario = 2";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);

@@ -2,8 +2,6 @@ package controller;
 
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,7 +32,6 @@ public class LoginController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getAllAcademicGroupPrograms();
-        initListViewListener();
     }
 
     public void showStage() {
@@ -133,7 +130,6 @@ public class LoginController extends Controller implements Initializable {
                 Logger.getLogger( LoginController.class.getName() ).log(Level.WARNING, null, e);
             }
         }
-
         return isLogged;
     }
 
@@ -144,24 +140,6 @@ public class LoginController extends Controller implements Initializable {
         } catch(SQLException sqlException) {
             Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-    }
-
-    private void initListViewListener() {
-//        academicGroupProgramListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AcademicGroup>() {
-//            @Override
-//            public void changed(ObservableValue<? extends AcademicGroup> observable, AcademicGroup oldValue, AcademicGroup newValue) {
-//                if(newValue != null) {
-//                    setDisableInputs(false);
-//                }
-//            }
-//        });
-    }
-
-    private void setDisableInputs(boolean state) {
-        loginButton.setDisable(state);
-        passwordPasswordField.setDisable(state);
-        userTextField.setDisable(state);
-        formVBox.setDisable(state);
     }
 
 }
