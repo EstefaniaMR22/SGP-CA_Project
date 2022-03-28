@@ -137,8 +137,12 @@ public class ProjectsInvestigationController extends Controller {
     void addProjectInvestigationOnAction(ActionEvent actionEvent) throws SQLException {
         LgacDAO lgac= new LgacDAO();
         try {
-            List<LGAC> listlgac = lgac.getAlllgacs();
-
+            //List<LGAC> listlgac = lgac.getAlllgacs();+
+            List<LGAC> listlgac = null;
+            /*
+            Don't use a try catch inside a try catch
+            Fix this method
+             */
             if(!listlgac.isEmpty()) {
                 try {
                     AddProjectsInvestigationController addProjectInvestigationController = new AddProjectsInvestigationController();
@@ -150,6 +154,7 @@ public class ProjectsInvestigationController extends Controller {
                             "AddProyectInvestigation. Causa: " + addProjectInvestigationException);
 
                 }
+                throw new SQLException("FIX ME NOW");
             }else {
                 AlertController alertView = new AlertController();
                 alertView.showActionFailedAlert(" Sin 'lgac' registrados, no puede agregar un proyecto de investigacion");

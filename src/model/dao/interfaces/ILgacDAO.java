@@ -8,14 +8,15 @@ import java.util.List;
 
 public interface ILgacDAO {
     /***
-     * Add a LGAC to database.
+     * Add a LGAC to database to specific Academic Group.
      * <p>
      * Add a LGAC into database with id and description.
      * </p>
      * @param lgac the object lgac.
+     * @param academicGroupID the academic group id.
      * @return id representing the lgac's id in database.
      */
-    int addLgac(LGAC lgac) throws SQLException;
+    int addLgac(LGAC lgac, String academicGroupID) throws SQLException;
     /***
      * Remove LGAC
      * <p>
@@ -26,14 +27,13 @@ public interface ILgacDAO {
      */
     boolean removeLgac(int idLgac) throws SQLException;
     /***
-     * Get all LGACs
+     * Get all LGACs of specific AcademicGroup
      * <p>
      * Get all the registered LGACS in database.
      * </p>
      * @return List that contain all LGACS.
      */
-    List<LGAC> getAlllgacs() throws SQLException;
-
+    List<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException;
     /***
      * Get a specific LGAC.
      * @param idLGAC LGAC's ID.

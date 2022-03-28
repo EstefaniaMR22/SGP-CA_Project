@@ -1,6 +1,7 @@
 package model.dao;
 
 import controller.exceptions.LimitReachedException;
+import model.domain.Participation;
 import org.junit.Assert;
 import org.junit.Test;
 import java.sql.SQLException;
@@ -55,7 +56,7 @@ public class AccountDAOTest {
 
     @Test
     public void getAttemptsByMacAddress() throws SQLException {
-        String macAddress = "38:56:a4:g5:46:5g";
+        String macAddress = "38:a8:p5:a94:c4";
         int actual = new CuentaDAO().getAttemptsByMacAddress(macAddress);
         int expected = 5;
         Assert.assertEquals(expected, actual);
@@ -92,8 +93,7 @@ public class AccountDAOTest {
     public void getMemberIDByEmailAndPassword() throws SQLException {
         String email = "angeladriancamalgarcia@hotmail.com";
         String password = "hola";
-        int expected = 1;
-        int actual = new CuentaDAO().getMemberIDByEmailAndPassword(email,password);
-        Assert.assertEquals(expected, actual);
+        Participation actual = new CuentaDAO().getMemberByEmailAndPassword(email,password);
+        Assert.assertNotNull(actual);
     }
 }

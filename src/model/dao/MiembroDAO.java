@@ -321,7 +321,14 @@ public class MiembroDAO implements IMiembroDAO {
         }
         return studyGradeList;
     }
-
+    /***
+     * Check if Member already exists in database.
+     * <p>
+     * From a Personal Number check if member exist in database
+     * </p>
+     * @param personalNumber the string code.
+     * @return true if member already existe in database otherwise false.
+     */
     @Override
     public boolean checkMember(String personalNumber) throws SQLException {
         boolean memberAlreadyExist = false;
@@ -335,19 +342,6 @@ public class MiembroDAO implements IMiembroDAO {
             }
         }
         return memberAlreadyExist;
-    }
-
-    /***
-     * Get member details from database.
-     * <p>
-     * Get all the details from member
-     * </p>
-     * @param id The member ID.
-     * @return Member that contains more details.
-     */
-    @Override
-    public Member getMemberDetails(int id) throws SQLException {
-        return null;
     }
     /***
      * Get all educational Programs.

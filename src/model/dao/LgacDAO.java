@@ -18,15 +18,25 @@ public class LgacDAO implements ILgacDAO {
         this.database = new Database();
     }
 
+    /***
+     * Add a LGAC to database to specific Academic Group.
+     * <p>
+     * Add a LGAC into database with id and description.
+     * </p>
+     * @param lgac the object lgac.
+     * @param academicGroupID the academic group id.
+     * @return id representing the lgac's id in database.
+     */
     @Override
-    public int addLgac(LGAC lgac) throws SQLException {
+    public int addLgac(LGAC lgac, String academicGroupID) throws SQLException {
         int idLgac = -1;
         try (Connection conn = database.getConnection()) {
             conn.setAutoCommit(false);
-            String statement = "INSERT INTO LGAC(identificador, descripcion) VALUES(?,?)";
+            String statement = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico) VALUES(?,?,?)";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, lgac.getIdentification());
             preparedStatement.setString(2, lgac.getDescription());
+            preparedStatement.setString(3, academicGroupID);
             int rowsAffected = preparedStatement.executeUpdate();
             if(rowsAffected > 0) {
                 statement = "SELECT LAST_INSERT_ID()";
@@ -41,6 +51,14 @@ public class LgacDAO implements ILgacDAO {
         return idLgac;
     }
 
+    /***
+     * Remove LGAC
+     * <p>
+     * Remove an LGAC from database.
+     * </p>
+     * @param idLgac the lgac's id.
+     * @return true if it was removed otherwise false.
+     */
     @Override
     public boolean removeLgac(int idLgac) throws SQLException {
         boolean isRemoved = false;
@@ -54,12 +72,20 @@ public class LgacDAO implements ILgacDAO {
         return isRemoved;
     }
 
+    /***
+     * Get all LGACs of specific AcademicGroup
+     * <p>
+     * Get all the registered LGACS in database.
+     * </p>
+     * @return List that contain all LGACS.
+     */
     @Override
-    public List<LGAC> getAlllgacs() throws SQLException {
+    public List<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException {
         List<LGAC> list = FXCollections.observableArrayList();
         try (Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM LGAC";
+            String statement = "SELECT * FROM LGAC WHERE id_programa_cuerpo_academico = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, academicGroupID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 LGAC lgac = new LGAC();
@@ -96,6 +122,4 @@ public class LgacDAO implements ILgacDAO {
         database.disconnect();
         return lgac;
     }
-
-
 }

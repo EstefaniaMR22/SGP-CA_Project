@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 
-public class GetLGACByID {
+public class GetLGACByIDTest {
     @Test
     public void getLGACByID() throws SQLException {
-        int id = 1;
+        int id = 37;
         LGAC lgac = new LgacDAO().getLGACById(id);
-        String expected = "a2";
+        String expected = "AS21";
         String actual = lgac.getIdentification();
         Assert.assertEquals(expected,actual);
     }

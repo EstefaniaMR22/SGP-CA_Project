@@ -11,7 +11,8 @@ import java.util.List;
 public class RemoveLGACDAOTest {
     @Test
     public void removeLgacTest() throws SQLException {
-        List<LGAC> list = new LgacDAO().getAlllgacs();
+        String academicGroupID = "A91";
+        List<LGAC> list = new LgacDAO().getAllLgacsByIdAcademicGroup(academicGroupID);
         int idLastLGAC = list.get(list.size()-1).getId();
         boolean isRemoved = new LgacDAO().removeLgac(idLastLGAC);
         Assert.assertTrue(isRemoved);

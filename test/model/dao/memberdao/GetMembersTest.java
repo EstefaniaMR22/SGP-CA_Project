@@ -11,34 +11,10 @@ import java.util.List;
 public class GetMembersTest {
     @Test
     public void getMembersTest() throws SQLException {
-        List<Member> memberList = new MiembroDAO().getMembers();
-        int expectedSize = 6;
+        List<Member> memberList = new MiembroDAO().getAllMembers();
+        int expectedSize = 1003;
         int actual = memberList.size();
         Assert.assertEquals(expectedSize, actual);
-    }
-
-    @Test
-    public void getIntegrantDetailsByIdTest() throws SQLException {
-        String personalNumber = "a92";
-        int idMember = new MiembroDAO().getMemberIdByPersonalNumber(personalNumber);
-        Member member = new MiembroDAO().getIntegrantDetails(idMember);
-        Assert.assertNotNull(member);
-    }
-
-    @Test
-    public void getResponsableDetailsByIdTest() throws SQLException {
-        String personalNumber = "afsdk";
-        int idMember = new MiembroDAO().getMemberIdByPersonalNumber(personalNumber);
-        Member member = new MiembroDAO().getResponsableDetails(idMember);
-        Assert.assertNotNull(member);
-    }
-
-    @Test
-    public void getColaboratorDetailsByIdTest() throws SQLException {
-        String personalNumber = "4fsid02";
-        int idMember = new MiembroDAO().getMemberIdByPersonalNumber(personalNumber);
-        Member member = new MiembroDAO().getColaboratorDetails(idMember);
-        Assert.assertNotNull(member);
     }
 
     @Test

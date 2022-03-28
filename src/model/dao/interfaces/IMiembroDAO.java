@@ -43,15 +43,6 @@ public interface IMiembroDAO {
      */
     List<Member> getAllMembers() throws SQLException;
     /***
-     * Get member details from database.
-     * <p>
-     * Get all the details from member
-     * </p>
-     * @param id The member ID.
-     * @return Member that contains more details.
-     */
-    Member getMemberDetails(int id) throws SQLException;
-    /***
      * Update member
      * <p>
      * Update the member data by newer information.

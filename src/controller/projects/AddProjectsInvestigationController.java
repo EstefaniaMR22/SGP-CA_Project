@@ -128,9 +128,14 @@ public class AddProjectsInvestigationController extends ValidatorController impl
     private void chargeComboBoxLGAC(){
         listProjectLGAC = null;
         try {
-            listProjectLGAC = new LgacDAO().getAlllgacs();
+            /*
+            FIX THIS METHOD
+             */
+
+            //listProjectLGAC = new LgacDAO().getAlllgacs();
             ObservableList<LGAC> observableLististProjectLGAC = FXCollections.observableArrayList(listProjectLGAC);
             lgacComboBox.setItems(observableLististProjectLGAC);
+            throw new SQLException("FIX THIS METHOD");
 
         } catch(SQLException chargeLGACException) {
             deterMinateSQLState(chargeLGACException);

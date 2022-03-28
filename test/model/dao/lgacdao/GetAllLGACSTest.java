@@ -11,8 +11,8 @@ import java.util.List;
 public class GetAllLGACSTest {
     @Test
     public void getAllLGACTest() throws SQLException {
-        List<LGAC> list = new LgacDAO().getAlllgacs();
-        int expected = 4;
+        List<LGAC> list = new LgacDAO().getAllLgacsByIdAcademicGroup("A91");
+        int expected = 1;
         int actual = list.size();
         Assert.assertEquals(expected,actual);
     }
