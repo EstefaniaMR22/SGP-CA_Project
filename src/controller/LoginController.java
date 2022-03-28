@@ -137,7 +137,7 @@ public class LoginController extends Controller implements Initializable {
 
     private void getAllAcademicGroupPrograms() {
         try{
-            ObservableList<AcademicGroup> academicGroupProgramObservableList = FXCollections.observableArrayList(new AcademicGroupDAO().getAllAcademicGroupPrograms());
+            ObservableList<AcademicGroup> academicGroupProgramObservableList = FXCollections.observableArrayList(new AcademicGroupDAO().getAllAcademicGroup());
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);
         } catch(SQLException sqlException) {
             Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, sqlException);

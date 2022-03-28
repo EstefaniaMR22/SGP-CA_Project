@@ -1,6 +1,7 @@
-package model.dao;
+package model.dao.accountdao;
 
 import controller.exceptions.LimitReachedException;
+import model.dao.CuentaDAO;
 import model.domain.Participation;
 import org.junit.Assert;
 import org.junit.Test;

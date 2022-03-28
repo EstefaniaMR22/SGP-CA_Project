@@ -3,7 +3,6 @@ package model.dao.memberdao;
 import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
-import model.domain.ParticipationType;
 import model.domain.StudyGrade;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 
 public class AddMemberTest {
     @Test
-    public void addMemberIntegrantTest() throws SQLException {
+    public void addMemberTest() throws SQLException {
         Member member = new Member();
         member.setName("Roberto");
         member.setPaternalLastname("Palazuelos");

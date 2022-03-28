@@ -32,7 +32,7 @@ public interface IAcademicGroupDAO {
      * </p>
      * @return List that contain all Academic Group Programs
      */
-    List<AcademicGroup> getAllAcademicGroupPrograms() throws SQLException;
+    List<AcademicGroup> getAllAcademicGroup() throws SQLException;
     /***
      * Get all details from Academic Group.
      * <p>
@@ -53,4 +53,11 @@ public interface IAcademicGroupDAO {
      * @return true if it was registered otherwise false.
      */
     boolean updateAcademicGroup(AcademicGroup academicGroup) throws SQLException;
+
+    /***
+     * Remove Academic Group.
+     * @param academicGroupId the id of academic group
+     * @return true if it was removed otherwise false.
+     */
+    boolean removeAcademicGroup(String academicGroupId) throws SQLException;
 }
