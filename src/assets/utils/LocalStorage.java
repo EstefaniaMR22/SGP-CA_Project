@@ -1,4 +1,4 @@
-package utils;
+package assets.utils;
 
 import java.util.HashMap;
 

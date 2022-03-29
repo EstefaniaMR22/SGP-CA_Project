@@ -15,5 +15,6 @@
     <orderEntry type="library" name="charm-glisten-4.4.1-javadoc" level="project" />
     <orderEntry type="library" name="javafx-swt1" level="project" />
     <orderEntry type="library" name="bluecatcode.junit.4.12.extended" level="project" />
+    <orderEntry type="library" name="fontawesomefx-8.1" level="project" />
   </component>
 </module>

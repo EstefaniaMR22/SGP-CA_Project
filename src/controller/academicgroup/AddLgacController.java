@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.domain.LGAC;
-import utils.DateFormatter;
+import assets.utils.DateFormatter;
 
 import java.net.URL;
 import java.time.LocalDate;

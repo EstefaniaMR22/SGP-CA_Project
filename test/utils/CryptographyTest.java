@@ -1,5 +1,6 @@
 package utils;
 
+import assets.utils.Cryptography;
 import org.junit.Assert;
 import org.junit.Test;
 

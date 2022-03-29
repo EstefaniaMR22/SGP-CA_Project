@@ -4,7 +4,7 @@
 * Last modification date: 18-06-2021
 */
 
-package utils;
+package assets.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

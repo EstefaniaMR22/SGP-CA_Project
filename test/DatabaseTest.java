@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import utils.Database;
+import assets.utils.Database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public class DatabaseTest {
 
     public DatabaseTest() {
         database = new Database();
-        database.setAnotherDatabaseProperties("databaseTest.properties");
+        database.setAnotherDatabaseProperties("database.properties");
     }
 
     @Test

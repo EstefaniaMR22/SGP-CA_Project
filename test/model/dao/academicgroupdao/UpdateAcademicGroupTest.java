@@ -9,7 +9,7 @@ import model.domain.Participation;
 import model.domain.ParticipationType;
 import org.junit.Assert;
 import org.junit.Test;
-import utils.DateFormatter;
+import assets.utils.DateFormatter;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

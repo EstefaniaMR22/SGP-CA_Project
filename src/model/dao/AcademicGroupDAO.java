@@ -6,8 +6,8 @@ import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
 import model.domain.Participation;
 import model.domain.ParticipationType;
-import utils.Database;
-import utils.DateFormatter;
+import assets.utils.Database;
+import assets.utils.DateFormatter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

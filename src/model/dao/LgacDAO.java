@@ -3,7 +3,7 @@ package model.dao;
 import javafx.collections.FXCollections;
 import model.dao.interfaces.ILgacDAO;
 import model.domain.LGAC;
-import utils.Database;
+import assets.utils.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

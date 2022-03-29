@@ -1,4 +1,4 @@
-package utils;
+package assets.utils;
 
 public enum SQLStates {
     SQL_NO_CONNECTION("08S01"),

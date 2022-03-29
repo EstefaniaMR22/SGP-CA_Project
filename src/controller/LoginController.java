@@ -2,17 +2,25 @@ package controller;
 
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
+import controller.listcell.AcademicGroupListCell;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.dao.AcademicGroupDAO;
 import model.domain.AcademicGroup;
 import model.domain.ParticipationType;
-import utils.Autentication;
+import assets.utils.Autentication;
 import java.net.SocketException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,9 +36,16 @@ public class LoginController extends Controller implements Initializable {
     @FXML private Button cancelButton;
     @FXML private Button loginButton;
     @FXML private VBox formVBox;
+    @FXML private Label academicGroupSelectedLabel;
+    @FXML private VBox academicSelectionVBox;
+    @FXML private HBox loginVBox;
+    @FXML private Label academicGroupIDLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loginVBox.setVisible(false);
+        academicSelectionVBox.setVisible(true);
+        initializeListView();
         getAllAcademicGroupPrograms();
     }
 
@@ -50,7 +65,10 @@ public class LoginController extends Controller implements Initializable {
 
     @FXML
     void cancelOnAction(ActionEvent event) {
-       stage.close();
+       loginVBox.setVisible(false);
+       academicSelectionVBox.setVisible(true);
+       academicGroupProgramListView.getSelectionModel().clearSelection();
+       systemLabel.setText("");
     }
 
     @FXML
@@ -82,6 +100,15 @@ public class LoginController extends Controller implements Initializable {
         stage.show();
     }
 
+    @FXML
+    void administrationOnAction(ActionEvent event) {
+        academicGroupSelectedLabel.setText("");
+        academicGroupIDLabel.setText("");
+        academicGroupProgramListView.getSelectionModel().clearSelection();
+        academicSelectionVBox.setVisible(false);
+        loginVBox.setVisible(true);
+    }
+
     private boolean validateInputs() {
         boolean isValidInput = true;
         if(userTextField.getText().equals("") || passwordPasswordField.getText().equals("") ) {
@@ -110,6 +137,7 @@ public class LoginController extends Controller implements Initializable {
 
     private boolean login() {
         boolean isLogged = false;
+        systemLabel.setText("");
         String emailInput = userTextField.getText();
         String passwordInput = passwordPasswordField.getText();
         AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
@@ -142,6 +170,21 @@ public class LoginController extends Controller implements Initializable {
         } catch(SQLException sqlException) {
             Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
+    }
+
+    private void initializeListView() {
+        academicGroupProgramListView.setCellFactory( item -> new AcademicGroupListCell());
+        academicGroupProgramListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AcademicGroup>() {
+            @Override
+            public void changed(ObservableValue<? extends AcademicGroup> observable, AcademicGroup oldValue, AcademicGroup newValue) {
+                if(newValue != null ) {
+                    academicSelectionVBox.setVisible(false);
+                    loginVBox.setVisible(true);
+                    academicGroupSelectedLabel.setText(newValue.getName());
+                    academicGroupIDLabel.setText(newValue.getId());
+                }
+            }
+        });
     }
 
 }

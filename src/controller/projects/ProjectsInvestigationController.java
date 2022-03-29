@@ -18,7 +18,7 @@ import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.LGAC;
 import model.domain.Project;
-import utils.SQLStates;
+import assets.utils.SQLStates;
 
 import java.sql.SQLException;
 import java.util.List;

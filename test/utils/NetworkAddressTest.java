@@ -1,5 +1,6 @@
 package utils;
 
+import assets.utils.NetworkAddress;
 import org.junit.Assert;
 import org.junit.Test;
 

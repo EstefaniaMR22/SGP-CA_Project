@@ -5,8 +5,8 @@ import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.ParticipationType;
 import model.domain.StudyGrade;
-import utils.Database;
-import utils.DateFormatter;
+import assets.utils.Database;
+import assets.utils.DateFormatter;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

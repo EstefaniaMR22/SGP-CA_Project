@@ -12,8 +12,8 @@ import javafx.scene.control.TableView;
 import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.*;
-import utils.DateFormatter;
-import utils.SQLStates;
+import assets.utils.DateFormatter;
+import assets.utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;

@@ -10,8 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dao.interfaces.IProjectDAO;
 import model.domain.Project;
-import utils.Database;
-import utils.DateFormatter;
+import assets.utils.Database;
+import assets.utils.DateFormatter;
 
 public class ProjectDAO implements IProjectDAO{
 

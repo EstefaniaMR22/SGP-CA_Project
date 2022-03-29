@@ -36,7 +36,7 @@ import model.domain.LGAC;
 import model.domain.Member;
 import model.domain.Participation;
 import model.domain.ParticipationType;
-import utils.DateFormatter;
+import assets.utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;

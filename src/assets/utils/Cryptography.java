@@ -1,4 +1,4 @@
-package utils;
+package assets.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

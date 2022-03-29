@@ -23,8 +23,8 @@ import model.dao.MiembroDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.StudyGrade;
-import utils.DateFormatter;
-import utils.SQLStates;
+import assets.utils.DateFormatter;
+import assets.utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;

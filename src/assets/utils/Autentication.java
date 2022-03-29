@@ -1,4 +1,4 @@
-package utils;
+package assets.utils;
 
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;

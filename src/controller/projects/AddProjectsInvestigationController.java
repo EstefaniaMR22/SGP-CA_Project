@@ -13,12 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.LGAC;
 import model.domain.Project;
-import utils.DateFormatter;
-import utils.SQLStates;
+import assets.utils.DateFormatter;
+import assets.utils.SQLStates;
 
 import java.net.URL;
 import java.sql.SQLException;

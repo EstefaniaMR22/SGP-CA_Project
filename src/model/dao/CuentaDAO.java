@@ -5,7 +5,7 @@ import model.dao.interfaces.ICuentaDAO;
 import model.domain.Member;
 import model.domain.Participation;
 import model.domain.ParticipationType;
-import utils.Database;
+import assets.utils.Database;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -221,13 +221,15 @@ public class CuentaDAO implements ICuentaDAO {
             preparedStatement.setString(3, academicGroupID);
             ResultSet resultSet = preparedStatement.executeQuery();
             int idMember = -1;
-            participation = new Participation();
             if (resultSet.next()) {
                 idMember = resultSet.getInt("id_miembro");
-                participation.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
             }
-            Member member = new MiembroDAO().getMember(idMember);
-            participation.setMember(member);
+            if(idMember != -1 ) {
+                participation = new Participation();
+                participation.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
+                Member member = new MiembroDAO().getMember(idMember);
+                participation.setMember(member);
+            }
             conn.commit();
         }
         return participation;

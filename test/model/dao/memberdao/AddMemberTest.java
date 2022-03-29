@@ -6,7 +6,7 @@ import model.domain.Member;
 import model.domain.StudyGrade;
 import org.junit.Assert;
 import org.junit.Test;
-import utils.DateFormatter;
+import assets.utils.DateFormatter;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
