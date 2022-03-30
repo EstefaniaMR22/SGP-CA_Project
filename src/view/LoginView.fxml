@@ -16,9 +16,21 @@
    <children>
       <StackPane prefHeight="670.0" prefWidth="1118.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="loginVBox" prefHeight="572.0" prefWidth="849.0" visible="false">
+            <HBox fx:id="loginVBox" prefHeight="572.0" prefWidth="849.0">
                <children>
-                  <VBox fx:id="formVBox" alignment="TOP_CENTER" prefHeight="481.0" prefWidth="475.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="TOP_CENTER" prefHeight="670.0" prefWidth="776.0" styleClass="background-white-color">
+                     <children>
+                        <Label fx:id="academicGroupSelectedLabel" styleClass="title-label" />
+                        <Label fx:id="academicGroupIDLabel" styleClass="section-label" />
+                        <Button mnemonicParsing="false" onAction="#adminOnAction" styleClass="main-button" text="Administrador" />
+                        <Button mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
+                        <Button mnemonicParsing="false" onAction="#responsableOnAction" styleClass="main-button" text="Responsable" />
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </VBox>
+                  <VBox fx:id="formVBox" alignment="TOP_CENTER" prefHeight="670.0" prefWidth="580.0" styleClass="login-form" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox alignment="CENTER">
                            <children>
@@ -27,54 +39,66 @@
                                     <Font name="Ani" size="8.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="academicGroupSelectedLabel" styleClass="section-label" />
-                              <Label fx:id="academicGroupIDLabel" styleClass="section-label" />
+                           </children>
+                           <padding>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox spacing="35.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefWidth="100.0" spacing="10.0">
+                                 <children>
+                                    <Label maxWidth="1.7976931348623157E308" styleClass="section-label" text="Iniciar sesión" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="39.0" />
+                                       </font>
+                                    </Label>
+                                    <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Correo institucional">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="userTextField" prefHeight="32.0" prefWidth="387.0" promptText="Ejemplo robertomora@uv.mx" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                                    <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Contraseña">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <PasswordField fx:id="passwordPasswordField" prefHeight="32.0" prefWidth="387.0" promptText="Ingresa tu contraseña aqui" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER" prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <Label fx:id="systemLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefWidth="100.0" styleClass="background-footer">
+                           <children>
+                              <Button fx:id="cancelButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="button-text" text="Seleccionar otro cuerpo academico" />
                            </children>
                         </VBox>
-                        <VBox prefWidth="100.0" spacing="10.0">
-                           <children>
-                              <Label maxWidth="1.7976931348623157E308" styleClass="section-label" text="Iniciar sesión" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="39.0" />
-                                 </font>
-                              </Label>
-                              <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Correo institucional">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="userTextField" prefHeight="32.0" prefWidth="387.0" promptText="Ejemplo robertomora@uv.mx" styleClass="textfield" VBox.vgrow="ALWAYS" />
-                              <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Contraseña">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <PasswordField fx:id="passwordPasswordField" prefHeight="32.0" prefWidth="387.0" promptText="Ingresa tu contraseña aqui" styleClass="textfield" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <HBox alignment="CENTER" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Button fx:id="cancelButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="button-text" text="Seleccionar otro cuerpo academico" HBox.hgrow="ALWAYS" />
-                              <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
-                        <Label fx:id="systemLabel" styleClass="system-label" VBox.vgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#adminOnAction" styleClass="main-button" text="Administrador" />
-                        <Button mnemonicParsing="false" onAction="#integranOnAction" styleClass="main-button" text="Integrante" />
-                        <Button mnemonicParsing="false" onAction="#responsableOnAction" styleClass="main-button" text="Responsable" />
                      </children>
-                     <padding>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </padding>
                   </VBox>
                </children>
             </HBox>
-            <VBox fx:id="academicSelectionVBox">
+            <VBox fx:id="academicSelectionVBox" visible="false">
                <children>
-                  <VBox alignment="CENTER" spacing="5.0">
+                  <VBox alignment="CENTER" spacing="5.0" styleClass="background-title">
                      <children>
                         <Label styleClass="section-label" text="Selecciona un Cuerpo Académico" />
                         <Label styleClass="description-label" text="Para iniciar sesión en un Cuerpo Académico debes hacer clic sobre él" />
@@ -83,12 +107,19 @@
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
                   </VBox>
-                  <ListView fx:id="academicGroupProgramListView" minHeight="-Infinity" minWidth="-Infinity" styleClass="listview" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="academicGroupProgramListView" minHeight="-Infinity" minWidth="-Infinity" styleClass="listview" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ListView>
                   <VBox alignment="CENTER_RIGHT" prefWidth="100.0">
                      <children>
                         <HBox alignment="CENTER_RIGHT" spacing="25.0">
                            <children>
-                              <Label text="O puedes iniciar sesion (Administrador únicamente)" />
+                              <Label styleClass="description-label" text="O puedes iniciar sesion (Administrador únicamente)" />
                               <Button mnemonicParsing="false" onAction="#administrationOnAction" styleClass="main-button" text="Administración" />
                            </children>
                         </HBox>
@@ -98,9 +129,6 @@
                      </padding>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </padding>
             </VBox>
          </children>
       </StackPane>

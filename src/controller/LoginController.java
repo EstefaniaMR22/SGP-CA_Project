@@ -102,6 +102,7 @@ public class LoginController extends Controller implements Initializable {
 
     @FXML
     void administrationOnAction(ActionEvent event) {
+        clearInputs();
         academicGroupSelectedLabel.setText("");
         academicGroupIDLabel.setText("");
         academicGroupProgramListView.getSelectionModel().clearSelection();
@@ -178,6 +179,7 @@ public class LoginController extends Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends AcademicGroup> observable, AcademicGroup oldValue, AcademicGroup newValue) {
                 if(newValue != null ) {
+                    clearInputs();
                     academicSelectionVBox.setVisible(false);
                     loginVBox.setVisible(true);
                     academicGroupSelectedLabel.setText(newValue.getName());
@@ -185,6 +187,11 @@ public class LoginController extends Controller implements Initializable {
                 }
             }
         });
+    }
+
+    private void clearInputs() {
+        userTextField.setText("");
+        passwordPasswordField.setText("");
     }
 
 }

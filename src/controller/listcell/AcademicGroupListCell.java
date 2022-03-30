@@ -35,6 +35,16 @@ public class AcademicGroupListCell extends ListCell<AcademicGroup> {
                     Logger.getLogger(AcademicGroupListCell.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
+            if(getIndex() == 0) {
+                this.getStyleClass().add("first-cell");
+                this.getStylesheets().add("first-cell");
+            } else if (getIndex() == (getListView().getItems().size() - 1)) {
+                this.getStyleClass().add("last-cell");
+            } else {
+                this.getStyleClass().remove("first-cell");
+                this.getStylesheets().remove("last-cell");
+                this.getStyleClass().add("middle-cell");
+            }
             academicNameLabel.setText(item.getName());
             academicGroupID.setText(item.getId());
             setText(null);
