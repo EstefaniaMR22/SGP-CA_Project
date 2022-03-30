@@ -2,6 +2,7 @@ package controller;
 
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.MemberDetailsController;
+import controller.listcell.AdministratorMemberListCell;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,16 +27,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdministratorController extends Controller implements Initializable {
+    private FilteredList<Member> filteredData;
     @FXML private ListView<Member> membersListView;
-    @FXML private Button searchButton;
     @FXML private TextField searchTextField;
     @FXML private Label totalMembersLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initializeCellFactoryListView();
         getMembersFromDatabase();
         initializeListViewListener();
-        initializeFilterSearchInput();
+        initializeFilterSearchInputMembers();
     }
 
     public void showStage() {
@@ -107,26 +109,27 @@ public class AdministratorController extends Controller implements Initializable
         totalMembersLabel.setText(String.valueOf(members.size()));
     }
 
-    private void initializeFilterSearchInput() {
-        FilteredList<Member> filteredData = new FilteredList<>(membersListView.getItems(), p -> true);
-        searchTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                filteredData.setPredicate( object -> {
-                    if(newValue == null | newValue.isEmpty()) {
-                        return true;
-                    }
-                    String lowerCaseFilter = newValue.toLowerCase();
-                    if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
-                        return true;
-                    } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    }
-                    return false;
-                });
-                SortedList<Member> sortedList = new SortedList<>(filteredData);
-                membersListView.setItems(sortedList);
-            }
+    private void initializeCellFactoryListView() {
+        membersListView.setCellFactory( item -> new AdministratorMemberListCell());
+    }
+
+    private void initializeFilterSearchInputMembers() {
+        filteredData = new FilteredList<>(membersListView.getItems(), p -> true);
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(object -> {
+                if (newValue == null | newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (String.valueOf(object.getPersonalNumber()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+            SortedList<Member> sortedList = new SortedList<>(filteredData);
+            membersListView.setItems(sortedList);
         });
     }
 }

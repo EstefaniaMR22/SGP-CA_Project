@@ -1,25 +1,26 @@
 package controller.listcell;
 
-import controller.ResponsableController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
-import model.domain.AcademicGroup;
+import model.domain.Member;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AcademicGroupListCell extends ListCell<AcademicGroup> {
-    @FXML private Label academicNameLabel;
+public class AdministratorMemberListCell extends ListCell<Member> {
     @FXML private AnchorPane mainPane;
-    @FXML private Label academicGroupID;
+    @FXML private Label fullnameLabel;
+    @FXML private Label personalNumberLabel;
+    @FXML private Label tostringLabel;
     private FXMLLoader fxmlLoader;
 
     @Override
-    protected void updateItem(AcademicGroup item, boolean empty) {
+    protected void updateItem(Member item, boolean empty) {
+        super.updateItem(item, empty);
         super.updateItem(item, empty);
         if(empty || item == null ) {
             setText(null);
@@ -27,12 +28,12 @@ public class AcademicGroupListCell extends ListCell<AcademicGroup> {
 
         } else {
             if(fxmlLoader == null ) {
-                fxmlLoader = new FXMLLoader(getClass().getResource("/view/AcademicGroupListCell.fxml"));
+                fxmlLoader = new FXMLLoader(getClass().getResource("/view/AdministratorMemberListCellView.fxml"));
                 fxmlLoader.setController(this);
                 try {
                     fxmlLoader.load();
                 } catch (IOException e) {
-                    Logger.getLogger(AcademicGroupListCell.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(AdministratorMemberListCell.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
             if(getIndex() == 0) {
@@ -44,10 +45,15 @@ public class AcademicGroupListCell extends ListCell<AcademicGroup> {
                 this.getStylesheets().remove("last-cell");
                 this.getStyleClass().add("middle-cell");
             }
-            academicNameLabel.setText(item.getName());
-            academicGroupID.setText(item.getId());
+
+            fullnameLabel.setText(item.getFullName());
+            personalNumberLabel.setText(item.getPersonalNumber());
+            tostringLabel.setText(item.toString());
+
+
             setText(null);
             setGraphic(mainPane);
         }
     }
+
 }
