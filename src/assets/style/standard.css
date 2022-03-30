@@ -4,10 +4,11 @@
 /* TEXT COLORS */
  -text_first_clr: #4b4444;
  -text_second_clr: #4b4566;
- -text_third_clr:derive(-text_first_clr, 80%);
- -text_last_clr: #857d7d;
+ -text_third_clr:#534c4c;
+ -text_last_clr: #6d6666;
  -text_button_clr: #000;
  -text_input_clr: #7f8385;
+ -text_attribute_title_clr:#534c4c;
 /* BUTTON COLORS */
  -button_first_clr: #34b4eb;;
  -button_secondary_clr: transparent;
@@ -15,10 +16,10 @@
 /* OTHER */
  -listview_hover_item_clr: #e2eaf2;
  -listcell_border_clr: #d0d0d0;
- -listcell_odd_bkg_clr: #f0f4fb;
+ -listcell_odd_bkg_clr: #f5f8fb;
  -listcell_even_bkg_clr: #fff;
-
- -background_main_clr: #ebeff7;
+ -listcell_selected_clr:#BEDAF7;
+ -background_main_clr: #f1f1f1;
 }
   /* BACKGROUND */
 
@@ -76,9 +77,10 @@
  -fx-font-weight:600;
 }
 
-.bold-label {
- -fx-text-fill:#000;
- -fx-font-weight:bold;  
+.attribute-title-label {
+ -fx-text-fill:-text_attribute_title_clr;
+ -fx-font-weight:bold;
+ -fx-font-size:12px;
 }
 
  /* BUTTONS */
@@ -222,6 +224,14 @@
     -fx-background-color:-listview_hover_item_clr;
 }
 
+.listview .list-cell:selected {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.listview .list-cell:selected:hover {
+    -fx-background-color:-listcell_selected_clr;
+}
+
 .middle-cell {
     -fx-border-color: -listcell_border_clr;
     -fx-border-width: 0.8 0.8 0 0.8;
@@ -240,6 +250,14 @@
     -fx-border-radius:0 0 3 3;
     -fx-background-radius:0 0 3 3;
 }
+
+.single-cell {
+    -fx-border-width:0.8 0.8 0.8 0.8;
+    -fx-border-color: -listcell_border_clr;
+    -fx-border-radius:3 3 3 3;
+    -fx-background-radius:0 0 3 3;
+}
+
 
 .listcell {
     -fx-background-color:transparent;

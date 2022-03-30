@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="596.0" styleClass="listcell" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="310.0" prefWidth="710.0" styleClass="listcell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefWidth="710.0" styleClass="listcell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Nombre" />
-            <Label fx:id="fullnameLabel" text="Label" />
-            <Label text="Numero personal" />
-            <Label fx:id="personalNumberLabel" text="Label" />
-            <Label fx:id="tostringLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" wrapText="true" VBox.vgrow="ALWAYS" />
+            <VBox spacing="5.0">
+               <children>
+                  <HBox alignment="TOP_CENTER" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="fullnameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="section-label" text="Nombre" wrapText="true" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="personalNumberLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="section-label" text="?" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0">
+                     <children>
+                        <VBox>
+                           <padding>
+                              <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <FontAwesomeIcon fill="#3f0d79" iconName="USER" size="35px" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="370.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="attribute-title-label" text="correo" />
+                              <Label fx:id="uvEmailLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" styleClass="description-label" text="correo" wrapText="true" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" styleClass="attribute-title-label" text="telefono" />
+                              <Label fx:id="telephoneNumberLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" styleClass="description-label" text="telefono" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <Label fx:id="educationalProgramLabel" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" styleClass="description-label" text="programa educativo" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
          </children>
       </VBox>
    </children>

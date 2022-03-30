@@ -56,7 +56,7 @@
                                           <Font name="System Bold" size="39.0" />
                                        </font>
                                     </Label>
-                                    <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Correo institucional">
+                                    <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Correo electrónico">
                                        <font>
                                           <Font size="15.0" />
                                        </font>

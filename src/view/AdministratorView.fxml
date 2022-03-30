@@ -9,18 +9,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="1040.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1053.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="660.0" prefWidth="1255.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
-                  <TextField fx:id="searchTextField" styleClass="textfield" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchTextField" promptText="Buscar por nombre o número de personal" styleClass="textfield" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <VBox VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="membersListView" styleClass="listview" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="membersListView" styleClass="listview" VBox.vgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></ListView>
                </children>
             </VBox>
             <HBox prefWidth="200.0">
@@ -29,8 +32,8 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label styleClass="bold-label" text="Miembros totales" />
-                              <Label fx:id="totalMembersLabel" />
+                              <Label styleClass="attribute-title-label" text="Miembros totales" />
+                              <Label fx:id="totalMembersLabel" styleClass="description-label" text="?" />
                            </children>
                         </HBox>
                      </children>
