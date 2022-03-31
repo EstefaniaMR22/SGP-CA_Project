@@ -61,7 +61,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="userTextField" prefHeight="32.0" prefWidth="387.0" promptText="Ejemplo robertomora@uv.mx" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="userTextField" prefHeight="32.0" prefWidth="387.0" promptText="Ejemplo: robertomora@uv.mx" styleClass="textfield" VBox.vgrow="ALWAYS" />
                                     <Label maxWidth="1.7976931348623157E308" styleClass="subtitle-label" text="Contraseña">
                                        <font>
                                           <Font size="15.0" />
@@ -70,7 +70,7 @@
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <PasswordField fx:id="passwordPasswordField" prefHeight="32.0" prefWidth="387.0" promptText="Ingresa tu contraseña aqui" styleClass="textfield" VBox.vgrow="ALWAYS" />
+                                    <PasswordField fx:id="passwordPasswordField" prefHeight="32.0" prefWidth="387.0" promptText="Ejemplo: hola1234" styleClass="textfield" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <HBox alignment="CENTER" prefWidth="200.0" spacing="15.0">
