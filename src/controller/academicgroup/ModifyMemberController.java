@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.util.Duration;
 import model.dao.MiembroDAO;
@@ -59,6 +60,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @FXML private ComboBox<StudyGrade> studyGradeComboBox;
     @FXML private TextField studyAreaTextField;
     @FXML private Label systemLabel;
+    @FXML private VBox memberDataVBox;
     @FXML private Button modifyButton;
 
     public ModifyMemberController(Member member) {
@@ -85,7 +87,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     }
 
     @FXML
-    void ModifyMemberOnAction(ActionEvent event) {
+    void modifyMemberOnAction(ActionEvent event) {
         if (validateInputs()) {
             updateMember();
         } else {

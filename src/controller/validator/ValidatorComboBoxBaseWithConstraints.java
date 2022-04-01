@@ -32,11 +32,6 @@ public class ValidatorComboBoxBaseWithConstraints extends ValidatorComboBoxBase 
                     component.getStyleClass().add("wrongInput");
                 }
             }
-            System.out.println("**********");
-            for (String a: component.getStyleClass()) {
-                System.out.println(a);
-            }
-
         });
     }
 
