@@ -8,10 +8,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        LoginController loginController = new LoginController();
-//        loginController.showStage();
-        //new AddMemberController().showStage();
-        new AdministratorController().showStage();
+        LoginController loginController = new LoginController();
+        loginController.showStage();
     }
 
     public static void main(String[] args){

@@ -314,6 +314,7 @@
     -fx-background-color:transparent;
 }
 
+
  /* TABLE VIEW AND LISTVIEW*/
 
 .tableview {
@@ -375,6 +376,10 @@
 
 .listcell {
     -fx-background-color:transparent;
+}
+
+.list-cell:hover {
+    -fx-background-color:-listcell_hover_item_clr;
 }
 
 .listview > .list-cell:empty {
