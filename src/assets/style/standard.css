@@ -279,6 +279,7 @@
 
 .comboBox > .list-cell {
     -fx-text-fill: derive(-text_input_clr, 10%);
+    -fx-background-color:transparent;
 }
 
 .comboBox > .combo-box-popup > * {
@@ -328,26 +329,6 @@
     -fx-background-radius:5px;
 }
 
-.listview > .list-cell:even {
-    -fx-background-color:-listcell_even_bkg_clr;
-}
-
-.listview > .list-cell:odd {
-    -fx-background-color:-listcell_odd_bkg_clr;
-}
-
-.listview > .list-cell:filled:hover {
-    -fx-background-color:-listcell_hover_item_clr;
-}
-
-.listview > .list-cell:selected {
-    -fx-background-color:-listcell_selected_clr;
-}
-
-.listview > .list-cell:selected:hover {
-    -fx-background-color:-listcell_selected_clr;
-}
-
 .middle-cell {
     -fx-border-color: -listcell_border_clr;
     -fx-border-width: 0.8 0.8 0 0.8;
@@ -386,6 +367,34 @@
     -fx-background-color:transparent;
     -fx-border-color:transparent;
     -fx-border-width:0px;
+}
+
+.listview > .list-cell:even {
+    -fx-background-color:-listcell_even_bkg_clr;
+}
+
+.listview > .list-cell:odd {
+    -fx-background-color:-listcell_odd_bkg_clr;
+}
+
+.listview > .list-cell:filled:hover {
+    -fx-background-color:-listcell_hover_item_clr;
+}
+
+.listview > .list-cell:selected {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.list-view > .list-cell:selected:hover {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.list-cell:filled:selected:hover {
+    -fx-background-color:-listcell_selected_clr;
 }
 
 .scroll-bar {
