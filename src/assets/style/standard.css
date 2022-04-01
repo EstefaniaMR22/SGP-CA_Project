@@ -25,6 +25,7 @@
  -input_border_focused_clr: #34b4eb;
  -input_wrong_clr:#ff0000;
  -input_focused_wrong_clr: #000;
+ -background_footer_clr: #fff;
 }
   /* BACKGROUND */
 
@@ -33,13 +34,13 @@
 }
 
 .background-title {
-    -fx-background-color:#fff;
+    -fx-background-color:-background_card_clr;
     -fx-border-width: 0 0 0.5 0;
     -fx-border-color:derive(-background_main_clr, -35%);
 }
 
 .background-footer {
-    -fx-background-color:#fff;
+    -fx-background-color:-background_card_clr;
     -fx-border-width: 0.5 0 0 0;
     -fx-border-color:derive(-background_main_clr, -35%);
 }
@@ -50,7 +51,7 @@
 }
 
 .background-form {
-    -fx-background-color:#fff;
+    -fx-background-color:-background_card_clr;
     -fx-background-radius:5px;
     -fx-border-color:#8a8a8a;
     -fx-border-width:0.5;
@@ -115,20 +116,17 @@
  -fx-border-radius: 5px;
  -fx-background-radius:5px;
  -fx-text-fill:#fff;
- -fx-min-height:42px;
+ -fx-min-height:38px;
  -fx-border-width: 0 0 2 0;
  -fx-border-color:derive(-button_first_clr, -5%);
 }
 
 .main-button:hover {
-    -fx-background-color:derive(-button_first_clr, 40%);
-     -fx-border-radius: 5px;
+    -fx-background-color:derive(-button_first_clr, 0%);
 }
 
 .main-button:pressed {
     -fx-border-color:derive(-button_first_clr, -10%);
-    -fx-border-width:1 0 2 0;
-    -fx-border-radius:5px;
 }
 
 .secondary-button {
@@ -138,11 +136,11 @@
  -fx-border-width:1px;
  -fx-border-radius: 5px;
  -fx-text-fill:-button_first_clr;
- -fx-min-height:42px;
+ -fx-min-height:38px;
 }
 
 .secondary-button:hover {
- -fx-background-color:derive(-button_first_clr, 160%);
+ -fx-background-color:derive(-button_first_clr, 90%);
  -fx-border-radius:5px;
 }
 
@@ -159,12 +157,13 @@
 .optional-button { 
  -fx-background-color:-button_optional_clr;
  -fx-text-fill:derive(-button_first_clr, 0%);
- -fx-min-height:42px;
+ -fx-min-height:38px;
 }
 
 .optional-button:hover {
  -fx-text-fill:derive(-button_first_clr, 50%);
   -fx-border-radius: 5px;
+  -fx-background-color:derive(-button_first_clr, 25%);
 }
 
 .button-text {
@@ -200,7 +199,6 @@
   -fx-min-height:50px;
   -fx-border-radius:5px;
 }
-
 
 .datepicker {
       -fx-min-height:42px;
@@ -464,4 +462,34 @@
 
 .wrongInput:focused {
     -fx-border-color:-input_focused_wrong_clr;
+}
+
+.dialog-alert-pane {
+    -fx-background-color:-background_card_clr;
+}
+
+.dialog-alert-pane > *.label {
+    -fx-padding:10px;
+    -fx-text-alignment: justify;
+    -fx-text-fill:-text_last_clr;
+    -fx-font-size:13px;
+    -fx-font-weigth:bold;
+}
+
+.dialog-alert-pane > .content {
+    -fx-padding:35 25 15 25;
+}
+
+.dialog-alert-pane > .button-bar {
+
+}
+
+.dialog-alert-pane > .button-bar > *.container {
+    -fx-padding:20px;
+}
+
+.dialog-alert-pane:header *.header-panel {
+    -fx-background-color:-background_main_clr;
+    -fx-border-width:0 0 0.5 0;
+    -fx-border-color:derive(-background_main_clr, -35%);
 }

@@ -12,7 +12,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
@@ -128,9 +131,9 @@ public class ProjectsInvestigationController extends Controller {
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.showConnectionErrorAlert();
+            AlertController.getInstance().showConnectionErrorAlert();
         }
-        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     @FXML
@@ -149,20 +152,20 @@ public class ProjectsInvestigationController extends Controller {
                     addProjectInvestigationController.showStage();
 
                 } catch (Exception addProjectInvestigationException) {
-                    AlertController alertView = new AlertController();
+                    AlertController alertView = AlertController.getInstance();
                     alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                             "AddProyectInvestigation. Causa: " + addProjectInvestigationException);
 
                 }
                 throw new SQLException("FIX ME NOW");
             }else {
-                AlertController alertView = new AlertController();
+                AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert(" Sin 'lgac' registrados, no puede agregar un proyecto de investigacion");
             }
 
         }catch (SQLException getAllLgacsException) {
             Logger.getLogger(AddProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, getAllLgacsException);
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo cargar las LGAC. Causa: " + getAllLgacsException);
 
         }
@@ -184,18 +187,18 @@ public class ProjectsInvestigationController extends Controller {
                 }catch (Exception addProjectInvestigationException) {
                     Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
 
-                    AlertController alertView = new AlertController();
+                    AlertController alertView = AlertController.getInstance();
                     alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                             "ModifyProyectInvestigation. Causa: " + addProjectInvestigationException);
 
 
                 }
             }else {
-                AlertController alertView = new AlertController();
+                AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert(" No puedes modificar un proyecto que ya esta 'Completado'");
             }
         }else {
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Antes de presionar modificar debes seleccionar un " +
                     "proyecto de investigación de la tabla");
         }
@@ -209,7 +212,7 @@ public class ProjectsInvestigationController extends Controller {
                 ConsultProjectController consultProjectsInvestigationController = new ConsultProjectController(selectedProject);
                 consultProjectsInvestigationController.showStage();
             }else {
-                AlertController alertView = new AlertController();
+                AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert(" Antes de presionar consultar debes seleccionar un " +
                         "proyecto de investigación de la tabla");
             }
@@ -224,7 +227,7 @@ public class ProjectsInvestigationController extends Controller {
             viewReturn.showStage();
 
         }catch(Exception returnViewOnActionExeception){
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Error en el metodo returnViewOnActionExeception:  " + returnViewOnActionExeception);
 
         }

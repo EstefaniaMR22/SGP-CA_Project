@@ -77,7 +77,7 @@ public class AdministratorController extends Controller implements Initializable
     void removeMemberOnAction(ActionEvent event) {
         Member memberSelected = membersListView.getSelectionModel().getSelectedItem();
         if(memberSelected != null ) {
-           if(AlertController.showConfirmationAlert()) {
+           if(AlertController.getInstance().showConfirmationAlert()) {
                try {
                    if(new MiembroDAO().removeMember(memberSelected.getId())) {
                        membersListView.getItems().remove(memberSelected);

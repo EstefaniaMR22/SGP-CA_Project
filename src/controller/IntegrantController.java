@@ -26,7 +26,7 @@ public class IntegrantController extends Controller {
             projectsInvestigationController.showStage();
 
         }catch (Exception addProjectInvestigationException) {
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                     "ProjectsInvestigation. Causa: " + addProjectInvestigationException);
 
@@ -41,7 +41,7 @@ public class IntegrantController extends Controller {
             viewReturn.showStage();
 
         }catch(Exception returnViewOnActionExeception){
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Error en el metodo returnViewOnActionExeception:  " + returnViewOnActionExeception);
 
         }

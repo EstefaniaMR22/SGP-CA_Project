@@ -152,7 +152,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
 
     @FXML
     void cancelOnAction(ActionEvent event) {
-        if(AlertController.showCancelationConfirmationAlert()) {
+        if(AlertController.getInstance().showCancelationConfirmationAlert()) {
             stage.close();
         }
     }

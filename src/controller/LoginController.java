@@ -78,7 +78,7 @@ public class LoginController extends Controller implements Initializable {
             IntegrantController integrantController = new IntegrantController();
             integrantController.showStage();
         }catch (Exception addProjectInvestigationException) {
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                     "ProyectsInvestigation. Causa: " + addProjectInvestigationException);
         }

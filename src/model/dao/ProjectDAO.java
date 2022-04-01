@@ -110,7 +110,7 @@ public class ProjectDAO implements IProjectDAO{
                     addProjectLGAC(newProject.getIdProject(), newProject.getIdLGCA());
                 } catch (Exception addProjectLGAC) {
                     Logger.getLogger(AddProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectLGAC);
-                    AlertController alertView = new AlertController();
+                    AlertController alertView = AlertController.getInstance();
                     alertView.showActionFailedAlert(" No se pudo guardar la relación entre LGAC y Proyecto." +
                             " Causa: " + addProjectLGAC);
 

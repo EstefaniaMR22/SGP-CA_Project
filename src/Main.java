@@ -1,6 +1,5 @@
-import controller.AdministratorController;
+import controller.AlertController;
 import controller.LoginController;
-import controller.academicgroup.AddMemberController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

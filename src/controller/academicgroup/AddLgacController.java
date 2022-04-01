@@ -43,7 +43,7 @@ public class AddLgacController extends ValidatorController implements Initializa
 
     @FXML
     void cancelOnAction(ActionEvent event) {
-        if (AlertController.showCancelationConfirmationAlert()) {
+        if (AlertController.getInstance().showCancelationConfirmationAlert()) {
             stage.close();
         }
     }

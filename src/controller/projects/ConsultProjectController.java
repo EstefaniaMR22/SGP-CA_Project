@@ -61,7 +61,7 @@ public class ConsultProjectController extends Controller implements Initializabl
         } catch (Exception addProjectInvestigationException) {
             Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
 
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                     "ModifyProyectInvestigation. Causa: " + addProjectInvestigationException);
 
@@ -76,7 +76,7 @@ public class ConsultProjectController extends Controller implements Initializabl
 
         }catch(Exception returnViewException) {
             Logger.getLogger(AddProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, returnViewException);
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo volver a la ventana anterior." +
                     " Causa: " + returnViewException);
 
@@ -105,9 +105,9 @@ public class ConsultProjectController extends Controller implements Initializabl
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.showConnectionErrorAlert();
+            AlertController.getInstance().showConnectionErrorAlert();
         }
-        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void getProjectDetails() {

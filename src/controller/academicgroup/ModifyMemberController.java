@@ -97,7 +97,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
 
     @FXML
     void cancelButtonPressed(ActionEvent event) {
-        if (AlertController.showCancelationConfirmationAlert()) {
+        if (AlertController.getInstance().showCancelationConfirmationAlert()) {
             stage.close();
         }
     }
@@ -113,9 +113,9 @@ public class ModifyMemberController extends ValidatorController implements Initi
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.showConnectionErrorAlert();
+            AlertController.getInstance().showConnectionErrorAlert();
         }
-        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void getCivilStatesFromDatabase() {

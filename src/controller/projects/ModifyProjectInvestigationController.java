@@ -8,7 +8,11 @@ import controller.validator.ValidatorTextInputControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.Project;
@@ -73,9 +77,9 @@ public class ModifyProjectInvestigationController extends ValidatorController im
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.showConnectionErrorAlert();
+            AlertController.getInstance().showConnectionErrorAlert();
         }
-        AlertController.showActionFailedAlert(sqlException.getLocalizedMessage());
+        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void chargeProjectInvestigationUpdate() {
@@ -101,7 +105,7 @@ public class ModifyProjectInvestigationController extends ValidatorController im
 
     @FXML
     public void endProjectStatusOnAction(ActionEvent actionEvent) {
-        AlertController alertView = new AlertController();
+        AlertController alertView = AlertController.getInstance();
 
         if(alertView.showConfirmationAlert()){
             statusProjectLabel.setText("Completado");
@@ -132,7 +136,7 @@ public class ModifyProjectInvestigationController extends ValidatorController im
                 }
 
             }else {
-                AlertController alertView = new AlertController();
+                AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert("Algunos datos ingresados son inválidos, por favor verifíquelos");
             }
         } catch (Exception exception) {
@@ -160,7 +164,7 @@ public class ModifyProjectInvestigationController extends ValidatorController im
             correctUpdatedProject = projectDAO.updateProject(updateProjectInvestigation);
 
             if (correctUpdatedProject) {
-                AlertController.showSuccessfullRegisterAlert();
+                AlertController.getInstance().showSuccessfullRegisterAlert();
                 stage.close();
             }
 
@@ -180,7 +184,7 @@ public class ModifyProjectInvestigationController extends ValidatorController im
         try{
             stage.close();
         }catch(Exception returnViewOnActionExeception){
-            AlertController alertView = new AlertController();
+            AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo volver a la ventana anterior." +
                     "Causa: " + returnViewOnActionExeception);
 
