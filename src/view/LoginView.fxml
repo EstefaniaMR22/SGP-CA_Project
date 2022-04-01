@@ -78,7 +78,7 @@
                                     <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label fx:id="systemLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="systemLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="system-label" text="test" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
@@ -87,9 +87,9 @@
                               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefWidth="100.0" styleClass="background-footer">
+                        <VBox alignment="CENTER_LEFT" prefWidth="100.0" styleClass="background-footer">
                            <children>
-                              <Button fx:id="cancelButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="button-text" text="Seleccionar otro cuerpo academico" />
+                              <Button fx:id="cancelButton" contentDisplay="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="button-text" text="Seleccionar otro cuerpo academico" />
                            </children>
                         </VBox>
                      </children>
