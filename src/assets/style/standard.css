@@ -46,6 +46,7 @@
 
 .background-white-color {
     -fx-background-color:white;
+    -fx-background-radius:5px;
 }
 
 .background-form {
@@ -424,7 +425,7 @@
 
 .scroll-bar:horizontal > .thumb,
 .scroll-bar:vertical > .thumb {
-    -fx-background-color :derive(-background_main_clr,-20%);
+    -fx-background-color :derive(-background_main_clr,-10%);
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 3px;
 }
@@ -438,7 +439,8 @@
 
 .bordered {
     -fx-border-width:0.5;
-    -fx-border-color:derive(-background_main_clr, -l35%);
+    -fx-border-color:derive(-background_main_clr, -35%);
+    -fx-border-radius:5px;
 }
 
 .wrongInput {

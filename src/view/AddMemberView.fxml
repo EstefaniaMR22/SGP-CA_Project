@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,70 +18,12 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="1308.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="732.0" prefWidth="1308.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <bottom>
-            <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" />
-         </bottom>
-         <right>
-            <VBox prefHeight="732.0" prefWidth="401.0" styleClass="bordered" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="BOTTOM_CENTER" prefWidth="375.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <children>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Label styleClass="title-label" text="Registrar miembro" />
-                                    <ImageView fitHeight="222.0" fitWidth="313.0" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <Label styleClass="description-label" text="El registro de un miembro se realizará en el sistema, una vez registrado podrás modificar, actualizar, consultar y eliminar al miembro. La contraseña generada por defecto para los usuarios es hola. Por lo tanto, se recomienda cambiar la contraseña una vez iniciada la sesion" textAlignment="JUSTIFY" wrapText="true">
-                                       <padding>
-                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                       </padding>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" spacing="10.0">
-                           <children>
-                              <Button fx:id="registerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#AddMemberOnAction" styleClass="main-button" text="Registrar" />
-                              <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="button-text" text="Cancelar" />
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                           </padding>
-                        </VBox>
-                        <VBox alignment="CENTER" styleClass="background-footer">
-                           <children>
-                              <Label fx:id="systemLabel" alignment="CENTER" styleClass="system-label" />
-                           </children>
-                           <padding>
-                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-         </right>
          <center>
             <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
               <content>
                 <AnchorPane>
                      <children>
-                        <VBox fx:id="memberDataVBox" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" spacing="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="memberDataVBox" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <VBox maxWidth="1.7976931348623157E308" styleClass="background-form">
                                  <children>
@@ -88,7 +31,7 @@
                                        <children>
                                           <Label graphicTextGap="10.0" styleClass="title-label" text="Información personal">
                                              <graphic>
-                                                <FontAwesomeIcon iconName="INFO" size="20px" styleClass="icon-title" />
+                                                <FontAwesomeIcon iconName="HOME" size="20px" styleClass="icon-title" />
                                              </graphic>
                                           </Label>
                                        </children>
@@ -182,7 +125,7 @@
                                              <children>
                                                 <Label alignment="CENTER" graphicTextGap="10.0" styleClass="title-label" text="Información académica">
                                                    <graphic>
-                                                      <FontAwesomeIcon iconName="INFO" size="20px" styleClass="icon-title" textAlignment="CENTER" />
+                                                      <FontAwesomeIcon iconName="BOOK" size="20px" styleClass="icon-title" textAlignment="CENTER" />
                                                    </graphic>
                                                 </Label>
                                              </children>
@@ -316,20 +259,86 @@
                                  </padding>
                               </VBox>
                            </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </AnchorPane>
               </content>
                <BorderPane.margin>
-                  <Insets right="15.0" />
+                  <Insets />
                </BorderPane.margin>
                <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                </padding>
             </ScrollPane>
          </center>
+         <left>
+            <VBox prefHeight="712.0" prefWidth="336.0" styleClass="bordered" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="BOTTOM_CENTER" prefWidth="375.0" styleClass="background-white-color" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="title-label" text="Registrar miembro" />
+                                    <ImageView fitHeight="198.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../assets/images/img-01.png" />
+                                       </image>
+                                       <VBox.margin>
+                                          <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="description-label" text="El registro de un miembro se realizará en el sistema, una vez registrado podrás modificar, actualizar, consultar y eliminar al miembro. La contraseña generada por defecto para los usuarios es hola. Por lo tanto, se recomienda cambiar la contraseña una vez iniciada la sesion" textAlignment="JUSTIFY" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="110.0" prefWidth="342.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="systemLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="10.0">
+                           <children>
+                              <Button fx:id="registerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#AddMemberOnAction" styleClass="main-button" text="Registrar" />
+                              <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="button-text" text="Cancelar" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </left>
          <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </BorderPane>
    </children>

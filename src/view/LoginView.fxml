@@ -78,7 +78,7 @@
                                     <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInOnAction" styleClass="main-button" text="Iniciar sesión" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label fx:id="systemLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="system-label" text="test" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="systemLabel" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
