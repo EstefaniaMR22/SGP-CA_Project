@@ -25,12 +25,18 @@ public class ValidatorComboBoxBaseWithConstraints extends ValidatorComboBoxBase 
             if(newValue != null) {
                 if( parameter.apply(newValue) ) {
                     validatorController.addComponentToValidator(this, true);
-                    component.getStyleClass().remove("wrongInput");
+                    component.getStyleClass().removeAll("wrongInput");
                 } else {
                     validatorController.addComponentToValidator(this, false);
+                    component.getStyleClass().removeAll("wrongInput");
                     component.getStyleClass().add("wrongInput");
                 }
             }
+            System.out.println("**********");
+            for (String a: component.getStyleClass()) {
+                System.out.println(a);
+            }
+
         });
     }
 

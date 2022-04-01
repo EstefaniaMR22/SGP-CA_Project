@@ -22,10 +22,11 @@ public class ValidatorComboBoxBase extends Control implements IValidatorControlF
         component.valueProperty().addListener( (observable, oldValue, newValue) -> {
             if(newValue == null ) {
                 validatorController.addComponentToValidator(this, false);
+                component.getStyleClass().removeAll("wrongInput");
                 component.getStyleClass().add("wrongInput");
             } else {
                 validatorController.addComponentToValidator(this, true);
-                component.getStyleClass().remove("wrongInput");
+                component.getStyleClass().removeAll("wrongInput");
             }
         });
     }

@@ -27,23 +27,18 @@ public class ValidatorTextInputControl extends Control implements IValidatorCont
         component.textProperty().addListener( ( (observable, oldValue, newValue) -> {
             if( !Validator.doesStringMatchPattern(newValue,regexConstraint) || Validator.isStringLargerThanLimitOrEmpty(newValue,lengthConstraint) ){
                 validatorController.addComponentToValidator(this, false);
-                component.getStyleClass().removeAll("wrongTextInput", "textfield", "textarea");
-                component.getStyleClass().add("wrongTextInput");
+                component.getStyleClass().removeAll("wrongInput");
+                component.getStyleClass().add("wrongInput");
             } else {
                 validatorController.addComponentToValidator(this, true);
-                component.getStyleClass().removeAll("wrongTextInput", "textfield", "textarea");
-                if(component instanceof TextField) {
-                    component.getStyleClass().add("textfield");
-                } else if(component instanceof TextArea) {
-                    component.getStyleClass().add("textarea");
-                }
+                component.getStyleClass().removeAll("wrongInput");
             }
         }));
     }
 
     @Override
     public void setInvalidStyleClass() {
-        component.getStyleClass().add("wrongTextInput");
+        component.getStyleClass().add("wrongInput");
     }
 
     @Override

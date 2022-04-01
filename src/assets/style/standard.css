@@ -14,7 +14,7 @@
  -button_secondary_clr: transparent;
  -button_optional_clr: transparent;
 /* OTHER */
- -listview_hover_item_clr: #e2eaf2;
+ -listcell_hover_item_clr: #e2eaf2;
  -listcell_border_clr: #d0d0d0;
  -listcell_odd_bkg_clr: #f5f8fb;
  -listcell_even_bkg_clr: #fff;
@@ -24,6 +24,8 @@
  -prompt_text_clr:derive(-fx-control-inner-background, -25%);
  -input_border_clr: #D7D6DC;
  -input_border_focused_clr: #34b4eb;
+ -input_wrong_clr:#ff0000;
+ -input_focused_wrong_clr: #000;
 }
   /* BACKGROUND */
 
@@ -191,10 +193,6 @@
 
 .textfield:focused {
   -fx-border-color:-input_border_focused_clr;
-  -fx-background-color:white;
-  -fx-background-insets: 1, 1, -1.4, 3;
-  -fx-background-radius: 5px;
-  -fx-padding: 4 7 4 15;
 }
 
 .textarea {
@@ -202,15 +200,11 @@
   -fx-border-radius:5px;
 }
 
-.wrongTextInput {
-    -fx-min-height:42px;
-    -fx-background-color:red;
-}
 
 .datepicker {
       -fx-min-height:42px;
       -fx-border-radius:5px;
-      -fx-background-color:white;
+      -fx-background-color:transparent;
       -fx-border-color: -input_border_clr;
       -fx-background-insets: -0.2, 1 -1.4, 3;
       -fx-background-radius: 5px;
@@ -219,14 +213,13 @@
       -fx-text-fill: -text_input_clr;
 }
 
-.datepicker:focused {
-  -fx-border-color:-input_border_focused_clr;
-  -fx-background-color:white;
-  -fx-background-radius: 5px;
+.datepicker > .text-field {
+    -fx-text-fill: -text_input_clr;
+    -fx-background-color:transparent;
 }
 
-.datepicker > .text-field {
-    -fx-background-color: transparent;
+.datepicker:focused {
+  -fx-border-color:-input_border_focused_clr;
 }
 
 .date-picker > .arrow-button > .arrow {
@@ -260,14 +253,10 @@
     -fx-text-fill: -text_last_clr;
 }
 
-.wrongInput {
--fx-background-color:red;
-}
-
 .comboBox {
   -fx-min-height:42px;
   -fx-border-radius:5px;
-  -fx-background-color:white;
+  -fx-background-color:transparent;
   -fx-border-color: #D7D6DC;
   -fx-background-insets: -0.2, 1 -1.4, 3;
   -fx-background-radius: 5px;
@@ -288,11 +277,40 @@
 }
 
 .comboBox > .list-cell {
-    -fx-text-fill: -text_input_clr;
+    -fx-text-fill: derive(-text_input_clr, 10%);
 }
 
-.comboBox > .text-field {
-    -fx-prompt-text-fill:red;
+.comboBox > .combo-box-popup > * {
+    -fx-background-color:-background_card_clr;
+    -fx-text-fill:-text_last_clr;
+    -fx-background-radius:5px;
+}
+
+.comboBox > .combo-box-popup > .list-view {
+    -fx-background-color:-background_card_clr;
+    -fx-border-color:-input_border_focused_clr;
+    -fx-border-radius:5px;
+    -fx-border-width:0.5;
+}
+
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color:transparent;
+    -fx-text-fill:-text_input_clr;
+}
+
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover {
+    -fx-background-color:-listcell_hover_item_clr;
+    -fx-text-fill:-text_input_clr;
+}
+
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > sheet > .list-cell:filled:hover,
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.comboBox > .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-background-color:transparent;
 }
 
  /* TABLE VIEW AND LISTVIEW*/
@@ -317,7 +335,7 @@
 }
 
 .listview > .list-cell:filled:hover {
-    -fx-background-color:-listview_hover_item_clr;
+    -fx-background-color:-listcell_hover_item_clr;
 }
 
 .listview > .list-cell:selected {
@@ -353,7 +371,6 @@
     -fx-border-radius:5 5 5 5;
     -fx-background-radius:5 5 5 5;
 }
-
 
 .listcell {
     -fx-background-color:transparent;
@@ -417,4 +434,13 @@
     -fx-background-color:white;
     -fx-border-color:derive(-background_main_clr, -35%);
     -fx-border-width: 0 0 0 0.5;
+}
+
+.wrongInput {
+    -fx-text-fill:-input_wrong_clr;
+    -fx-border-color:-input_wrong_clr;
+}
+
+.wrongInput:focused {
+    -fx-border-color:-input_focused_wrong_clr;
 }
