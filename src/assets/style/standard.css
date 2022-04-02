@@ -361,10 +361,16 @@
     -fx-background-color:-listcell_hover_item_clr;
 }
 
-.listview > .list-cell:empty {
+.list-cell:empty {
     -fx-background-color:transparent;
     -fx-border-color:transparent;
     -fx-border-width:0px;
+}
+
+.list-cell:empty:hover {
+      -fx-background-color:transparent;
+        -fx-border-color:transparent;
+        -fx-border-width:0px;
 }
 
 .listview > .list-cell:even {
