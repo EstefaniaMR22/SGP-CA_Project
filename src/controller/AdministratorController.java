@@ -3,8 +3,6 @@ package controller;
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.MemberDetailsController;
 import controller.listcell.AdministratorMemberListCell;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -13,7 +11,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -21,6 +18,7 @@ import model.dao.MiembroDAO;
 import model.domain.Member;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -36,7 +34,7 @@ public class AdministratorController extends Controller implements Initializable
     public void initialize(URL location, ResourceBundle resources) {
         initializeCellFactoryListView();
         getMembersFromDatabase();
-        initializeListViewListener();
+        initializeCountMembersListViewListener();
         initializeFilterSearchInputMembers();
     }
 
@@ -55,20 +53,35 @@ public class AdministratorController extends Controller implements Initializable
         AddMemberController addMemberController = new AddMemberController();
         addMemberController.showStage();
         if(addMemberController.getRegisteredMember() != null ) {
-            membersListView.getItems().add(addMemberController.getRegisteredMember());
+            String lastText = searchTextField.getText();
+            searchTextField.setText("");
+            ObservableList<Member> newList = FXCollections.observableArrayList(new ArrayList<>());
+            newList.addAll(membersListView.getItems());
+            newList.add(addMemberController.getRegisteredMember());
+            setNewItemsToListview(newList);
+            searchTextField.setText(lastText);
         }
     }
 
     @FXML
     void lookMemberDetailsOnAction(ActionEvent event) {
         Member selected = membersListView.getSelectionModel().getSelectedItem();
+        String lastText = searchTextField.getText();
+        searchTextField.setText("");
+        membersListView.getSelectionModel().select(selected);
+        int indexOf = membersListView.getSelectionModel().getSelectedIndex();
+        searchTextField.setText(lastText);
         if(selected != null) {
             MemberDetailsController memberDetailsController = new MemberDetailsController(selected);
             memberDetailsController.showStage();
             if(!memberDetailsController.getMemberSelected().equals(selected)) {
-                int indexOf = membersListView.getSelectionModel().getSelectedIndex();
-                membersListView.getItems().remove(indexOf);
-                membersListView.getItems().add(indexOf, memberDetailsController.getMemberSelected());
+                searchTextField.setText("");
+                ObservableList<Member> newList = FXCollections.observableArrayList(new ArrayList<>());
+                newList.addAll(membersListView.getItems());
+                newList.remove(selected);
+                newList.add(indexOf, memberDetailsController.getMemberSelected());
+                setNewItemsToListview(newList);
+                searchTextField.setText(lastText);
             }
         }
     }
@@ -80,7 +93,13 @@ public class AdministratorController extends Controller implements Initializable
            if(AlertController.getInstance().showConfirmationAlert()) {
                try {
                    if(new MiembroDAO().removeMember(memberSelected.getId())) {
-                       membersListView.getItems().remove(memberSelected);
+                       String lastText = searchTextField.getText();
+                       searchTextField.setText("");
+                       ObservableList<Member> newList = FXCollections.observableArrayList(new ArrayList<>());
+                       newList.addAll(membersListView.getItems());
+                       newList.remove(memberSelected);
+                       setNewItemsToListview(newList);
+                       searchTextField.setText(lastText);
                    }
                } catch (SQLException sqlException) {
                    Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
@@ -101,7 +120,7 @@ public class AdministratorController extends Controller implements Initializable
         };
     }
 
-    private void initializeListViewListener() {
+    private void initializeCountMembersListViewListener() {
         membersListView.getItems().addListener((ListChangeListener<Member>) c -> countIntegrants(membersListView.getItems()));
     }
 
@@ -111,6 +130,12 @@ public class AdministratorController extends Controller implements Initializable
 
     private void initializeCellFactoryListView() {
         membersListView.setCellFactory( item -> new AdministratorMemberListCell());
+    }
+
+    private void setNewItemsToListview(ObservableList<Member> newList) {
+        searchTextField.setText("");
+        membersListView.setItems(newList);
+        initializeFilterSearchInputMembers();
     }
 
     private void initializeFilterSearchInputMembers() {
@@ -131,5 +156,6 @@ public class AdministratorController extends Controller implements Initializable
             SortedList<Member> sortedList = new SortedList<>(filteredData);
             membersListView.setItems(sortedList);
         });
+        initializeCountMembersListViewListener();
     }
 }
