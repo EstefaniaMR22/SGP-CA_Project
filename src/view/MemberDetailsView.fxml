@@ -1,149 +1,235 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="1041.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1165.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="733.0" prefWidth="1328.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <VBox styleClass="bordered-no-radius">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <AnchorPane>
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                        <VBox alignment="TOP_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label styleClass="bold-label" text="Nombre" />
-                              <Label fx:id="nameLabel" text="?" />
+                              <Label fx:id="personalNumberLabel" styleClass="title-label" text="numero de personal" />
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label styleClass="bold-label" text="RFC" />
-                              <Label fx:id="rfcLabel" text="?" />
+                              <FontAwesomeIcon iconName="USER" size="70px" />
+                              <Label fx:id="nameLabel" styleClass="title-label" text="Nombre completo" />
+                              <HBox alignment="TOP_CENTER" spacing="25.0">
+                                 <children>
+                                    <Label fx:id="stateLabel" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="description-label" text="estado de nacimiento" />
+                                    <Label fx:id="uvEmailNumberLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="correo uv" />
+                                    <Label fx:id="telephoneLabel" maxWidth="1.7976931348623157E308" styleClass="description-label" text="telefono" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="CURP" />
-                              <Label fx:id="curpLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Telefono" />
-                              <Label fx:id="telephoneLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Estado civil" />
-                              <Label fx:id="civilStatusLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Nacionalidad" />
-                              <Label fx:id="nationalityLabel" text="?" />
-                           </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Numero de personal" />
-                              <Label fx:id="personalNumberLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Correo UV" />
-                              <Label fx:id="uvEmailNumberLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Programa educativo" />
-                              <Label fx:id="educationalProgramLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Estado" />
-                              <Label fx:id="stateLabel" text="?" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
+                     </padding>
+                  </AnchorPane>
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            </VBox>
+            <ScrollPane fitToWidth="true" styleClass="scroll-bar" VBox.vgrow="ALWAYS">
+              <content>
+                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background-white-color">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bordered-no-radius" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0" styleClass="background-title">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="section-label" text="Informacion personal" textAlignment="CENTER" />
+                                    <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                             <children>
+                                                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Nombre" />
+                                                      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="nombre" wrapText="true" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Apellido paterno" />
+                                                      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="paterno" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Apellido materno" />
+                                                      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="materno" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                             <children>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Nacionalidad" />
+                                                      <Label fx:id="nationalityLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="nacionalidad" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="RFC" />
+                                                      <Label fx:id="rfcLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="rfc" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Fecha de nacimiento" />
+                                                      <Label fx:id="birtdateLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="fecha nacimiento" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                             <children>
+                                                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="CURP" />
+                                                      <Label fx:id="curpLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="curp" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Estado civil" />
+                                                      <Label fx:id="civilStatusLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="estado civil" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0" styleClass="background-title">
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="section-label" text="Información académica" />
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <HBox spacing="25.0">
+                                             <children>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label alignment="CENTER" styleClass="attribute-title-label" text="Nombramiento" />
+                                                      <Label fx:id="appointmentLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label alignment="CENTER" styleClass="attribute-title-label" text="Programa educativo" />
+                                                      <Label fx:id="educationalProgramLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label alignment="CENTER" styleClass="attribute-title-label" text="Fecha de admision" />
+                                                      <Label fx:id="admissionDateLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="attribute-title-label" text="Grado estudios" />
+                                                      <Label fx:id="studyGradeLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="attribute-title-label" text="Area estudio" />
+                                                      <Label fx:id="studyAreaLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="section-label" text="Informacion adicional" textAlignment="CENTER" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Telefono casa" />
+                                                <Label fx:id="homeTelephoneLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Telefono trabajo" />
+                                                <Label fx:id="workTelephoneNumberLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Correo adicional" />
+                                                <Label fx:id="aditionalEmailLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="description-label" text="?" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="35.0" right="35.0" />
+               </padding>
+            </ScrollPane>
+            <HBox alignment="CENTER_RIGHT" spacing="25.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Nombramiento" />
-                              <Label fx:id="appointmentLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Telefono casa" />
-                              <Label fx:id="homeTelephoneLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Telefono trabajo" />
-                              <Label fx:id="workTelephoneNumberLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Correo adicional" />
-                              <Label fx:id="aditionalEmailLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Area estudio" />
-                              <Label fx:id="studyAreaLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Grado estudios" />
-                              <Label fx:id="studyGradeLabel" text="?" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Fecha de admision" />
-                              <Label fx:id="admissionDateLabel" text="?" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
-                           <children>
-                              <Label styleClass="bold-label" text="Fecha de nacimiento" />
-                              <Label fx:id="birtdateLabel" text="?" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
+                  <Button mnemonicParsing="false" onAction="#updateMemberOnAction" styleClass="main-button" text="Modificar" />
                </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#updateMemberOnAction" styleClass="main-button" text="Modificar" />
-            <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
          </children>
       </VBox>
    </children>

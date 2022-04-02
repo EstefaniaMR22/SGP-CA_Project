@@ -4,7 +4,7 @@
  -text_first_clr: #4b4444;
  -text_second_clr: #4b4566;
  -text_third_clr:#534c4c;
- -text_last_clr: #6d6666;
+ -text_last_clr: #878793;
  -text_button_clr: #000;
  -text_input_clr: #7f8385;
  -text_attribute_title_clr:#534c4c;
@@ -78,12 +78,12 @@
 
 .section-label {
  -fx-text-fill:-text_second_clr;
- -fx-font-size:16px;
+ -fx-font-size:18px;
 }
 
 .subtitle-label {
  -fx-text-fill:-text_third_clr;
- -fx-font-size:15px;
+ -fx-font-size:16px;
 }
 
 .description-label {
@@ -122,7 +122,7 @@
 }
 
 .main-button:hover {
-    -fx-background-color:derive(-button_first_clr, 0%);
+    -fx-background-color:derive(-button_first_clr, 20%);
 }
 
 .main-button:pressed {
@@ -449,10 +449,11 @@
     -fx-border-width: 0 0 0 0.5;
 }
 
-.bordered {
-    -fx-border-width:0.5;
+.bordered-no-radius {
+    -fx-border-width:0.9;
     -fx-border-color:derive(-background_main_clr, -35%);
-    -fx-border-radius:5px;
+    -fx-background-color:#fff;
+    -fx-background-radius:0px;
 }
 
 .wrongInput {
@@ -480,8 +481,7 @@
     -fx-padding:35 25 15 25;
 }
 
-.dialog-alert-pane > .button-bar {
-
+.dialog-alert-pane > .button-bar > .button {
 }
 
 .dialog-alert-pane > .button-bar > *.container {

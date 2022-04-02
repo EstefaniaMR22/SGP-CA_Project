@@ -1,4 +1,3 @@
-import controller.AlertController;
 import controller.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;

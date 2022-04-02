@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefWidth="710.0" styleClass="listcell" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -27,10 +26,10 @@
                               <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                            </padding>
                            <children>
-                              <FontAwesomeIcon fill="#3f0d79" iconName="USER" size="35px" />
+                              <FontAwesomeIcon fill="#018251f7" iconName="USER" size="35px" />
                            </children>
                         </VBox>
-                        <VBox maxWidth="370.0" HBox.hgrow="ALWAYS">
+                        <VBox maxWidth="350.0" minWidth="350.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="attribute-title-label" text="correo" />
                               <Label fx:id="uvEmailLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" styleClass="description-label" text="correo" wrapText="true" VBox.vgrow="ALWAYS" />

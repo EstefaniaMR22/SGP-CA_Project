@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -28,7 +29,7 @@
                                  <children>
                                     <VBox styleClass="background-title">
                                        <children>
-                                          <Label graphicTextGap="10.0" styleClass="title-label" text="Información personal">
+                                          <Label graphicTextGap="10.0" styleClass="section-label" text="Información personal">
                                              <graphic>
                                                 <FontAwesomeIcon iconName="HOME" size="20px" styleClass="icon-title" />
                                              </graphic>
@@ -122,7 +123,7 @@
                                        <children>
                                           <VBox styleClass="background-title">
                                              <children>
-                                                <Label alignment="CENTER" graphicTextGap="10.0" styleClass="title-label" text="Información académica">
+                                                <Label alignment="CENTER" graphicTextGap="10.0" styleClass="section-label" text="Información académica">
                                                    <graphic>
                                                       <FontAwesomeIcon iconName="BOOK" size="20px" styleClass="icon-title" textAlignment="CENTER" />
                                                    </graphic>
@@ -204,7 +205,7 @@
                                  <children>
                                     <VBox styleClass="background-title">
                                        <children>
-                                          <Label graphicTextGap="10.0" styleClass="title-label" text="Información adicional">
+                                          <Label graphicTextGap="10.0" styleClass="section-label" text="Información adicional">
                                              <graphic>
                                                 <FontAwesomeIcon iconName="INFO" size="20px" styleClass="icon-title" textAlignment="CENTER" />
                                              </graphic>
@@ -259,7 +260,7 @@
                               </VBox>
                            </children>
                            <padding>
-                              <Insets top="5.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </VBox>
                      </children>
@@ -274,44 +275,39 @@
             </ScrollPane>
          </center>
          <left>
-            <VBox prefHeight="712.0" prefWidth="336.0" styleClass="bordered" BorderPane.alignment="CENTER">
+            <VBox prefHeight="712.0" prefWidth="336.0" styleClass="bordered-no-radius" BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="BOTTOM_CENTER" prefWidth="375.0" styleClass="background-white-color" VBox.vgrow="ALWAYS">
+                  <VBox alignment="BOTTOM_CENTER" prefWidth="375.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox VBox.vgrow="ALWAYS">
+                        <VBox alignment="CENTER">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets />
                            </VBox.margin>
                            <children>
-                              <VBox alignment="CENTER" spacing="15.0">
-                                 <children>
-                                    <Label styleClass="title-label" text="Modificar miembro" />
-                                    <ImageView fitHeight="194.0" fitWidth="279.0" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <Label styleClass="description-label" text="La modificacion del miembro se realizará en el sistema. &#10;&#10;Una vez modificado podrás volver actualizar, consultar y eliminar al miembro.&#10;&#10;La información se actualizará en la lista anterior." textAlignment="JUSTIFY" wrapText="true">
-                                       <padding>
-                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                       </padding>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="110.0" prefWidth="342.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="systemLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Modificar miembro" />
+                              <ImageView fitHeight="178.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/images/img-01.png" />
+                                 </image>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                                  </VBox.margin>
+                              </ImageView>
+                              <Label styleClass="description-label" text="La modificacion del miembro se realizará en el sistema. &#10;&#10;Una vez modificado podrás volver actualizar, consultar y eliminar al miembro.&#10;&#10;La información se actualizará en la lista anterior." textAlignment="JUSTIFY" wrapText="true">
+                                 <padding>
+                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                 </padding>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
                         </VBox>
+                        <Label fx:id="systemLabel1" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
                               <Button fx:id="modifyButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifyMemberOnAction" styleClass="main-button" text="Modificar" />
@@ -321,7 +317,7 @@
                               <Insets />
                            </VBox.margin>
                            <padding>
-                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="20.0" />
                            </padding>
                         </VBox>
                      </children>
@@ -329,9 +325,6 @@
                </children>
             </VBox>
          </left>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
       </BorderPane>
    </children>
 </AnchorPane>
