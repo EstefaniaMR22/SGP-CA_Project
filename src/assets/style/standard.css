@@ -397,6 +397,7 @@
 
 .scroll-bar {
     -fx-background-color:transparent;
+    -fx-border-width:0;
 }
 
 .scroll-bar:horizontal > .track,
@@ -438,31 +439,8 @@
 .scroll-bar:horizontal > .thumb,
 .scroll-bar:vertical > .thumb {
     -fx-background-color :derive(-background_main_clr,-10%);
-    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-insets : 3.0, 0.0, 0.0;
     -fx-background-radius : 3px;
-}
-
-/* ONLY FOR SPECIAL CASES */
-.login-form {
-    -fx-background-color:white;
-    -fx-border-color:derive(-background_main_clr, -35%);
-    -fx-border-width: 0 0 0 0.5;
-}
-
-.bordered-no-radius {
-    -fx-border-width:0.9;
-    -fx-border-color:derive(-background_main_clr, -35%);
-    -fx-background-color:#fff;
-    -fx-background-radius:0px;
-}
-
-.wrongInput {
-    -fx-text-fill:-input_wrong_clr;
-    -fx-border-color:-input_wrong_clr;
-}
-
-.wrongInput:focused {
-    -fx-border-color:-input_focused_wrong_clr;
 }
 
 .dialog-alert-pane {
@@ -492,4 +470,31 @@
     -fx-background-color:-background_main_clr;
     -fx-border-width:0 0 0.5 0;
     -fx-border-color:derive(-background_main_clr, -35%);
+}
+
+/* ONLY FOR SPECIAL CASES */
+.login-form {
+    -fx-background-color:white;
+    -fx-border-color:derive(-background_main_clr, -35%);
+    -fx-border-width: 0 0 0 0.5;
+}
+
+.bordered-noradius-color {
+    -fx-border-color: derive(-background_main_clr, -35%);
+    -fx-background-color:#fff;
+}
+
+.bordered-radius-color {
+    -fx-border-color:derive(-background_main_clr, -15%);
+    -fx-background-color:#fff;
+    -fx-border-radius:5px;
+}
+
+.wrongInput {
+    -fx-text-fill:-input_wrong_clr;
+    -fx-border-color:-input_wrong_clr;
+}
+
+.wrongInput:focused {
+    -fx-border-color:-input_focused_wrong_clr;
 }

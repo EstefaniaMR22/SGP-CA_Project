@@ -32,6 +32,8 @@ public class MemberDetailsController extends Controller implements Initializable
     @FXML private Label birtdateLabel;
     @FXML private Label studyAreaLabel;
     @FXML private Label studyGradeLabel;
+    @FXML private Label maternalLastName;
+    @FXML private Label paternalLastName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -85,5 +87,7 @@ public class MemberDetailsController extends Controller implements Initializable
         aditionalEmailLabel.setText(memberSelected.getAditionalEmail());
         studyGradeLabel.setText(memberSelected.getMaxStudyGrade().toString());
         studyAreaLabel.setText(memberSelected.getStudyArea());
+        maternalLastName.setText(memberSelected.getMaternalLastname());
+        paternalLastName.setText(memberSelected.getPaternalLastname());
     }
 }
