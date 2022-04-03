@@ -2,29 +2,23 @@ package controller.academicgroup;
 
 import controller.AlertController;
 import controller.ValidatorController;
+import controller.listcell.MemberAcademicGroupListCell;
 import controller.validator.Validator;
 import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
@@ -42,9 +36,7 @@ import assets.utils.DateFormatter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,8 +72,9 @@ public class AddAcademicGroupController extends ValidatorController implements I
     @FXML private TextField searchMemberTextField;
     @FXML private Label systemLabel;
     @FXML private Button removeMemberCAButton;
-    @FXML private Button searchMemberButton;
     @FXML private TextArea descriptionAdscriptionTextArea;
+    @FXML private Label membersSystemLabel;
+
     private AcademicGroup academicGroupProgramRegistered;
 
     public void showStage() {
@@ -95,6 +88,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
         initValidator();
         setTableComponents();
         getConsolidationGradeFromDatabase();
+        initializeCellFactoryListView();
         getAllMembersFromDatabase();
         initializeFilterSearchInput();
         // For later version...
@@ -109,6 +103,8 @@ public class AddAcademicGroupController extends ValidatorController implements I
     void addAcademicGroupProgramOnAction(ActionEvent event) {
         if(validateInputs()) {
             addAcademicGroup();
+        } else {
+            systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
         }
     }
 
@@ -223,7 +219,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
                 String lowerCaseFilter = newValue.toLowerCase();
                 if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
                     return true;
-                } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                } else if(String.valueOf(object.getPersonalNumber()).toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -259,6 +255,10 @@ public class AddAcademicGroupController extends ValidatorController implements I
         }
     }
 
+    private void initializeCellFactoryListView() {
+        membersAvailableListView.setCellFactory( item -> new MemberAcademicGroupListCell());
+    }
+
     private void disableInput(boolean state) {
         idTextField.setDisable(state);
         adscriptionAreaTextField.setDisable(state);
@@ -279,22 +279,99 @@ public class AddAcademicGroupController extends ValidatorController implements I
         addMemberToCAButton.setDisable(state);
         searchMemberTextField.setDisable(state);
         removeMemberCAButton.setDisable(state);
-        searchMemberButton.setDisable(state);
         descriptionAdscriptionTextArea.setDisable(state);
     }
 
     private void setTableComponents() {
         identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
         nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
-        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
-        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
-        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+        typeParticipationColumn.setCellFactory( o -> new ComboBoxEditingCell());
+        typeParticipationColumn.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
+        });
+        // OLD METHOD FOR COMBOBOX CELL FOR TABLE VIEW
+//        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+//
+//        typeParticipationColumn.setOnEditCommit(event -> {
+//            System.out.println(event.toString());
+//            System.out.println(event.getEventType().toString());
+//            if(!checkResponsableAdded() ) {
+//                event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
+//            } else {
+//                event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getOldValue());
+//                membersSystemLabel.setText("¡No puede haber más de un responsable para este cuerpo academico!");
+//            }
+//        });
+//        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+//
         participationsTableView.setEditable(true);
+        participationsTableView.setPlaceholder(new Label(""));
+        lgacRegisteredTableView.setPlaceholder(new Label(""));
     }
+
+   private class ComboBoxEditingCell extends ComboBoxTableCell<Participation, ParticipationType> {
+        private ComboBox<ParticipationType> comboBox;
+
+       public ComboBoxEditingCell() {
+           comboBox = new ComboBox<>();
+           comboBox.getStyleClass().add("comboBox");
+           comboBox.setMinWidth(160);
+           comboBox.setOnAction( e -> {
+               System.out.println(comboBox.getSelectionModel().getSelectedItem());
+               if(comboBox.getSelectionModel().getSelectedItem() == ParticipationType.RESPONSABLE) {
+                   System.out.println("FIX ME!!!");
+                   //comboBox.getSelectionModel().select(ParticipationType.OTHER);
+               } else {
+                   commitEdit(comboBox.getSelectionModel().getSelectedItem());
+               }
+           });
+           comboBox.valueProperty().setValue(ParticipationType.INTEGRANT);
+           List<ParticipationType> participationTypeList = new ArrayList<>(Arrays.asList(ParticipationType.values()));
+           comboBox.setItems(FXCollections.observableArrayList(participationTypeList));
+       }
+
+       @Override
+       public void startEdit() {
+           if (!isEmpty()) {
+               super.startEdit();
+               setText(null);
+               setGraphic(comboBox);
+           }
+       }
+
+       @Override
+       public void updateItem(ParticipationType item, boolean empty) {
+           super.updateItem(item, empty);
+       }
+
+
+
+       @Override
+       public void commitEdit(ParticipationType newValue) {
+           super.commitEdit(newValue);
+       }
+
+       private boolean existResponsableInTable() {
+           boolean existResponsableInTable = false;
+           for (Participation participation : participationsTableView.getItems()) {
+               System.out.println(participation);
+               if (participation.getParticipationType() == ParticipationType.RESPONSABLE) {
+                   existResponsableInTable = true;
+                   break;
+               }
+           }
+           return existResponsableInTable;
+       }
+
+
+   }
+
+
 
     private void initValidator() {
         Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;

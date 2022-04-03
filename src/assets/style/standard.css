@@ -196,8 +196,23 @@
 }
 
 .textarea {
-  -fx-min-height:50px;
+  -fx-min-height:85px;
   -fx-border-radius:5px;
+  -fx-background-color:white;
+  -fx-border-color: -input_border_clr;
+  -fx-background-insets: -0.2, 1 -1.4, 3;
+  -fx-background-radius: 5px;
+  -fx-padding: 7 7 4 10;
+  -fx-prompt-text-fill: -prompt_text_clr;
+  -fx-text-fill: -text_input_clr;
+}
+
+.textarea .content {
+    -fx-background-color:white;
+}
+
+.textarea:focused {
+    -fx-border-color:-input_border_focused_clr;
 }
 
 .datepicker {
@@ -262,7 +277,7 @@
   -fx-padding: 4 7 4 4;
 }
 
-.comboBox > .arrow-button {
+.comboBox > .arrow-button, .comboBox-table-cell > .arrow-button {
     -fx-background-color:transparent;
     -fx-background-radius: 5px;
 }
@@ -318,7 +333,73 @@
 
 .tableview {
     -fx-background-color:#fff;
+    -fx-border-insets: 0;
+    -fx-border-width:0px;
+    -fx-border-color:-input_border_clr;
 }
+
+.tableview .table-cell {
+    -fx-padding: 0px;
+    -fx-min-height:42px;
+    -fx-border-color: -input_border_clr;
+    -fx-text-fill: -text_last_clr;
+    -fx-border-width:0.25px;
+    -fx-border-radius:0px;
+    -fx-border-insets: 0;
+}
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width:0;
+    -fx-background-color:white;
+}
+
+.tableview:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: -listcell_hover_item_clr;
+}
+
+.tableview:row-selection .table-row-cell:filled:selected {
+    -fx-background-color:-listcell_selected_clr;
+}
+
+.tableview .column-header, .table-view .filler {
+    -fx-background-color:derive(white, -5%);
+    -fx-size: 42;
+    -fx-border-color:-input_border_clr;
+    -fx-border-width:1px;
+    -fx-border-insets: 0;
+    -fx-font-size:12px;
+    -fx-font-weight:600;
+}
+
+.tableview .column-header .label {
+    -fx-text-fill:-text_attribute_title_clr;
+    -fx-font-size:12px;
+}
+
+.first-column {
+    -fx-border-radius:5 0 0 0;
+    -fx-background-radius:5 0 0 0;
+}
+
+.last-column {
+    -fx-border-radius:0 5 0 0;
+    -fx-background-radius:0 5 0 0;
+}
+
+.tableview .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.combo-box-table-cell {
+    -fx-min-height:42px;
+     -fx-border-radius:5px;
+     -fx-background-color:transparent;
+     -fx-border-color: #D7D6DC;
+     -fx-background-insets: -0.2, 1 -1.4, 3;
+     -fx-background-radius: 5px;
+     -fx-padding: 4 7 4 4;
+}
+
 
 .listview {
     -fx-background-color:transparent;
@@ -339,11 +420,19 @@
     -fx-background-radius:5 5 0 0;
 }
 
+.first-cell:selected {
+    -fx-border-radius:5 5 0 0;
+}
+
 .last-cell {
     -fx-border-width:0.8 0.8 0.8 0.8;
     -fx-border-color: -listcell_border_clr;
     -fx-border-radius:0 0 5 5;
     -fx-background-radius:0 0 5 5;
+}
+
+.last-cell:selected {
+    -fx-border-radius:0 0 5 5;
 }
 
 .single-cell {
