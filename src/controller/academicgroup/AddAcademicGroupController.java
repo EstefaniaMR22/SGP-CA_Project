@@ -291,12 +291,12 @@ public class AddAcademicGroupController extends ValidatorController implements I
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
-        typeParticipationColumn.setCellFactory( o -> new ComboBoxEditingCell());
+        //typeParticipationColumn.setCellFactory( o -> new ComboBoxEditingCell());
 
         // Three ways to put combobox inside tablecell.
         //ComboBoxCell comboBoxCell = new ComboBoxCell(participationTypeObservableList);
         //typeParticipationColumn.setCellFactory(ComboBoxCell.forTableColumn(participationTypeObservableList));
-        //typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
         typeParticipationColumn.getStyleClass().add("comboBox");
         typeParticipationColumn.setOnEditCommit(event -> {
                 event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
