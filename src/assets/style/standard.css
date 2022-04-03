@@ -277,6 +277,12 @@
   -fx-padding: 4 7 4 4;
 }
 
+.combo-box-table-cell {
+    -fx-border-radius:15px;
+    -fx-border-color:blue;
+    -fx-background-color:blue;
+}
+
 .comboBox > .arrow-button, .comboBox-table-cell > .arrow-button {
     -fx-background-color:transparent;
     -fx-background-radius: 5px;

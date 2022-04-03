@@ -8,20 +8,25 @@ import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WritableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.css.Styleable;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import model.dao.AcademicGroupDAO;
 import model.dao.MiembroDAO;
 import model.domain.AcademicGroup;
@@ -30,13 +35,14 @@ import model.domain.LGAC;
 import model.domain.Member;
 import model.domain.Participation;
 import model.domain.ParticipationType;
-import assets.utils.Autentication;
 import assets.utils.DateFormatter;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,7 +140,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
         Member selected = membersAvailableListView.getSelectionModel().getSelectedItem();
         if(selected != null ) {
             searchMemberTextField.setText("");
-            addParticipationToTableView(selected, ParticipationType.INTEGRANT);
+            addParticipationToTableView(selected, ParticipationType.COLABORATOR);
         }
     }
 
@@ -180,11 +186,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
-    }
-
-    private void addSelfMemberToProgram() {
-        Member selfResponsable = Autentication.getInstance().getParticipation().getMember();
-        addParticipationToTableView(selfResponsable, ParticipationType.RESPONSABLE);
     }
 
     private void addParticipationToTableView(Member member, ParticipationType participationType) {
@@ -291,48 +292,57 @@ public class AddAcademicGroupController extends ValidatorController implements I
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
         typeParticipationColumn.setCellFactory( o -> new ComboBoxEditingCell());
+
+        // Three ways to put combobox inside tablecell.
+        //ComboBoxCell comboBoxCell = new ComboBoxCell(participationTypeObservableList);
+        //typeParticipationColumn.setCellFactory(ComboBoxCell.forTableColumn(participationTypeObservableList));
+        //typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
+        typeParticipationColumn.getStyleClass().add("comboBox");
         typeParticipationColumn.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
+                event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
         });
-        // OLD METHOD FOR COMBOBOX CELL FOR TABLE VIEW
-//        typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
-//
-//        typeParticipationColumn.setOnEditCommit(event -> {
-//            System.out.println(event.toString());
-//            System.out.println(event.getEventType().toString());
-//            if(!checkResponsableAdded() ) {
-//                event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
-//            } else {
-//                event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getOldValue());
-//                membersSystemLabel.setText("¡No puede haber más de un responsable para este cuerpo academico!");
-//            }
-//        });
-//        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
-//
+        typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
+
         participationsTableView.setEditable(true);
         participationsTableView.setPlaceholder(new Label(""));
         lgacRegisteredTableView.setPlaceholder(new Label(""));
     }
 
-   private class ComboBoxEditingCell extends ComboBoxTableCell<Participation, ParticipationType> {
+
+   private class ComboBoxEditingCell extends TableCell<Participation, ParticipationType> {
         private ComboBox<ParticipationType> comboBox;
 
        public ComboBoxEditingCell() {
-           comboBox = new ComboBox<>();
+           comboBox = new ComboBox<>(FXCollections.observableArrayList(new ArrayList<>(Arrays.asList(ParticipationType.values()))));
+           comboBox.getItems().remove(ParticipationType.OTHER);
+           comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
            comboBox.getStyleClass().add("comboBox");
            comboBox.setMinWidth(160);
-           comboBox.setOnAction( e -> {
-               System.out.println(comboBox.getSelectionModel().getSelectedItem());
-               if(comboBox.getSelectionModel().getSelectedItem() == ParticipationType.RESPONSABLE) {
-                   System.out.println("FIX ME!!!");
-                   //comboBox.getSelectionModel().select(ParticipationType.OTHER);
+//           This generate a strange behavior on ComboBox
+//           comboBox.setOnAction(event -> {
+//               if(existResponsableInTable()) {
+//                   systemLabel.setText("Ya existe otro responsable");
+//                   // This method throws IndexOutIfBoundsException
+//                   //comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
+//               }
+//               commitEdit(comboBox.getSelectionModel().getSelectedItem());
+//               //updateItem(comboBox.getSelectionModel().getSelectedItem(), isEmpty());
+//               ( getTableView().getItems().get( getTableRow().getIndex())).setParticipationType(comboBox.getSelectionModel().getSelectedItem());
+//
+//           });
+
+           comboBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
+               if(newValue) {
+                   getTableView().edit(getIndex(), getTableColumn());
+                   if(existResponsableInTable()) {
+                       systemLabel.setText("Ya existe otro responsable asignado");
+                       // It doesn't work, it has a strange behaviour (bug)
+                       //comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
+                   }
                } else {
                    commitEdit(comboBox.getSelectionModel().getSelectedItem());
                }
            });
-           comboBox.valueProperty().setValue(ParticipationType.INTEGRANT);
-           List<ParticipationType> participationTypeList = new ArrayList<>(Arrays.asList(ParticipationType.values()));
-           comboBox.setItems(FXCollections.observableArrayList(participationTypeList));
        }
 
        @Override
@@ -347,19 +357,29 @@ public class AddAcademicGroupController extends ValidatorController implements I
        @Override
        public void updateItem(ParticipationType item, boolean empty) {
            super.updateItem(item, empty);
-       }
-
-
-
-       @Override
-       public void commitEdit(ParticipationType newValue) {
-           super.commitEdit(newValue);
+           if(empty || item == null) {
+               setGraphic(null);
+               // Should add setText(null) to remove from tableView
+               // If you don't do this you will get some strange behaviour
+               // When you delete a row in tableView
+               setText(null);
+           } else {
+               //
+               // setGraphic(null);
+               setText(item.toString());
+//               This method generate a strange behavior...
+//               if(comboBox == null || comboBox.getItems().size() == 0) {
+//                   comboBox = new ComboBox<>(FXCollections.observableArrayList(Arrays.asList(ParticipationType.values())));
+//                   comboBox.getItems().remove(ParticipationType.OTHER);
+//                   comboBox.getSelectionModel().select(item);
+//                   setGraphic(comboBox);
+//               }
+           }
        }
 
        private boolean existResponsableInTable() {
            boolean existResponsableInTable = false;
            for (Participation participation : participationsTableView.getItems()) {
-               System.out.println(participation);
                if (participation.getParticipationType() == ParticipationType.RESPONSABLE) {
                    existResponsableInTable = true;
                    break;
@@ -367,8 +387,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
            }
            return existResponsableInTable;
        }
-
-
    }
 
 
@@ -389,3 +407,4 @@ public class AddAcademicGroupController extends ValidatorController implements I
         initListenerToControls();
     }
 }
+

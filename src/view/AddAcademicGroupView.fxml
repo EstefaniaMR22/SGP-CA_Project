@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="717.0" prefWidth="1311.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1311.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="717.0" prefWidth="1311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -74,7 +74,7 @@
                                                 <TableView fx:id="participationsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="190.0" prefHeight="164.0" prefWidth="824.0" styleClass="tableview" VBox.vgrow="ALWAYS">
                                                   <columns>
                                                     <TableColumn fx:id="personalNumberTableColumn" style="-fx-alignment: center;" styleClass="first-column" text="Numero de personal" />
-                                                    <TableColumn fx:id="nameTableColumn" style="-fx-alignment: center-left;" text="Nombre" />
+                                                    <TableColumn fx:id="nameTableColumn" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" text="Nombre" />
                                                       <TableColumn fx:id="typeParticipationColumn" style="-fx-alignment: center;" styleClass="last-column" text="Tipo de participacion" />
                                                   </columns>
                                                    <columnResizePolicy>
@@ -90,6 +90,7 @@
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Total de miembros" />
                                                             <Label fx:id="totalMembersInProgramLabel" styleClass="description-label" text="?" />
+                                                            <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir a cuerpo académico" />
                                                          </children>
                                                       </HBox>
                                                       <Button fx:id="removeMemberCAButton" mnemonicParsing="false" onAction="#removeMemberFromCAOnAction" styleClass="secondary-button" text="Eliminar del cuerpo académico" />
@@ -117,7 +118,6 @@
                                                 <HBox alignment="TOP_RIGHT" spacing="25.0">
                                                    <children>
                                                       <Label fx:id="membersSystemLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" text="ARREGLAR 1 SOLO RESPONSABLE" HBox.hgrow="ALWAYS" />
-                                                      <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir a cuerpo académico" />
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="15.0" top="15.0" />
