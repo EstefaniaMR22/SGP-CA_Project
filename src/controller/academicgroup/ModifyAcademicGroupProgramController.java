@@ -2,6 +2,7 @@ package controller.academicgroup;
 
 import controller.AlertController;
 import controller.ValidatorController;
+import controller.listcell.MemberAcademicGroupListCell;
 import controller.validator.Validator;
 import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorComboBoxBaseWithConstraints;
@@ -10,6 +11,7 @@ import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -91,6 +93,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         getAllMembersFromDatabase();
         setAcademicGroupProgramDetailsIntoTextFields();
         initializeFilterSearchInput();
+        initializeCellFactoryListView();
     }
 
     public AcademicGroup getAcademicGroupProgramSelected() {
@@ -152,8 +155,15 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     }
     @FXML
     void modifyAcademicGroupProgramOnAction(ActionEvent event) {
-        if(validateInputs()) {
-            modifyAcademicGroup();
+        if(!existTwoOrMoreResponsableInTable()) {
+            systemLabel.setText("");
+            if(validateInputs()) {
+                modifyAcademicGroup();
+            } else {
+                systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
+            }
+        } else {
+            systemLabel.setText("¡No puede haber más de 1 responsable asignado!");
         }
     }
 
@@ -162,7 +172,6 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         pause.setOnFinished(event -> stage.close());
         pause.play();
     }
-
 
     private void getConsolidationGradeFromDatabase() {
         List<ConsolidationGrade> grades = null;
@@ -190,6 +199,10 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
+    }
+
+    private void initializeCellFactoryListView() {
+        membersAvailableListView.setCellFactory( item -> new MemberAcademicGroupListCell());
     }
 
     private void addParticipationToTableView(Member member, ParticipationType participationType) {
@@ -261,6 +274,20 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         });
     }
 
+    private boolean existTwoOrMoreResponsableInTable() {
+        boolean existMoreThan1Responsables = false;
+        int count = 0;
+        for (Participation participation : participationsTableView.getItems()) {
+            if (participation.getParticipationType() == ParticipationType.RESPONSABLE) {
+                count++;
+            }
+        }
+        if(count > 1) {
+            existMoreThan1Responsables = true;
+        }
+        return existMoreThan1Responsables;
+    }
+
     private void disableInput(boolean state) {
         idTextField.setDisable(state);
         adscriptionAreaTextField.setDisable(state);
@@ -281,7 +308,6 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         addMemberToCAButton.setDisable(state);
         searchMemberTextField.setDisable(state);
         removeMemberCAButton.setDisable(state);
-        searchMemberButton.setDisable(state);
         descriptionAdscriptionTextArea.setDisable(state);
     }
 
@@ -299,6 +325,8 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         descriptionAdscriptionTextArea.setText(academicGroupProgramSelected.getDescriptionAdscription());
         lgacRegisteredTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
         participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
+        totalLGACInProgramLabel.setText(String.valueOf(academicGroupProgramSelected.getLgacList().size()));
+        totalMembersInProgramLabel.setText(String.valueOf(academicGroupProgramSelected.getParticipationList().size()));
     }
 
     private void setTableComponents() {
@@ -306,17 +334,23 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
+        participationsTableView.getItems().addListener((ListChangeListener<Participation>) c -> totalMembersInProgramLabel.setText(String.valueOf(participationsTableView.getItems().size())));
+        lgacRegisteredTableView.getItems().addListener((ListChangeListener<LGAC>) c -> totalLGACInProgramLabel.setText(String.valueOf(lgacRegisteredTableView.getItems().size())));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
         typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
-        typeParticipationColumn.setOnEditCommit(event -> event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue()));
+        typeParticipationColumn.getStyleClass().add("comboBox");
+        typeParticipationColumn.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setParticipationType(event.getNewValue());
+        });
         typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
         participationsTableView.setEditable(true);
+        participationsTableView.setPlaceholder(new Label(""));
+        lgacRegisteredTableView.setPlaceholder(new Label(""));
     }
 
     private void initValidator() {
         Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
-        addComponentToValidator(new ValidatorTextInputControl(idTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), true);
         addComponentToValidator(new ValidatorTextInputControl(adscriptionAreaTextField, Validator.PATTERN_LETTERS,Validator.LENGTH_GENERAL, this), true);
         addComponentToValidator(new ValidatorTextInputControl(nameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), true);
         addComponentToValidator(new ValidatorTextInputControl(adscriptionUnitTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), true);

@@ -315,10 +315,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
         lgacRegisteredTableView.getItems().addListener((ListChangeListener<LGAC>) c -> totalLGACInProgramLabel.setText(String.valueOf(lgacRegisteredTableView.getItems().size())));
         ObservableList<ParticipationType> participationTypeObservableList = FXCollections.observableArrayList(ParticipationType.values());
         participationTypeObservableList.remove(ParticipationType.OTHER);
-        //typeParticipationColumn.setCellFactory( o -> new ComboBoxEditingCell());
-        // Three ways to put combobox inside tablecell.
-        //ComboBoxCell comboBoxCell = new ComboBoxCell(participationTypeObservableList);
-        //typeParticipationColumn.setCellFactory(ComboBoxCell.forTableColumn(participationTypeObservableList));
         typeParticipationColumn.setCellFactory(ComboBoxTableCell.forTableColumn(participationTypeObservableList));
         typeParticipationColumn.getStyleClass().add("comboBox");
         typeParticipationColumn.setOnEditCommit(event -> {
@@ -356,26 +352,11 @@ public class AddAcademicGroupController extends ValidatorController implements I
             comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
             comboBox.getStyleClass().add("comboBox");
             comboBox.setMinWidth(160);
-//           This generate a strange behavior on ComboBox
-//           comboBox.setOnAction(event -> {
-//               if(existResponsableInTable()) {
-//                   systemLabel.setText("Ya existe otro responsable");
-//                   // This method throws IndexOutIfBoundsException
-//                   //comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
-//               }
-//               commitEdit(comboBox.getSelectionModel().getSelectedItem());
-//               //updateItem(comboBox.getSelectionModel().getSelectedItem(), isEmpty());
-//               ( getTableView().getItems().get( getTableRow().getIndex())).setParticipationType(comboBox.getSelectionModel().getSelectedItem());
-//
-//           });
-
             comboBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if(newValue) {
                     getTableView().edit(getIndex(), getTableColumn());
                     if(existTwoOrMoreResponsableInTable()) {
                         systemLabel.setText("Ya existe otro responsable asignado");
-                        // It doesn't work, it has a strange behaviour (bug)
-                        //comboBox.getSelectionModel().select(ParticipationType.COLABORATOR);
                     }
                 } else {
                     commitEdit(comboBox.getSelectionModel().getSelectedItem());
@@ -397,21 +378,9 @@ public class AddAcademicGroupController extends ValidatorController implements I
             super.updateItem(item, empty);
             if(empty || item == null) {
                 setGraphic(null);
-                // Should add setText(null) to remove from tableView
-                // If you don't do this you will get some strange behaviour
-                // When you delete a row in tableView
                 setText(null);
             } else {
-                //
-                // setGraphic(null);
                 setText(item.toString());
-//               This method generate a strange behavior...
-//               if(comboBox == null || comboBox.getItems().size() == 0) {
-//                   comboBox = new ComboBox<>(FXCollections.observableArrayList(Arrays.asList(ParticipationType.values())));
-//                   comboBox.getItems().remove(ParticipationType.OTHER);
-//                   comboBox.getSelectionModel().select(item);
-//                   setGraphic(comboBox);
-//               }
             }
         }
 
