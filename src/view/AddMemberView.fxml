@@ -279,7 +279,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefWidth="375.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" spacing="35.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -295,12 +295,12 @@
                               </ImageView>
                            </children>
                            <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                            </padding>
                         </VBox>
                         <Label styleClass="description-label" text="El registro de un miembro se realizará en el sistema, una vez registrado podrás modificar, actualizar, consultar y eliminar al miembro. La contraseña generada por defecto para los usuarios es hola. Por lo tanto, se recomienda cambiar la contraseña una vez iniciada la sesion" textAlignment="JUSTIFY" wrapText="true">
                            <padding>
-                              <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                            </padding>
                         </Label>
                      </children>

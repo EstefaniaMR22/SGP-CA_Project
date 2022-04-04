@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -8,28 +9,53 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="627.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="764.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="462.0" prefWidth="627.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <VBox alignment="CENTER_LEFT" styleClass="background-title">
                <children>
-                  <Label prefHeight="16.0" styleClass="bold-label" text="Identificador" />
-                  <TextField fx:id="identificatorTextField" styleClass="textfield" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="597.0" styleClass="section-label" text="Registrar Linea de Generacion y Aplicacion del Conocimiento" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS" />
                </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label styleClass="bold-label" text="Descripcion" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" HBox.hgrow="ALWAYS" />
+                  <VBox prefWidth="577.0" spacing="10.0" styleClass="background-form">
+                     <children>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="16.0" styleClass="bold-label" text="Identificador" />
+                              <TextField fx:id="identificatorTextField" styleClass="textfield" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label styleClass="bold-label" text="Descripcion" />
+                              <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </VBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" maxHeight="72.0" minHeight="72.0" prefWidth="200.0" spacing="15.0" styleClass="background-footer">
                <children>
-                  <Label fx:id="systemLabel" text="Label" />
-                  <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="main-button" text="Cancelar" />
-                  <Button mnemonicParsing="false" onAction="#registerOnAction" styleClass="main-button" text="Registrar" />
+                  <Label fx:id="systemLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
+                  <Button mnemonicParsing="false" onAction="#registerOnAction" prefHeight="38.0" prefWidth="130.0" styleClass="main-button" text="Registrar" />
                </children>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
             </HBox>
          </children>
       </VBox>

@@ -424,7 +424,7 @@
     -fx-background-color:transparent;
 }
 
-.combo-box-table-cell .combo-box > .arrow {
+.combo-box-table-cell .combo-box > .arrow-button > .arrow {
     -fx-background-color:-text_last_clr;
 }
 
@@ -499,6 +499,10 @@
     -fx-border-color: -listcell_border_clr;
     -fx-border-radius:5 5 5 5;
     -fx-background-radius:5 5 5 5;
+}
+
+.single-cell:selected {
+    -fx-border-radius:5;
 }
 
 .listcell {

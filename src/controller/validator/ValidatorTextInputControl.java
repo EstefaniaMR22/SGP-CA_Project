@@ -2,8 +2,6 @@ package controller.validator;
 
 import controller.ValidatorController;
 import javafx.scene.control.Control;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 
 /***

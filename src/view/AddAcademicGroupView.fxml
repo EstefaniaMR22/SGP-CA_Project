@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1311.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="1273.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="717.0" prefWidth="1311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -55,6 +55,63 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="25.0">
                                  <children>
+                                    <VBox prefHeight="286.0" prefWidth="876.0" styleClass="background-form">
+                                       <children>
+                                          <VBox styleClass="background-title">
+                                             <children>
+                                                <Label graphicTextGap="10.0" styleClass="section-label" text="Líneas de Generación y Aplicación del Conocimiento (LGAC)">
+                                                   <graphic>
+                                                      <FontAwesomeIcon iconName="CLOUD" size="20px" styleClass="icon-title" />
+                                                   </graphic>
+                                                </Label>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label alignment="TOP_LEFT" minHeight="100.0" styleClass="description-label" text="Para registrar una Línea de Generación y Aplicación del Conocimiento (LGAC) debes presionar el botón &quot;registrar&quot;, el cual desplegará una ventana y te pedirá los datos correspondientes. A continuación, debes presionar el botón &quot;Registrar&quot;.&#10;&#10;No se permite identificadores duplicados." textAlignment="JUSTIFY" wrapText="true" />
+                                                <VBox VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="subtitle-label" text="Tabla de LÍeas de Generación y Aplicación del Conimiento">
+                                                         <VBox.margin>
+                                                            <Insets bottom="15.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <TableView fx:id="lgacRegisteredTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="220.0" styleClass="tableview" VBox.vgrow="ALWAYS">
+                                                         <columns>
+                                                            <TableColumn fx:id="identificatorTableColumn" prefWidth="272.0" style="-fx-alignment: center;" styleClass="first-column" text="Identificador" />
+                                                            <TableColumn fx:id="descriptionTableColumn" prefWidth="550.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" styleClass="last-column" text="Descripcion" />
+                                                         </columns>
+                                                         <columnResizePolicy>
+                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                         </columnResizePolicy>
+                                                      </TableView>
+                                                   </children>
+                                                </VBox>
+                                                <HBox alignment="CENTER_RIGHT" spacing="25.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Lineas de generación registradas:" />
+                                                            <Label fx:id="totalLGACInProgramLabel" styleClass="description-label" text="0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <Button fx:id="removeLgacCAButton" mnemonicParsing="false" onAction="#removeLGACFromProgramOnAction" styleClass="secondary-button" text="Eliminar" />
+                                                      <Button fx:id="addLgacToCAButton" mnemonicParsing="false" onAction="#addLGACToProgramOnAction" styleClass="secondary-button" text="Registrar" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.0" styleClass="background-form">
                                        <children>
                                           <VBox styleClass="background-title">
@@ -71,6 +128,16 @@
                                           </VBox>
                                           <VBox VBox.vgrow="ALWAYS">
                                              <children>
+                                                <Label alignment="TOP_LEFT" minHeight="150.0" styleClass="description-label" text="Para AGREGAR un miembro a este Cuerpo Académico debes seleccionar un miembro de la lista de miembros y presionar el boton &quot;registrar&quot;, que se encuentra debajo de la lista de miembros.&#10;&#10;Para ELIMINAR un miembro debes este Cuerpo Académico debes seleccionar un miembro de la tabla de miembros asignados y presionar el botón &quot;Eliminar del cuerpo académico&quot;&#10;&#10;Para SELECCIONAR el TIPO DE PARTICIPACIÓN debes presionar la celda del miembro del cual deseas cambiar su tipo de participación y a continuación, debes seleccionar el tipo de participación de las opciones que se mostrarán." textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label styleClass="subtitle-label" text="Tabla de miembros asignados">
+                                                   <VBox.margin>
+                                                      <Insets bottom="15.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <TableView fx:id="participationsTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="190.0" prefHeight="164.0" prefWidth="824.0" styleClass="tableview" VBox.vgrow="ALWAYS">
                                                   <columns>
                                                     <TableColumn fx:id="personalNumberTableColumn" style="-fx-alignment: center;" styleClass="first-column" text="Numero de personal" />
@@ -88,9 +155,8 @@
                                                    <children>
                                                       <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="15.0" HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <Label styleClass="attribute-form-label" text="Total de miembros" />
-                                                            <Label fx:id="totalMembersInProgramLabel" styleClass="description-label" text="?" />
-                                                            <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir a cuerpo académico" />
+                                                            <Label styleClass="attribute-form-label" text="Miembros asignados" />
+                                                            <Label fx:id="totalMembersInProgramLabel" styleClass="description-label" text="0" />
                                                          </children>
                                                       </HBox>
                                                       <Button fx:id="removeMemberCAButton" mnemonicParsing="false" onAction="#removeMemberFromCAOnAction" styleClass="secondary-button" text="Eliminar del cuerpo académico" />
@@ -109,6 +175,12 @@
                                           </VBox>
                                           <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                              <children>
+                                                <Label alignment="TOP_LEFT" minHeight="45.0" styleClass="description-label" text="La lista de miembros cuenta con un buscador personalizado que permite encontrar a un miembro registrado a través de su nombre, apellidos y su número de personal. Para ello debes usar el campo de texto e ingresar la búsqueda." textAlignment="JUSTIFY" wrapText="true" />
+                                                <Label alignment="CENTER" styleClass="subtitle-label" text="Lista de miembros disponibles">
+                                                   <VBox.margin>
+                                                      <Insets bottom="15.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <TextField fx:id="searchMemberTextField" promptText="Buscar por nombre o numero de personal..." styleClass="textfield" />
                                                 <VBox prefHeight="200.0" prefWidth="100.0">
                                                    <children>
@@ -116,12 +188,12 @@
                                                    </children>
                                                 </VBox>
                                                 <HBox alignment="TOP_RIGHT" spacing="25.0">
-                                                   <children>
-                                                      <Label fx:id="membersSystemLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="system-label" text="ARREGLAR 1 SOLO RESPONSABLE" HBox.hgrow="ALWAYS" />
-                                                   </children>
                                                    <padding>
                                                       <Insets bottom="15.0" top="15.0" />
                                                    </padding>
+                                                   <children>
+                                                      <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir a cuerpo académico" />
+                                                   </children>
                                                 </HBox>
                                              </children>
                                              <padding>
@@ -136,13 +208,13 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
                                     </VBox>
-                                    <VBox prefHeight="286.0" prefWidth="876.0" styleClass="background-form">
+                                    <VBox styleClass="background-form">
                                        <children>
                                           <VBox styleClass="background-title">
                                              <children>
-                                                <Label graphicTextGap="10.0" styleClass="section-label" text="Lineas de Generacion y Aplicacion del Conocimiento (LGAC)">
+                                                <Label graphicTextGap="10.0" styleClass="section-label" text="Información básica">
                                                    <graphic>
-                                                      <FontAwesomeIcon iconName="INFO" size="20px" styleClass="icon-title" />
+                                                      <FontAwesomeIcon iconName="HOME" size="20px" styleClass="icon-title" />
                                                    </graphic>
                                                 </Label>
                                              </children>
@@ -150,33 +222,62 @@
                                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox>
+                                          <VBox spacing="10.0">
                                              <children>
-                                                <VBox spacing="25.0" VBox.vgrow="ALWAYS">
+                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                                                    <children>
-                                                      <TableView fx:id="lgacRegisteredTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="220.0" styleClass="tableview" VBox.vgrow="ALWAYS">
-                                                         <columns>
-                                                            <TableColumn fx:id="identificatorTableColumn" prefWidth="272.0" style="-fx-alignment: center;" styleClass="first-column" text="Identificador" />
-                                                            <TableColumn fx:id="descriptionTableColumn" prefWidth="550.0" style="-fx-alignment: center-left;" styleClass="last-column" text="Descripcion" />
-                                                         </columns>
-                                                         <columnResizePolicy>
-                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                         </columnResizePolicy>
-                                                      </TableView>
-                                                   </children>
-                                                </VBox>
-                                                <HBox alignment="CENTER_RIGHT" spacing="25.0">
-                                                   <children>
-                                                      <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                                      <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <Label styleClass="attribute-form-label" text="Total LGAC's registradas:" />
-                                                            <Label fx:id="totalLGACInProgramLabel" styleClass="description-label" text="?" />
+                                                            <Label styleClass="attribute-form-label" text="Nombre" />
+                                                            <TextField fx:id="nameTextField" promptText="Ejemplo: Estudios de la cultura y la comunicación en América Latina." styleClass="textfield" />
                                                          </children>
-                                                      </HBox>
-                                                      <Button fx:id="removeLgacCAButton" mnemonicParsing="false" onAction="#removeLGACFromProgramOnAction" styleClass="secondary-button" text="Eliminar" />
-                                                      <Button fx:id="addLgacToCAButton" mnemonicParsing="false" onAction="#addLGACToProgramOnAction" styleClass="secondary-button" text="Registrar" />
+                                                      </VBox>
+                                                      <VBox prefHeight="67.0" prefWidth="423.0" spacing="10.0">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Clave" />
+                                                            <TextField fx:id="idTextField" promptText="Ejemplo: UV-CA-350" styleClass="textfield" />
+                                                         </children>
+                                                      </VBox>
                                                    </children>
                                                 </HBox>
+                                                <HBox spacing="25.0">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Unidad de adscripcion" />
+                                                            <TextField fx:id="adscriptionUnitTextField" promptText="Ejemplo: Facultad de Estadística e Informática" styleClass="textfield" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Area adscrita" />
+                                                            <TextField fx:id="adscriptionAreaTextField" promptText="Ejemplo: Dirección General" styleClass="textfield" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="25.0">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Mision" />
+                                                            <TextArea fx:id="misionTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: Consolidación de la economía y la sociedad del conocimiento" styleClass="textarea" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-form-label" text="Vision" />
+                                                            <TextArea fx:id="visionTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: Integración de alumnos de nivel licenciatura y posgrado, tesistas y servicio social interesados en elaborar trabajos recepcionales que giren en torno a las LGC del CA" styleClass="textarea" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <VBox spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Objetivo general" />
+                                                      <TextArea fx:id="generalObjetiveTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: Desarrollar programas de investigación interdisciplinaria de manejo conjunto sobre las LGC propuestas. Implementar el posgrado en Cultura y Comuniacción, con la prticipación de todos los miembros del CA." styleClass="textarea" />
+                                                   </children>
+                                                </VBox>
                                              </children>
                                              <padding>
                                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -208,19 +309,19 @@
                                                       <VBox maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Fecha de registro" />
-                                                            <DatePicker fx:id="registerDateDatePicker" maxWidth="1.7976931348623157E308" styleClass="datepicker" />
+                                                            <DatePicker fx:id="registerDateDatePicker" maxWidth="1.7976931348623157E308" promptText="Selecciona una fecha" styleClass="datepicker" />
                                                          </children>
                                                       </VBox>
                                                       <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Ultima evaluacion" />
-                                                            <DatePicker fx:id="lastEvaluationDatePicker" maxWidth="1.7976931348623157E308" styleClass="datepicker" />
+                                                            <DatePicker fx:id="lastEvaluationDatePicker" maxWidth="1.7976931348623157E308" promptText="Selecciona una fecha" styleClass="datepicker" />
                                                          </children>
                                                       </VBox>
                                                       <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Grado de consolidacion" />
-                                                            <ComboBox fx:id="consolidationGradeComboBox" maxWidth="1.7976931348623157E308" styleClass="comboBox" />
+                                                            <ComboBox fx:id="consolidationGradeComboBox" maxWidth="1.7976931348623157E308" promptText="Selecciona un grado" styleClass="comboBox" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -228,87 +329,7 @@
                                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                                    <children>
                                                       <Label styleClass="attribute-form-label" text="Descripcion adscripcion" />
-                                                      <TextArea fx:id="descriptionAdscriptionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                             </padding>
-                                          </VBox>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                    </VBox>
-                                    <VBox styleClass="background-form">
-                                       <children>
-                                          <VBox styleClass="background-title">
-                                             <children>
-                                                <Label graphicTextGap="10.0" styleClass="section-label" text="Información básica">
-                                                   <graphic>
-                                                      <FontAwesomeIcon iconName="HOME" size="20px" styleClass="icon-title" />
-                                                   </graphic>
-                                                </Label>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                             </padding>
-                                          </VBox>
-                                          <VBox spacing="10.0">
-                                             <children>
-                                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
-                                                   <children>
-                                                      <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Nombre" />
-                                                            <TextField fx:id="nameTextField" styleClass="textfield" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="67.0" prefWidth="268.0" spacing="10.0">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Clave" />
-                                                            <TextField fx:id="idTextField" styleClass="textfield" />
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="25.0">
-                                                   <children>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Unidad de adscripcion" />
-                                                            <TextField fx:id="adscriptionUnitTextField" styleClass="textfield" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Area adscrita" />
-                                                            <TextField fx:id="adscriptionAreaTextField" styleClass="textfield" />
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="25.0">
-                                                   <children>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Mision" />
-                                                            <TextArea fx:id="misionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                                         <children>
-                                                            <Label styleClass="attribute-form-label" text="Vision" />
-                                                            <TextArea fx:id="visionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                </HBox>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label styleClass="attribute-form-label" text="Objetivo general" />
-                                                      <TextArea fx:id="generalObjetiveTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
+                                                      <TextArea fx:id="descriptionAdscriptionTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: La subdirección de RRHH se encarga de establecer las directrices para implantar, operar, controlar y evaluar el sistema de administración y desarrollo del personal del Centor, que al mismo tiempo que otorgue seguridad de los derechos para los trabajadores y su desarrollo." styleClass="textarea" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -340,16 +361,16 @@
             </ScrollPane>
          </center>
          <left>
-            <VBox prefHeight="712.0" prefWidth="336.0" style="-fx-border-width: 0 0.5 0 0;" styleClass="bordered-noradius-color" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="622.0" prefWidth="336.0" style="-fx-border-width: 0 0.5 0 0;" styleClass="bordered-noradius-color" BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="TOP_CENTER" prefWidth="375.0" VBox.vgrow="ALWAYS">
+                  <VBox alignment="TOP_CENTER" prefHeight="622.0" prefWidth="257.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" spacing="35.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Registrar Cuerpo Académico" />
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Registrar Cuerpo Académico" textAlignment="CENTER" wrapText="true" />
                               <ImageView fitHeight="178.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/images/img-01.png" />
@@ -360,10 +381,10 @@
                               </ImageView>
                            </children>
                            <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                            </padding>
                         </VBox>
-                        <Label styleClass="description-label" text="El registro de un cuerpo academico permitira " textAlignment="JUSTIFY" wrapText="true">
+                        <Label styleClass="description-label" text="Los cuerpos académicos (CA) son grupos de académicos universitarios (docentes, ejecutantes, artistas, investigadores, extensionistas) que, dependiendo de su forma de contratación participan como miembros o colaboradores, compartiendo una o varias líneas de generación y/o aplicación del conocimiento (investigación o estudio) en temas disciplinares o multidisciplinares y un conjunto de objetivos y metas académicas." textAlignment="JUSTIFY" wrapText="true">
                            <padding>
                               <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
                            </padding>

@@ -5,7 +5,7 @@ public class Validator {
     public static final String PATTERN_NUMBERS = "(([\\d]){1,})";
     public static final String PATTERN_NUMBERS_AND_LETTERS = "([A-Za-z-0-9áéíóúüÁÉÍÓÚÜñÑ]{1,}(\\ [A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ]{1,})*)";
     public static final String PATTERN_NAME = PATTERN_LETTERS;
-    public static final String PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS = "([A-Za-záéíóúüÁÉÍÓÚÜñÑ-_,.\\(\\)\\[\\{\\}]{1,}(\\ [A-Za-záéíóúüÁÉÍÓÚÜñÑ-_,.\\(\\)\\{\\}]{1,})*)";
+    public static final String PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS = "([A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ0\\-\\_\\,\\.\\(\\)\\[\\{\\}]{1,}(\\ [A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ\\-\\_\\,\\.\\(\\)\\{\\}]{1,})*)";
     //public static final String PATTERN_CURP = "/^([A-Z][AEIOUX][A-Z]{2}\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\\d])(\\d)$/";
     public static final String PATTERN_CURP = PATTERN_NUMBERS_AND_LETTERS;
     public static final String PATTERN_TELEPHONE = "([\\d]){8,10}";

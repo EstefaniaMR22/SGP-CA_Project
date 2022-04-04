@@ -284,20 +284,31 @@
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Modificar miembro" />
-                              <ImageView fitHeight="178.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/images/img-01.png" />
-                                 </image>
-                                 <VBox.margin>
-                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                                 </VBox.margin>
-                              </ImageView>
-                              <Label styleClass="description-label" text="La modificacion del miembro se realizará en el sistema. &#10;&#10;Una vez modificado podrás volver actualizar, consultar y eliminar al miembro.&#10;&#10;La información se actualizará en la lista anterior." textAlignment="JUSTIFY" wrapText="true">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="35.0">
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Modificar miembro" />
+                                    <ImageView fitHeight="178.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../assets/images/img-01.png" />
+                                       </image>
+                                       <VBox.margin>
+                                          <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                 </children>
                                  <padding>
-                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                    <Insets top="25.0" />
                                  </padding>
-                              </Label>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="description-label" text="La modificacion del miembro se realizará en el sistema. &#10;&#10;Una vez modificado podrás volver actualizar, consultar y eliminar al miembro.&#10;&#10;La información se actualizará en la lista anterior." textAlignment="JUSTIFY" wrapText="true">
+                                       <padding>
+                                          <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
                            <padding>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
