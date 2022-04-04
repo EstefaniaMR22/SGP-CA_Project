@@ -50,15 +50,9 @@ public class AcademicGroupDetailsController extends Controller implements Initia
     @FXML private TableColumn<Participation, String> nameTableColumn;
     @FXML private TableColumn<Participation, ParticipationType> typeParticipationColumn;
 
-    @FXML
-    void searchLGACOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void searchMemberOnAction(ActionEvent event) {
-
-    }
+    @FXML private Label totalColaboratorsLabel;
+    @FXML private Label totalIntegrantsLabel;
+    @FXML private Label totalResponsablesLabel;
 
     @FXML
     void updateOnAction(ActionEvent event) {
@@ -66,7 +60,7 @@ public class AcademicGroupDetailsController extends Controller implements Initia
         modifyAcademicGroupProgramController.showStage();
         if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
             academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();
-            setAcademicGroupProgramDetailsIntoTextFields();
+            setAcademicGroupProgramDetailsIntoControls();
         }
     }
 
@@ -93,14 +87,14 @@ public class AcademicGroupDetailsController extends Controller implements Initia
     private void getAcademicGroupProgramDetails() {
         try{
             academicGroupProgramSelected = new AcademicGroupDAO().getAcademicGroupProgramDetails(academicGroupProgramSelected.getId());
-            setAcademicGroupProgramDetailsIntoTextFields();
+            setAcademicGroupProgramDetailsIntoControls();
 
         }catch(SQLException sqlException) {
             Logger.getLogger(AcademicGroupDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 
-    private void setAcademicGroupProgramDetailsIntoTextFields() {
+    private void setAcademicGroupProgramDetailsIntoControls() {
         keyLabel.setText(academicGroupProgramSelected.getId());
         adscriptionAreaLabel.setText(academicGroupProgramSelected.getAdscriptionArea());
         nameLabel.setText(academicGroupProgramSelected.getName());
@@ -114,14 +108,36 @@ public class AcademicGroupDetailsController extends Controller implements Initia
         adscriptionDescriptionLabel.setText(academicGroupProgramSelected.getDescriptionAdscription());
         lgacTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
         participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
+        setNumbersMembersToLabels();
     }
 
     private void setTableComponents() {
         descriptionLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         identificationLgacTableColumn.setCellValueFactory(new PropertyValueFactory<>("identification"));
-        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getName()));
+        nameTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getMember().getFullName()));
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
         participationsTableView.setEditable(false);
     }
+
+    private void setNumbersMembersToLabels() {
+        int members = participationsTableView.getItems().size();
+        int colaborators = 0;
+        int integrants = 0;
+        int responsables = 0;
+        for(Participation participation : participationsTableView.getItems() ) {
+            if(participation.getParticipationType() == ParticipationType.INTEGRANT) {
+                integrants++;
+            } else if (participation.getParticipationType() == ParticipationType.RESPONSABLE) {
+                responsables++;
+            } else if(participation.getParticipationType() == ParticipationType.COLABORATOR) {
+                colaborators++;
+            }
+        }
+        totalMembersLabel.setText(String.valueOf(members));
+        totalResponsablesLabel.setText(String.valueOf(responsables));
+        totalIntegrantsLabel.setText(String.valueOf(integrants));
+        totalColaboratorsLabel.setText(String.valueOf(colaborators));
+    }
+
 }
