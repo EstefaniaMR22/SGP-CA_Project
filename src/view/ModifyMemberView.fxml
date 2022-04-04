@@ -333,7 +333,7 @@
                   </VBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="button-text" text="Cancelar" />
+                        <Button maxWidth="1.7976931348623157E308" minWidth="120.0" mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="secondary-button" text="Cancelar" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefWidth="139.0">

@@ -32,7 +32,7 @@
                   </VBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
+                        <Button minWidth="120.0" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="41.0" prefWidth="139.0">
@@ -205,7 +205,7 @@
                                           </VBox>
                                           <VBox VBox.vgrow="ALWAYS">
                                              <children>
-                                                <Label alignment="TOP_LEFT" minHeight="150.0" styleClass="description-label" text="Para AGREGAR un miembro a este Cuerpo Académico debes seleccionar un miembro de la lista de miembros y presionar el boton &quot;registrar&quot;, que se encuentra debajo de la lista de miembros.&#10;&#10;Para ELIMINAR un miembro debes este Cuerpo Académico debes seleccionar un miembro de la tabla de miembros asignados y presionar el botón &quot;Eliminar del cuerpo académico&quot;&#10;&#10;Para SELECCIONAR el TIPO DE PARTICIPACIÓN debes presionar la celda del miembro del cual deseas cambiar su tipo de participación y a continuación, debes seleccionar el tipo de participación de las opciones que se mostrarán." textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS">
+                                                <Label alignment="TOP_LEFT" minHeight="150.0" styleClass="description-label" text="Para AGREGAR un miembro a este Cuerpo Académico debes seleccionar un miembro de la lista de miembros y presionar el boton &quot;registrar&quot;, que se encuentra debajo de la lista de miembros.&#10;&#10;Para ELIMINAR un miembro debes este Cuerpo Académico debes seleccionar un miembro de la tabla de miembros asignados y presionar el botón &quot;Eliminar&quot;&#10;&#10;Para SELECCIONAR el TIPO DE PARTICIPACIÓN debes presionar la celda del miembro del cual deseas cambiar su tipo de participación y a continuación, debes seleccionar el tipo de participación de las opciones que se mostrarán." textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -236,7 +236,7 @@
                                                             <Label fx:id="totalMembersInProgramLabel" styleClass="description-label" text="0" />
                                                          </children>
                                                       </HBox>
-                                                      <Button fx:id="removeMemberCAButton" mnemonicParsing="false" onAction="#removeMemberFromCAOnAction" styleClass="secondary-button" text="Eliminar del cuerpo académico" />
+                                                      <Button fx:id="removeMemberCAButton" mnemonicParsing="false" onAction="#removeMemberFromCAOnAction" styleClass="secondary-button" text="Eliminar" />
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets />
@@ -269,7 +269,7 @@
                                                       <Insets bottom="15.0" top="15.0" />
                                                    </padding>
                                                    <children>
-                                                      <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir a cuerpo académico" />
+                                                      <Button fx:id="addMemberToCAButton" mnemonicParsing="false" onAction="#addMemberToProgramOnAction" styleClass="secondary-button" text="Añadir" />
                                                    </children>
                                                 </HBox>
                                              </children>

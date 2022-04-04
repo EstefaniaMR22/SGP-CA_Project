@@ -318,7 +318,7 @@
                   </VBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="button-text" text="Cancelar" />
+                        <Button minWidth="120.0" mnemonicParsing="false" onAction="#cancelButtonPressed" styleClass="secondary-button" text="Cancelar" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="41.0" prefWidth="139.0">

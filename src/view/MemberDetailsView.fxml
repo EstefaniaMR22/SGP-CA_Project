@@ -251,7 +251,7 @@
          <bottom>
             <HBox alignment="CENTER_RIGHT" minHeight="72.0" spacing="25.0" style="-fx-border-width: 0.5 0 0 0 0;" styleClass="bordered-noradius-color" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#cancelOnAction" styleClass="button-text" text="Cancelar" />
+                  <Button minWidth="120.0" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
                   <Button maxWidth="1.7976931348623157E308" minWidth="139.0" mnemonicParsing="false" onAction="#updateMemberOnAction" styleClass="main-button" text="Modificar" />
                </children>
                <padding>

@@ -2,6 +2,7 @@ package controller;
 
 import controller.academicgroup.AcademicGroupDetailsController;
 import controller.academicgroup.AddAcademicGroupController;
+import controller.listcell.AcademicGroupListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +26,8 @@ public class ResponsableController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getAllAcademicGroupPrograms();
+        initializeListView();
+        updateTotalAcademicGroup();
     }
 
     public void showStage() {
@@ -47,10 +50,19 @@ public class ResponsableController extends Controller implements Initializable {
         addAcademicGroupProgramController.showStage();
         if(addAcademicGroupProgramController.getAcademicGroupProgramRegistered() != null ) {
             academicGroupProgramListView.getItems().add(addAcademicGroupProgramController.getAcademicGroupProgramRegistered());
+            updateTotalAcademicGroup();
         }
     }
 
-    private void getAllAcademicGroupPrograms() {
+    private void initializeListView() {
+        academicGroupProgramListView.setCellFactory(item -> new AcademicGroupListCell());
+    }
+
+    private void updateTotalAcademicGroup() {
+        totalAcademicGroupProgramLabel.setText(String.valueOf(academicGroupProgramListView.getItems().size()));
+    }
+
+        private void getAllAcademicGroupPrograms() {
         try{
             ObservableList<AcademicGroup> academicGroupProgramObservableList = FXCollections.observableArrayList(new AcademicGroupDAO().getAllAcademicGroup());
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);

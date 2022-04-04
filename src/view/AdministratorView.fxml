@@ -39,7 +39,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label styleClass="attribute-title-label" text="Total de miembros registrados:" />
+                                    <Label maxHeight="1.7976931348623157E308" styleClass="attribute-title-label" text="Total de miembros registrados:" HBox.hgrow="ALWAYS" />
                                     <Label fx:id="totalMembersLabel" styleClass="description-label" text="?" />
                                  </children>
                               </HBox>

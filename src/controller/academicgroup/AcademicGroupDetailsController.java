@@ -61,6 +61,7 @@ public class AcademicGroupDetailsController extends Controller implements Initia
         if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
             academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();
             setAcademicGroupProgramDetailsIntoControls();
+            totalLgacsLabel.setText(String.valueOf(lgacTableView.getItems().size()));
         }
     }
 
@@ -108,6 +109,7 @@ public class AcademicGroupDetailsController extends Controller implements Initia
         adscriptionDescriptionLabel.setText(academicGroupProgramSelected.getDescriptionAdscription());
         lgacTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
         participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
+        totalLgacsLabel.setText(String.valueOf(lgacTableView.getItems().size()));
         setNumbersMembersToLabels();
     }
 
