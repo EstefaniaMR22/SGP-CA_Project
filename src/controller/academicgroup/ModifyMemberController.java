@@ -89,7 +89,9 @@ public class ModifyMemberController extends ValidatorController implements Initi
     @FXML
     void modifyMemberOnAction(ActionEvent event) {
         if (validateInputs()) {
-            updateMember();
+            if(!validateEmail()) {
+                updateMember();
+            }
         } else {
             systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
         }
@@ -102,6 +104,31 @@ public class ModifyMemberController extends ValidatorController implements Initi
         }
     }
 
+    private boolean validateEmail() {
+        boolean existMember = false;
+        try {
+            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText());
+            if(existMember) {
+                systemLabel.setText("¡Al parecer el correo electronico ya está siendo usado!");
+            }
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        return existMember;
+    }
+
+    private boolean validatePersonalNumber() {
+        boolean existMember = false;
+        try {
+            existMember =  new MemberDAO().checkMember(personalNumberTextField.getText());
+            if(existMember ) {
+                systemLabel.setText("¡Al parecer ya existe un miembro con ese número de personal!");
+            }
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        return false;
+    }
 
     private void pause() {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
