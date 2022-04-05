@@ -102,7 +102,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private boolean validateEmail() {
         boolean existMember = false;
         try {
-            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText());
+            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText(), Integer.parseInt( personalNumberTextField.getText()));
             if(existMember) {
                 systemLabel.setText("¡Al parecer el correo electronico ya está siendo usado!");
             }

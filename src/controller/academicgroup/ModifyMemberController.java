@@ -107,7 +107,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     private boolean validateEmail() {
         boolean existMember = false;
         try {
-            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText());
+            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText(), memberSelected.getId());
             if(existMember) {
                 systemLabel.setText("¡Al parecer el correo electronico ya está siendo usado!");
             }
@@ -278,7 +278,6 @@ public class ModifyMemberController extends ValidatorController implements Initi
         addComponentToValidator(new ValidatorTextInputControl(curpTextField, Validator.PATTERN_CURP, Validator.LENGTH_CURP, this), false);
         addComponentToValidator(new ValidatorTextInputControl(telephoneTextField, Validator.PATTERN_TELEPHONE, Validator.LENGTH_TELEPHONE, this), false);
         addComponentToValidator(new ValidatorTextInputControl(rfcTextField, Validator.PATTERN_RFC, Validator.LENGTH_RFC, this), false);
-        addComponentToValidator(new ValidatorTextInputControl(personalNumberTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorTextInputControl(uvEmailTextField, Validator.PATTERN_EMAIL, Validator.LENGTH_EMAIL, this), false);
         addComponentToValidator(new ValidatorComboBoxBase(educationalProgramComboBox, this), false);
         addComponentToValidator(new ValidatorTextInputControl(stateTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);

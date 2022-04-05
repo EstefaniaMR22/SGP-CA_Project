@@ -349,15 +349,17 @@ public class MemberDAO implements IMemberDAO {
      * From a UV Email check if member exist in database
      * </p>
      * @param emailUV the string code.
+     * @param id member id.
      * @return true if member already existe in database otherwise false.
      */
     @Override
-    public boolean checkMemberByEmail(String emailUV) throws SQLException {
+    public boolean checkMemberByEmail(String emailUV, int id) throws SQLException {
         boolean memberAlreadyExist = false;
         try(Connection conn = database.getConnection()) {
-            String statement = "SELECT * FROM Miembro WHERE email = ?";
+            String statement = "SELECT * FROM Miembro WHERE email = ? and id != ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, emailUV);
+            preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 memberAlreadyExist = true;

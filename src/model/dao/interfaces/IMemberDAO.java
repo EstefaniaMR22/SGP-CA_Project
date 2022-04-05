@@ -100,9 +100,10 @@ public interface IMemberDAO {
      * From a UV Email check if member exist in database
      * </p>
      * @param emailUV the string code.
+     * @param id member id.
      * @return true if member already existe in database otherwise false.
      */
-    boolean checkMemberByEmail(String emailUV) throws SQLException;
+    boolean checkMemberByEmail(String emailUV, int id) throws SQLException;
 
     /***
      * Get all educational Programs.

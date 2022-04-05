@@ -143,7 +143,7 @@
                                                             <TextField fx:id="uvEmailTextField" promptText="Ejemplo: robertocarlos@uv.mx" styleClass="textfield" />
                                                          </children>
                                                       </VBox>
-                                                      <VBox prefHeight="67.0" prefWidth="248.0" spacing="10.0">
+                                                      <VBox disable="true" prefHeight="67.0" prefWidth="248.0" spacing="10.0">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Numero de personal" />
                                                             <TextField fx:id="personalNumberTextField" promptText="Ejemplo: 329022" styleClass="textfield" />
