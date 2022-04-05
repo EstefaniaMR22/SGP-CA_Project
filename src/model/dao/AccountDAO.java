@@ -1,7 +1,7 @@
 package model.dao;
 
 import controller.exceptions.LimitReachedException;
-import model.dao.interfaces.ICuentaDAO;
+import model.dao.interfaces.IAccountDAO;
 import model.domain.Member;
 import model.domain.Participation;
 import model.domain.ParticipationType;
@@ -13,10 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CuentaDAO implements ICuentaDAO {
+public class AccountDAO implements IAccountDAO {
     private Database database;
 
-    public CuentaDAO() {
+    public AccountDAO() {
         database = new Database();
     }
 
@@ -227,7 +227,7 @@ public class CuentaDAO implements ICuentaDAO {
             if(idMember != -1 ) {
                 participation = new Participation();
                 participation.setParticipationType(getParticipationType(resultSet.getString("tipo_participacion")));
-                Member member = new MiembroDAO().getMember(idMember);
+                Member member = new MemberDAO().getMember(idMember);
                 participation.setMember(member);
             }
             conn.commit();
@@ -260,7 +260,7 @@ public class CuentaDAO implements ICuentaDAO {
             }
             if(idMember != -1) {
                 participation = new Participation();
-                participation.setMember(new MiembroDAO().getMember(idMember));
+                participation.setMember(new MemberDAO().getMember(idMember));
                 participation.setParticipationType(ParticipationType.OTHER);
             }
             conn.commit();

@@ -162,7 +162,7 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
                 while (resultSet2.next()) {
                     Participation participation = new Participation();
                     participation.setParticipationType(getParticipationType(resultSet2.getString("PCAM.tipo_participacion")));
-                    participation.setMember(new MiembroDAO().getMember(resultSet2.getInt("MIE.id")));
+                    participation.setMember(new MemberDAO().getMember(resultSet2.getInt("MIE.id")));
                     participationList.add(participation);
                 }
                 if (!participationList.isEmpty()) {

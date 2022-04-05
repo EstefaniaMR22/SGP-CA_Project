@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import model.dao.MiembroDAO;
+import model.dao.MemberDAO;
 import model.domain.Member;
 import java.net.URL;
 import java.sql.SQLException;
@@ -92,7 +92,7 @@ public class AdministratorController extends Controller implements Initializable
         if(memberSelected != null ) {
            if(AlertController.getInstance().showConfirmationAlert()) {
                try {
-                   if(new MiembroDAO().removeMember(memberSelected.getId())) {
+                   if(new MemberDAO().removeMember(memberSelected.getId())) {
                        String lastText = searchTextField.getText();
                        searchTextField.setText("");
                        ObservableList<Member> newList = FXCollections.observableArrayList(new ArrayList<>());
@@ -111,7 +111,7 @@ public class AdministratorController extends Controller implements Initializable
     private void getMembersFromDatabase() {
         List<Member> memberList = null;
         try {
-            memberList = new MiembroDAO().getAllMembers();
+            memberList = new MemberDAO().getAllMembers();
             ObservableList<Member> observableList = FXCollections.observableArrayList(memberList);
             countIntegrants(observableList);
             membersListView.setItems(observableList);

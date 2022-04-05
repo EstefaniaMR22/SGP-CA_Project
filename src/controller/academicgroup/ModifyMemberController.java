@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.util.Duration;
-import model.dao.MiembroDAO;
+import model.dao.MemberDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.StudyGrade;
@@ -121,7 +121,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     private void getCivilStatesFromDatabase() {
         List<CivilStatus> civilStatusList = new ArrayList<>();
         try {
-            civilStatusList = new MiembroDAO().getCivilStatus();
+            civilStatusList = new MemberDAO().getCivilStatus();
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
@@ -132,7 +132,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     private void getStudyGradesFromDatabase() {
         List<StudyGrade> studyGradeList = new ArrayList<>();
         try {
-            studyGradeList = new MiembroDAO().getStudyGrades();
+            studyGradeList = new MemberDAO().getStudyGrades();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
@@ -143,7 +143,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     private void getEducationProgramFromDatabase() {
         List<String> educationalProgramList = new ArrayList<>();
         try {
-            educationalProgramList = new MiembroDAO().getAllEducationProgram();
+            educationalProgramList = new MemberDAO().getAllEducationProgram();
         } catch (SQLException sqlException ) {
             deterMinateSQLState(sqlException);
         }
@@ -176,7 +176,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
         member.setStudyArea(studyAreaTextField.getText());
         member.setId(memberSelected.getId());
         try {
-            if( new MiembroDAO().updateMember(member) ) {
+            if( new MemberDAO().updateMember(member) ) {
                 memberSelected = member;
                 systemLabel.setText("¡Se ha actualizado de manera exitosa!");
                 disableMemberInput(true);

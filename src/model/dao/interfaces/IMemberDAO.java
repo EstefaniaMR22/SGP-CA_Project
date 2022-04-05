@@ -5,7 +5,7 @@ import model.domain.*;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IMiembroDAO {
+public interface IMemberDAO {
 
     /***
      * Add Member to database including Account to system access.
@@ -93,6 +93,17 @@ public interface IMiembroDAO {
      * @return true if member already existe in database otherwise false.
      */
     boolean checkMember(String personalNumber) throws SQLException;
+
+    /***
+     * Check if Member email already exists in database.
+     * <p>
+     * From a UV Email check if member exist in database
+     * </p>
+     * @param emailUV the string code.
+     * @return true if member already existe in database otherwise false.
+     */
+    boolean checkMemberByEmail(String emailUV) throws SQLException;
+
     /***
      * Get all educational Programs.
      * <p>
@@ -101,5 +112,4 @@ public interface IMiembroDAO {
      * @return List that contains strings of educational program.
      */
     List<String> getAllEducationProgram() throws SQLException;
-
 }

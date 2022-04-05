@@ -5,7 +5,7 @@ import model.domain.Participation;
 
 import java.sql.SQLException;
 
-public interface ICuentaDAO {
+public interface IAccountDAO {
     /***
      * Change a password to person
      * <p>

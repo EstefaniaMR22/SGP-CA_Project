@@ -1,6 +1,6 @@
 package model.dao.memberdao;
 
-import model.dao.MiembroDAO;
+import model.dao.MemberDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.StudyGrade;
@@ -36,7 +36,7 @@ public class AddMemberTest {
         member.setStudyArea("PLC");
         member.setMaxStudyGrade(StudyGrade.SUPERIOR_EDUCATION);
         String password = "hola";
-        int actualId = new MiembroDAO().addMember(member,password);
+        int actualId = new MemberDAO().addMember(member,password);
         int unexpected = -1;
         Assert.assertNotEquals(unexpected, actualId);
     }
@@ -58,14 +58,14 @@ public class AddMemberTest {
         member.setUvEmail("raulsanchezreyes@gmail.com");
         member.setAdmissionDate(DateFormatter.getDateFromDatepickerValue(LocalDate.now()));
         member.setBirthDate(DateFormatter.getDateFromDatepickerValue(LocalDate.now()));
-        member.setAditionalEmail("rob@uv.mx");
+        member.setAditionalEmail("robertaz@uv.mx");
         member.setWorkTelephone("23869529");
         member.setHomeTelephone("26059955");
         member.setAppointment("Ingenieria de software");
         member.setStudyArea("PLC");
         member.setMaxStudyGrade(StudyGrade.PRIMARY_EDUCATION);
         String password = "hola";
-        int actualId = new MiembroDAO().addMember(member,password);
+        int actualId = new MemberDAO().addMember(member,password);
         int unexpected = -1;
         Assert.assertNotEquals(unexpected, actualId);
     }

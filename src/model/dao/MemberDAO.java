@@ -1,6 +1,6 @@
 package model.dao;
 
-import model.dao.interfaces.IMiembroDAO;
+import model.dao.interfaces.IMemberDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.ParticipationType;
@@ -17,10 +17,10 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiembroDAO implements IMiembroDAO {
+public class MemberDAO implements IMemberDAO {
     private final Database database;
 
-    public MiembroDAO() {
+    public MemberDAO() {
         this.database = new Database();
     }
 
@@ -336,6 +336,28 @@ public class MiembroDAO implements IMiembroDAO {
             String statement = "SELECT * FROM Miembro WHERE numero_personal = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, personalNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                memberAlreadyExist = true;
+            }
+        }
+        return memberAlreadyExist;
+    }
+    /***
+     * Check if Member email already exists in database.
+     * <p>
+     * From a UV Email check if member exist in database
+     * </p>
+     * @param emailUV the string code.
+     * @return true if member already existe in database otherwise false.
+     */
+    @Override
+    public boolean checkMemberByEmail(String emailUV) throws SQLException {
+        boolean memberAlreadyExist = false;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * FROM Miembro WHERE email = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, emailUV);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 memberAlreadyExist = true;

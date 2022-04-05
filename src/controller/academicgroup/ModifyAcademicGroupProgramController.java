@@ -31,7 +31,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.dao.AcademicGroupDAO;
-import model.dao.MiembroDAO;
+import model.dao.MemberDAO;
 import model.domain.AcademicGroup;
 import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
@@ -187,7 +187,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     private void getAllMembersFromDatabase() {
         List<Member> members = null;
         try {
-            members = new MiembroDAO().getAllMembers();
+            members = new MemberDAO().getAllMembers();
             members.removeIf(member -> member.getId() == 1);
             ObservableList<Member> memberObservableList = FXCollections.observableArrayList(members);
             membersAvailableListView.setItems(memberObservableList);

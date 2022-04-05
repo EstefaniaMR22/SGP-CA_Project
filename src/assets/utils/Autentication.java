@@ -2,7 +2,7 @@ package assets.utils;
 
 import controller.exceptions.LimitReachedException;
 import controller.exceptions.UserNotFoundException;
-import model.dao.CuentaDAO;
+import model.dao.AccountDAO;
 import model.domain.Participation;
 
 import java.net.SocketException;
@@ -81,7 +81,7 @@ public class Autentication {
      * @throws SQLException if any error happened in database.
      */
     public boolean generateRecoveryCode(String email) throws SQLException {
-        boolean isCodeGenerated = new CuentaDAO().generatePasswordRecoveryCodeByEmail( email );
+        boolean isCodeGenerated = new AccountDAO().generatePasswordRecoveryCodeByEmail( email );
         return isCodeGenerated;
     }
 
@@ -96,7 +96,7 @@ public class Autentication {
      * @throws SQLException if any error happened in database.
      */
     public String getRecoveryCode(String email) throws SQLException {
-        String recoveryCode = new CuentaDAO().getRecoveryCodeByEmail(email);
+        String recoveryCode = new AccountDAO().getRecoveryCodeByEmail(email);
         return recoveryCode;
     }
 
@@ -112,7 +112,7 @@ public class Autentication {
      * @throws SQLException if any error happened in database.
      */
     public boolean resetPassword(String newPassword, int idUser) throws SQLException {
-        boolean isPasswordChanged = new CuentaDAO().changePasswordByIdUser(newPassword, idUser);
+        boolean isPasswordChanged = new AccountDAO().changePasswordByIdUser(newPassword, idUser);
         return isPasswordChanged;
     }
 
@@ -127,13 +127,13 @@ public class Autentication {
      * @throws SQLException representing a error in connection to database
      */
     public boolean resetPasswordByUnloggedUser(String email, String newPassword) throws SQLException {
-        boolean isPasswordChanged = new CuentaDAO().changePasswordByEmail(newPassword, email);
+        boolean isPasswordChanged = new AccountDAO().changePasswordByEmail(newPassword, email);
         return isPasswordChanged;
     }
 
     private void checkAttemptsLimit() throws LimitReachedException, SQLException, SocketException {
         final int ATTEMPTS_LIMIT = 5;
-        boolean isAttempsLimitReached = new CuentaDAO().getAttemptsByMacAddress( getMacAddress() ) == ATTEMPTS_LIMIT;
+        boolean isAttempsLimitReached = new AccountDAO().getAttemptsByMacAddress( getMacAddress() ) == ATTEMPTS_LIMIT;
         if(isAttempsLimitReached) {
             throw new LimitReachedException("¡Limite de intentos alcanzado! ¡Espera 10 minutos!");
         }
@@ -149,18 +149,18 @@ public class Autentication {
 
     private boolean sendMacAddress() throws SQLException, LimitReachedException, SocketException {
         boolean isMacAddressSent;
-        isMacAddressSent = new CuentaDAO().sendActualMacAddress( getMacAddress() );
+        isMacAddressSent = new AccountDAO().sendActualMacAddress( getMacAddress() );
         return isMacAddressSent;
     }
 
     private boolean resetAttempts() throws SQLException, SocketException {
         boolean isAttemptsReset;
-        isAttemptsReset = new CuentaDAO().resetAttempts( getMacAddress() );
+        isAttemptsReset = new AccountDAO().resetAttempts( getMacAddress() );
         return isAttemptsReset;
     }
 
     private Participation getMemberParticipation(String email, String password, String academicGroupID) throws SQLException, UserNotFoundException {
-        Participation participation = new CuentaDAO().getMemberByEmailPasswordParticipation(email,password,academicGroupID);
+        Participation participation = new AccountDAO().getMemberByEmailPasswordParticipation(email,password,academicGroupID);
         if(participation == null) {
             throw new UserNotFoundException("¡Usuario o contraseña incorrecta!");
         }
@@ -168,7 +168,7 @@ public class Autentication {
     }
 
     private Participation getMemberAdminParticipation(String email, String password) throws SQLException, UserNotFoundException {
-        Participation participation = new CuentaDAO().getMemberByEmailAndPassword(email,password);
+        Participation participation = new AccountDAO().getMemberByEmailAndPassword(email,password);
         if(participation == null) {
             throw new UserNotFoundException("¡Usuario o contraseña incorrecta!");
         }

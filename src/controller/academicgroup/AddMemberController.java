@@ -19,7 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import model.dao.MiembroDAO;
+import model.dao.MemberDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.StudyGrade;
@@ -90,18 +90,35 @@ public class AddMemberController extends ValidatorController implements Initiali
     void AddMemberOnAction(ActionEvent event) {
         if (validateInputs()) {
             if (!validatePersonalNumber()) {
-                addMember();
-            } else {
-                systemLabel.setText("¡Al parecer ya existe un miembro con ese numero de personal!");
+                if(!validateEmail()) {
+                    addMember();
+                }
             }
         } else {
-            systemLabel.setText("Algunos campos son inválidos, por favor verifíquelos");
+            systemLabel.setText("¡Algunos campos son invalidos, porfavor verifíquelos!");
         }
     }
 
-    private boolean validatePersonalNumber() {
+    private boolean validateEmail() {
+        boolean existMember = false;
         try {
-            return new MiembroDAO().checkMember(personalNumberTextField.getText());
+            existMember = new MemberDAO().checkMemberByEmail(uvEmailTextField.getText());
+            if(existMember) {
+                systemLabel.setText("¡Al parecer el correo electronico ya está siendo usado!");
+            }
+        } catch (SQLException sqlException) {
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        }
+        return existMember;
+    }
+
+    private boolean validatePersonalNumber() {
+        boolean existMember = false;
+        try {
+            existMember =  new MemberDAO().checkMember(personalNumberTextField.getText());
+            if(existMember ) {
+                systemLabel.setText("¡Al parecer ya existe un miembro con ese número de personal!");
+            }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
@@ -111,7 +128,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private void addMember() {
         Member member = getMemberFromInputs();
         try {
-            member.setId(new MiembroDAO().addMember(member, "hola"));
+            member.setId(new MemberDAO().addMember(member, "hola"));
             registeredMember = member;
             systemLabel.setText("¡Se ha registrado de manera exitosa!");
             disableMemberInput(true);
@@ -124,7 +141,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private void addColaborator() {
         Member colaborator = getMemberFromInputs();
         try {
-            colaborator.setId(new MiembroDAO().addMember(colaborator));
+            colaborator.setId(new MemberDAO().addMember(colaborator));
             registeredMember = colaborator;
             systemLabel.setText("¡Se ha registrado de manera exitosa!");
             disableMemberInput(true);
@@ -137,7 +154,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private void getCivilStatesFromDatabase() {
         List<CivilStatus> civilStatusList = new ArrayList<>();
         try {
-            civilStatusList = new MiembroDAO().getCivilStatus();
+            civilStatusList = new MemberDAO().getCivilStatus();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
@@ -148,7 +165,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private void getStudyGradesFromDatabase() {
         List<StudyGrade> studyGradeList = new ArrayList<>();
         try {
-            studyGradeList = new MiembroDAO().getStudyGrades();
+            studyGradeList = new MemberDAO().getStudyGrades();
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
@@ -159,7 +176,7 @@ public class AddMemberController extends ValidatorController implements Initiali
     private void getEducationProgramFromDatabase() {
         List<String> educationalProgramList = new ArrayList<>();
         try {
-            educationalProgramList = new MiembroDAO().getAllEducationProgram();
+            educationalProgramList = new MemberDAO().getAllEducationProgram();
         } catch (SQLException sqlException ) {
             deterMinateSQLState(sqlException);
         }
