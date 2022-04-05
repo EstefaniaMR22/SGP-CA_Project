@@ -1,5 +1,6 @@
 package controller;
 
+import assets.utils.SQLStates;
 import controller.academicgroup.AddMemberController;
 import controller.academicgroup.MemberDetailsController;
 import controller.listcell.AdministratorMemberListCell;
@@ -102,7 +103,10 @@ public class AdministratorController extends Controller implements Initializable
                        searchTextField.setText(lastText);
                    }
                } catch (SQLException sqlException) {
-                   Logger.getLogger(AdministratorController.class.getName()).log(Level.SEVERE, null, sqlException);
+                   Logger.getLogger(AdministratorController.class.getName()).log(Level.WARNING, null, sqlException);
+                   if(sqlException.getSQLState().equals(SQLStates.SQL_INTEGRITY_CONSTRAINT_VIOLATION.getSqlState())) {
+                        AlertController.getInstance().showActionFailedAlert("El miembro a eliminar ya ha tenido actividad en el sistema.");
+                   }
                }
            }
         }

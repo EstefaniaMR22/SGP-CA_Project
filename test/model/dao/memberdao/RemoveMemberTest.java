@@ -22,4 +22,12 @@ public class RemoveMemberTest {
         boolean isRemoved = new MemberDAO().removeMember(idMember);
         Assert.assertTrue(isRemoved);
     }
+
+    @Test
+    public void removeMemberNoExisting() throws SQLException {
+        int idMember = -1;
+        boolean isRemoved = new MemberDAO().removeMember(idMember);
+        Assert.assertFalse(isRemoved);
+    }
+
 }
