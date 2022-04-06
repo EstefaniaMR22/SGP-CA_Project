@@ -304,7 +304,7 @@
                                                 <Label alignment="TOP_LEFT" minHeight="100.0" styleClass="description-label" text="Para registrar una Línea de Generación y Aplicación del Conocimiento (LGAC) debes presionar el botón &quot;registrar&quot;, el cual desplegará una ventana y te pedirá los datos correspondientes. A continuación, debes presionar el botón &quot;Registrar&quot;.&#10;&#10;No se permite identificadores duplicados." textAlignment="JUSTIFY" wrapText="true" />
                                                 <VBox VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <Label styleClass="subtitle-label" text="Tabla de LÍeas de Generación y Aplicación del Conimiento">
+                                                      <Label styleClass="subtitle-label" text="Tabla de LÍneas de Generación y Aplicación del Conocimiento">
                                                          <VBox.margin>
                                                             <Insets bottom="15.0" />
                                                          </VBox.margin>
