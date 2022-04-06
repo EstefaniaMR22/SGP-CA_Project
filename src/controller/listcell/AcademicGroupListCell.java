@@ -35,14 +35,20 @@ public class AcademicGroupListCell extends ListCell<AcademicGroup> {
                     Logger.getLogger(AcademicGroupListCell.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
-            if(getIndex() == 0) {
-                this.getStyleClass().add("first-cell");
-            } else if (getIndex() == (getListView().getItems().size() - 1)) {
-                this.getStyleClass().add("last-cell");
+            if(getListView().getItems().size() == 1 ) {
+                this.getStyleClass().add("single-cell");
             } else {
+                this.getStyleClass().remove("single-cell");
                 this.getStyleClass().remove("first-cell");
-                this.getStylesheets().remove("last-cell");
-                this.getStyleClass().add("middle-cell");
+                this.getStyleClass().remove("last-cell");
+                this.getStyleClass().remove("middle-cell");
+                if (getIndex() == 0) {
+                    this.getStyleClass().add("first-cell");
+                } else if (getIndex() == (getListView().getItems().size() - 1)) {
+                    this.getStyleClass().add("last-cell");
+                } else {
+                    this.getStyleClass().add("middle-cell");
+                }
             }
             academicNameLabel.setText(item.getName());
             academicGroupID.setText(item.getId());
