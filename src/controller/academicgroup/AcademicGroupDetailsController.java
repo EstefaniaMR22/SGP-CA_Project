@@ -54,6 +54,10 @@ public class AcademicGroupDetailsController extends Controller implements Initia
     @FXML private Label totalIntegrantsLabel;
     @FXML private Label totalResponsablesLabel;
 
+    public AcademicGroup getAcademicGroupProgramSelected() {
+        return academicGroupProgramSelected;
+    }
+
     @FXML
     void updateOnAction(ActionEvent event) {
         ModifyAcademicGroupProgramController modifyAcademicGroupProgramController = new ModifyAcademicGroupProgramController(academicGroupProgramSelected);
