@@ -1,10 +1,6 @@
 package model.dao;
 
-import model.dao.academicgroupdao.AddAcademicGroupTest;
-import model.dao.academicgroupdao.GetAllAcademicGroupTest;
-import model.dao.academicgroupdao.GetConsolidationGradeTest;
-import model.dao.academicgroupdao.RemoveAcademicGroupTest;
-import model.dao.academicgroupdao.UpdateAcademicGroupTest;
+import model.dao.academicgroupdao.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -12,6 +8,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         AddAcademicGroupTest.class,
         GetAllAcademicGroupTest.class,
+        GetAcademicGroupDetailsTest.class,
         GetConsolidationGradeTest.class,
         UpdateAcademicGroupTest.class,
         RemoveAcademicGroupTest.class,

@@ -218,6 +218,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
     }
 
     private void removeParticipationFromTableView(Participation participation) {
+        String lastText = searchMemberTextField.getText();
         searchMemberTextField.setText("");
         ObservableList<Member> observableList = FXCollections.observableArrayList(new ArrayList<>());
         observableList.setAll(membersAvailableListView.getItems());
@@ -225,6 +226,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         membersAvailableListView.setItems(observableList);
         initializeFilterSearchInput();
         participationsTableView.getItems().remove(participation);
+        searchMemberTextField.setText(lastText);
     }
 
     private void modifyAcademicGroup() {
@@ -264,7 +266,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
                 String lowerCaseFilter = newValue.toLowerCase();
                 if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)){
                     return true;
-                } else if(String.valueOf(object.getFullName()).toLowerCase().contains(lowerCaseFilter)) {
+                } else if(String.valueOf(object.getId()).toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;

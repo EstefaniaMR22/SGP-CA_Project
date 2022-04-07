@@ -210,6 +210,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
     }
 
     private void removeParticipationFromTableView(Participation participation) {
+        String lastText = searchMemberTextField.getText();
         searchMemberTextField.setText("");
         ObservableList<Member> observableList = FXCollections.observableArrayList(new ArrayList<>());
         observableList.setAll(membersAvailableListView.getItems());
@@ -217,6 +218,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
         membersAvailableListView.setItems(observableList);
         initializeFilterSearchInput();
         participationsTableView.getItems().remove(participation);
+        searchMemberTextField.setText(lastText);
     }
 
     private void initializeFilterSearchInput() {
