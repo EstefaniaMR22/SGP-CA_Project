@@ -19,7 +19,7 @@ import java.util.List;
 public class UpdateAcademicGroupTest {
 
     @Test
-    public void addAcademicGroupProgramTest() throws SQLException {
+    public void updateAcademicGroupProgramTest() throws SQLException {
         AcademicGroup academicGroup = new AcademicGroup();
         academicGroup.setId("UV-CA-387");
         academicGroup.setName("Tecnologia Sustentable");
@@ -29,7 +29,7 @@ public class UpdateAcademicGroupTest {
         academicGroup.setConsolidationGrade(ConsolidationGrade.IN_FORMATION);
         academicGroup.setRegisterDate(DateFormatter.getDateFromDatepickerValue(LocalDate.now()));
         academicGroup.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(LocalDate.now()));
-        academicGroup.setAdscriptionArea("Tecnica");
+        academicGroup.setAdscriptionArea("Ciencias");
         academicGroup.setAdscriptionUnit("Facultad de Ingenieria");
         academicGroup.setDescriptionAdscription("Sin descripcion");
         boolean isUpdated = new AcademicGroupDAO().updateAcademicGroup(academicGroup);
@@ -37,7 +37,7 @@ public class UpdateAcademicGroupTest {
     }
 
     @Test
-    public void addAcademicGroupWithMembersTest() throws SQLException {
+    public void updateAcademicGroupWithMembersTest() throws SQLException {
         AcademicGroup academicGroup = new AcademicGroup();
         academicGroup.setId("UV-CA-388");
         academicGroup.setName("Fortalecimiento de cuerpo academico");

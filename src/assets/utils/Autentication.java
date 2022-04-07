@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class Autentication {
     private static Autentication instance;
     private Participation participation;
+    private String idAcademicGroup;
 
     public static Autentication getInstance() {
         if(instance == null) {
@@ -30,6 +31,10 @@ public class Autentication {
         return participation;
     }
 
+    public String getIdAcademicGroup() {
+        return idAcademicGroup;
+    }
+
     /***
      * Log in an account.
      * <p>
@@ -47,6 +52,7 @@ public class Autentication {
         checkAttemptsLimit();
         sendMacAddress();
         participation = getMemberParticipation(email, password, idAcademicGroup);
+        this.idAcademicGroup = idAcademicGroup;
         resetAttempts();
         return true;
     }
