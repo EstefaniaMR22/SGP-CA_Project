@@ -1,10 +1,10 @@
 package controller.projects;
 
-import controller.AlertController;
-import controller.ValidatorController;
+import controller.control.AlertController;
+import controller.control.ValidatorController;
 import controller.academicgroup.AddMemberController;
-import controller.validator.Validator;
-import controller.validator.ValidatorTextInputControl;
+import controller.control.validator.Validator;
+import controller.control.validator.ValidatorTextInputControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

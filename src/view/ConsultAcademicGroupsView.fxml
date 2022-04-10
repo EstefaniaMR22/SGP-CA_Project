@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="588.0" prefWidth="824.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" styleClass="background-title">
+               <children>
+                  <Label alignment="CENTER" styleClass="section-label" text="Administración de Cuerpos Académicos" textAlignment="CENTER" wrapText="true" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="588.0" prefWidth="824.0">
+                     <children>
+                        <VBox spacing="15.0">
+                           <children>
+                              <TextField fx:id="searchTextField" styleClass="textfield" />
+                              <ListView fx:id="academicGroupProgramListView" styleClass="listview" VBox.vgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </ListView>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="attribute-title-label" text="Total de Cuerpos Académicos:" />
+                                          <Label fx:id="totalAcademicGroupProgramLabel" prefWidth="0.0" styleClass="description-label" text="?" />
+                                       </children>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <Button fx:id="registerAcademicGroupButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAcademicGroupProgramOnAction" styleClass="secondary-button" text="Registrar programa" />
+                                       </children>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#getAcademicGroupProgramDetailsOnAction" styleClass="secondary-button" text="Consultar detalles" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="25.0" right="25.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" maxHeight="72.0" minHeight="72.0" styleClass="background-footer">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#closeOnAction" prefHeight="38.0" prefWidth="120.0" styleClass="main-button" text="Cerrar" />
+               </children>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

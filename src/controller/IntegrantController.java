@@ -1,5 +1,7 @@
 package controller;
 
+import controller.control.AlertController;
+import controller.control.Controller;
 import controller.projects.ProjectsInvestigationController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

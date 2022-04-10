@@ -1,6 +1,6 @@
 package model.dao;
 
-import controller.exceptions.LimitReachedException;
+import controller.control.exceptions.LimitReachedException;
 import model.dao.interfaces.IAccountDAO;
 import model.domain.Member;
 import model.domain.Participation;

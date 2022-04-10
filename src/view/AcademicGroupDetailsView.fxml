@@ -42,7 +42,7 @@
             </VBox>
          </bottom>
          <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" vvalue="0.76" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
               <content>
                 <AnchorPane>
                      <children>

@@ -1,12 +1,12 @@
 package controller.academicgroup;
 
-import controller.AlertController;
-import controller.ValidatorController;
-import controller.listcell.MemberAcademicGroupListCell;
-import controller.validator.Validator;
-import controller.validator.ValidatorComboBoxBase;
-import controller.validator.ValidatorComboBoxBaseWithConstraints;
-import controller.validator.ValidatorTextInputControl;
+import controller.control.AlertController;
+import controller.control.ValidatorController;
+import controller.control.listcell.MemberAcademicGroupListCell;
+import controller.control.validator.Validator;
+import controller.control.validator.ValidatorComboBoxBase;
+import controller.control.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.control.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

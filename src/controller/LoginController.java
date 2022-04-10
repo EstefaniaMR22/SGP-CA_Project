@@ -1,8 +1,12 @@
 package controller;
 
-import controller.exceptions.LimitReachedException;
-import controller.exceptions.UserNotFoundException;
-import controller.listcell.AcademicGroupListCell;
+import controller.academicgroup.ConsultAcademicGroupsController;
+import controller.academicgroup.ConsultMembersController;
+import controller.control.AlertController;
+import controller.control.Controller;
+import controller.control.exceptions.LimitReachedException;
+import controller.control.exceptions.UserNotFoundException;
+import controller.control.listcell.AcademicGroupListCell;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -55,6 +59,16 @@ public class LoginController extends Controller implements Initializable {
     }
 
     @FXML
+    void administrationOnAction(ActionEvent event) {
+        clearInputs();
+        academicGroupSelectedLabel.setText("");
+        academicGroupIDLabel.setText("");
+        academicGroupProgramListView.getSelectionModel().clearSelection();
+        academicSelectionVBox.setVisible(false);
+        loginVBox.setVisible(true);
+    }
+
+    @FXML
     void signInOnAction(ActionEvent event) {
        if(validateInputs()) {
            if(login()) {
@@ -69,45 +83,6 @@ public class LoginController extends Controller implements Initializable {
        academicSelectionVBox.setVisible(true);
        academicGroupProgramListView.getSelectionModel().clearSelection();
        systemLabel.setText("");
-    }
-
-    @FXML
-    void integranOnAction(ActionEvent event) {
-        try{
-            stage.close();
-            IntegrantController integrantController = new IntegrantController();
-            integrantController.showStage();
-        }catch (Exception addProjectInvestigationException) {
-            AlertController alertView = AlertController.getInstance();
-            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                    "ProyectsInvestigation. Causa: " + addProjectInvestigationException);
-        }
-    }
-
-    @FXML
-    void responsableOnAction(ActionEvent event) {
-        stage.hide();
-        ResponsableController sessionController = new ResponsableController();
-        sessionController.showStage();
-        stage.show();
-    }
-
-    @FXML
-    void adminOnAction(ActionEvent event) {
-        stage.hide();
-        AdministratorController administratorController = new AdministratorController();
-        administratorController.showStage();
-        stage.show();
-    }
-
-    @FXML
-    void administrationOnAction(ActionEvent event) {
-        clearInputs();
-        academicGroupSelectedLabel.setText("");
-        academicGroupIDLabel.setText("");
-        academicGroupProgramListView.getSelectionModel().clearSelection();
-        academicSelectionVBox.setVisible(false);
-        loginVBox.setVisible(true);
     }
 
     private boolean validateInputs() {
@@ -125,13 +100,11 @@ public class LoginController extends Controller implements Initializable {
             IntegrantController integrantController = new IntegrantController();
             integrantController.showStage();
         } else if (participationType == ParticipationType.RESPONSABLE) {
-            ResponsableController responsableController = new ResponsableController();
-            responsableController.showStage();
+            new ResponsableController().showStage();
         } else if(participationType == ParticipationType.COLABORATOR ) {
             systemLabel.setText("¡Estás asignado para este Cuerpo Académico como Colaborador!");
         } else if(participationType == ParticipationType.OTHER) {
-            AdministratorController administratorController = new AdministratorController();
-            administratorController.showStage();
+            new AdministratorController().showStage();
         }
         stage.show();
     }
@@ -169,7 +142,7 @@ public class LoginController extends Controller implements Initializable {
             ObservableList<AcademicGroup> academicGroupProgramObservableList = FXCollections.observableArrayList(new AcademicGroupDAO().getAllAcademicGroup());
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);
         } catch(SQLException sqlException) {
-            Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, sqlException);
+            Logger.getLogger(ConsultAcademicGroupsController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
     }
 

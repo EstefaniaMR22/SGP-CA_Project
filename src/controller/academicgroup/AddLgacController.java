@@ -1,9 +1,9 @@
 package controller.academicgroup;
 
-import controller.AlertController;
-import controller.ValidatorController;
-import controller.validator.Validator;
-import controller.validator.ValidatorTextInputControl;
+import controller.control.AlertController;
+import controller.control.ValidatorController;
+import controller.control.validator.Validator;
+import controller.control.validator.ValidatorTextInputControl;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

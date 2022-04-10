@@ -1,7 +1,7 @@
 package controller.projects;
 
-import controller.AlertController;
-import controller.Controller;
+import controller.control.AlertController;
+import controller.control.Controller;
 import controller.academicgroup.AddMemberController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

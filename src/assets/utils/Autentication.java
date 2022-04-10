@@ -1,7 +1,7 @@
 package assets.utils;
 
-import controller.exceptions.LimitReachedException;
-import controller.exceptions.UserNotFoundException;
+import controller.control.exceptions.LimitReachedException;
+import controller.control.exceptions.UserNotFoundException;
 import model.dao.AccountDAO;
 import model.domain.Participation;
 

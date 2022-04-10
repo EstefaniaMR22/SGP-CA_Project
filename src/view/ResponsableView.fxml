@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1071.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="640.0" prefWidth="1071.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -74,39 +73,12 @@
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER_LEFT">
                                  <padding>
                                     <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                                  </padding>
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#academicGroupOnAction" prefHeight="112.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Cuerpos Académicos" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                        </VBox>
-                        <VBox styleClass="background-form" HBox.hgrow="ALWAYS">
-                           <children>
-                              <VBox styleClass="background-title">
-                                 <children>
-                                    <Label styleClass="section-label" text="Administracion de miembros" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <padding>
-                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#membersOnAction" prefHeight="115.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Miembros" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
