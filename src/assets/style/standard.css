@@ -15,11 +15,15 @@
 /* OTHER */
  -listcell_hover_item_clr: #e2eaf2;
  -listcell_border_clr: #d0d0d0;
- -listcell_odd_bkg_clr: #f5f8fb;
+ -listcell_odd_bkg_clr: #fafafa;
  -listcell_even_bkg_clr: #fff;
  -listcell_selected_clr:#BEDAF7;
- -background_main_clr: #f1f1f1;
- -background_card_clr: #fff;
+
+
+ -background_main_clr: #f5f5f5;
+ -background_card_clr:#fff;
+
+
  -prompt_text_clr:derive(-fx-control-inner-background, -25%);
  -input_border_clr: #D7D6DC;
  -input_border_focused_clr: #34b4eb;
@@ -182,7 +186,7 @@
 .textfield {
   -fx-min-height:42px;
   -fx-border-radius:5px;
-  -fx-background-color:white;
+  -fx-background-color:transparent;
   -fx-border-color: -input_border_clr;
   -fx-background-insets: -0.2, 1 -1.4, 3;
   -fx-background-radius: 5px;
@@ -198,7 +202,7 @@
 .textarea {
   -fx-min-height:85px;
   -fx-border-radius:5px;
-  -fx-background-color:white;
+  -fx-background-color:transparent;
   -fx-border-color: -input_border_clr;
   -fx-background-insets: -0.2, 1 -1.4, 3;
   -fx-background-radius: 5px;
@@ -208,7 +212,11 @@
 }
 
 .textarea .content {
-    -fx-background-color:white;
+    -fx-background-color:transparent;
+}
+
+.textarea .viewport {
+    -fx-background-color:transparent;
 }
 
 .textarea:focused {
@@ -256,8 +264,9 @@
 }
 
 .date-picker-popup > * {
-    -fx-background-color:transparent;
+    -fx-background-color:-background_card_clr;
 }
+
 
 .date-picker-popup > * > .spinner > .label {
     -fx-text-fill:-text_first_clr;
@@ -265,7 +274,35 @@
 
 .date-picker-popup > * > .date-cell {
     -fx-text-fill: -text_last_clr;
+    -fx-background-color:transparent;
 }
+
+.date-picker-popup > * > .today {
+    -fx-background-color:#FFA500;
+}
+
+.date-picker-popup > * > .day-cell:focused {
+    -fx-background-color:green;
+}
+
+.date-picker-popup > * .day-cell:hover,
+.date-picker-popup > * .today:hover {
+    -fx-background-color:-listcell_hover_item_clr;
+}
+
+.date-picker-popup > * > .day-cell:focused,
+.date-picker-popup > * > .selected,
+.date-picker-popup > * > .previous-month.selected,
+.date-picker-popup > * > .next-month.selected,
+.date-picker-popup > * > .today.selected {
+    -fx-background-color: -listcell_selected_clr;
+}
+
+.date-picker-popup > * > .day-cell:focused,
+.date-picker-popup > * > .today:focused {
+
+}
+
 
 .comboBox {
   -fx-min-height:42px;
@@ -655,4 +692,12 @@
 
 .wrongInput:focused {
     -fx-border-color:-input_focused_wrong_clr;
+}
+
+.background-main-clr {
+    -fx-background-color:-background_main_clr;
+}
+
+.background_card_clr {
+    -fx-background-color:-background_card_clr;
 }

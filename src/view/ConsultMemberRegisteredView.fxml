@@ -23,7 +23,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" VBox.vgrow="ALWAYS">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" style="-fx-background-radius: 5px;" styleClass="background_card_clr">
                      <children>
                         <TextField fx:id="searchTextField" promptText="Buscar por nombre o número de personal" styleClass="textfield" HBox.hgrow="ALWAYS" />
                      </children>

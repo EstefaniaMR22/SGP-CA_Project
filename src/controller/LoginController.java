@@ -61,7 +61,7 @@ public class LoginController extends Controller implements Initializable {
     @FXML
     void administrationOnAction(ActionEvent event) {
         clearInputs();
-        academicGroupSelectedLabel.setText("");
+        academicGroupSelectedLabel.setText("Administración del sistema");
         academicGroupIDLabel.setText("");
         academicGroupProgramListView.getSelectionModel().clearSelection();
         academicSelectionVBox.setVisible(false);
