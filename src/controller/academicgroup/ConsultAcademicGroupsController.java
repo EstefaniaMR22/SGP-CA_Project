@@ -1,6 +1,7 @@
 package controller.academicgroup;
 
 import assets.utils.Autentication;
+import controller.control.AlertController;
 import controller.control.Controller;
 import controller.control.listcell.AcademicGroupListCell;
 import javafx.collections.FXCollections;
@@ -105,6 +106,7 @@ public class ConsultAcademicGroupsController extends Controller implements Initi
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);
         } catch (SQLException sqlException) {
             Logger.getLogger(ConsultAcademicGroupsController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 

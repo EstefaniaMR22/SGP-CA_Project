@@ -89,7 +89,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddAcademicGroupView.fxml"), this);
-        stage.setTitle("Registrar miembro");
+        stage.setTitle("Registrar Cuerpo Academico");
         stage.showAndWait();
     }
 
@@ -101,8 +101,6 @@ public class AddAcademicGroupController extends ValidatorController implements I
         initializeCellFactoryListView();
         getAllMembersFromDatabase();
         initializeFilterSearchInput();
-        // For later version...
-        //addSelfMemberToProgram();
     }
 
     public AcademicGroup getAcademicGroupProgramRegistered() {
@@ -182,6 +180,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
             consolidationGradeComboBox.setItems(gradeObservableList);
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
@@ -194,6 +193,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
             membersAvailableListView.setItems(memberObservableList);
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
@@ -282,6 +282,7 @@ public class AddAcademicGroupController extends ValidatorController implements I
             pause(3);
         } catch(SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 

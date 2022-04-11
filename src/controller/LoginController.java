@@ -123,6 +123,7 @@ public class LoginController extends Controller implements Initializable {
                 Logger.getLogger( LoginController.class.getName() ).log(Level.FINE, null, e);
             } catch (SQLException | SocketException e) {
                 Logger.getLogger( LoginController.class.getName() ).log(Level.WARNING, null, e);
+                AlertController.getInstance().determinateAlertBySQLException(e);
             }
         } else {
             try {
@@ -132,6 +133,7 @@ public class LoginController extends Controller implements Initializable {
                 Logger.getLogger( LoginController.class.getName() ).log(Level.FINE, null, e);
             } catch (SQLException | SocketException e) {
                 Logger.getLogger( LoginController.class.getName() ).log(Level.WARNING, null, e);
+                AlertController.getInstance().determinateAlertBySQLException(e);
             }
         }
         return isLogged;
@@ -143,6 +145,7 @@ public class LoginController extends Controller implements Initializable {
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);
         } catch(SQLException sqlException) {
             Logger.getLogger(ConsultAcademicGroupsController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 

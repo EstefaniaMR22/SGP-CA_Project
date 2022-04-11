@@ -113,6 +113,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         return existMember;
     }
@@ -126,6 +127,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         return false;
     }
@@ -136,21 +138,13 @@ public class ModifyMemberController extends ValidatorController implements Initi
         pause.play();
     }
 
-
-    private void deterMinateSQLState(SQLException sqlException) {
-        Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
-        if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.getInstance().showConnectionErrorAlert();
-        }
-        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
-    }
-
     private void getCivilStatesFromDatabase() {
         List<CivilStatus> civilStatusList = new ArrayList<>();
         try {
             civilStatusList = new MemberDAO().getCivilStatus();
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
         civilStatusComboBox.setItems(civilStatusObservableList);
@@ -161,7 +155,8 @@ public class ModifyMemberController extends ValidatorController implements Initi
         try {
             studyGradeList = new MemberDAO().getStudyGrades();
         } catch (SQLException sqlException) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<StudyGrade> studyGradeObservableList = FXCollections.observableArrayList(studyGradeList);
         studyGradeComboBox.setItems(studyGradeObservableList);
@@ -172,7 +167,8 @@ public class ModifyMemberController extends ValidatorController implements Initi
         try {
             educationalProgramList = new MemberDAO().getAllEducationProgram();
         } catch (SQLException sqlException ) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<String> educationalProgramObservableList = FXCollections.observableArrayList(educationalProgramList);
         educationalProgramComboBox.setItems(educationalProgramObservableList);
@@ -213,6 +209,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(ModifyMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 

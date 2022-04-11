@@ -41,6 +41,7 @@ public class ConsultMembersController extends Controller implements Initializabl
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ConsultMemberRegisteredView.fxml"), this);
+        stage.setTitle("Administración de miembros");
         stage.showAndWait();
     }
 
@@ -106,7 +107,10 @@ public class ConsultMembersController extends Controller implements Initializabl
                    Logger.getLogger(ConsultMembersController.class.getName()).log(Level.WARNING, null, sqlException);
                    if(sqlException.getSQLState().equals(SQLStates.SQL_INTEGRITY_CONSTRAINT_VIOLATION.getSqlState())) {
                         AlertController.getInstance().showActionFailedAlert("El miembro a eliminar ya ha tenido actividad en el sistema.");
+                   } else {
+                       AlertController.getInstance().determinateAlertBySQLException(sqlException);
                    }
+
                }
            }
         }
@@ -121,6 +125,7 @@ public class ConsultMembersController extends Controller implements Initializabl
             membersListView.setItems(observableList);
         } catch(SQLException sqlException) {
             Logger.getLogger(ConsultMembersController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         };
     }
 

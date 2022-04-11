@@ -1,5 +1,7 @@
 package controller.control;
 
+import assets.utils.SQLStates;
+import controller.academicgroup.AddMemberController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -7,7 +9,10 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
+import java.sql.SQLException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AlertController {
     private final static ButtonType ACCEPT_BUTTON_TYPE = new ButtonType("¡Si, deseo continuar!", ButtonBar.ButtonData.APPLY);
@@ -140,6 +145,20 @@ public class AlertController {
         return isAccepted;
     }
 
+    public void determinateAlertBySQLException(Exception exception) {
+        System.out.println("*********************");
+        System.out.println(exception.getLocalizedMessage());
+        System.out.println(exception.getClass());
+        System.out.println("*********************");
+        if(exception instanceof SQLException) {
+        if (((SQLException)  exception).getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.getInstance().showConnectionErrorAlert();
+        } else {
+            AlertController.getInstance().showActionFailedAlert(exception.getLocalizedMessage());
+        }
+        }
+    }
+
     private AlertController() {
 
     }
@@ -163,5 +182,4 @@ public class AlertController {
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.getDialogPane().setMaxWidth(MAX_WIDTH);
     }
-
 }

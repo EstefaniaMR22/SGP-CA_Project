@@ -50,7 +50,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ModifyAcademicGroupProgramController extends ValidatorController implements Initializable {
+public class ModifyAcademicGroupController extends ValidatorController implements Initializable {
     private AcademicGroup academicGroupProgramSelected;
     private FilteredList<Member> filteredData;
     private List<LGAC> listAddedToProgram;
@@ -100,7 +100,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
         return academicGroupProgramSelected;
     }
 
-    public ModifyAcademicGroupProgramController(AcademicGroup academicGroupProgramSelected) {
+    public ModifyAcademicGroupController(AcademicGroup academicGroupProgramSelected) {
         this.academicGroupProgramSelected = academicGroupProgramSelected;
     }
 
@@ -181,6 +181,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
             consolidationGradeComboBox.setItems(gradeObservableList);
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
@@ -198,6 +199,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
@@ -253,6 +255,7 @@ public class ModifyAcademicGroupProgramController extends ValidatorController im
             }
         } catch(SQLException sqlException) {
             Logger.getLogger(AddAcademicGroupController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 

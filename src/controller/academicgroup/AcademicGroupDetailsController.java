@@ -1,6 +1,5 @@
 package controller.academicgroup;
 
-import assets.utils.Autentication;
 import controller.control.Controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -57,7 +56,7 @@ public class AcademicGroupDetailsController extends Controller implements Initia
 
     @FXML
     void updateOnAction(ActionEvent event) {
-        ModifyAcademicGroupProgramController modifyAcademicGroupProgramController = new ModifyAcademicGroupProgramController(academicGroupProgramSelected);
+        ModifyAcademicGroupController modifyAcademicGroupProgramController = new ModifyAcademicGroupController(academicGroupProgramSelected);
         modifyAcademicGroupProgramController.showStage();
         if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
             academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();
