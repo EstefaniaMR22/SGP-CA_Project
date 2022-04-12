@@ -83,6 +83,7 @@ public class ModifyMemberController extends ValidatorController implements Initi
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ModifyMemberView.fxml"), this);
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Modificar miembro");
         stage.showAndWait();
     }
 

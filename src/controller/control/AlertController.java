@@ -1,18 +1,14 @@
 package controller.control;
 
 import assets.utils.SQLStates;
-import controller.academicgroup.AddMemberController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AlertController {
     private final static ButtonType ACCEPT_BUTTON_TYPE = new ButtonType("¡Si, deseo continuar!", ButtonBar.ButtonData.APPLY);
@@ -40,6 +36,7 @@ public class AlertController {
         alert.getDialogPane().lookupButton(CANCEL_BUTTON_TYPE).getStyleClass().add("secondary-button");
         alert.setHeaderText("¡Confirmación!");
         alert.setResizable(false);
+        alert.setTitle("Confirmacion");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ACCEPT_BUTTON_TYPE) {
             isAccepted = true;
@@ -73,6 +70,7 @@ public class AlertController {
         alert.getDialogPane().lookupButton(CANCEL_CONFIRMATION_BUTTON_TYPE).getStyleClass().add("main-button");
         alert.getDialogPane().lookupButton(NO_CANCEL_CONFIRMATION_BUTTON_TYPE).getStyleClass().add("secondary-button");
         alert.setHeaderText("¡Confirmación de cancelación!");
+        alert.setTitle("Confirmación cancelación");
         alert.setResizable(false);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == CANCEL_CONFIRMATION_BUTTON_TYPE) {
@@ -137,6 +135,7 @@ public class AlertController {
         setContentMessage(alert, contextText);
         alert.getDialogPane().lookupButton(AWARE_BUTTON_TYPE).getStyleClass().add("main-button");
         alert.setHeaderText("¡Error con la conexión a internet!");
+        alert.setTitle("Error de conexión");
         alert.setResizable(false);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == AWARE_BUTTON_TYPE) {

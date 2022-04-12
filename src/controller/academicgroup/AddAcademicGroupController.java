@@ -138,7 +138,9 @@ public class AddAcademicGroupController extends ValidatorController implements I
     void removeLGACFromProgramOnAction(ActionEvent event) {
         LGAC lgacSelected = lgacRegisteredTableView.getSelectionModel().getSelectedItem();
         if(lgacSelected != null ) {
-            lgacRegisteredTableView.getItems().remove(lgacSelected);
+            if(AlertController.getInstance().showConfirmationAlert()) {
+                lgacRegisteredTableView.getItems().remove(lgacSelected);
+            }
         }
     }
 

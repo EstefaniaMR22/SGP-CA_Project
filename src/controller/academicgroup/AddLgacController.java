@@ -37,6 +37,7 @@ public class AddLgacController extends ValidatorController implements Initializa
 
     public LGAC showStage() {
         loadFXMLFile(getClass().getResource("/view/AddLgacView.fxml"), this);
+        stage.setTitle("Registrar LGAC");
         stage.showAndWait();
         return lgacRegistered;
     }

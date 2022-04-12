@@ -46,6 +46,7 @@ public class ConsultAcademicGroupsController extends Controller implements Initi
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ConsultAcademicGroupsView.fxml"), this);
+        stage.setTitle("Administración de cuerpos academicos");
         stage.showAndWait();
     }
 
