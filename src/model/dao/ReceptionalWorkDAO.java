@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dao.interfaces.IReceptionalWorkDAO;
 import model.domain.Member;
+import model.domain.Modality;
 import model.domain.ReceptionalWork;
 
 import java.sql.Connection;
@@ -46,25 +47,25 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
 
             while (resultSet.next()) {
                 ReceptionalWork receptionalWorkDataTable = new ReceptionalWork();
-                receptionalWorkDataTable.setIdReceptionalWork(resultSet.getInt("TrabajoRecepcional.id_trabajo_recepcional"));
+                receptionalWorkDataTable.setIdReceptionalWork(resultSet.getInt("TrabajoRecepcional.id"));
                 receptionalWorkDataTable.setDescription(resultSet.getString("TrabajoRecepcional.descripcion"));
                 receptionalWorkDataTable.setStimatedDurationInMonths(resultSet.getInt("TrabajoRecepcional.duracion_estimada_meses"));
-                receptionalWorkDataTable.setDurationInMonths(resultSet.getInt("TrabajoRecepcional.duracion_real_meses"));
                 receptionalWorkDataTable.setStatus(resultSet.getString("TrabajoRecepcional.estado"));
+                receptionalWorkDataTable.setParticipants(resultSet.getInt("TrabajoRecepcional.participantes"));
+                receptionalWorkDataTable.setRequeriments(resultSet.getString("TrabajoRecepcional.requisitos"));
 
-                receptionalWorkDataTable.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_entrega")));
+                receptionalWorkDataTable.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("TrabajoRecepcional.fecha_entrega")));
                 receptionalWorkDataTable.setEndDateString(DateFormatter.getParseDate(receptionalWorkDataTable.getEndDate()));
 
 
-                receptionalWorkDataTable.setModality(resultSet.getString("TrabajoRecepcional.modalidad"));
+                receptionalWorkDataTable.setModality(Modality.valueOf(resultSet.getString("TrabajoRecepcional.modalidad")));
                 receptionalWorkDataTable.setNameReceptionalWork(resultSet.getString("TrabajoRecepcional.nombre"));
+                receptionalWorkDataTable.setNameProject(resultSet.getString("ProyectoInvestigacion.nombre"));
 
                 receptionalWorkDataTable.setRegister(resultSet.getDate("TrabajoRecepcional.registro"));
                 receptionalWorkDataTable.setRegisterString(DateFormatter.getParseDate(receptionalWorkDataTable.getRegister()));
 
-                if(receptionalWorkDataTable.getEndDate().equals(null)){
-
-                    receptionalWorkDataTable.setEndDate(null);
+                if(receptionalWorkDataTable.getStatus().equals("En proceso")){
                     receptionalWorkDataTable.setEndDateString("Pendiente");
                 }
 
@@ -101,24 +102,26 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
 
         try(Connection conn = databaseConection.getConnection() ) {
             conn.setAutoCommit(false);
-            String statement = "INSERT INTO TrabajoRecepcional(descripcion, duracion_estimada_meses, duracion_real_meses," +
-                    " estado, fecha_entrega, modalidad, nombre, registro, id_proyecto_investigacion, director, codirector) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String statement = "INSERT INTO TrabajoRecepcional(descripcion, duracion_estimada_meses," +
+                    " estado, fecha_entrega, modalidad, nombre, registro, id_proyecto_investigacion, director, codirector, participantes, requisitos) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
             preparedStatement.setString(1, newReceptionalWork.getDescription());
             preparedStatement.setInt(2, newReceptionalWork.getStimatedDurationInMonths());
-            preparedStatement.setInt(3, newReceptionalWork.getDurationInMonths());
-            preparedStatement.setString(4, newReceptionalWork.getStatus());
+            preparedStatement.setString(3, newReceptionalWork.getStatus());
 
-            preparedStatement.setDate(5, DateFormatter.convertUtilDateToSQLDate(newReceptionalWork.getEndDate()));
-            preparedStatement.setString(6, newReceptionalWork.getModality());
-            preparedStatement.setString(7, newReceptionalWork.getNameReceptionalWork());
-            preparedStatement.setDate(8, DateFormatter.convertUtilDateToSQLDate(newReceptionalWork.getRegister()));
+            preparedStatement.setDate(4, DateFormatter.convertUtilDateToSQLDate(newReceptionalWork.getEndDate()));
+            preparedStatement.setString(5, newReceptionalWork.getModality().getModality());
+            preparedStatement.setString(6, newReceptionalWork.getNameReceptionalWork());
+            preparedStatement.setDate(7, DateFormatter.convertUtilDateToSQLDate(newReceptionalWork.getRegister()));
             ProjectDAO projectDAO = new ProjectDAO();
-            preparedStatement.setInt(9, projectDAO.getIdProject(newReceptionalWork.getNameProject()));
-            preparedStatement.setInt(10, newReceptionalWork.getIdDirector());
-            preparedStatement.setInt(11, newReceptionalWork.getIdCodirector());
+            preparedStatement.setInt(8, projectDAO.getIdProject(newReceptionalWork.getNameProject()));
+            preparedStatement.setInt(9, newReceptionalWork.getIdDirector());
+            preparedStatement.setInt(10, newReceptionalWork.getIdCodirector());
+            preparedStatement.setInt(11, newReceptionalWork.getParticipants());
+            preparedStatement.setString(12, newReceptionalWork.getRequeriments());
+
             wasAdded = preparedStatement.executeUpdate() > 0;
 
             conn.commit();
@@ -149,7 +152,7 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
-                idReceptionalWork = resultSet.getInt("id_trabajo_recepcional");
+                idReceptionalWork = resultSet.getInt("id");
             }
         }
         databaseConection.disconnect();
@@ -168,7 +171,7 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
     public ReceptionalWork getReceptionalWorkDetails(int idReceptionalWork) throws SQLException {
         ReceptionalWork receptionalWorkDetails = new ReceptionalWork();
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * FROM TrabajoRecepcional WHERE id_trabajo_recepcional = ?";
+            String statement = "SELECT * FROM TrabajoRecepcional WHERE id = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setInt(1, idReceptionalWork);
@@ -176,20 +179,20 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
 
             if(resultSet.next()){
 
-                receptionalWorkDetails.setIdReceptionalWork(resultSet.getInt("id_trabajo_recepcional"));
+                receptionalWorkDetails.setIdReceptionalWork(resultSet.getInt("id"));
                 receptionalWorkDetails.setDescription(resultSet.getString("descripcion"));
                 receptionalWorkDetails.setStimatedDurationInMonths(resultSet.getInt("duracion_estimada_meses"));
-                receptionalWorkDetails.setDurationInMonths(resultSet.getInt("duracion_real_meses"));
                 receptionalWorkDetails.setStatus(resultSet.getString("estado"));
+                receptionalWorkDetails.setParticipants(resultSet.getInt("participantes"));
 
                 receptionalWorkDetails.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_entrega")));
                 receptionalWorkDetails.setEndDateString(DateFormatter.getParseDate(receptionalWorkDetails.getEndDate()));
+                receptionalWorkDetails.setRequeriments(resultSet.getString("requisitos"));
 
-
-                receptionalWorkDetails.setModality(resultSet.getString("modalidad"));
+                receptionalWorkDetails.setModality(Modality.valueOf(resultSet.getString("modalidad")));
                 receptionalWorkDetails.setNameReceptionalWork(resultSet.getString("nombre"));
 
-                receptionalWorkDetails.setRegister(resultSet.getDate("registro"));
+                receptionalWorkDetails.setRegister(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("registro")));
                 receptionalWorkDetails.setRegisterString(DateFormatter.getParseDate(receptionalWorkDetails.getRegister()));
 
                 if(receptionalWorkDetails.getEndDate().equals(null)){
@@ -233,8 +236,11 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
             preparedStatement.setString(1, nameReceptionalWork);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
+
                 receptionalWorkAlreadyExist = true;
             }
+            databaseConection.disconnect();
+
         }
         return receptionalWorkAlreadyExist;
     }
@@ -251,7 +257,7 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
     public boolean checkReceptionalWorkUpdated(String nameReceptionalWork, int idReceptionalWork) throws SQLException {
         boolean receptionalWorkAlreadyExist = false;
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * FROM TrabajoRecepcional WHERE nombre = ? & id_trabajo_recepcional = ?";
+            String statement = "SELECT * FROM TrabajoRecepcional WHERE nombre = ? AND id != ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, nameReceptionalWork);
             preparedStatement.setInt(2, idReceptionalWork);
@@ -259,6 +265,7 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
             if(resultSet.next()) {
                 receptionalWorkAlreadyExist = true;
             }
+            databaseConection.disconnect();
         }
         return receptionalWorkAlreadyExist;
     }
@@ -268,27 +275,24 @@ public class ReceptionalWorkDAO implements IReceptionalWorkDAO {
         boolean wasUpdated = false;
 
         try(Connection conn = databaseConection.getConnection() ) {
+            System.out.println("Hay un problema llegando aquí");
             int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String statement = "INSERT INTO TrabajoRecepcional SET descripcion = ?, duracion_estimada_meses = ?, duracion_real_meses = ?," +
-                    "estado = ?, fecha_entrega = ?, modalidad = ?, nombre = ?, registro = ?, id_proyecto_investigacion = ?, director = ?, codirector = ?" +
-                    " WHERE id_trabajo_recepcional = ?";
+            String statement = "UPDATE TrabajoRecepcional SET descripcion = ?, duracion_estimada_meses = ?, " +
+                    "estado = ?, fecha_entrega = ?, modalidad = ?, nombre = ?, participantes = ?," +
+                    " requisitos = ? WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
             preparedStatement.setString(1, updateReceptionalWork.getDescription());
             preparedStatement.setInt(2, updateReceptionalWork.getStimatedDurationInMonths());
-            preparedStatement.setInt(3, updateReceptionalWork.getDurationInMonths());
-            preparedStatement.setString(4, updateReceptionalWork.getStatus());
+            preparedStatement.setString(3, updateReceptionalWork.getStatus());
 
-            preparedStatement.setDate(5, DateFormatter.convertUtilDateToSQLDate(updateReceptionalWork.getEndDate()));
-            preparedStatement.setString(6, updateReceptionalWork.getModality());
-            preparedStatement.setString(7, updateReceptionalWork.getNameReceptionalWork());
-            preparedStatement.setDate(8, DateFormatter.convertUtilDateToSQLDate(updateReceptionalWork.getRegister()));
-            ProjectDAO projectDAO = new ProjectDAO();
-            preparedStatement.setInt(9, projectDAO.getIdProject(updateReceptionalWork.getNameProject()));
-            preparedStatement.setInt(10, updateReceptionalWork.getIdDirector());
-            preparedStatement.setInt(11, updateReceptionalWork.getIdCodirector());
-            preparedStatement.setInt(12, updateReceptionalWork.getIdReceptionalWork());
+            preparedStatement.setDate(4, DateFormatter.convertUtilDateToSQLDate(updateReceptionalWork.getEndDate()));
+            preparedStatement.setString(5, updateReceptionalWork.getModality().getModality());
+            preparedStatement.setString(6, updateReceptionalWork.getNameReceptionalWork());
+            preparedStatement.setInt(7, updateReceptionalWork.getParticipants());
+            preparedStatement.setString(8, updateReceptionalWork.getRequeriments());
+            preparedStatement.setInt(9, updateReceptionalWork.getIdReceptionalWork());
             rowsAffected = preparedStatement.executeUpdate();
             wasUpdated = rowsAffected > 0;
 

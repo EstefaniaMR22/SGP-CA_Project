@@ -1,7 +1,7 @@
 package controller.receptionalWorks;
 
 import assets.utils.SQLStates;
-import controller.Controller;
+import controller.control.Controller;
 import controller.academicgroup.AddMemberController;
 import controller.control.AlertController;
 import controller.projects.AddProjectsInvestigationController;
@@ -104,8 +104,9 @@ public class ConsultReceptionalWorkController extends Controller implements Init
 
     private void setReceptionalWorkDataToTextField() {
         receptionalWorkNameLabel.setText(receptionalWorkSelected.getNameReceptionalWork());
-        modalityLabel.setText(receptionalWorkSelected.getModality());
-        endDateLabel.setText(String.valueOf(receptionalWorkSelected.getEndDate()));
+
+        modalityLabel.setText(String.valueOf(receptionalWorkSelected.getModality()));
+        endDateLabel.setText((receptionalWorkSelected.getEndDateString()));
         directorLabel.setText(receptionalWorkSelected.getDirector());
         codirectorLabel.setText(receptionalWorkSelected.getCodirector());
         participantsLabel.setText(String.valueOf(receptionalWorkSelected.getParticipants()));

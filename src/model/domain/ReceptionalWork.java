@@ -13,7 +13,7 @@ public class ReceptionalWork {
     private String registerString;
     private Date endDate;
     private String endDateString;
-    private String modality;
+    private Modality modality;
     private String status;
     private String requeriments;
     private int idDirector;
@@ -21,6 +21,14 @@ public class ReceptionalWork {
     private int idCodirector;
     private String codirector;
     private int participants;
+
+    public Modality getModality() {
+        return modality;
+    }
+
+    public void setModality(Modality modality) {
+        this.modality = modality;
+    }
 
     public int getParticipants() {
         return participants;
@@ -132,14 +140,6 @@ public class ReceptionalWork {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public String getModality() {
-        return modality;
-    }
-
-    public void setModality(String modality) {
-        this.modality = modality;
     }
 
     public String getStatus() {

@@ -1,6 +1,7 @@
 package controller;
 
 import controller.control.AlertController;
+import controller.control.Controller;
 import controller.control.exceptions.LimitReachedException;
 import controller.control.exceptions.UserNotFoundException;
 import controller.control.listcell.AcademicGroupListCell;
@@ -29,7 +30,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController extends controller.Controller implements Initializable {
+public class LoginController extends Controller implements Initializable {
     @FXML private TextField userTextField;
     @FXML private PasswordField passwordPasswordField;
     @FXML private Label systemLabel;

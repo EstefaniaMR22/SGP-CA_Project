@@ -1,7 +1,7 @@
 package controller.receptionalWorks;
 
 import assets.utils.SQLStates;
-import controller.Controller;
+import controller.control.Controller;
 import controller.IntegrantController;
 import controller.academicgroup.AddMemberController;
 import controller.control.AlertController;
@@ -185,7 +185,7 @@ public class ReceptionalWorksController extends Controller {
         if(selectedReceptionalWork != null) {
 
                 try {
-                    ModifyReceptionalWorkController modifyReceptionalWorkController = new ModifyReceptionalWorkController(selectedReceptionalWork, idAcademicGroup);
+                    UpdateReceptionalWorkController modifyReceptionalWorkController = new UpdateReceptionalWorkController(selectedReceptionalWork, idAcademicGroup);
                     modifyReceptionalWorkController.showStage();
 
                 }catch (Exception updateReceptionalWorkException) {

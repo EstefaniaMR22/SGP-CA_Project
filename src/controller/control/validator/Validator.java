@@ -2,6 +2,7 @@ package controller.control.validator;
 
 public class Validator {
     public static final String PATTERN_LETTERS = "([A-Za-záéíóúüÁÉÍÓÚÜñÑ]{1,}(\\ [A-Za-záéíóúüÁÉÍÓÚÜñÑ]{1,})*)";
+    public static final String PATTERN_HOURS = "([\\d]){1,2}";
     public static final String PATTERN_NUMBERS = "(([\\d]){1,})";
     public static final String PATTERN_NUMBERS_AND_LETTERS = "([A-Za-z-0-9áéíóúüÁÉÍÓÚÜñÑ]{1,}(\\ [A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ]{1,})*)";
     public static final String PATTERN_NAME = PATTERN_LETTERS;
@@ -18,6 +19,7 @@ public class Validator {
     public static final int LENGTH_CURP = 18;
     public static final int LENGTH_EMAIL = 120;
     public static final int LENGTH_SMALL_TEXT = 12;
+    public static final int LENGTH_HOUR = 2;
     public static final int MIN_YEARS_OLD = 18;
     public static final int LENGTH_LONG_TEXT = 1200;
     public static final int LENGTH_LONG_MEDIUM_TEXT = 600;

@@ -2,6 +2,9 @@ package model.dao;
 
 import assets.utils.Database;
 import assets.utils.DateFormatter;
+import assets.utils.SQLStates;
+import controller.academicgroup.AddMemberController;
+import controller.control.AlertController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dao.interfaces.IMeetDAO;
@@ -12,6 +15,8 @@ import model.domain.StudyGrade;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MeetDAO implements IMeetDAO {
 
@@ -24,9 +29,10 @@ public class MeetDAO implements IMeetDAO {
     /***
      * Get meets to database
      * <p>
-     * Get all the investigation projects
+     * Get all the meets from acdemicGroupId
      * </p>
-     * @return List that contain all the registered investigation projects.
+     * @param academicGroupID academicGroupId for filtered meets
+     * @return ObservableList that contain all the registered meets
      */
     @Override
     public ObservableList<Meet> getMeetList(String academicGroupID) throws SQLException {
@@ -49,31 +55,17 @@ public class MeetDAO implements IMeetDAO {
                 meetDataTable.setIdMeet(resultSet.getInt("Reunion.id"));
                 meetDataTable.setAsunto(resultSet.getString("Reunion.nota_reunion"));
                 meetDataTable.setHour(resultSet.getString("Reunion.hora"));
-                meetDataTable.setIdProject(resultSet.getInt("Reunion"));
+                meetDataTable.setIdProject(resultSet.getInt("Reunion.id_proyecto_investigacion"));
                 meetDataTable.setNameProject(resultSet.getString("Reunion.nombre_proyecto"));
-
-                meetDataTable.setRegister(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Reunion.registro")));
-                meetDataTable.setRegisterString(DateFormatter.getParseDate(meetDataTable.getRegister()));
 
                 meetDataTable.setDateMeet(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Reunion.fecha")));
                 meetDataTable.setDateMeetString(DateFormatter.getParseDate(meetDataTable.getDateMeet()));
-
-                meetDataTable.setTotalTime(resultSet.getString("Reunion.tiempo_total"));
 
                 MemberDAO memberDAO = new MemberDAO();
 
                 meetDataTable.setIdLeader(resultSet.getInt("Reunion.lider"));
                 Member leader = memberDAO.getMember(meetDataTable.getIdLeader());
                 meetDataTable.setLeader(leader.getFullName());
-
-                meetDataTable.setIdSecretary(resultSet.getInt("Reunion.secretario"));
-                Member secretary = memberDAO.getMember(meetDataTable.getIdSecretary());
-                meetDataTable.setSecretary(secretary.getFullName());
-
-                meetDataTable.setIdTimer(resultSet.getInt("Reunion.tomador_de_tiempo"));
-                Member timer = memberDAO.getMember(meetDataTable.getIdTimer());
-                meetDataTable.setTimer(timer.getFullName());
-                meetDataTable.setAsistents(getAsistentsMeetList(meetDataTable.getIdMeet()));
 
                 meetObservableList.add(meetDataTable);
 
@@ -84,19 +76,20 @@ public class MeetDAO implements IMeetDAO {
         return meetObservableList;
     }
 
-
     /***
      * Get asistents from the meet to database
      * <p>
      * Get all asistents
      * </p>
-     * @return List that contain all the registered asistents
+     * @param idMeet for filtered asistents from particular meet
+     * @return ObsevableList that contain all the registered asistents
      */
     @Override
     public ObservableList<Member> getAsistentsMeetList(int idMeet) throws SQLException {
         ObservableList<Member> memberObservableList= null;
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * from Miembro INNER JOIN RolAsistencia ON RolAsistencia.id_asistente = Miembro.id " +
+            String statement = "SELECT Miembro.id, Miembro.nombre, Miembro.apellido_paterno, Miembro.apellido_materno from " +
+                    "Miembro INNER JOIN RolAsistencia ON RolAsistencia.id_asistente = Miembro.id " +
                     "INNER JOIN Reunion ON Reunion.id = RolAsistencia.id_reunion WHERE RolAsistencia.id_reunion = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setInt(1, idMeet);
@@ -108,23 +101,7 @@ public class MeetDAO implements IMeetDAO {
                 member.setName(resultSet.getString("Miembro.nombre"));
                 member.setPaternalLastname(resultSet.getString("Miembro.apellido_paterno"));
                 member.setMaternalLastname(resultSet.getString("Miembro.apellido_materno"));
-                member.setNationality(resultSet.getString("Miembro.nacionalidad"));
-                member.setEducationalProgram(resultSet.getString("Miembro.programa_educativo"));
-                member.setPersonalNumber(resultSet.getString("Miembro.numero_personal"));
-                member.setRfc(resultSet.getString("Miembro.rfc"));
-                member.setTelephone(resultSet.getString("Miembro.telefono"));
-                member.setBirthState(resultSet.getString("Miembro.estado"));
-                member.setCurp(resultSet.getString("Miembro.curp"));
-                member.setCivilStatus(getCivilStatus(resultSet.getString("Miembro.estado_civil")));
-                member.setUvEmail(resultSet.getString("Miembro.email"));
-                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Miembro.fecha_nacimiento")));
-                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Miembro.fecha_ingreso")));
-                member.setAppointment(resultSet.getString("Miembro.nombramiento"));
-                member.setHomeTelephone(resultSet.getString("Miembro.telefono_casa"));
-                member.setWorkTelephone(resultSet.getString("Miembro.telefono_trabajo"));
-                member.setAditionalEmail(resultSet.getString("Miembro.correo_adicional"));
-                member.setStudyArea(resultSet.getString("Miembro.area_estudio"));
-                member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("Miembro.grado_estudios")));
+
                 memberObservableList.add(member);
             }
         }
@@ -151,6 +128,14 @@ public class MeetDAO implements IMeetDAO {
         return null;
     }
 
+    /***
+     * Add meet
+     * <p>
+     * Add a new meet in database from a investigation project
+     * </p>
+     * @param newMeet the object meet
+     * @return true if the meet registered
+     */
 
     @Override
     public boolean addMeet(Meet newMeet) throws SQLException {
@@ -158,17 +143,17 @@ public class MeetDAO implements IMeetDAO {
 
         try(Connection conn = databaseConection.getConnection()) {
             conn.setAutoCommit(false);
-            String statement = "INSERT INTO Reunion(hora, nota_reunion, nombre_proyecto, registro, tiempo_total, tiempo_total_estimado," +
+            String statement = "INSERT INTO Reunion(hora, nota_reunion, nombre_proyecto, registro, tiempo_total," +
                     " id_proyecto_investigacion, lider, secretario, tomador_de_tiempo, fecha) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
-            preparedStatement.setTime(1, Time.valueOf(newMeet.getHour()));
+            preparedStatement.setString(1, newMeet.getHour());
             preparedStatement.setString(2, newMeet.getAsunto());
             preparedStatement.setString(3, newMeet.getNameProject());
             preparedStatement.setDate(4, DateFormatter.convertUtilDateToSQLDate(newMeet.getRegister()));
-            preparedStatement.setFloat(5, Float.parseFloat(newMeet.getTotalTime()));
+            preparedStatement.setFloat(5, 0);
             preparedStatement.setInt(6, newMeet.getIdProject());
             preparedStatement.setInt(7, newMeet.getIdLeader());
             preparedStatement.setInt(8, newMeet.getIdSecretary());
@@ -180,7 +165,12 @@ public class MeetDAO implements IMeetDAO {
             conn.commit();
             
             if(wasAdded==true){
+                try {
                 addAsistentsMeet(getIdMeet(newMeet),newMeet.getAsistents());
+                } catch (SQLException addProjectInvestigationException) {
+
+                    deterMinateSQLState(addProjectInvestigationException);
+                }
             }
 
         }
@@ -188,6 +178,23 @@ public class MeetDAO implements IMeetDAO {
         return wasAdded;
     }
 
+    private void deterMinateSQLState(SQLException sqlException) {
+        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+            AlertController.getInstance().showConnectionErrorAlert();
+        }
+        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
+    }
+
+    /***
+     * Add asistents from a meet
+     * <p>
+     * Add asistents in a meet
+     * </p>
+     * @param idMeet the idMeet for relation
+     * @param asistents the list objects members from a meet
+     * @return true if the assistents meet registered
+     */
 
     @Override
     public boolean addAsistentsMeet(int idMeet, ObservableList<Member> asistents) throws SQLException {
@@ -203,7 +210,7 @@ public class MeetDAO implements IMeetDAO {
                 PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
                 preparedStatement.setInt(1, asistente.getId());
-                preparedStatement.setInt(1, asistente.getId());
+                preparedStatement.setInt(2, idMeet);
                 wasAdded = preparedStatement.executeUpdate() > 0;
 
                 conn.commit();
@@ -216,6 +223,15 @@ public class MeetDAO implements IMeetDAO {
         return wasAdded;
     }
 
+    /***
+     * Get idMeet
+     * <p>
+     * Get id from a meet
+     * </p>
+     * @param meetWithoutId the object meet to find
+     * @return idMeet
+     */
+
     @Override
     public int getIdMeet(Meet meetWithoutId) throws SQLException {
         int idMeet = 0;
@@ -223,17 +239,18 @@ public class MeetDAO implements IMeetDAO {
         try(Connection conn = databaseConection.getConnection()) {
 
             String statement = "SELECT id FROM Reunion " +
-                    "WHERE Reunion.registro = ? AND Reunion.fecha = ? AND Reunion.hora = ?";
+                    "WHERE registro = ? AND fecha = ? AND hora = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setDate(1, DateFormatter.convertUtilDateToSQLDate(meetWithoutId.getRegister()));
             preparedStatement.setDate(2, DateFormatter.convertUtilDateToSQLDate(meetWithoutId.getDateMeet()));
-            preparedStatement.setTime(3, Time.valueOf(meetWithoutId.getHour()));
+            preparedStatement.setString(3, meetWithoutId.getHour());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
 
                 idMeet = resultSet.getInt("id");
+                System.out.println(idMeet);
 
             }
 
@@ -242,6 +259,14 @@ public class MeetDAO implements IMeetDAO {
         return idMeet;
     }
 
+    /***
+     * Get meet details
+     * <p>
+     * Get all details from a reunion
+     * </p>
+     * @param idMeet the idMeet to consult
+     * @return Meet
+     */
 
     @Override
     public Meet getMeetDetails(int idMeet) throws SQLException {
@@ -249,10 +274,11 @@ public class MeetDAO implements IMeetDAO {
 
         try(Connection conn = databaseConection.getConnection()) {
 
-            String statement = "SELECT * FROM Reunion INNER JOIN ProyectoInvestigacion ON Reunion.id_proyecto_investigacion" +
-                    " = ProyectoInvestigacion.id INNER JOIN LGACProyectoInvestigacion ON  ProyectoInvestigacion.id = " +
-                    "LGACProyectoInvestigacion.id_proyecto_investigacion INNER JOIN LGAC ON LGACProyectoInvestigacion.id_lgac = LGAC.id " +
-                    "WHERE Reunion.id = ?";
+            String statement = "SELECT Reunion.id, Reunion.nota_reunion, Reunion.hora, Reunion.id_proyecto_investigacion, Reunion.nombre_proyecto," +
+                    " Reunion.registro, Reunion.fecha, Reunion.tiempo_total, Reunion.lider, Reunion.secretario, Reunion.tomador_de_tiempo " +
+                    "FROM Reunion INNER JOIN ProyectoInvestigacion ON Reunion.id_proyecto_investigacion = ProyectoInvestigacion.id " +
+                    "INNER JOIN LGACProyectoInvestigacion ON  ProyectoInvestigacion.id = LGACProyectoInvestigacion.id_proyecto_investigacion" +
+                    " INNER JOIN LGAC ON LGACProyectoInvestigacion.id_lgac = LGAC.id WHERE Reunion.id = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setInt(1, idMeet);
@@ -263,7 +289,7 @@ public class MeetDAO implements IMeetDAO {
                 meetDetails.setIdMeet(resultSet.getInt("Reunion.id"));
                 meetDetails.setAsunto(resultSet.getString("Reunion.nota_reunion"));
                 meetDetails.setHour(resultSet.getString("Reunion.hora"));
-                meetDetails.setIdProject(resultSet.getInt("Reunion"));
+                meetDetails.setIdProject(resultSet.getInt("Reunion.id_proyecto_investigacion"));
                 meetDetails.setNameProject(resultSet.getString("Reunion.nombre_proyecto"));
 
                 meetDetails.setRegister(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Reunion.registro")));
@@ -272,7 +298,7 @@ public class MeetDAO implements IMeetDAO {
                 meetDetails.setDateMeet(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Reunion.fecha")));
                 meetDetails.setDateMeetString(DateFormatter.getParseDate(meetDetails.getDateMeet()));
 
-                meetDetails.setTotalTime(resultSet.getString("Reunion.tiempo_total"));
+                meetDetails.setTotalTime(resultSet.getFloat("Reunion.tiempo_total"));
 
                 MemberDAO memberDAO = new MemberDAO();
 
@@ -296,6 +322,16 @@ public class MeetDAO implements IMeetDAO {
         return meetDetails;
     }
 
+    /***
+     * Get meet details
+     * <p>
+     * Get details from a reunion and verificate if exist the same hour and date from meet
+     * </p>
+     * @param meetDate the date meet to consult
+     * @param hourMeet the hour meet to consult
+     * @return boolean if exist a copy return false, but if not exist return true
+     */
+
     @Override
     public boolean checkMeet(Date meetDate, String hourMeet) throws SQLException {
         boolean existMeet = false;
@@ -307,7 +343,7 @@ public class MeetDAO implements IMeetDAO {
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setDate(1, DateFormatter.convertUtilDateToSQLDate(meetDate));
-            preparedStatement.setTime(2, Time.valueOf(hourMeet));
+            preparedStatement.setString(2, hourMeet);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()) {
@@ -319,27 +355,37 @@ public class MeetDAO implements IMeetDAO {
         return existMeet;
     }
 
+    /***
+     * Update meet
+     * <p>
+     * Update details from a meet registered
+     * </p>
+     * @param updatedMeet the details meet to update
+     * @return boolean if action is rigth return true
+     */
+
     @Override
     public boolean updateMeet(Meet updatedMeet) throws SQLException {
-        boolean wasAdded = false;
+        boolean wasUpdated = false;
 
         try(Connection conn = databaseConection.getConnection()) {
+            int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String statement = "UPDATE Reunion SET nota_reunion = ?, fecha = ?, hora = ? WHERE id = ?";
+            String statement = "UPDATE Reunion SET nota_reunion = ?, fecha = ?, hora = ?  WHERE id = ?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
             preparedStatement.setString(1, updatedMeet.getAsunto());
-            preparedStatement.setTime(2, Time.valueOf(updatedMeet.getHour()));
-            preparedStatement.setDate(3, DateFormatter.convertUtilDateToSQLDate(updatedMeet.getDateMeet()));
+            preparedStatement.setDate(2, DateFormatter.convertUtilDateToSQLDate(updatedMeet.getDateMeet()));
+            preparedStatement.setString(3, updatedMeet.getHour());
             preparedStatement.setInt(4, updatedMeet.getIdMeet());
-
-            wasAdded = preparedStatement.executeUpdate() > 0;
+            rowsAffected = preparedStatement.executeUpdate();
+            wasUpdated = rowsAffected > 0;
 
             conn.commit();
 
         }
         databaseConection.disconnect();
-        return wasAdded;
+        return wasUpdated;
     }
 }

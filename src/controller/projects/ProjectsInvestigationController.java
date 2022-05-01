@@ -1,6 +1,6 @@
 package controller.projects;
 
-import controller.Controller;
+import controller.control.Controller;
 import controller.control.AlertController;
 import controller.IntegrantController;
 import controller.academicgroup.AddMemberController;

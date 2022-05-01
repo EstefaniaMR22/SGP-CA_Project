@@ -1,6 +1,6 @@
 package controller.academicgroup;
 
-import controller.Controller;
+import controller.control.Controller;
 import controller.control.ValidatorController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

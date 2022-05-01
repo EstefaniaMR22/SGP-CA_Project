@@ -42,6 +42,8 @@ public class AddMeetController extends ValidatorController implements Initializa
     @FXML
     private TextField hourTextField;
     @FXML
+    private TextField minutesTextField;
+    @FXML
     private ComboBox<Project> projectsCombobox;
     @FXML
     private TableView<Member> integrantsTableView;
@@ -177,14 +179,15 @@ public class AddMeetController extends ValidatorController implements Initializa
 
         newMeet.setAsunto(bussinesTextField.getText());
         int positionProject = projectsCombobox.getSelectionModel().getSelectedIndex();
-        newMeet.setNameProject(String.valueOf(projectsObservableList.get(positionProject)));
+        newMeet.setNameProject((projectsObservableList.get(positionProject).getProjectName()));
+        newMeet.setIdProject(projectsObservableList.get(positionProject).getIdProject());
         newMeet.setAsistents(memberObservableList);
 
         newMeet.setDateMeet(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
         meetDateDataPicker.hide();
         meetDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
         newMeet.setRegister(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
-        newMeet.setHour(hourTextField.getText());
+        newMeet.setHour(hourTextField.getText() + ":" + minutesTextField.getText());
 
         try {
             boolean correctAddMeet = false;
@@ -349,11 +352,11 @@ public class AddMeetController extends ValidatorController implements Initializa
             return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
         };
 
-
-
         addComponentToValidator(new ValidatorTextInputControl(bussinesTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
-        addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_NUMBERS, Validator.LENGTH_SMALL_TEXT, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
+
+        addComponentToValidator(new ValidatorTextInputControl(minutesTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(leaderTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 

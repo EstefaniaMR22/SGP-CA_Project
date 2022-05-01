@@ -1,40 +1,42 @@
 package controller.meets;
 
-
+import assets.utils.DateFormatter;
 import assets.utils.SQLStates;
-import controller.Controller;
 import controller.academicgroup.AddMemberController;
-
 import controller.control.AlertController;
+import controller.control.ValidatorController;
+import controller.control.validator.Validator;
+import controller.control.validator.ValidatorComboBoxBase;
+import controller.control.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.control.validator.ValidatorTextInputControl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.MeetDAO;
+import model.dao.ProjectDAO;
 import model.domain.Meet;
 import model.domain.Member;
 import model.domain.Project;
-
-import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConsultMeetController extends Controller implements Initializable {
+public class ConsultMeetController extends ValidatorController implements Initializable {
 
     @FXML
-    private Label dealLabel;
+    private TextField bussinesTextField;
     @FXML
-    private Label projectLabel;
+    private TextField hourTextField;
     @FXML
-    private Label endaDateLabel;
-
+    private TextField minutesTextField;
+    @FXML
+    private TextField projectTextField;
     @FXML
     private TableView<Member> integrantsTableView;
     @FXML
@@ -44,29 +46,27 @@ public class ConsultMeetController extends Controller implements Initializable {
     @FXML
     private TableColumn<Member, String> lastName2Column;
     @FXML
-    private Label houLabel;
+    private TextField meetDateTextField;
     @FXML
-    private Label leaderLabel;
+    private TextField leaderTextField;
     @FXML
-    private Label secretaryLabel;
+    private TextField secretaryTextField;
     @FXML
-    private Label timerLabel;
-
+    private TextField timerTextField;
+    @FXML
+    private Label systemLabel;
     @FXML
     private Button exitButton;
     @FXML
-    private Button registerTimeButton;
+    private Button addTimeButton;
 
     private String idAcademicGroup;
-    private Meet meetSelected;
+    private Meet meetUpdated;
     private ObservableList<Project> projectsObservableList;
     private ObservableList<Member> memberObservableList;
-    private Member leaderMeet;
-    private Member secretaryMeet;
-    private Member timerMeet;
 
-    public ConsultMeetController(Meet meetSelected, String idAcademicGroup) {
-        this.meetSelected = meetSelected;
+    public ConsultMeetController(Meet meetUpdated, String idAcademicGroup) {
+        this.meetUpdated = meetUpdated;
         this.idAcademicGroup = idAcademicGroup;
     }
 
@@ -77,8 +77,12 @@ public class ConsultMeetController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        projectsObservableList = FXCollections.observableArrayList();
         getMeetDetails();
         setTableComponents();
+        leaderTextField.setDisable(true);
+        secretaryTextField.setDisable(true);
+        timerTextField.setDisable(true);
 
     }
 
@@ -95,8 +99,8 @@ public class ConsultMeetController extends Controller implements Initializable {
 
         MeetDAO meetDAO = new MeetDAO();
         try {
-            meetSelected = meetDAO.getMeetDetails(meetSelected.getIdMeet());
-            chargeMeetToTextField();
+            meetUpdated = meetDAO.getMeetDetails(meetUpdated.getIdMeet());
+            chargeMeetUpdate();
         }catch(SQLException getProjectDetailsExeception){
 
             deterMinateSQLState(getProjectDetailsExeception);
@@ -105,28 +109,41 @@ public class ConsultMeetController extends Controller implements Initializable {
 
     }
 
-    private void chargeMeetToTextField() {
+    private void chargeMeetUpdate() {
 
-        dealLabel.setText(meetSelected.getAsunto());
-        houLabel.setText(meetSelected.getHour());
+        bussinesTextField.setText(meetUpdated.getAsunto());
+        bussinesTextField.setDisable(true);
 
-        projectLabel.setText(meetSelected.getNameProject());
-        endaDateLabel.setText(meetSelected.getDateMeetString());
+        hourTextField.setText(meetUpdated.getHour().substring(0,2));
+        hourTextField.setDisable(true
+        );
+        minutesTextField.setText(meetUpdated.getHour().substring(3,5));
+        minutesTextField.setDisable(true);
 
-        leaderLabel.setText(meetSelected.getLeader());
+        projectTextField.setText(meetUpdated.getNameProject());
+        projectTextField.setDisable(true);
 
-        secretaryLabel.setText(meetSelected.getSecretary());
+        meetDateTextField.setText(meetUpdated.getDateMeetString());
+        meetDateTextField.setDisable(true);
 
-        timerLabel.setText(meetSelected.getTimer());
+        leaderTextField.setText(meetUpdated.getLeader());
+        leaderTextField.setDisable(true);
+
+        secretaryTextField.setText(meetUpdated.getSecretary());
+        secretaryTextField.setDisable(true);
+
+        timerTextField.setText(meetUpdated.getTimer());
+        timerTextField.setDisable(true);
 
     }
 
 
     private void chargeMembers(){
 
-        integrantsTableView.setItems(meetSelected.getAsistents());
+        integrantsTableView.setItems(meetUpdated.getAsistents());
 
     }
+
 
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
@@ -141,6 +158,8 @@ public class ConsultMeetController extends Controller implements Initializable {
 
     }
 
+
+
     @FXML
     void returnViewOnAction(ActionEvent actionEvent) {
         try{
@@ -152,4 +171,7 @@ public class ConsultMeetController extends Controller implements Initializable {
 
         }
     }
+
+
+
 }

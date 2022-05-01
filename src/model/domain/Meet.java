@@ -14,7 +14,7 @@ public class Meet {
     private String registerString;
     private Date dateMeet;
     private String dateMeetString;
-    private String totalTime;
+    private float totalTime;
     private int idLeader;
     private String leader;
     private int idSecretary;
@@ -22,6 +22,14 @@ public class Meet {
     private int idTimer;
     private String timer;
     private ObservableList<Member> asistents;
+
+    public float getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(float totalTime) {
+        this.totalTime = totalTime;
+    }
 
     public Date getRegister() {
         return register;
@@ -141,14 +149,6 @@ public class Meet {
 
     public void setNameProject(String nameProject) {
         this.nameProject = nameProject;
-    }
-
-    public String getTotalTime() {
-        return totalTime;
-    }
-
-    public void setTotalTime(String totalTime) {
-        this.totalTime = totalTime;
     }
 
     public int getIdProject() {

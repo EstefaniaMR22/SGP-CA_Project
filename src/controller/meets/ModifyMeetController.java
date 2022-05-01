@@ -39,6 +39,8 @@ public class ModifyMeetController extends ValidatorController implements Initial
     @FXML
     private TextField hourTextField;
     @FXML
+    private TextField minutesTextField;
+    @FXML
     private ComboBox<Project> projectsCombobox;
     @FXML
     private TableView<Member> integrantsTableView;
@@ -83,15 +85,16 @@ public class ModifyMeetController extends ValidatorController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        initValidatorToTextInput();
         projectsObservableList = FXCollections.observableArrayList();
-        setTableComponents();
         chargeProjectsComboBox();
+        projectsCombobox.setDisable(true);
+        getMeetDetails();
+        setTableComponents();
         leaderTextField.setDisable(true);
         secretaryTextField.setDisable(true);
         timerTextField.setDisable(true);
 
-        initValidatorToTextInput();
     }
 
     private void setTableComponents() {
@@ -120,14 +123,14 @@ public class ModifyMeetController extends ValidatorController implements Initial
     private void chargeMeetUpdate() {
 
         bussinesTextField.setText(meetUpdated.getAsunto());
-        hourTextField.setText(meetUpdated.getHour());
 
+        hourTextField.setText(meetUpdated.getHour().substring(0,2));
+        minutesTextField.setText(meetUpdated.getHour().substring(3,5));
 
         int positionProject = getIndexProjects(meetUpdated.getIdProject());
         projectsCombobox.getSelectionModel().select(positionProject);
 
         meetDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(meetUpdated.getDateMeet()));
-        meetDateDataPicker.setDisable(true);
         leaderTextField.setText(meetUpdated.getLeader());
 
         secretaryTextField.setText(meetUpdated.getSecretary());
@@ -191,8 +194,8 @@ public class ModifyMeetController extends ValidatorController implements Initial
                     modifyMeet();
 
                 } else {
-                    systemLabel.setText("¡Al parecer ya existe un trabajo recepcional con \n"+
-                            " el mismo nombre,de favor ingrese un nombre distinto!");
+                    systemLabel.setText("¡Al parecer ya existe una reunión en la misma fecha y hora, \n"+
+                            " ingrese una fecha y hora distinta");
                 }
 
             }else {
@@ -205,7 +208,7 @@ public class ModifyMeetController extends ValidatorController implements Initial
     }
 
     private boolean validateMeet() throws SQLException {
-        return new MeetDAO().checkMeet((Date) meetUpdated.getDateMeet(), meetUpdated.getHour());
+        return new MeetDAO().checkMeet(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()), hourTextField.getText() + ":" + minutesTextField.getText());
     }
 
     private void modifyMeet(){
@@ -213,17 +216,8 @@ public class ModifyMeetController extends ValidatorController implements Initial
 
         meetUpdated.setAsunto(bussinesTextField.getText());
 
-
-        int positionProject = projectsCombobox.getSelectionModel().getSelectedIndex();
-        meetUpdated.setNameProject(String.valueOf(projectsObservableList.get(positionProject)));
-        meetUpdated.setAsistents(memberObservableList);
-
-
         meetUpdated.setDateMeet(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
-        meetDateDataPicker.hide();
-        meetDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
-        meetUpdated.setRegister(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
-        meetUpdated.setHour(hourTextField.getText());
+        meetUpdated.setHour(hourTextField.getText() + ":" + minutesTextField.getText());
 
         try {
             boolean correctAddMeet = false;
@@ -263,7 +257,7 @@ public class ModifyMeetController extends ValidatorController implements Initial
 
         addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_NUMBERS, Validator.LENGTH_SMALL_TEXT, this), false);
 
-        addComponentToValidator(new ValidatorComboBoxBase(projectsCombobox, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(minutesTextField, Validator.PATTERN_NUMBERS, Validator.LENGTH_SMALL_TEXT, this), false);
 
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(meetDateDataPicker, this, validateDate), false);
 

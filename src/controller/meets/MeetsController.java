@@ -2,7 +2,7 @@ package controller.meets;
 
 import assets.utils.SQLStates;
 import controller.control.AlertController;
-import controller.Controller;
+import controller.control.Controller;
 import controller.IntegrantController;
 import controller.academicgroup.AddMemberController;
 import controller.receptionalWorks.AddReceptionalWorkController;
@@ -174,8 +174,7 @@ public class MeetsController extends Controller implements Initializable {
                 try{
 
                 ConsultMeetController consultMeetController = new ConsultMeetController(selectedMeet, idAcademicGroup);
-                    consultMeetController.showStage();
-
+                consultMeetController.showStage();
 
                 }catch (Exception consultProjectInvestigationException) {
                     Logger.getLogger(MeetsController.class.getName()).log(Level.SEVERE, null, consultProjectInvestigationException);

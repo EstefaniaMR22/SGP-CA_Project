@@ -34,7 +34,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ModifyReceptionalWorkController extends ValidatorController implements Initializable {
+public class UpdateReceptionalWorkController extends ValidatorController implements Initializable {
 
     @FXML private TextField receptionalWorkNameTextField;
     @FXML private TextField participantsTextField;
@@ -44,10 +44,9 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
     @FXML private ComboBox<Member> directorCombobox;
     @FXML private ComboBox<Member> codirectorCombobox;
     @FXML private ComboBox<String> statusCombobox;
-    @FXML private ComboBox<String> modalityCombobox;
+    @FXML private ComboBox<Modality> modalityCombobox;
     @FXML private ComboBox<Project> projectsCombobox;
     @FXML private Button updateReceptionalWork;
-    @FXML private Button finaliceReceptionalWork;
     @FXML private Button exitButton;
     @FXML private Label systemLabel;
     private String idAcademicGroup;
@@ -59,12 +58,11 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
     ReceptionalWork modifyReceptionalWork;
 
     public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/AddReceptionalWorkView.fxml"), this);
-
+        loadFXMLFile(getClass().getResource("/view/ModifyReceptionalWorkView.fxml"), this);
         stage.showAndWait();
     }
 
-    public ModifyReceptionalWorkController(ReceptionalWork modifyReceptionalWork, String idAcademicGroup){
+    public UpdateReceptionalWorkController(ReceptionalWork modifyReceptionalWork, String idAcademicGroup){
         this.idAcademicGroup = idAcademicGroup;
         this.modifyReceptionalWork = modifyReceptionalWork;
     }
@@ -74,8 +72,14 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
         initValidatorToTextInput();
         memberObservableList = FXCollections.observableArrayList();
         statusObservableList = FXCollections.observableArrayList();
+        modalitiesObservableList = FXCollections.observableArrayList();
+        projectsObservableList = FXCollections.observableArrayList();
         chargeComboBoxMember();
+        chargeProjectsComboBox();
+        projectsCombobox.setDisable(true);
         chargeModalitiesComboBox();
+
+        getReceptionaWorkDetails();
 
     }
 
@@ -85,7 +89,7 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
         try {
             modifyReceptionalWork = receptionalWorkDAO.getReceptionalWorkDetails(modifyReceptionalWork.getIdReceptionalWork());
             chargeReceptionalWorkUpdate();
-            chargeStatusCombobox();
+            chargeStatusComboBox();
         }catch(SQLException getProjectDetailsExeception){
 
             deterMinateSQLState(getProjectDetailsExeception);
@@ -107,55 +111,34 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
 
             int positionProject = getIndexProject(projectDAO.getProjectDetails(projectDAO.getIdProject(modifyReceptionalWork.getNameProject())).getIdProject());
             projectsCombobox.getSelectionModel().select(positionProject);
+            projectsCombobox.setDisable(true);
 
         } catch (SQLException memberSqlException) {
             deterMinateSQLState(memberSqlException);
         }
 
-        MemberDAO memberDAO = new MemberDAO();
-        try {
+        int positionModality = getIndexModality(modifyReceptionalWork.getModality());
+        modalityCombobox.getSelectionModel().select(positionModality);
 
-            int positionDirector = getIndexMember(memberDAO.getMember(modifyReceptionalWork.getIdDirector()).getId());
-            directorCombobox.getSelectionModel().select(positionDirector);
+        int positionDirector = getIndexMember(modifyReceptionalWork.getIdDirector());
+        directorCombobox.getSelectionModel().select(positionDirector);
+        directorCombobox.setDisable(true);
 
-        } catch (SQLException memberSqlException) {
-            deterMinateSQLState(memberSqlException);
-        }
-
-        try {
-
-            int positionCodirector = getIndexMember(memberDAO.getMember(modifyReceptionalWork.getIdCodirector()).getId());
-            codirectorCombobox.getSelectionModel().select(positionCodirector);
-
-        } catch (SQLException lgacSqlException) {
-            deterMinateSQLState(lgacSqlException);
-        }
-
-    }
-
-    private void chargeStatusCombobox(){
-        statusObservableList.setAll("En proceso", "Completado");
-        statusCombobox.setItems(statusObservableList);
-
-        if(modifyReceptionalWork.getStatus().equals("En proceso")) {
-            statusCombobox.getSelectionModel().select(0);
-
-        }else if(modifyReceptionalWork.getStatus().equals("Completado")) {
-
-            statusCombobox.getSelectionModel().select(1);
-
-        }
+        int positionCodirector = getIndexMember(modifyReceptionalWork.getIdCodirector());
+        codirectorCombobox.getSelectionModel().select(positionCodirector);
+        codirectorCombobox.setDisable(true);
 
     }
 
     @FXML
-    void addReceptionalWorkOnAction(ActionEvent actionEvent) {
+    void modifyReceptionalWorkOnAction(ActionEvent actionEvent) {
 
         try {
             if(validateInputs()) {
                 if(!validateReceptionalWork()) {
-                        addReceptionalWork();
-
+                        System.out.println("LLego a invocar modificar");
+                        modifyReceptionalWork();
+                    System.out.println("Termine de ejecutar modificar");
                 } else {
                     systemLabel.setText("¡Al parecer ya existe un trabajo recepcional con \n"+
                            " el mismo nombre,de favor ingrese un nombre distinto!");
@@ -172,48 +155,47 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
     }
 
     private boolean validateReceptionalWork() throws SQLException {
-        return new ProjectDAO().checkProject(receptionalWorkNameTextField.getText());
+        return new ReceptionalWorkDAO().checkReceptionalWorkUpdated(receptionalWorkNameTextField.getText(), modifyReceptionalWork.getIdReceptionalWork());
     }
 
-    private void addReceptionalWork(){
+    private void modifyReceptionalWork(){
         ReceptionalWorkDAO receptionalWorkDAO = new ReceptionalWorkDAO();
 
-        ReceptionalWork addReceptionalWork = new ReceptionalWork();
-        addReceptionalWork.setNameReceptionalWork(receptionalWorkNameTextField.getText());
-        addReceptionalWork.setParticipants(Integer.parseInt(participantsTextField.getText()));
+        modifyReceptionalWork.setNameReceptionalWork(receptionalWorkNameTextField.getText());
+        modifyReceptionalWork.setParticipants(Integer.parseInt(participantsTextField.getText()));
 
-        addReceptionalWork.setEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+        modifyReceptionalWork.setEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+
         estimatedEndDateDataPicker.hide();
-        estimatedEndDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
-        addReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+        estimatedEndDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(modifyReceptionalWork.getRegister()));
+        modifyReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
 
-        int positionDirector = directorCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setIdDirector(memberObservableList.get(positionDirector).getId());
-
-        int positionCodirector = codirectorCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setIdCodirector(memberObservableList.get(positionCodirector).getId());
-
-        addReceptionalWork.setStatus(statusObservableList.get(0));
+        int positionStatus = statusCombobox.getSelectionModel().getSelectedIndex();
+        modifyReceptionalWork.setStatus(statusObservableList.get(positionStatus));
 
         int positionModalities = modalityCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setModality(String.valueOf(modalitiesObservableList.get(positionModalities)));
+        modifyReceptionalWork.setModality(modalitiesObservableList.get(positionModalities));
 
-        addReceptionalWork.setStimatedDurationInMonths(calculateMonths(addReceptionalWork.getRegister(), addReceptionalWork.getEndDate()));
+        modifyReceptionalWork.setStimatedDurationInMonths(calculateMonths(modifyReceptionalWork.getRegister(), modifyReceptionalWork.getEndDate()));
 
+        modifyReceptionalWork.setRequeriments(requerimentsTextArea.getText());
         try {
             boolean correctAddProject = false;
 
-            correctAddProject = receptionalWorkDAO.addReceptionalWork(addReceptionalWork);
+            correctAddProject = receptionalWorkDAO.updateReceptionalWork(modifyReceptionalWork);
+
             if (correctAddProject == true) {
                 AlertController.getInstance().showSuccessfullRegisterAlert();
                 stage.close();
             }
+
 
         } catch (SQLException addProjectInvestigationException) {
 
             deterMinateSQLState(addProjectInvestigationException);
 
         }
+
     }
 
     private int calculateMonths(Date register, Date endDate){
@@ -261,18 +243,45 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
 
         statusObservableList.setAll("En proceso", "Completado");
         statusCombobox.setItems(statusObservableList);
-        statusCombobox.getSelectionModel().select(0);
-        statusCombobox.setDisable(true);
+
+
+        if(modifyReceptionalWork.getStatus().equals("En proceso")) {
+            statusCombobox.getSelectionModel().select(0);
+
+        }else if(modifyReceptionalWork.getStatus().equals("Completado")) {
+
+            statusCombobox.getSelectionModel().select(1);
+
+        }
     }
 
     private void chargeModalitiesComboBox(){
+        modalitiesObservableList.setAll(Modality.values());
+        modalityCombobox.setItems(modalitiesObservableList);
 
+    }
 
+    private int getIndexModality(Modality modality)
+    {
+        int value = 0;
+        if(modalitiesObservableList.size()>0)
+        {
+            for(int i = 0; i < modalitiesObservableList.size(); i++)
+            {
+                Modality get = modalitiesObservableList.get(i);
+                System.out.println(get.toString());
+                if(get.toString()== modality.toString())
+                {
+                    return i;
+                }
+            }
+        }
+        return value;
     }
 
     private void chargeProjectsComboBox(){
         ProjectDAO projectDAO= new ProjectDAO();
-        projectsObservableList = null;
+
         try {
 
             projectsObservableList = projectDAO.getProjectList(idAcademicGroup);
@@ -310,7 +319,8 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
         AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
-    public void returnViewOnAction(ActionEvent actionEvent) {
+    @FXML
+    void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();
         }catch(Exception returnViewOnActionExeception){
@@ -326,8 +336,6 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
             return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
         };
 
-
-
         addComponentToValidator(new ValidatorTextInputControl(receptionalWorkNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(participantsTextField, Validator.PATTERN_NUMBERS, Validator.LENGTH_SMALL_TEXT, this), false);
@@ -336,13 +344,7 @@ public class ModifyReceptionalWorkController extends ValidatorController impleme
 
         addComponentToValidator(new ValidatorTextInputControl(requerimentsTextArea, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
-        addComponentToValidator(new ValidatorComboBoxBase(statusCombobox, this), false);
-
         addComponentToValidator(new ValidatorComboBoxBase(modalityCombobox, this), false);
-
-        addComponentToValidator(new ValidatorComboBoxBase(directorCombobox, this), false);
-
-        addComponentToValidator(new ValidatorComboBoxBase(codirectorCombobox    , this), false);
 
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateDate), false);
 

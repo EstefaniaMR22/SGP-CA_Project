@@ -24,6 +24,7 @@ import model.domain.Modality;
 import model.domain.Project;
 import model.domain.ReceptionalWork;
 
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -52,7 +53,8 @@ public class AddReceptionalWorkController extends ValidatorController implements
     @FXML private Label systemLabel;
     private String idAcademicGroup;
 
-    private ObservableList<Member> memberObservableList;
+    private ObservableList<Member> directorObservableList;
+    private ObservableList<Member> codirectorObservableList;
     private ObservableList<String> statusObservableList;
     private ObservableList<Modality> modalitiesObservableList;
     private ObservableList<Project> projectsObservableList;
@@ -68,11 +70,13 @@ public class AddReceptionalWorkController extends ValidatorController implements
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        memberObservableList = FXCollections.observableArrayList();
+        directorObservableList = FXCollections.observableArrayList();
+        codirectorObservableList = FXCollections.observableArrayList();
         statusObservableList = FXCollections.observableArrayList();
         modalitiesObservableList = FXCollections.observableArrayList();
         projectsObservableList = FXCollections.observableArrayList();
-        chargeComboBoxMember();
+        chargeComboBoxDirector();
+        initListenerCombobox();
         chargeProjectsComboBox();
         chargeStatusComboBox();
         chargeModalitiesComboBox();
@@ -120,21 +124,22 @@ public class AddReceptionalWorkController extends ValidatorController implements
         addReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
 
         int positionDirector = directorCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setIdDirector(memberObservableList.get(positionDirector).getId());
+        addReceptionalWork.setIdDirector(directorObservableList.get(positionDirector).getId());
 
         int positionCodirector = codirectorCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setIdCodirector(memberObservableList.get(positionCodirector).getId());
+        addReceptionalWork.setIdCodirector(codirectorObservableList.get(positionCodirector).getId());
 
         int positionStatus = statusCombobox.getSelectionModel().getSelectedIndex();
         addReceptionalWork.setStatus(statusObservableList.get(positionStatus));
 
         int positionModalities = modalityCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setModality(String.valueOf(modalitiesObservableList.get(positionModalities)));
+        addReceptionalWork.setModality(modalitiesObservableList.get(positionModalities));
 
         int positionProject = projectsCombobox.getSelectionModel().getSelectedIndex();
-        addReceptionalWork.setNameProject(String.valueOf(projectsObservableList.get(positionProject)));
+        addReceptionalWork.setNameProject((projectsObservableList.get(positionProject).getProjectName()));
 
         addReceptionalWork.setStimatedDurationInMonths(calculateMonths(addReceptionalWork.getRegister(), addReceptionalWork.getEndDate()));
+        addReceptionalWork.setRequeriments(requerimentsTextArea.getText());
 
         try {
             boolean correctAddProject = false;
@@ -161,19 +166,28 @@ public class AddReceptionalWorkController extends ValidatorController implements
         return totalMonths;
     }
 
-    private void chargeComboBoxMember(){
-        MemberDAO member = new MemberDAO();
+    private void chargeComboBoxDirector() {
+        MemberDAO memberDAO = new MemberDAO();
         try {
 
-            memberObservableList = member.getAllMembersByIdAcademicBody(idAcademicGroup);
+            directorObservableList = memberDAO.getAllMembersByIdAcademicBody(idAcademicGroup);
 
-            directorCombobox.setItems(memberObservableList);
-            codirectorCombobox.setItems(memberObservableList);
+            directorCombobox.setItems(directorObservableList);
 
+        } catch (SQLException chargeDirectorException) {
+            deterMinateSQLState(chargeDirectorException);
+        }
+    }
+
+    private void chargeComboBoxCodirector(int selectedDirector){
+        MemberDAO memberDAO = new MemberDAO();
+        try {
+            codirectorObservableList = memberDAO.getAllMembersByIdAcademicBody(idAcademicGroup);
+            codirectorObservableList.remove(selectedDirector);
+            codirectorCombobox.setItems(codirectorObservableList);
         } catch(SQLException chargeLGACSQLException) {
             deterMinateSQLState(chargeLGACSQLException);
         }
-
     }
 
     private void chargeStatusComboBox(){
@@ -223,6 +237,20 @@ public class AddReceptionalWorkController extends ValidatorController implements
                     "Causa: " + returnViewOnActionExeception);
 
         }
+    }
+
+    public void initListenerCombobox() {
+        directorCombobox.valueProperty().addListener( (observable, oldValue, newValue) -> {
+            if(newValue == null ) {
+
+            } else {
+                int positionDirector = directorCombobox.getSelectionModel().getSelectedIndex();
+
+                chargeComboBoxCodirector(positionDirector);
+
+
+            }
+        });
     }
 
     private void initValidatorToTextInput() {

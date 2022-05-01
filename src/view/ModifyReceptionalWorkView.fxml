@@ -20,12 +20,7 @@
                <children>
                   <AnchorPane layoutX="-1.0" layoutY="625.0" prefHeight="64.0" prefWidth="868.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
                      <children>
-                        <Button fx:id="updateReceptionalWork" layoutX="738.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyRecptionalWorkOnAction" prefHeight="38.0" prefWidth="104.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="10.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="finaliceReceptionalWork" layoutX="600.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyRecptionalWorkOnAction" prefHeight="38.0" prefWidth="104.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="FINALIZAR" textFill="WHITE">
+                        <Button fx:id="updateReceptionalWork" layoutX="738.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyReceptionalWorkOnAction" prefHeight="38.0" prefWidth="104.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="10.0" />
                            </font>
@@ -98,13 +93,13 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="directorCombobox" layoutX="422.0" layoutY="200.0" prefHeight="32.0" prefWidth="395.0" promptText="Selecciona un director" />
-                  <ComboBox fx:id="modalidadCombobox" layoutX="16.0" layoutY="312.0" prefHeight="32.0" prefWidth="351.0" />
+                  <ComboBox fx:id="modalityCombobox" layoutX="16.0" layoutY="312.0" prefHeight="32.0" prefWidth="351.0" />
                   <Label layoutX="17.0" layoutY="289.0" text="Modalidad:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="participantesTextField" layoutX="422.0" layoutY="311.0" prefHeight="34.0" prefWidth="104.0" />
+                  <TextField fx:id="participantsTextField" layoutX="422.0" layoutY="311.0" prefHeight="34.0" prefWidth="104.0" />
                   <Label layoutX="423.0" layoutY="290.0" text="Participantes:">
                      <font>
                         <Font name="System Bold" size="16.0" />
