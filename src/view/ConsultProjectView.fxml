@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,14 +9,14 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="667.0" prefWidth="1069.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="559.0" prefWidth="1069.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutY="5.0" prefHeight="588.0" prefWidth="824.0">
+      <AnchorPane layoutY="5.0" prefHeight="542.0" prefWidth="1069.0">
          <children>
-            <AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1069.0" stylesheets="@../assets/style/standard.css">
+            <AnchorPane id="AnchorPane" prefHeight="517.0" prefWidth="1069.0" stylesheets="@../assets/style/standard.css">
                <children>
                   <Line endX="925.0" fill="BLACK" layoutX="136.0" layoutY="122.0" startX="-132.0" />
-                  <Pane layoutX="45.0" layoutY="130.0" prefHeight="480.0" prefWidth="1002.0" style="-fx-background-color: gray;">
+                  <Pane layoutX="45.0" layoutY="130.0" prefHeight="337.0" prefWidth="1002.0" style="-fx-background-color: gray;">
                      <children>
                         <AnchorPane prefHeight="39.0" prefWidth="781.0" style="-fx-background-color: black;">
                            <children>
@@ -109,17 +107,6 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="27.0" layoutY="297.0" text="Evidencias:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <TableView fx:id="evidencesTableView" layoutX="24.0" layoutY="322.0" prefHeight="137.0" prefWidth="948.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
                      </children>
                   </Pane>
                   <AnchorPane layoutY="-7.0" prefHeight="82.0" prefWidth="1069.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
@@ -151,17 +138,18 @@
                         <Image url="file:img/back.png" />
                      </image>
                   </ImageView>
+                  <AnchorPane layoutX="-184.0" layoutY="502.0" prefHeight="64.0" prefWidth="1216.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
+                     <children>
+                        <Button fx:id="modifyButton" layoutX="1060.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" prefHeight="38.0" prefWidth="108.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="-147.0" layoutY="606.0" prefHeight="64.0" prefWidth="1216.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
-         <children>
-            <Button fx:id="modifyButton" layoutX="1060.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" prefHeight="38.0" prefWidth="108.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children></AnchorPane>
    </children>
 </AnchorPane>

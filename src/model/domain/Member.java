@@ -201,6 +201,7 @@ public class Member {
         return name + " " + paternalLastname + " " + maternalLastname;
     }
 
+    /*
     @Override
     public String toString() {
         return "Member{" +
@@ -226,5 +227,16 @@ public class Member {
                 ", studyArea='" + studyArea + '\'' +
                 ", maxStudyGrade=" + maxStudyGrade +
                 '}';
+    }
+
+     */
+
+    @Override
+    public String toString() {
+        return "| Miembro | Nombre: " + name + " " + paternalLastname + " " + maternalLastname +
+                " | Nacionalidad: " + nationality +
+                " | Programa Educativo: " + educationalProgram +
+                " | Número personal: " + personalNumber +
+                " |" ;
     }
 }

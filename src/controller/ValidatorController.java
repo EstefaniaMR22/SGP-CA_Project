@@ -2,8 +2,10 @@ package controller;
 
 import controller.validator.IValidatorControlFX;
 
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * This class it must be used in each interface in which data can be entered.
@@ -71,5 +73,10 @@ public class ValidatorController extends Controller {
             }
         }
         return dataInputValid;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

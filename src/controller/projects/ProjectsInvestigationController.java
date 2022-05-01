@@ -3,6 +3,7 @@ package controller.projects;
 import controller.AlertController;
 import controller.Controller;
 import controller.IntegrantController;
+import controller.ValidatorController;
 import controller.academicgroup.AddMemberController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,12 +25,14 @@ import model.domain.LGAC;
 import model.domain.Project;
 import assets.utils.SQLStates;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProjectsInvestigationController extends Controller {
+public class ProjectsInvestigationController extends Controller implements Initializable {
 
     @FXML
     private Button newProjectButton;
@@ -52,19 +56,25 @@ public class ProjectsInvestigationController extends Controller {
     private TableColumn<Project, String> startDateProjectColumn;
     @FXML
     private TableColumn<Project, String> endDateProjectColumn;
+    private String idAcademicGroup;
 
-    private ObservableList<Project> Projects;
+    private ObservableList<Project> projectsInvestigation;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ProjectsInvestigationView.fxml"), this);
         searchTextField.setText("Buscar");
-
+        System.out.println("java version: "+System.getProperty("java.version"));
+        System.out.println("javafx.version: " + System.getProperty("javafx.version"));
         setTableComponents();
         stage.show();
     }
 
+    public ProjectsInvestigationController(String idAcademicGroup){
+        this.idAcademicGroup = idAcademicGroup;
+    }
+
     private void setTableComponents() {
-        Projects = FXCollections.observableArrayList();
+        projectsInvestigation = FXCollections.observableArrayList();
         nameProjectColumn.setCellValueFactory(new PropertyValueFactory<>("projectName"));
         durationProjectColumn.setCellValueFactory(new PropertyValueFactory<>("durationProjectInMonths"));
         statusProjectColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -77,9 +87,9 @@ public class ProjectsInvestigationController extends Controller {
     private void searchProject()
     {
 
-        if(Projects.size()>0)
+        if(projectsInvestigation.size()>0)
         {
-            FilteredList<Project> projectSearch = new FilteredList<Project>(Projects, p -> true);
+            FilteredList<Project> projectSearch = new FilteredList<Project>(projectsInvestigation, p -> true);
             searchTextField.textProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
@@ -119,8 +129,8 @@ public class ProjectsInvestigationController extends Controller {
         ProjectDAO projectDAO = new ProjectDAO();
         try {
 
-            Projects = projectDAO.getProjectList();
-            projectsTableView.setItems(Projects);
+            projectsInvestigation = projectDAO.getProjectList(idAcademicGroup);
+            projectsTableView.setItems(projectsInvestigation);
 
         }catch(SQLException chargeProjectsExeception){
             deterMinateSQLState(chargeProjectsExeception);
@@ -138,70 +148,67 @@ public class ProjectsInvestigationController extends Controller {
 
     @FXML
     void addProjectInvestigationOnAction(ActionEvent actionEvent) throws SQLException {
-        LgacDAO lgac= new LgacDAO();
-        try {
-            //List<LGAC> listlgac = lgac.getAlllgacs();+
-            List<LGAC> listlgac = null;
-            /*
-            Don't use a try catch inside a try catch
-            Fix this method
-             */
-            if(!listlgac.isEmpty()) {
-                try {
-                    AddProjectsInvestigationController addProjectInvestigationController = new AddProjectsInvestigationController();
-                    addProjectInvestigationController.showStage();
+        if(!verifyLGAC().isEmpty()) {
+            try {
+                AddProjectsInvestigationController addProjectInvestigationController = new AddProjectsInvestigationController(idAcademicGroup);
+                addProjectInvestigationController.showStage();
 
-                } catch (Exception addProjectInvestigationException) {
-                    AlertController alertView = AlertController.getInstance();
-                    alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                            "AddProyectInvestigation. Causa: " + addProjectInvestigationException);
-
-                }
-                throw new SQLException("FIX ME NOW");
-            }else {
+            } catch (Exception addProjectInvestigationException) {
                 AlertController alertView = AlertController.getInstance();
-                alertView.showActionFailedAlert(" Sin 'lgac' registrados, no puede agregar un proyecto de investigacion");
-            }
+                alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                        "AddProyectInvestigation. Causa: " + addProjectInvestigationException);
 
+            }
+        }else {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" Sin 'lgac' registrados, no puede agregar un proyecto de investigacion");
+        }
+
+        chargeProjects();
+
+    }
+
+    private List<LGAC> verifyLGAC() {
+        LgacDAO lgac= new LgacDAO();
+        List<LGAC> listLGAC = null;
+        try {
+            listLGAC = lgac.getAllLgacsByIdAcademicGroup(idAcademicGroup);
         }catch (SQLException getAllLgacsException) {
             Logger.getLogger(AddProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, getAllLgacsException);
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo cargar las LGAC. Causa: " + getAllLgacsException);
 
         }
-
+        return listLGAC;
     }
-
 
     @FXML
     void updateProjectInvestigation(ActionEvent actionEvent) {
 
         Project selectedProjectUpdate = projectsTableView.getSelectionModel().getSelectedItem();
         if(selectedProjectUpdate != null) {
-            if(selectedProjectUpdate.getEndDate()==null) {
 
                 try {
-                    ModifyProjectInvestigationController updateProjectInvestigationController = new ModifyProjectInvestigationController(selectedProjectUpdate);
+                    ModifyProjectInvestigationController updateProjectInvestigationController = new ModifyProjectInvestigationController(selectedProjectUpdate, idAcademicGroup);
                     updateProjectInvestigationController.showStage();
 
-                }catch (Exception addProjectInvestigationException) {
-                    Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, addProjectInvestigationException);
+                }catch (Exception modifyProjectInvestigationException) {
+                    Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, modifyProjectInvestigationException);
 
                     AlertController alertView = AlertController.getInstance();
                     alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                            "ModifyProyectInvestigation. Causa: " + addProjectInvestigationException);
-
+                            "ModifyProyectInvestigation. Causa: " + modifyProjectInvestigationException);
 
                 }
-            }else {
-                AlertController alertView = AlertController.getInstance();
-                alertView.showActionFailedAlert(" No puedes modificar un proyecto que ya esta 'Completado'");
-            }
+
         }else {
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Antes de presionar modificar debes seleccionar un " +
                     "proyecto de investigación de la tabla");
         }
+
+        chargeProjects();
+
     }
 
     @FXML
@@ -209,13 +216,25 @@ public class ProjectsInvestigationController extends Controller {
 
             Project selectedProject = projectsTableView.getSelectionModel().getSelectedItem();
             if(selectedProject != null) {
-                ConsultProjectController consultProjectsInvestigationController = new ConsultProjectController(selectedProject);
+                try{
+                ConsultProjectController consultProjectsInvestigationController = new ConsultProjectController(selectedProject, idAcademicGroup);
                 consultProjectsInvestigationController.showStage();
+
+                }catch (Exception consultProjectInvestigationException) {
+                    Logger.getLogger(ProjectsInvestigationController.class.getName()).log(Level.SEVERE, null, consultProjectInvestigationException);
+
+                    AlertController alertView = AlertController.getInstance();
+                    alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                            "ConsultProyectInvestigation. Causa: " + consultProjectInvestigationException);
+
+                }
             }else {
                 AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert(" Antes de presionar consultar debes seleccionar un " +
                         "proyecto de investigación de la tabla");
             }
+
+        chargeProjects();
 
     }
 
@@ -223,7 +242,7 @@ public class ProjectsInvestigationController extends Controller {
     void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();
-            IntegrantController viewReturn = new IntegrantController();
+            IntegrantController viewReturn = new IntegrantController(idAcademicGroup);
             viewReturn.showStage();
 
         }catch(Exception returnViewOnActionExeception){
@@ -233,4 +252,8 @@ public class ProjectsInvestigationController extends Controller {
         }
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }

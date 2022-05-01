@@ -33,7 +33,7 @@ public interface ILgacDAO {
      * </p>
      * @return List that contain all LGACS.
      */
-    List<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException;
+    ObservableList<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException;
     /***
      * Get a specific LGAC.
      * @param idLGAC LGAC's ID.

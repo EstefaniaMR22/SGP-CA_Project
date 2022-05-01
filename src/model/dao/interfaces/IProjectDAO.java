@@ -10,19 +10,19 @@ import javafx.collections.ObservableList;
 import model.domain.Project;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public interface IProjectDAO{
 
-    public ObservableList<Project> getProjectList() throws SQLException;
+    ObservableList<Project> getProjectList(String academicGroupID) throws SQLException;
 
-    public boolean addProject(Project newProject) throws SQLException;
-    public int addProjectLGAC(int idProject, int idLGAC) throws SQLException;
-    public int getIdProject(String nameProject) throws SQLException;
-    public Project getProjectDetails(int idProject) throws SQLException;
+    boolean addProject(Project newProject) throws SQLException;
+    int addProjectLGAC(int idProject, int idLGAC) throws SQLException;
+    int getIdProject(String nameProject) throws SQLException;
+    Project getProjectDetails(int idProject) throws SQLException;
 
     boolean checkProject(String projectName) throws SQLException;
+    boolean checkProjectUpdated(String projectName, int idProject) throws SQLException;
 
-    public int getIdLGAC(int idProject) throws SQLException;
-    public boolean updateProject(Project project) throws SQLException;
+    int getIdLGAC(int idProject) throws SQLException;
+    boolean updateProject(Project project) throws SQLException;
 }

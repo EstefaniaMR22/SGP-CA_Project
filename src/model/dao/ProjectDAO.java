@@ -22,44 +22,51 @@ public class ProjectDAO implements IProjectDAO{
     }
 
     /***
-     * Add Project to database
+     * Get investigation projects to database
      * <p>
      * Get all the investigation projects
      * </p>
      * @return List that contain all the registered investigation projects.
      */
 
-
     @Override
-    public ObservableList<Project> getProjectList() throws SQLException{
+    public ObservableList<Project> getProjectList(String academicGroupID) throws SQLException{
         ObservableList<Project> projectList;
         projectList = FXCollections.observableArrayList();
 
         try(Connection conn = databaseConection.getConnection()) {
-            String statement = "SELECT * FROM ProyectoInvestigacion;";
+            String statement = "Select * FROM ProyectoInvestigacion INNER JOIN LGACProyectoInvestigacion ON " +
+                    "ProyectoInvestigacion.id = LGACProyectoInvestigacion.id_proyecto_investigacion " +
+                    "INNER JOIN LGAC ON LGACProyectoInvestigacion.id_lgac = LGAC.id " +
+                    "where id_programa_cuerpo_academico = ?;";
+
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, academicGroupID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Project projectDataTable = new Project();
-                projectDataTable.setIdProject(resultSet.getInt("id"));
-                projectDataTable.setProjectName(resultSet.getString("nombre"));
-                projectDataTable.setDescription(resultSet.getString("descripcion"));
-                projectDataTable.setStatus(resultSet.getString("estado"));
-                projectDataTable.setDurationProjectInMonths(resultSet.getInt("duracion_meses"));
+                projectDataTable.setIdProject(resultSet.getInt("ProyectoInvestigacion.id"));
+                projectDataTable.setProjectName(resultSet.getString("ProyectoInvestigacion.nombre"));
+                projectDataTable.setDescription(resultSet.getString("ProyectoInvestigacion.descripcion"));
+                projectDataTable.setStatus(resultSet.getString("ProyectoInvestigacion.estado"));
+                projectDataTable.setDurationProjectInMonths(resultSet.getInt("ProyectoInvestigacion.duracion_meses"));
 
-                projectDataTable.setStartDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_inicio")));
+                projectDataTable.setStartDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("ProyectoInvestigacion.fecha_inicio")));
                 projectDataTable.setStartDateString(DateFormatter.getParseDate(projectDataTable.getStartDate()));
 
-                projectDataTable.setEstimatedEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_fin_estimada")));
+                projectDataTable.setEstimatedEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("ProyectoInvestigacion.fecha_fin_estimada")));
                 projectDataTable.setEstimatedEndDateString(DateFormatter.getParseDate(projectDataTable.getStartDate()));
-                    if(!resultSet.wasNull()){
-                        projectDataTable.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_real")));
-                        projectDataTable.setEndDateString(DateFormatter.getParseDate(projectDataTable.getStartDate()));
-                    }else {
-                        projectDataTable.setEndDate(null);
-                        projectDataTable.setEndDateString("Pendiente");
-                    }
+
+                if(resultSet.getDate("ProyectoInvestigacion.fecha_real")==null){
+                    projectDataTable.setEndDate(projectDataTable.getEstimatedEndDate());
+                    projectDataTable.setEndDateString("Pendiente");
+
+                }else {
+                    projectDataTable.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("ProyectoInvestigacion.fecha_real")));
+                    projectDataTable.setEndDateString(DateFormatter.getParseDate(projectDataTable.getEndDate()));
+                }
+
                 projectDataTable.setIdLGCA(getIdLGAC(projectDataTable.getIdProject()));
 
                 projectList.add(projectDataTable);
@@ -217,11 +224,13 @@ public class ProjectDAO implements IProjectDAO{
                 projectDetails.setEstimatedEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_fin_estimada")));
                 projectDetails.setEstimatedEndDateString(DateFormatter.getParseDate(projectDetails.getStartDate()));
 
-                if(resultSet.wasNull()){
-                    projectDetails.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_real")));
-                    projectDetails.setEndDateString(DateFormatter.getParseDate(projectDetails.getStartDate()));
-                }else {
+                if(resultSet.getDate("fecha_real")==null){
+                    projectDetails.setEndDate(projectDetails.getEstimatedEndDate());
                     projectDetails.setEndDateString("Pendiente");
+
+                }else {
+                    projectDetails.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("ProyectoInvestigacion.fecha_real")));
+                    projectDetails.setEndDateString(DateFormatter.getParseDate(projectDetails.getEndDate()));
                 }
 
                 projectDetails.setIdLGCA(getIdLGAC(projectDetails.getIdProject()));
@@ -247,6 +256,30 @@ public class ProjectDAO implements IProjectDAO{
             String statement = "SELECT * FROM ProyectoInvestigacion WHERE nombre = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, projectName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                projectAlreadyExist = true;
+            }
+        }
+        return projectAlreadyExist;
+    }
+
+    /***
+     * Check if Project exist in database
+     * <p>
+     *
+     * </p>
+     * @param projectName The name from investigation project
+     * @return projectAlreadyExist representing Project exist in database
+     */
+    @Override
+    public boolean checkProjectUpdated(String projectName, int idProject) throws SQLException {
+        boolean projectAlreadyExist = false;
+        try(Connection conn = databaseConection.getConnection()) {
+            String statement = "SELECT * FROM ProyectoInvestigacion WHERE nombre = ? & id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, projectName);
+            preparedStatement.setInt(2, idProject);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 projectAlreadyExist = true;

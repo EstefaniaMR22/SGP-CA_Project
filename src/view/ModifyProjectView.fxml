@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -17,12 +18,7 @@
          <children>
             <AnchorPane layoutX="-7.0" layoutY="541.0" prefHeight="64.0" prefWidth="868.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
                <children>
-                  <Button fx:id="endProjectStatusButton" layoutX="554.0" layoutY="13.0" mnemonicParsing="false" onAction="#endProjectStatusOnAction" prefHeight="38.0" prefWidth="136.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="FINALIZAR PROYECTO" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="updateButton" layoutX="707.0" layoutY="13.0" mnemonicParsing="false" onAction="#updateProjectInvestigationOnAction" prefHeight="38.0" prefWidth="136.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="Guardar" textFill="WHITE">
+                  <Button fx:id="updateButton" layoutX="707.0" layoutY="13.0" mnemonicParsing="false" onAction="#updateProjectInvestigationOnAction" prefHeight="38.0" prefWidth="136.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="GUARDAR" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
@@ -31,7 +27,7 @@
             </AnchorPane>
             <AnchorPane layoutX="-7.0" layoutY="-9.0" prefHeight="82.0" prefWidth="868.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
                <children>
-                  <Label alignment="TOP_CENTER" layoutX="7.0" layoutY="14.0" prefHeight="39.0" prefWidth="587.0" styleClass="title-label" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
+                  <Label alignment="TOP_CENTER" layoutX="7.0" layoutY="14.0" prefHeight="39.0" prefWidth="698.0" styleClass="title-label" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -50,7 +46,7 @@
                   <Font name="System Bold" size="10.0" />
                </font>
             </Button>
-            <Label alignment="TOP_CENTER" layoutX="13.0" layoutY="164.0" prefHeight="27.0" prefWidth="781.0" style="-fx-background-color: black;" text="REGISTRO PROYECTO DE INVESTIGACIÓN" textFill="WHITE">
+            <Label alignment="TOP_CENTER" layoutX="13.0" layoutY="164.0" prefHeight="27.0" prefWidth="781.0" style="-fx-background-color: black;" text="MODIFICACIÓN PROYECTO DE INVESTIGACIÓN" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
@@ -94,17 +90,13 @@
                </font>
             </Label>
             <TextArea fx:id="descriptionTextArea" layoutX="40.0" layoutY="406.0" prefHeight="110.0" prefWidth="798.0" />
-            <Label fx:id="statusProjectLabel" layoutX="443.0" layoutY="222.0" prefHeight="34.0" prefWidth="395.0" style="-fx-background-color: white;" />
-            <Label fx:id="lgacLabel" layoutX="443.0" layoutY="279.0" prefHeight="31.0" prefWidth="395.0" style="-fx-background-color: white;">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
             <Label fx:id="systemLabel" layoutX="443.0" layoutY="317.0" prefHeight="64.0" prefWidth="395.0">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <ComboBox fx:id="statusProjectCombobox" layoutX="443.0" layoutY="224.0" prefHeight="31.0" prefWidth="395.0" />
+            <ComboBox fx:id="lgacComboBox" layoutX="443.0" layoutY="279.0" prefHeight="32.0" prefWidth="395.0" />
          </children>
       </AnchorPane>
    </children>

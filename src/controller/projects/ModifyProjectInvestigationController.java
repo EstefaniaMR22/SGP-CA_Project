@@ -4,17 +4,17 @@ import controller.AlertController;
 import controller.ValidatorController;
 import controller.academicgroup.AddMemberController;
 import controller.validator.Validator;
+import controller.validator.ValidatorComboBoxBase;
 import controller.validator.ValidatorTextInputControl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
+import model.domain.LGAC;
 import model.domain.Project;
 import assets.utils.DateFormatter;
 import assets.utils.SQLStates;
@@ -23,6 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,24 +34,33 @@ public class ModifyProjectInvestigationController extends ValidatorController im
     @FXML private TextArea descriptionTextArea;
     @FXML private DatePicker startDateDataPicker;
     @FXML private DatePicker estimatedEndDateDataPicker;
-    @FXML private Label statusProjectLabel;
-    @FXML private Label lgacLabel;
+    @FXML private ComboBox<String> statusProjectCombobox;
+    @FXML private ComboBox<LGAC> lgacComboBox;
 
     @FXML private Button updateButton;
     @FXML private Button exitButton;
-    @FXML private Button endProjectStatusButton;
+    @FXML private Button changeProjectStatusButton;
     @FXML private Label systemLabel;
 
+    private String idAcademicGroup;
     private Project updatedProject;
+    private List<LGAC> listAcademicGroupLGAC;
+    private ObservableList<LGAC> observableListAcademicGroupLGAC;
+    private ObservableList<String> observableListStatus;
 
-    public ModifyProjectInvestigationController(Project updatedProject) {
+    public ModifyProjectInvestigationController(Project updatedProject, String idAcademicGroup){
+        this.idAcademicGroup = idAcademicGroup;
         this.updatedProject = updatedProject;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        getProjectDetails();
         initValidatorToTextInput();
+        chargeComboBoxLGAC();
+        observableListAcademicGroupLGAC = FXCollections.observableArrayList();
+        observableListStatus = FXCollections.observableArrayList();
+        getProjectDetails();
+
     }
 
     public void showStage() {
@@ -59,13 +69,15 @@ public class ModifyProjectInvestigationController extends ValidatorController im
 
     }
 
+
     private void getProjectDetails() {
+
         int idProjectDetails = updatedProject.getIdProject();
         ProjectDAO projectDAO = new ProjectDAO();
         try {
             updatedProject = projectDAO.getProjectDetails(idProjectDetails);
             chargeProjectInvestigationUpdate();
-
+            chargeStatusCombobox();
         }catch(SQLException getProjectDetailsExeception){
 
             deterMinateSQLState(getProjectDetailsExeception);
@@ -85,13 +97,14 @@ public class ModifyProjectInvestigationController extends ValidatorController im
     private void chargeProjectInvestigationUpdate() {
 
         projectNameTextField.setText(updatedProject.getProjectName());
-        statusProjectLabel.setText(updatedProject.getStatus());
         descriptionTextArea.setText(updatedProject.getDescription());
 
         LgacDAO lgacDAO = new LgacDAO();
             try {
 
-                lgacLabel.setText(lgacDAO.getLGACById(updatedProject.getIdLGCA()).toString());
+                int positionLGAC = getIndexLGAC(lgacDAO.getLGACById(updatedProject.getIdLGCA()).getId());
+                lgacComboBox.getSelectionModel().select(positionLGAC);
+
             } catch (SQLException lgacSqlException) {
                 deterMinateSQLState(lgacSqlException);
        }
@@ -103,16 +116,52 @@ public class ModifyProjectInvestigationController extends ValidatorController im
         startDateDataPicker.setDisable(true);
     }
 
-    @FXML
-    public void endProjectStatusOnAction(ActionEvent actionEvent) {
-        AlertController alertView = AlertController.getInstance();
+    private void chargeComboBoxLGAC(){
+        LgacDAO lgac= new LgacDAO();
+        listAcademicGroupLGAC = null;
+        try {
 
-        if(alertView.showConfirmationAlert()){
-            statusProjectLabel.setText("Completado");
-            updatedProject.setEndDate(DateFormatter.getDateFromDatepickerValue(LocalDate.from(LocalDateTime.now())));
-        }else {
-            statusProjectLabel.setText("En proceso");
-            updatedProject.setEndDate(null);
+            listAcademicGroupLGAC = lgac.getAllLgacsByIdAcademicGroup(idAcademicGroup);
+
+            observableListAcademicGroupLGAC = (ObservableList<LGAC>) listAcademicGroupLGAC;
+
+            lgacComboBox.setItems(observableListAcademicGroupLGAC);
+
+        } catch(SQLException chargeLGACException) {
+            deterMinateSQLState(chargeLGACException);
+        }
+
+    }
+
+    private int getIndexLGAC(int idLGAC)
+    {
+        int value = 0;
+        if(listAcademicGroupLGAC.size()>0)
+        {
+            for(int i = 0; i < listAcademicGroupLGAC.size(); i++)
+            {
+                LGAC get = listAcademicGroupLGAC.get(i);
+                if(get.getId()== idLGAC)
+                {
+                    return i;
+                }
+            }
+        }
+        return value;
+    }
+
+    private void chargeStatusCombobox(){
+        observableListStatus.setAll("En proceso", "Completado");
+        statusProjectCombobox.setItems(observableListStatus);
+
+
+        if(updatedProject.getStatus().equals("En proceso")) {
+            statusProjectCombobox.getSelectionModel().select(0);
+
+        }else if(updatedProject.getStatus().equals("Completado")) {
+
+            statusProjectCombobox.getSelectionModel().select(1);
+
         }
 
     }
@@ -153,7 +202,16 @@ public class ModifyProjectInvestigationController extends ValidatorController im
 
         updateProjectInvestigation.setProjectName(projectNameTextField.getText());
         updateProjectInvestigation.setDescription(descriptionTextArea.getText());
-        updateProjectInvestigation.setStatus(statusProjectLabel.getText());
+        int positionStatus = statusProjectCombobox.getSelectionModel().getSelectedIndex();
+        updateProjectInvestigation.setStatus(observableListStatus.get(positionStatus));
+        if (statusProjectCombobox.getSelectionModel().getSelectedIndex()==1){
+            updatedProject.setEndDate(DateFormatter.getDateFromDatepickerValue(LocalDate.from(LocalDateTime.now())));
+        }else{
+            updatedProject.setEndDate(null);
+        }
+
+        int positionLGAC = lgacComboBox.getSelectionModel().getSelectedIndex();
+        updateProjectInvestigation.setIdLGCA(listAcademicGroupLGAC.get(positionLGAC).getId());
 
         updateProjectInvestigation.setEndDate(updatedProject.getEndDate());
 
@@ -176,7 +234,8 @@ public class ModifyProjectInvestigationController extends ValidatorController im
     }
 
     private boolean validateProjectName() throws SQLException {
-        return new ProjectDAO().checkProject(projectNameTextField.getText());
+        System.out.println("ID: " + updatedProject.getIdProject());
+        return new ProjectDAO().checkProjectUpdated(projectNameTextField.getText(),updatedProject.getIdProject());
     }
 
     @FXML
@@ -196,6 +255,10 @@ public class ModifyProjectInvestigationController extends ValidatorController im
         addComponentToValidator(new ValidatorTextInputControl(projectNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(descriptionTextArea, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+
+        addComponentToValidator(new ValidatorComboBoxBase(lgacComboBox, this), false);
+
+        addComponentToValidator(new ValidatorComboBoxBase(statusProjectCombobox, this), false);
 
         initListenerToControls();
     }

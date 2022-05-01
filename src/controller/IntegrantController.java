@@ -1,9 +1,15 @@
 package controller;
 
+import controller.meets.MeetsController;
 import controller.projects.ProjectsInvestigationController;
+import controller.receptionalWorks.ReceptionalWorksController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class IntegrantController extends Controller {
     @FXML
@@ -12,17 +18,27 @@ public class IntegrantController extends Controller {
     private Button exitButton;
     @FXML
     private Button projectsInvestigationButton;
+    @FXML
+    private Button receptionalWorksButton;
+    @FXML
+    private Button meetsButton;
+
+    String idAcademicGroup;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/IntegrantView.fxml"), this);
-        stage.showAndWait();
+        stage.show();
+    }
+
+    public IntegrantController(String idAcademicGroup){
+        this.idAcademicGroup = idAcademicGroup;
     }
 
     @FXML
     void consultProjectsInvestigationOnAction(ActionEvent event) {
         try{
             stage.close();
-            ProjectsInvestigationController projectsInvestigationController = new ProjectsInvestigationController();
+            ProjectsInvestigationController projectsInvestigationController = new ProjectsInvestigationController(idAcademicGroup);
             projectsInvestigationController.showStage();
 
         }catch (Exception addProjectInvestigationException) {
@@ -31,6 +47,38 @@ public class IntegrantController extends Controller {
                     "ProjectsInvestigation. Causa: " + addProjectInvestigationException);
 
         }
+    }
+
+    @FXML
+    void consultReceptionalWorksOnAction(ActionEvent event) {
+        try{
+            stage.close();
+            ReceptionalWorksController receptionalWorksController = new ReceptionalWorksController(idAcademicGroup);
+            receptionalWorksController.showStage();
+
+        }catch (Exception addProjectInvestigationException) {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "ReceptionalWorks. Causa: " + addProjectInvestigationException);
+
+        }
+
+    }
+
+    @FXML
+    void consultMeetOnAction(ActionEvent event) {
+        try{
+            stage.close();
+            MeetsController meetsController = new MeetsController(idAcademicGroup);
+            meetsController.showStage();
+
+        }catch (Exception addProjectInvestigationException) {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "Meets. Causa: " + addProjectInvestigationException);
+
+        }
+
     }
 
     @FXML
@@ -47,4 +95,8 @@ public class IntegrantController extends Controller {
         }
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }

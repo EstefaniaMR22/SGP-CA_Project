@@ -18,7 +18,6 @@ import java.util.List;
         private String estimatedEndDateString;
         private String description;
         private int durationProjectInMonths;
-        private List<Evidence> evidence;
 
         public Project() {
         }
@@ -53,25 +52,6 @@ import java.util.List;
 
         public void setStatus(String status){
             this.status = status;
-        }
-
-
-        public Evidence getEvidenceByUrlFile(String urlFile){
-            Evidence evidenceReturn = null;
-            for(Evidence evidence : this.evidence){
-                if(evidence.getUrlFile() == urlFile){
-                    evidenceReturn = evidence;
-                }
-            }
-            return evidenceReturn;
-        }
-
-        public List<Evidence> getEvidences(){
-            return evidence;
-        }
-
-        public void setEvidence(List<Evidence> evidence) {
-            this.evidence = evidence;
         }
 
         public int getIdLGCA() {
@@ -137,6 +117,14 @@ import java.util.List;
 
         public void setEstimatedEndDateString(String estimatedEndDateString) {
             this.estimatedEndDateString = estimatedEndDateString;
+        }
+
+        @Override
+        public String toString() {
+            return "| Proyecto |" +
+                    " Nombre | " + projectName + '\'' +
+                    " | Descripción |" + description +
+                    " | ";
         }
     }
 

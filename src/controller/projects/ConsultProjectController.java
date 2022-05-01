@@ -31,14 +31,12 @@ public class ConsultProjectController extends Controller implements Initializabl
     @FXML private Label lgacLabel;
     @FXML private Label descriptionLabel;
     @FXML private Label durationInMonthsProject;
-    @FXML private TableView<Evidence> evidencesTableView;
     @FXML private Button modifyButton;
     @FXML private Button exitButton;
+    private String idAcademicGroup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        evidencesTableView.setVisible(false);
-        evidencesTableView.setVisible(true);
         getProjectDetails();
     }
 
@@ -47,7 +45,8 @@ public class ConsultProjectController extends Controller implements Initializabl
         stage.showAndWait();
     }
 
-    public ConsultProjectController(Project projectSelected) {
+    public ConsultProjectController(Project projectSelected, String idAcademicGroup){
+        this.idAcademicGroup = idAcademicGroup;
         this.projectSelected = projectSelected;
     }
 
@@ -55,7 +54,7 @@ public class ConsultProjectController extends Controller implements Initializabl
     @FXML
     public void modifyProjectOnAction(ActionEvent actionEvent) {
         try {
-            ModifyProjectInvestigationController updateProjectInvestigationController = new ModifyProjectInvestigationController(projectSelected);
+            ModifyProjectInvestigationController updateProjectInvestigationController = new ModifyProjectInvestigationController(projectSelected, idAcademicGroup);
             updateProjectInvestigationController.showStage();
 
         } catch (Exception addProjectInvestigationException) {

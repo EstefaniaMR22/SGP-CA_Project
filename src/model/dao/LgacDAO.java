@@ -1,6 +1,7 @@
 package model.dao;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.dao.interfaces.ILgacDAO;
 import model.domain.LGAC;
 import assets.utils.Database;
@@ -80,8 +81,9 @@ public class LgacDAO implements ILgacDAO {
      * @return List that contain all LGACS.
      */
     @Override
-    public List<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException {
-        List<LGAC> list = FXCollections.observableArrayList();
+    public ObservableList<LGAC> getAllLgacsByIdAcademicGroup(String academicGroupID) throws SQLException {
+            ObservableList<LGAC> list;
+            list = FXCollections.observableArrayList();
         try (Connection conn = database.getConnection()) {
             String statement = "SELECT * FROM LGAC WHERE id_programa_cuerpo_academico = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);

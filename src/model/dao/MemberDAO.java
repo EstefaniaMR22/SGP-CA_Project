@@ -1,5 +1,7 @@
 package model.dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.dao.interfaces.IMemberDAO;
 import model.domain.CivilStatus;
 import model.domain.Member;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class MemberDAO implements IMemberDAO {
     private final Database database;
@@ -171,6 +174,48 @@ public class MemberDAO implements IMemberDAO {
         }
         return memberList;
     }
+
+    @Override
+    public ObservableList<Member> getAllMembersByIdAcademicBody(String idAcademicBody) throws SQLException {
+        ObservableList<Member> memberObservableList= null;
+        try(Connection conn = database.getConnection()) {
+            String statement = "SELECT * from Miembro INNER JOIN " +
+                    "ParticipacionCuerpoAcademicoMiembro ON ParticipacionCuerpoAcademicoMiembro.id_miembro = Miembro.id " +
+                    "INNER JOIN ProgramaCuerpoAcademico ON ParticipacionCuerpoAcademicoMiembro.id_cuerpo_academico = " +
+                    "ProgramaCuerpoAcademico.id WHERE ProgramaCuerpoAcademico.id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, idAcademicBody);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            memberObservableList = FXCollections.observableArrayList();
+            while(resultSet.next()) {
+                Member member = new Member();
+                member.setId(resultSet.getInt("Miembro.id"));
+                member.setName(resultSet.getString("Miembro.nombre"));
+                member.setPaternalLastname(resultSet.getString("Miembro.apellido_paterno"));
+                member.setMaternalLastname(resultSet.getString("Miembro.apellido_materno"));
+                member.setNationality(resultSet.getString("Miembro.nacionalidad"));
+                member.setEducationalProgram(resultSet.getString("Miembro.programa_educativo"));
+                member.setPersonalNumber(resultSet.getString("Miembro.numero_personal"));
+                member.setRfc(resultSet.getString("Miembro.rfc"));
+                member.setTelephone(resultSet.getString("Miembro.telefono"));
+                member.setBirthState(resultSet.getString("Miembro.estado"));
+                member.setCurp(resultSet.getString("Miembro.curp"));
+                member.setCivilStatus(getCivilStatus(resultSet.getString("Miembro.estado_civil")));
+                member.setUvEmail(resultSet.getString("Miembro.email"));
+                member.setBirthDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Miembro.fecha_nacimiento")));
+                member.setAdmissionDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Miembro.fecha_ingreso")));
+                member.setAppointment(resultSet.getString("Miembro.nombramiento"));
+                member.setHomeTelephone(resultSet.getString("Miembro.telefono_casa"));
+                member.setWorkTelephone(resultSet.getString("Miembro.telefono_trabajo"));
+                member.setAditionalEmail(resultSet.getString("Miembro.correo_adicional"));
+                member.setStudyArea(resultSet.getString("Miembro.area_estudio"));
+                member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("Miembro.grado_estudios")));
+                memberObservableList.add(member);
+            }
+        }
+        return memberObservableList;
+    }
+
     /***
      * Update member
      * <p>

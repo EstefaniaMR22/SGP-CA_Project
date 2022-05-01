@@ -1,9 +1,11 @@
 package model.dao.interfaces;
 
+import javafx.collections.ObservableList;
 import model.domain.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observable;
 
 public interface IMemberDAO {
 
@@ -42,6 +44,15 @@ public interface IMemberDAO {
      * @return List that contain all the registered members
      */
     List<Member> getAllMembers() throws SQLException;
+    /***
+     * Get all members registered on academicbody in database
+     * <p>
+     * Get all the members including colaborators, responsables and integrants from academicBody
+     * </p>
+     * @return List that contain all the registered members
+     */
+    ObservableList<Member> getAllMembersByIdAcademicBody(String idAcademicBody) throws SQLException;
+
     /***
      * Update member
      * <p>

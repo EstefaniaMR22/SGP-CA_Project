@@ -189,8 +189,8 @@ public class DateFormatter {
      * This method compare actual day to any other date
      * </p>
      * @param selectedLocalDate the date in yyyy-MM-dd
-     * @return returns true if actual is less than selectedLocalDate.
-     * returns false if actual date is after than selectedLocalDate.
+     * @return returns 1 if actual is less than selectedLocalDate.
+     * returns -1 if actual date is after than selectedLocalDate.
      */
     public static int compareActualDateToSelectedDate(LocalDate selectedLocalDate) {
         LocalDate actual = LocalDate.from(ZonedDateTime.now());

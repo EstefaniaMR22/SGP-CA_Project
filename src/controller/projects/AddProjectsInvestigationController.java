@@ -18,6 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.LGAC;
 import model.domain.Project;
@@ -41,25 +42,35 @@ public class AddProjectsInvestigationController extends ValidatorController impl
     @FXML private TextArea descriptionTextArea;
     @FXML private DatePicker startDateDataPicker;
     @FXML private DatePicker estimatedEndDateDataPicker;
-    @FXML private Label statusProjectLabel;
+    @FXML private ComboBox<String> statusProjectCombobox;
     @FXML private ComboBox<LGAC> lgacComboBox;
     @FXML private Button newProjectButton;
     @FXML private Button exitButton;
     @FXML private Label systemLabel;
+    private String idAcademicGroup;
 
-    private List<LGAC> listProjectLGAC;
+    private List<LGAC> listAcademicGroupLGAC;
+    private ObservableList<LGAC> observableListAcademicGroupLGAC;
+    private ObservableList<String> observableListStatus;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddProjectView.fxml"), this);
+
         stage.showAndWait();
+    }
+
+    public AddProjectsInvestigationController(String idAcademicGroup){
+        this.idAcademicGroup = idAcademicGroup;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        observableListAcademicGroupLGAC = FXCollections.observableArrayList();
+        observableListStatus = FXCollections.observableArrayList();
         chargeComboBoxLGAC();
+        chargeStatusComboBox();
         startDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
-        startDateDataPicker.setDisable(true);
-        statusProjectLabel.setText("En proceso");
+
         initValidatorToTextInput();
     }
 
@@ -69,7 +80,9 @@ public class AddProjectsInvestigationController extends ValidatorController impl
         try {
             if(validateInputs()) {
                 if(!validateProjectName()) {
+                    if(startDateDataPicker.getValue().isBefore(estimatedEndDateDataPicker.getValue())) {
                         addProjectInvestigation();
+                    }
 
                 } else {
                     systemLabel.setText("¡Al parecer ya existe un proyecto de investigación con \n"+
@@ -96,10 +109,10 @@ public class AddProjectsInvestigationController extends ValidatorController impl
         Project addProjectInvestigation = new Project();
         addProjectInvestigation.setProjectName(projectNameTextField.getText());
         addProjectInvestigation.setDescription(descriptionTextArea.getText());
-        addProjectInvestigation.setStatus(statusProjectLabel.getText());
+        addProjectInvestigation.setStatus(observableListStatus.get(0));
 
         int positionLGAC = lgacComboBox.getSelectionModel().getSelectedIndex();
-        addProjectInvestigation.setIdLGCA(listProjectLGAC.get(positionLGAC).getId());
+        addProjectInvestigation.setIdLGCA(listAcademicGroupLGAC.get(positionLGAC).getId());
         addProjectInvestigation.setStartDate(DateFormatter.getDateFromDatepickerValue(startDateDataPicker.getValue()));
         addProjectInvestigation.setEstimatedEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
         addProjectInvestigation.setDurationProjectInMonths(calculateMonths());
@@ -130,21 +143,28 @@ public class AddProjectsInvestigationController extends ValidatorController impl
     }
 
     private void chargeComboBoxLGAC(){
-        listProjectLGAC = null;
+        LgacDAO lgac= new LgacDAO();
+        listAcademicGroupLGAC = null;
         try {
-            /*
-            FIX THIS METHOD
-             */
 
-            //listProjectLGAC = new LgacDAO().getAlllgacs();
-            ObservableList<LGAC> observableLististProjectLGAC = FXCollections.observableArrayList(listProjectLGAC);
-            lgacComboBox.setItems(observableLististProjectLGAC);
-            throw new SQLException("FIX THIS METHOD");
+            listAcademicGroupLGAC = lgac.getAllLgacsByIdAcademicGroup(idAcademicGroup);
+
+            observableListAcademicGroupLGAC = (ObservableList<LGAC>) listAcademicGroupLGAC;
+
+            lgacComboBox.setItems(observableListAcademicGroupLGAC);
 
         } catch(SQLException chargeLGACException) {
             deterMinateSQLState(chargeLGACException);
         }
 
+    }
+
+    private void chargeStatusComboBox(){
+
+        observableListStatus.setAll("En proceso", "Completado");
+        statusProjectCombobox.setItems(observableListStatus);
+        statusProjectCombobox.getSelectionModel().select(0);
+        statusProjectCombobox.setDisable(true);
     }
 
     private void deterMinateSQLState(SQLException sqlException) {
@@ -167,9 +187,11 @@ public class AddProjectsInvestigationController extends ValidatorController impl
     }
 
     private void initValidatorToTextInput() {
-        Function<Object, Boolean> validateEstimatedEndDate = a -> {
+        Function<Object, Boolean> validateDate = a -> {
             return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
         };
+
+
 
         addComponentToValidator(new ValidatorTextInputControl(projectNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
@@ -177,7 +199,9 @@ public class AddProjectsInvestigationController extends ValidatorController impl
 
         addComponentToValidator(new ValidatorComboBoxBase(lgacComboBox, this), false);
 
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateEstimatedEndDate), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateDate), false);
+
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(startDateDataPicker, this, validateDate), false);
 
         initListenerToControls();
     }

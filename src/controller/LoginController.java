@@ -75,7 +75,8 @@ public class LoginController extends Controller implements Initializable {
     void integranOnAction(ActionEvent event) {
         try{
             stage.close();
-            IntegrantController integrantController = new IntegrantController();
+            AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
+            IntegrantController integrantController = new IntegrantController(academicGroupSelected.getId());
             integrantController.showStage();
         }catch (Exception addProjectInvestigationException) {
             AlertController alertView = AlertController.getInstance();
@@ -122,7 +123,9 @@ public class LoginController extends Controller implements Initializable {
     private void openMemberWindow(ParticipationType participationType) {
         stage.hide();
         if (participationType == ParticipationType.INTEGRANT) {
-            IntegrantController integrantController = new IntegrantController();
+            stage.close();
+            AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
+            IntegrantController integrantController = new IntegrantController(academicGroupSelected.getId());
             integrantController.showStage();
         } else if (participationType == ParticipationType.RESPONSABLE) {
             ResponsableController responsableController = new ResponsableController();
