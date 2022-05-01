@@ -1,6 +1,7 @@
 package controller.academicgroup;
 
-import controller.control.Controller;
+import controller.Controller;
+import controller.control.ValidatorController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AcademicGroupDetailsController extends Controller implements Initializable {
+public class AcademicGroupDetailsController extends ValidatorController implements Initializable {
     private AcademicGroup academicGroupProgramSelected;
     @FXML private Label adscriptionAreaLabel;
     @FXML private Label adscriptionUnitLabel;

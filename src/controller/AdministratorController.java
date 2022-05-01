@@ -3,7 +3,8 @@ package controller;
 import assets.utils.Autentication;
 import controller.academicgroup.ConsultAcademicGroupsController;
 import controller.academicgroup.ConsultMembersController;
-import controller.control.Controller;
+
+import controller.control.ValidatorController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +14,7 @@ import model.domain.Member;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AdministratorController extends Controller implements Initializable {
+public class AdministratorController extends ValidatorController implements Initializable {
     @FXML private Label educationalProgramLabel;
     @FXML private Label emailLabel;
     @FXML private Label nameLabel;

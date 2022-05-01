@@ -2,7 +2,7 @@ package controller.academicgroup;
 
 import assets.utils.Autentication;
 import controller.control.AlertController;
-import controller.control.Controller;
+import controller.Controller;
 import controller.control.listcell.AcademicGroupListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

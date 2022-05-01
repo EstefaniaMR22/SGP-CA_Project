@@ -2,7 +2,7 @@ package controller.academicgroup;
 
 import assets.utils.SQLStates;
 import controller.control.AlertController;
-import controller.control.Controller;
+import controller.Controller;
 import controller.control.listcell.AdministratorMemberListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

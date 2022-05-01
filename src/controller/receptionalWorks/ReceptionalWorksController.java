@@ -1,11 +1,10 @@
 package controller.receptionalWorks;
 
 import assets.utils.SQLStates;
-import controller.AlertController;
 import controller.Controller;
 import controller.IntegrantController;
 import controller.academicgroup.AddMemberController;
-import controller.projects.AddProjectsInvestigationController;
+import controller.control.AlertController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

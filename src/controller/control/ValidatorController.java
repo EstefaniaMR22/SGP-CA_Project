@@ -1,7 +1,7 @@
 package controller.control;
 
 import controller.control.validator.IValidatorControlFX;
-
+import controller.Controller;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;

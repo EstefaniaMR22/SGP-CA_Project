@@ -2,7 +2,6 @@ package controller;
 
 import assets.utils.Autentication;
 import controller.academicgroup.ConsultAcademicGroupsController;
-import controller.control.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,7 @@ import model.domain.Member;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ResponsableController extends Controller implements Initializable {
+public class ResponsableController extends controller.Controller implements Initializable {
     @FXML private Label educationalProgramLabel;
     @FXML private Label emailLabel;
     @FXML private Label nameLabel;

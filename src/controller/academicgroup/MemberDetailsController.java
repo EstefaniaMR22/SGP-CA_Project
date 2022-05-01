@@ -1,6 +1,6 @@
 package controller.academicgroup;
 
-import controller.control.Controller;
+import controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

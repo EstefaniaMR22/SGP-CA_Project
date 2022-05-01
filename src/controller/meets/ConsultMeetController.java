@@ -1,39 +1,28 @@
 package controller.meets;
 
-import assets.utils.DateFormatter;
+
 import assets.utils.SQLStates;
-import controller.AlertController;
 import controller.Controller;
-import controller.ValidatorController;
 import controller.academicgroup.AddMemberController;
-import controller.validator.Validator;
-import controller.validator.ValidatorComboBoxBase;
-import controller.validator.ValidatorComboBoxBaseWithConstraints;
-import controller.validator.ValidatorTextInputControl;
+
+import controller.control.AlertController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.MeetDAO;
-import model.dao.ProjectDAO;
 import model.domain.Meet;
 import model.domain.Member;
 import model.domain.Project;
 
 import java.awt.*;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

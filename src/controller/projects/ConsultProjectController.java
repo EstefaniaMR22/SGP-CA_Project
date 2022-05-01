@@ -1,14 +1,13 @@
 package controller.projects;
 
+import controller.Controller;
 import controller.control.AlertController;
-import controller.control.Controller;
 import controller.academicgroup.AddMemberController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import model.dao.LgacDAO;
 import model.dao.ProjectDAO;
 import model.domain.*;

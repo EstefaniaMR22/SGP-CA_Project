@@ -1,18 +1,13 @@
 package controller.meets;
 
 import assets.utils.SQLStates;
-import controller.AlertController;
+import controller.control.AlertController;
 import controller.Controller;
 import controller.IntegrantController;
 import controller.academicgroup.AddMemberController;
-import controller.projects.AddProjectsInvestigationController;
 import controller.receptionalWorks.AddReceptionalWorkController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,10 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.dao.LgacDAO;
 import model.dao.MeetDAO;
 import model.dao.ProjectDAO;
-import model.domain.LGAC;
 import model.domain.Meet;
 import model.domain.Project;
 

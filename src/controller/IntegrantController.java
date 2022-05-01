@@ -1,5 +1,6 @@
 package controller;
 
+import controller.control.AlertController;
 import controller.meets.MeetsController;
 import controller.projects.ProjectsInvestigationController;
 import controller.receptionalWorks.ReceptionalWorksController;
@@ -11,7 +12,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class IntegrantController extends Controller {
+public class IntegrantController extends controller.Controller {
     @FXML
     private Label lbBienvenida;
     @FXML
