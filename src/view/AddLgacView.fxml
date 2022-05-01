@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="764.0" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="764.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -28,13 +28,13 @@
                         <VBox spacing="10.0">
                            <children>
                               <Label prefHeight="16.0" styleClass="bold-label" text="Identificador" />
-                              <TextField fx:id="identificatorTextField" styleClass="textfield" />
+                              <TextField fx:id="identificatorTextField" promptText="Ejemplo: lgac-01" styleClass="textfield" />
                            </children>
                         </VBox>
                         <VBox spacing="10.0">
                            <children>
                               <Label styleClass="bold-label" text="Descripcion" />
-                              <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" />
+                              <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Agrega una descripción..." styleClass="textarea" />
                            </children>
                         </VBox>
                      </children>

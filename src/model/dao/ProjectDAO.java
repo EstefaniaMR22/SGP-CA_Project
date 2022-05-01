@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.AlertController;
+import controller.control.AlertController;
 import controller.projects.AddProjectsInvestigationController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,11 +1,11 @@
 package controller.academicgroup;
 
-import controller.AlertController;
-import controller.ValidatorController;
-import controller.validator.Validator;
-import controller.validator.ValidatorComboBoxBase;
-import controller.validator.ValidatorComboBoxBaseWithConstraints;
-import controller.validator.ValidatorTextInputControl;
+import controller.control.AlertController;
+import controller.control.ValidatorController;
+import controller.control.validator.Validator;
+import controller.control.validator.ValidatorComboBoxBase;
+import controller.control.validator.ValidatorComboBoxBaseWithConstraints;
+import controller.control.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.util.Duration;
 import model.dao.MemberDAO;
 import model.domain.CivilStatus;
@@ -72,6 +73,8 @@ public class AddMemberController extends ValidatorController implements Initiali
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddMemberView.fxml"), this);
+        stage.setTitle("Registrar miembro");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
 
@@ -108,6 +111,7 @@ public class AddMemberController extends ValidatorController implements Initiali
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         return existMember;
     }
@@ -121,6 +125,7 @@ public class AddMemberController extends ValidatorController implements Initiali
             }
         } catch (SQLException sqlException) {
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         return false;
     }
@@ -134,20 +139,8 @@ public class AddMemberController extends ValidatorController implements Initiali
             disableMemberInput(true);
             pause();
         } catch (SQLException sqlException) {
-            deterMinateSQLState(sqlException);
-        }
-    }
-
-    private void addColaborator() {
-        Member colaborator = getMemberFromInputs();
-        try {
-            colaborator.setId(new MemberDAO().addMember(colaborator));
-            registeredMember = colaborator;
-            systemLabel.setText("¡Se ha registrado de manera exitosa!");
-            disableMemberInput(true);
-            pause();
-        } catch (SQLException sqlException) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
@@ -156,7 +149,8 @@ public class AddMemberController extends ValidatorController implements Initiali
         try {
             civilStatusList = new MemberDAO().getCivilStatus();
         } catch (SQLException sqlException) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<CivilStatus> civilStatusObservableList = FXCollections.observableArrayList(civilStatusList);
         civilStatusComboBox.setItems(civilStatusObservableList);
@@ -167,7 +161,8 @@ public class AddMemberController extends ValidatorController implements Initiali
         try {
             studyGradeList = new MemberDAO().getStudyGrades();
         } catch (SQLException sqlException) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<StudyGrade> studyGradeObservableList = FXCollections.observableArrayList(studyGradeList);
         studyGradeComboBox.setItems(studyGradeObservableList);
@@ -178,18 +173,11 @@ public class AddMemberController extends ValidatorController implements Initiali
         try {
             educationalProgramList = new MemberDAO().getAllEducationProgram();
         } catch (SQLException sqlException ) {
-            deterMinateSQLState(sqlException);
+            Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
         ObservableList<String> educationalProgramObservableList = FXCollections.observableArrayList(educationalProgramList);
         educationalProgramComboBox.setItems(educationalProgramObservableList);
-    }
-
-    private void deterMinateSQLState(SQLException sqlException) {
-        Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
-        if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
-            AlertController.getInstance().showConnectionErrorAlert();
-        }
-        AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
     }
 
     private void pause() {

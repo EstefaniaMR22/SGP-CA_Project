@@ -44,7 +44,7 @@ public class UpdateAcademicGroupTest {
         academicGroup.setVision("Sin descripcion.");
         academicGroup.setGeneralObjetive("Generar conocimento y formas recursos humanos en ingenieria de software que contribuyan al desarrollo de software de calidad.");
         academicGroup.setMission("Difusion de informacion en foros especializados y de divulgacion, fortalecimiento de la vinculacion academia industria");
-        academicGroup.setConsolidationGrade(ConsolidationGrade.IN_FORMATION);
+        academicGroup.setConsolidationGrade(ConsolidationGrade.CONSOLIDATED);
         academicGroup.setRegisterDate((DateFormatter.getDateFromDatepickerValue(LocalDate.now())));
         academicGroup.setLastEvaluationDate(DateFormatter.getDateFromDatepickerValue(LocalDate.now()));
         academicGroup.setAdscriptionArea("Areas plasticas");

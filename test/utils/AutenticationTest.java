@@ -1,8 +1,8 @@
 package utils;
 
 import assets.utils.Autentication;
-import controller.exceptions.LimitReachedException;
-import controller.exceptions.UserNotFoundException;
+import controller.control.exceptions.LimitReachedException;
+import controller.control.exceptions.UserNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 

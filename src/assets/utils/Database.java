@@ -71,6 +71,7 @@ public class Database {
     }
 
     private void connectToDatabase() throws SQLException {
+        DriverManager.setLoginTimeout(3);
         connection = DriverManager.getConnection(url,user,pass);
     }
 

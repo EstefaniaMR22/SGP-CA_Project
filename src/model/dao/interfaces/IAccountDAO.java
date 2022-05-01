@@ -1,6 +1,6 @@
 package model.dao.interfaces;
 
-import controller.exceptions.LimitReachedException;
+import controller.control.exceptions.LimitReachedException;
 import model.domain.Participation;
 
 import java.sql.SQLException;

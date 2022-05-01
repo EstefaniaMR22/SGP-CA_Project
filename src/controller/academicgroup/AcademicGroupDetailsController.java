@@ -1,16 +1,13 @@
 package controller.academicgroup;
 
-import controller.Controller;
+import controller.control.Controller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.AcademicGroupDAO;
 import model.domain.AcademicGroup;
@@ -49,7 +46,6 @@ public class AcademicGroupDetailsController extends Controller implements Initia
     @FXML private TableColumn<Participation, String> personalNumberTableColumn;
     @FXML private TableColumn<Participation, String> nameTableColumn;
     @FXML private TableColumn<Participation, ParticipationType> typeParticipationColumn;
-
     @FXML private Label totalColaboratorsLabel;
     @FXML private Label totalIntegrantsLabel;
     @FXML private Label totalResponsablesLabel;
@@ -60,7 +56,7 @@ public class AcademicGroupDetailsController extends Controller implements Initia
 
     @FXML
     void updateOnAction(ActionEvent event) {
-        ModifyAcademicGroupProgramController modifyAcademicGroupProgramController = new ModifyAcademicGroupProgramController(academicGroupProgramSelected);
+        ModifyAcademicGroupController modifyAcademicGroupProgramController = new ModifyAcademicGroupController(academicGroupProgramSelected);
         modifyAcademicGroupProgramController.showStage();
         if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
             academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();

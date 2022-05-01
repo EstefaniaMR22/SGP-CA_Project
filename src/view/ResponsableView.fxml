@@ -46,7 +46,7 @@
                               <Label fx:id="nationalityLabel" maxHeight="1.7976931348623157E308" text="nationalidad" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" HBox.hgrow="ALWAYS">
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" styleClass="bordered-noradius-color" HBox.hgrow="ALWAYS">
                            <children>
                               <Label fx:id="educationalProgramLabel" maxHeight="1.7976931348623157E308" text="programa educativo" VBox.vgrow="ALWAYS" />
                               <Label fx:id="personalNumberLabel" maxHeight="1.7976931348623157E308" text="numero de personal" VBox.vgrow="ALWAYS" />
@@ -73,39 +73,12 @@
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER">
+                              <VBox alignment="CENTER_LEFT">
                                  <padding>
                                     <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                                  </padding>
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#academicGroupOnAction" prefHeight="112.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Cuerpos Académicos" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                        </VBox>
-                        <VBox styleClass="background-form" HBox.hgrow="ALWAYS">
-                           <children>
-                              <VBox styleClass="background-title">
-                                 <children>
-                                    <Label styleClass="section-label" text="Administracion de miembros" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER">
-                                 <padding>
-                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                                 </padding>
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#membersOnAction" prefHeight="115.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Miembros" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
