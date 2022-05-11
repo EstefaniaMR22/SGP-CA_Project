@@ -29,36 +29,21 @@ import java.util.logging.Logger;
 
 public class ConsultMeetController extends ValidatorController implements Initializable {
 
-    @FXML
-    private TextField bussinesTextField;
-    @FXML
-    private TextField hourTextField;
-    @FXML
-    private TextField minutesTextField;
-    @FXML
-    private TextField projectTextField;
-    @FXML
-    private TableView<Member> integrantsTableView;
-    @FXML
-    private TableColumn<Member, String> integrantColumn;
-    @FXML
-    private TableColumn<Member, String> lastName1Column;
-    @FXML
-    private TableColumn<Member, String> lastName2Column;
-    @FXML
-    private TextField meetDateTextField;
-    @FXML
-    private TextField leaderTextField;
-    @FXML
-    private TextField secretaryTextField;
-    @FXML
-    private TextField timerTextField;
-    @FXML
-    private Label systemLabel;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button addTimeButton;
+    @FXML private TextField bussinesTextField;
+    @FXML private TextField hourTextField;
+    @FXML private TextField minutesTextField;
+    @FXML private TextField projectTextField;
+    @FXML private TableView<Member> integrantsTableView;
+    @FXML private TableColumn<Member, String> integrantColumn;
+    @FXML private TableColumn<Member, String> lastName1Column;
+    @FXML private TableColumn<Member, String> lastName2Column;
+    @FXML private TextField meetDateTextField;
+    @FXML private TextField leaderTextField;
+    @FXML private TextField secretaryTextField;
+    @FXML private TextField timerTextField;
+    @FXML private Label systemLabel;
+    @FXML private Button exitButton;
+    @FXML private Button addTimeButton;
 
     private String idAcademicGroup;
     private Meet meetUpdated;
