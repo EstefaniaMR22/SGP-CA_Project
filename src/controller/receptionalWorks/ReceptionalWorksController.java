@@ -32,28 +32,17 @@ import java.util.logging.Logger;
 
 public class ReceptionalWorksController extends Controller {
 
-    @FXML
-    private TableView<ReceptionalWork> receptionalWorksTableView;
-    @FXML
-    private TableColumn<ReceptionalWork, String> nameReceptionalWorkColumn;
-    @FXML
-    private TableColumn<ReceptionalWork, String> nameProjectColumn;
-    @FXML
-    private TableColumn<ReceptionalWork, String> modalityReceptionalWorkColumn;
-    @FXML
-    private TableColumn<ReceptionalWork, String> directorColumn;
-    @FXML
-    private TableColumn<ReceptionalWork, String> codirectorColumn;
-    @FXML
-    private TextField searchTextField;
-    @FXML
-    private Button newReceptionalWorkButton;
-    @FXML
-    private Button updateReceptionalWorkButton;
-    @FXML
-    private Button consultReceptionalWorkButton;
-    @FXML
-    private Button exitButton;
+    @FXML private TableView<ReceptionalWork> receptionalWorksTableView;
+    @FXML private TableColumn<ReceptionalWork, String> nameReceptionalWorkColumn;
+    @FXML private TableColumn<ReceptionalWork, String> nameProjectColumn;
+    @FXML private TableColumn<ReceptionalWork, String> modalityReceptionalWorkColumn;
+    @FXML private TableColumn<ReceptionalWork, String> directorColumn;
+    @FXML private TableColumn<ReceptionalWork, String> codirectorColumn;
+    @FXML private TextField searchTextField;
+    @FXML private Button newReceptionalWorkButton;
+    @FXML private Button updateReceptionalWorkButton;
+    @FXML private Button consultReceptionalWorkButton;
+    @FXML private Button exitButton;
 
     private ObservableList<ReceptionalWork> receptionalWorksObservableList;
     private String idAcademicGroup;
@@ -64,7 +53,7 @@ public class ReceptionalWorksController extends Controller {
         stage.show();
     }
 
-    public ReceptionalWorksController(String idAcademicGroup){
+    public ReceptionalWorksController(String idAcademicGroup) {
         this.idAcademicGroup = idAcademicGroup;
 
     }
@@ -80,34 +69,25 @@ public class ReceptionalWorksController extends Controller {
         searchReceptionalWorks();
     }
 
-    private void searchReceptionalWorks()
-    {
+    private void searchReceptionalWorks() {
 
-        if(receptionalWorksObservableList.size()>0)
-        {
+        if (receptionalWorksObservableList.size() > 0) {
             FilteredList<ReceptionalWork> receptionalWorkSearch = new FilteredList<ReceptionalWork>(receptionalWorksObservableList, p -> true);
             searchTextField.textProperty().addListener(new ChangeListener<String>() {
                 @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-                {
-                    receptionalWorkSearch.setPredicate(search ->{
-                        if(newValue == null || newValue.isEmpty())
-                        {
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    receptionalWorkSearch.setPredicate(search -> {
+                        if (newValue == null || newValue.isEmpty()) {
                             return true;
                         }
 
                         String lowerCaseFilter = newValue.toLowerCase();
 
-                        if(search.getNameProject().toLowerCase().contains(lowerCaseFilter))
-                        {
+                        if (search.getNameProject().toLowerCase().contains(lowerCaseFilter)) {
                             return true;
-                        }
-                        else if(search.getNameReceptionalWork().toLowerCase().contains(lowerCaseFilter))
-                        {
+                        } else if (search.getNameReceptionalWork().toLowerCase().contains(lowerCaseFilter)) {
                             return true;
-                        }
-                        else
-                        {
+                        } else {
                             return false;
                         }
                     });
@@ -120,15 +100,12 @@ public class ReceptionalWorksController extends Controller {
         }
     }
 
-    private void chargeReceptionalWorks()
-    {
+    private void chargeReceptionalWorks() {
         ReceptionalWorkDAO receptionalWorkDAO = new ReceptionalWorkDAO();
         try {
-
             receptionalWorksObservableList = receptionalWorkDAO.getReceptionalWorksList(idAcademicGroup);
             receptionalWorksTableView.setItems(receptionalWorksObservableList);
-
-        }catch(SQLException chargeProjectsExeception){
+        } catch (SQLException chargeProjectsExeception) {
             deterMinateSQLState(chargeProjectsExeception);
         }
 
@@ -136,7 +113,7 @@ public class ReceptionalWorksController extends Controller {
 
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
-        if(sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
+        if (sqlException.getSQLState().equals(SQLStates.SQL_NO_CONNECTION.getSqlState())) {
             AlertController.getInstance().showConnectionErrorAlert();
         }
         AlertController.getInstance().showActionFailedAlert(sqlException.getLocalizedMessage());
@@ -144,7 +121,7 @@ public class ReceptionalWorksController extends Controller {
 
     @FXML
     void addReceptionalWorksOnAction(ActionEvent actionEvent) throws SQLException {
-        if(!verifyProjects().isEmpty()) {
+        if (!verifyProjects().isEmpty()) {
             try {
                 AddReceptionalWorkController addReceptionalWorkController = new AddReceptionalWorkController(idAcademicGroup);
                 addReceptionalWorkController.showStage();
@@ -155,21 +132,19 @@ public class ReceptionalWorksController extends Controller {
                         "AddReceptionalWork. Causa: " + addReceptionalWorkException);
 
             }
-        }else {
+        } else {
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Sin 'proyectos' registrados, no puede agregar un trabajo recepcional");
         }
-
         chargeReceptionalWorks();
-
     }
 
     private List<Project> verifyProjects() {
-        ProjectDAO projectDAO= new ProjectDAO();
+        ProjectDAO projectDAO = new ProjectDAO();
         List<Project> projectList = null;
         try {
             projectList = projectDAO.getProjectList(idAcademicGroup);
-        }catch (SQLException getAllLgacsException) {
+        } catch (SQLException getAllLgacsException) {
             Logger.getLogger(AddReceptionalWorkController.class.getName()).log(Level.SEVERE, null, getAllLgacsException);
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo cargar los proyectos de investigación. Causa: " + getAllLgacsException);
@@ -182,21 +157,21 @@ public class ReceptionalWorksController extends Controller {
     void updateReceptionalWorksOnAction(ActionEvent actionEvent) {
 
         ReceptionalWork selectedReceptionalWork = receptionalWorksTableView.getSelectionModel().getSelectedItem();
-        if(selectedReceptionalWork != null) {
+        if (selectedReceptionalWork != null) {
 
-                try {
-                    UpdateReceptionalWorkController modifyReceptionalWorkController = new UpdateReceptionalWorkController(selectedReceptionalWork, idAcademicGroup);
-                    modifyReceptionalWorkController.showStage();
+            try {
+                UpdateReceptionalWorkController modifyReceptionalWorkController = new UpdateReceptionalWorkController(selectedReceptionalWork, idAcademicGroup);
+                modifyReceptionalWorkController.showStage();
 
-                }catch (Exception updateReceptionalWorkException) {
-                    Logger.getLogger(ReceptionalWorksController.class.getName()).log(Level.SEVERE, null, updateReceptionalWorkException);
+            } catch (Exception updateReceptionalWorkException) {
+                Logger.getLogger(ReceptionalWorksController.class.getName()).log(Level.SEVERE, null, updateReceptionalWorkException);
 
-                    AlertController alertView = AlertController.getInstance();
-                    alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                            "ModifyReceptionalWork. Causa: " + updateReceptionalWorkException);
-                }
+                AlertController alertView = AlertController.getInstance();
+                alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                        "ModifyReceptionalWork. Causa: " + updateReceptionalWorkException);
+            }
 
-        }else {
+        } else {
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Antes de presionar modificar debes seleccionar un " +
                     "trabajo recepcional de la tabla");
@@ -209,25 +184,25 @@ public class ReceptionalWorksController extends Controller {
     @FXML
     void consultReceptionalWorksOnAction(ActionEvent actionEvent) {
 
-            ReceptionalWork selectedReceptionalWork = receptionalWorksTableView.getSelectionModel().getSelectedItem();
-            if(selectedReceptionalWork != null) {
-                try{
-                    ConsultReceptionalWorkController consultReceptionalWorkController = new ConsultReceptionalWorkController(selectedReceptionalWork);
-                    consultReceptionalWorkController.showStage();
+        ReceptionalWork selectedReceptionalWork = receptionalWorksTableView.getSelectionModel().getSelectedItem();
+        if (selectedReceptionalWork != null) {
+            try {
+                ConsultReceptionalWorkController consultReceptionalWorkController = new ConsultReceptionalWorkController(selectedReceptionalWork);
+                consultReceptionalWorkController.showStage();
 
-                }catch (Exception consultReceptionalWorkException) {
-                    Logger.getLogger(ReceptionalWorksController.class.getName()).log(Level.SEVERE, null, consultReceptionalWorkException);
+            } catch (Exception consultReceptionalWorkException) {
+                Logger.getLogger(ReceptionalWorksController.class.getName()).log(Level.SEVERE, null, consultReceptionalWorkException);
 
-                    AlertController alertView = AlertController.getInstance();
-                    alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                            "ConsultReceptionalWork. Causa: " + consultReceptionalWorkException);
-
-                }
-            }else {
                 AlertController alertView = AlertController.getInstance();
-                alertView.showActionFailedAlert(" Antes de presionar consultar debes seleccionar un " +
-                        "trabajo recepcional de la tabla");
+                alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                        "ConsultReceptionalWork. Causa: " + consultReceptionalWorkException);
+
             }
+        } else {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" Antes de presionar consultar debes seleccionar un " +
+                    "trabajo recepcional de la tabla");
+        }
 
         chargeReceptionalWorks();
 
@@ -235,12 +210,12 @@ public class ReceptionalWorksController extends Controller {
 
     @FXML
     void returnViewOnAction(ActionEvent actionEvent) {
-        try{
+        try {
             stage.close();
             IntegrantController viewReturn = new IntegrantController(idAcademicGroup);
             viewReturn.showStage();
 
-        }catch(Exception returnViewOnActionExeception){
+        } catch (Exception returnViewOnActionExeception) {
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Error en el metodo returnViewOnActionExeception:  " + returnViewOnActionExeception);
 

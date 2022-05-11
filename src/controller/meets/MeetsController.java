@@ -29,27 +29,16 @@ import java.util.logging.Logger;
 
 public class MeetsController extends Controller implements Initializable {
 
-    @FXML
-    private Button newMeetButton;
-    @FXML
-    private Button modifyMeetButton;
-    @FXML
-    private Button consultMeetButton;
-    @FXML
-    private Button btnExit;
-    @FXML
-    private TableView<Meet> meetsTableView;
-    @FXML
-    private TableColumn<Meet, String> businessColumn;
-    @FXML
-    private TableColumn<Meet, String> nameProjectColumn;
-    @FXML
-    private TableColumn<Meet, String> hourMeetColumn;
-    @FXML
-    private TableColumn<Meet, String> dateMeetColumn;
-    @FXML
-    private TableColumn<Meet, String> leaderColumn;
-
+    @FXML private Button newMeetButton;
+    @FXML private Button modifyMeetButton;
+    @FXML private Button consultMeetButton;
+    @FXML private Button btnExit;
+    @FXML private TableView<Meet> meetsTableView;
+    @FXML private TableColumn<Meet, String> businessColumn;
+    @FXML private TableColumn<Meet, String> nameProjectColumn;
+    @FXML private TableColumn<Meet, String> hourMeetColumn;
+    @FXML private TableColumn<Meet, String> dateMeetColumn;
+    @FXML private TableColumn<Meet, String> leaderColumn;
     private String idAcademicGroup;
 
     private ObservableList<Meet> meetsObservableList;

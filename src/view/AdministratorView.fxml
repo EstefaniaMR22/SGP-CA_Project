@@ -67,7 +67,7 @@
                            <children>
                               <VBox styleClass="background-title">
                                  <children>
-                                    <Label styleClass="section-label" text="Administracion de Cuerpos Académicos" />
+                                    <Label styleClass="section-label" text="Menu" />
                                  </children>
                                  <padding>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

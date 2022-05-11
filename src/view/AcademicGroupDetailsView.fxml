@@ -89,19 +89,19 @@
                                           <VBox spacing="10.0">
                                              <children>
                                                 <Label styleClass="attribute-title-label" text="Objetivo general" />
-                                                <Label fx:id="generalObjetiveLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="110.0" styleClass="description-label" text="Label" wrapText="true" />
+                                                <Label fx:id="generalObjetiveLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="description-label" text="Label" wrapText="true" />
                                              </children>
                                           </VBox>
                                           <VBox spacing="10.0">
                                              <children>
                                                 <Label styleClass="attribute-title-label" text="Mision" />
-                                                <Label fx:id="misionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="110.0" styleClass="description-label" text="Label" wrapText="true" />
+                                                <Label fx:id="misionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="description-label" text="Label" wrapText="true" />
                                              </children>
                                           </VBox>
                                           <VBox spacing="10.0">
                                              <children>
                                                 <Label styleClass="attribute-title-label" text="Vision" />
-                                                <Label fx:id="visionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="110.0" styleClass="description-label" text="Label" />
+                                                <Label fx:id="visionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="description-label" text="Label" />
                                              </children>
                                           </VBox>
                                           <VBox spacing="10.0" />
@@ -156,7 +156,7 @@
                                           <VBox prefHeight="126.0" prefWidth="1204.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Label styleClass="attribute-title-label" text="Descripcion adscripcion" />
-                                                <Label fx:id="adscriptionDescriptionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="149.0" prefHeight="149.0" prefWidth="1127.0" styleClass="description-label" text="Label" wrapText="true" />
+                                                <Label fx:id="adscriptionDescriptionLabel" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="description-label" text="Label" wrapText="true" />
                                              </children>
                                           </VBox>
                                        </children>

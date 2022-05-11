@@ -1,89 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="653.0" prefWidth="1071.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutY="5.0" prefHeight="588.0" prefWidth="824.0">
+      <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane id="AnchorPane" prefHeight="601.0" prefWidth="824.0">
+            <VBox alignment="CENTER" styleClass="background-title">
                <children>
-                  <Line endX="687.5" fill="BLACK" layoutX="121.0" layoutY="87.0" startX="-125.0" />
-                  <Pane layoutX="18.0" layoutY="156.0" prefHeight="421.0" prefWidth="784.0" style="-fx-background-color: gray;">
+                  <Label alignment="CENTER" styleClass="section-label" text="Proyectos de investigacion" textAlignment="CENTER" wrapText="true" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox>
                      <children>
-                        <TableView fx:id="projectsTableView" editable="true" layoutX="27.0" layoutY="32.0" maxHeight="-Infinity" prefHeight="348.0" prefWidth="730.0" stylesheets="@../assets/style/standard.css">
-                           <columns>
-                              <TableColumn fx:id="nameProjectColumn" maxWidth="577.0" prefWidth="349.0" text="Nombre del Proyecto" />
-                              <TableColumn fx:id="durationProjectColumn" maxWidth="330.0" minWidth="0.0" prefWidth="227.0" text="Duración" />
-                              <TableColumn fx:id="statusProjectColumn" maxWidth="565.0" prefWidth="249.0" text="Estado" />
-                              <TableColumn fx:id="startDateProjectColumn" maxWidth="500.0" minWidth="0.0" prefWidth="217.0" text="Fecha de Inicio" />
-                              <TableColumn fx:id="endDateProjectColumn" maxWidth="270.0" minWidth="5.0" prefWidth="182.0" text="Fecha de Fin" />
-                           </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
+                        <TextField fx:id="searchTextField" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="294.0" promptText="Escribe el titulo del proyecto" stylesheets="@../assets/style/standard.css">
+                           <padding>
+                              <Insets left="30.0" right="30.0" />
+                           </padding>
+                           <styleClass>
+                              <String fx:value="textfield" />
+                              <String fx:value="background_card_clr" />
+                           </styleClass>
+                        </TextField>
                      </children>
-                  </Pane>
-                  <AnchorPane layoutY="564.0" prefHeight="46.0" prefWidth="824.0" style="-fx-background-color: #300050;" />
-                  <Label fx:id="lbNovedades" alignment="TOP_CENTER" layoutX="18.0" layoutY="96.0" prefHeight="80.0" prefWidth="784.0" style="-fx-background-color: black;" stylesheets="@../assets/style/standard.css" text="PROYECTOS DE INVESTIGACIÓN" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="exitButton" layoutX="56.0" layoutY="45.0" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" style="-fx-background-color: black;" stylesheets="@../assets/style/standard.css" text="SALIR" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <VBox spacing="15.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <TableView fx:id="projectsTableView" editable="true" maxHeight="-Infinity" style="-fx-background-color: transparent; -fx-alignment: center;" styleClass="tableview" VBox.vgrow="ALWAYS">
+                                       <columns>
+                                          <TableColumn fx:id="nameProjectColumn" maxWidth="577.0" prefWidth="349.0" styleClass="firstcolumn" text="Nombre del Proyecto" />
+                                          <TableColumn fx:id="durationProjectColumn" maxWidth="330.0" minWidth="0.0" prefWidth="227.0" text="Duración" />
+                                          <TableColumn fx:id="statusProjectColumn" maxWidth="565.0" prefWidth="249.0" text="Estado" />
+                                          <TableColumn fx:id="startDateProjectColumn" maxWidth="500.0" minWidth="0.0" prefWidth="217.0" styleClass="lastcolumn" text="Fecha de Inicio" />
+                                          <TableColumn fx:id="endDateProjectColumn" maxWidth="270.0" minWidth="5.0" prefWidth="182.0" text="Fecha de Fin" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER_RIGHT" spacing="25.0">
+                                 <children>
+                                    <HBox spacing="25.0">
+                                       <children>
+                                          <Button fx:id="newProjectButton" mnemonicParsing="false" onAction="#addProjectInvestigationOnAction" styleClass="secondary-button" stylesheets="@../assets/style/standard.css" text="AGREGAR PROYECTO" textFill="WHITE">
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="updateProjectButton" mnemonicParsing="false" onAction="#updateProjectInvestigation" styleClass="secondary-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="consultProjectButton" mnemonicParsing="false" onAction="#consultProjectsInvestigation" styleClass="secondary-button" stylesheets="@../assets/style/standard.css" text="CONSULTAR" textFill="WHITE">
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox maxWidth="1.7976931348623157E308" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="25.0" right="25.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" maxHeight="72.0" minHeight="72.0" styleClass="background-footer">
+               <children>
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="Salir" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <ImageView fitHeight="39.0" fitWidth="42.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:img/back.png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="newProjectButton" layoutX="361.0" layoutY="128.0" mnemonicParsing="false" onAction="#addProjectInvestigationOnAction" prefHeight="31.0" prefWidth="137.0" style="-fx-background-color: #09AEBE;" stylesheets="@../assets/style/standard.css" text="AGREGAR PROYECTO" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="updateProjectButton" layoutX="507.0" layoutY="128.0" mnemonicParsing="false" onAction="#updateProjectInvestigation" prefHeight="31.0" prefWidth="137.0" style="-fx-background-color: #09AEBE;" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="consultProjectButton" layoutX="653.0" layoutY="128.0" mnemonicParsing="false" onAction="#consultProjectsInvestigation" prefHeight="31.0" prefWidth="137.0" style="-fx-background-color: #09AEBE;" stylesheets="@../assets/style/standard.css" text="CONSULTAR" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Button>
-                  <AnchorPane layoutX="-1.0" layoutY="-10.0" prefHeight="46.0" prefWidth="824.0" style="-fx-background-color: #300050;" stylesheets="@../../out/production/SGP-CA_Project/assets/style/standard.css">
-                     <children>
-                        <Label fx:id="lbBienvenida" alignment="TOP_CENTER" layoutY="15.0" prefHeight="31.0" prefWidth="641.0" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <TextField fx:id="searchTextField" layoutX="56.0" layoutY="128.0" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="294.0" promptText="Escribe el titulo del proyecto" style="-fx-background-color: WHITE; -fx-background-radius: 50px;" stylesheets="@../assets/style/standard.css">
-                     <padding>
-                        <Insets left="30.0" right="30.0" />
-                     </padding>
-                  </TextField>
                </children>
-            </AnchorPane>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </VBox>
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
 </AnchorPane>

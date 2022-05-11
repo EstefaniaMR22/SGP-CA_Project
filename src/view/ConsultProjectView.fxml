@@ -1,155 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="559.0" prefWidth="1069.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="1083.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutY="5.0" prefHeight="542.0" prefWidth="1069.0">
-         <children>
-            <AnchorPane id="AnchorPane" prefHeight="517.0" prefWidth="1069.0" stylesheets="@../assets/style/standard.css">
-               <children>
-                  <Line endX="925.0" fill="BLACK" layoutX="136.0" layoutY="122.0" startX="-132.0" />
-                  <Pane layoutX="45.0" layoutY="130.0" prefHeight="337.0" prefWidth="1002.0" style="-fx-background-color: gray;">
+      <BorderPane prefHeight="708.0" prefWidth="1165.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
+               <content>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background-main">
                      <children>
-                        <AnchorPane prefHeight="39.0" prefWidth="781.0" style="-fx-background-color: black;">
+                        <VBox layoutX="10.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="35.0" AnchorPane.bottomAnchor="-66.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="TOP_CENTER" layoutY="4.0" prefHeight="27.0" prefWidth="1002.0" text="DETALLES PROYECTO DE INVESTIGACIÓN" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                              </Label>
+                              <VBox spacing="25.0" styleClass="background-form">
+                                 <children>
+                                    <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Titulo" />
+                                                <Label fx:id="projectNameLabel" prefHeight="31.0" prefWidth="468.0" styleClass="description-label" text="?">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <HBox>
+                                             <children>
+                                                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Estado" />
+                                                      <Label fx:id="statusProjectLabel" prefHeight="31.0" prefWidth="457.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Fecha de inicio:" />
+                                                      <Label fx:id="startDateLabel" prefHeight="31.0" prefWidth="215.0" styleClass="description-label" text="?" wrapText="true">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <VBox spacing="15.0">
+                                             <children>
+                                                <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                                   <children>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Fecha de finalizacion" />
+                                                            <Label fx:id="endDateLabel" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Fecha estimada de finalizacion" />
+                                                            <Label fx:id="estimatedEndDateLabel" prefHeight="31.0" prefWidth="215.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Estimación en meses" />
+                                                            <Label fx:id="durationInMonthsProject" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Descripcion" />
+                                                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" styleClass="description-label" text="?" wrapText="true">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="LGAC asociada" />
+                                                <Label fx:id="lgacLabel" prefHeight="31.0" prefWidth="468.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="25.0" left="25.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
                            </children>
-                        </AnchorPane>
-                        <Label layoutX="24.0" layoutY="67.0" text="Titulo del Proyecto de Investigación:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="260.0" layoutY="179.0" text="Fecha de finalización:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="519.0" layoutY="67.0" text="Estado:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="25.0" layoutY="240.0" text="LGCA Asociadas:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="519.0" layoutY="115.0" text="Descripción:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="projectNameLabel" layoutX="26.0" layoutY="88.0" prefHeight="31.0" prefWidth="468.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="statusProjectLabel" layoutX="519.0" layoutY="86.0" prefHeight="31.0" prefWidth="457.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lgacLabel" layoutX="26.0" layoutY="260.0" prefHeight="31.0" prefWidth="468.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="descriptionLabel" layoutX="519.0" layoutY="138.0" prefHeight="153.0" prefWidth="457.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="endDateLabel" layoutX="260.0" layoutY="204.0" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="25.0" layoutY="118.0" text="Fecha de inicio:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="startDateLabel" layoutX="27.0" layoutY="143.0" prefHeight="31.0" prefWidth="215.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="26.0" layoutY="179.0" text="Fecha estimada de finalización:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="estimatedEndDateLabel" layoutX="28.0" layoutY="204.0" prefHeight="31.0" prefWidth="215.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="260.0" layoutY="124.0" text="Estimación en meses:">
-                           <font>
-                              <Font name="System Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="durationInMonthsProject" layoutX="260.0" layoutY="143.0" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
+                           <padding>
+                              <Insets bottom="20.0" />
+                           </padding>
+                        </VBox>
                      </children>
-                  </Pane>
-                  <AnchorPane layoutY="-7.0" prefHeight="82.0" prefWidth="1069.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
-                     <children>
-                        <Label alignment="TOP_CENTER" layoutX="7.0" layoutY="14.0" prefHeight="39.0" prefWidth="587.0" styleClass="title-label" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="80.0" fitWidth="130.0" layoutX="730.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="file:img/SGP-CA.png" />
-                           </image>
-                        </ImageView>
-                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
+                     </padding>
                   </AnchorPane>
-                  <Button fx:id="exitButton" layoutX="61.0" layoutY="77.0" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="SALIR" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Label alignment="TOP_CENTER" layoutX="786.0" layoutY="73.0" prefHeight="31.0" prefWidth="261.0" style="-fx-background-color: black;" text="Universidad Veracruzana" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="39.0" fitWidth="42.0" layoutX="2.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="file:img/back.png" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane layoutX="-184.0" layoutY="502.0" prefHeight="64.0" prefWidth="1216.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
-                     <children>
-                        <Button fx:id="modifyButton" layoutX="1060.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" prefHeight="38.0" prefWidth="108.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </AnchorPane>
+               </content>
+               <padding>
+                  <Insets left="25.0" right="25.0" />
+               </padding>
+            </ScrollPane>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" minHeight="72.0" spacing="25.0" styleClass="background-footer" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="exitButton" minWidth="120.0" mnemonicParsing="false" onAction="#returnViewOnAction" styleClass="secondary-button" text="Salir" />
+                  <Button fx:id="modifyButton" maxWidth="1.7976931348623157E308" minWidth="139.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" styleClass="main-button" text="Modificar" />
                </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <top>
+            <VBox alignment="TOP_CENTER" style="-fx-border-width: 0 0 0.5 0;" styleClass="background-title" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Label styleClass="title-label" text="Detalles de proyecto de investigación" />
+               </children>
+            </VBox>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>

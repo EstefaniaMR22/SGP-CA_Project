@@ -1,131 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="588.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="938.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+      <VBox prefHeight="675.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane layoutY="5.0" prefHeight="689.0" prefWidth="865.0" styleClass="background-main" stylesheets="@../assets/style/standard.css">
+            <VBox alignment="CENTER" styleClass="background-title">
                <children>
-                  <AnchorPane layoutX="-1.0" layoutY="625.0" prefHeight="64.0" prefWidth="868.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
-                     <children>
-                        <Button fx:id="updateReceptionalWork" layoutX="738.0" layoutY="13.0" mnemonicParsing="false" onAction="#modifyReceptionalWorkOnAction" prefHeight="38.0" prefWidth="104.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="MODIFICAR" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="10.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="-7.0" layoutY="-9.0" prefHeight="82.0" prefWidth="868.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
-                     <children>
-                        <Label alignment="TOP_CENTER" layoutX="7.0" layoutY="14.0" prefHeight="39.0" prefWidth="733.0" styleClass="title-label" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="80.0" fitWidth="130.0" layoutX="730.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="file:img/SGP-CA.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-                  <Line endX="681.0" fill="BLACK" layoutX="180.0" layoutY="90.0" startX="-132.0" />
-                  <ImageView fitHeight="54.0" fitWidth="66.0" layoutX="14.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="exitButton" layoutX="80.0" layoutY="72.0" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="CANCELAR" textFill="WHITE">
+                  <Label styleClass="title-label" text="Modificar trabajo recepcional" />
+               </children>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar">
+                     <content>
+                        <AnchorPane>
+                           <children>
+                              <VBox prefHeight="628.0" prefWidth="921.0" styleClass="background-form" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox styleClass="background-title">
+                                       <children>
+                                          <Label graphicTextGap="10.0" styleClass="section-label" text="Información trabajo recepcional">
+                                             <graphic>
+                                                <FontAwesomeIcon iconName="HOME" size="20px" styleClass="icon-title" />
+                                             </graphic>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <HBox spacing="25.0">
+                                             <children>
+                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Nombre" />
+                                                      <TextField fx:id="receptionalWorkNameTextField" prefHeight="34.0" prefWidth="356.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Fecha estimada de finalización" />
+                                                      <DatePicker fx:id="estimatedEndDateDataPicker" prefHeight="31.0" prefWidth="351.0" styleClass="datepicker" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="25.0">
+                                             <children>
+                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Modalidad" />
+                                                      <ComboBox fx:id="modalityCombobox" prefHeight="32.0" prefWidth="351.0" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Proyectos de investigación" />
+                                                      <ComboBox fx:id="projectsCombobox" prefHeight="32.0" prefWidth="351.0" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="25.0">
+                                             <children>
+                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Director" />
+                                                      <ComboBox fx:id="directorCombobox" prefHeight="32.0" prefWidth="395.0" promptText="Selecciona un director" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Codirector" />
+                                                      <ComboBox fx:id="codirectorCombobox" prefHeight="32.0" prefWidth="395.0" promptText="Selecciona un codirector" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="25.0">
+                                             <children>
+                                                <VBox prefHeight="67.0" prefWidth="166.0" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Participantes" />
+                                                      <TextField fx:id="participantsTextField" prefHeight="42.0" prefWidth="0.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Estado" />
+                                                      <ComboBox fx:id="statusCombobox" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="251.0" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-form-label" text="Descripción" />
+                                                <TextArea fx:id="descriptionTextArea" prefHeight="161.0" prefWidth="351.0" styleClass="textarea" />
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-form-label" text="Requisitos" />
+                                                <TextArea fx:id="requerimentsTextArea" prefHeight="161.0" prefWidth="395.0" styleClass="textarea" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                           </padding>
+                        </AnchorPane>
+                     </content>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="25.0" styleClass="background-footer">
+               <children>
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" styleClass="secondary-button" text="Cancelar" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="10.0" />
+                        <Font size="12.0" />
                      </font>
                   </Button>
-                  <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="136.0" prefHeight="31.0" prefWidth="806.0" style="-fx-background-color: black;" text="MODIFICAR TRABAJO RECEPCIONAL " textFill="WHITE">
+                  <Button fx:id="updateReceptionalWork" mnemonicParsing="false" onAction="#modifyReceptionalWorkOnAction" prefHeight="38.0" prefWidth="104.0" styleClass="main-button" text="Guardar" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="21.0" />
+                        <Font size="12.0" />
                      </font>
-                  </Label>
-                  <Label alignment="TOP_CENTER" layoutX="600.0" layoutY="90.0" prefHeight="31.0" prefWidth="261.0" style="-fx-background-color: black;" text="Universidad Veracruzana" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="19.0" layoutY="175.0" text="Nombre del trabajo recepcional:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="receptionalWorkNameTextField" layoutX="17.0" layoutY="199.0" prefHeight="34.0" prefWidth="356.0" />
-                  <Label layoutX="16.0" layoutY="236.0" text="Fecha estimada de finalización:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <DatePicker fx:id="estimatedEndDateDataPicker" layoutX="16.0" layoutY="256.0" prefHeight="31.0" prefWidth="351.0" />
-                  <Label layoutX="422.0" layoutY="175.0" text="Director:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="422.0" layoutY="236.0" text="Codirector:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="codirectorCombobox" layoutX="422.0" layoutY="255.0" prefHeight="32.0" prefWidth="395.0" promptText="Selecciona un codirector" />
-                  <Label layoutX="16.0" layoutY="399.0" text="Descripción:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextArea fx:id="descriptionTextArea" layoutX="18.0" layoutY="424.0" prefHeight="161.0" prefWidth="351.0" />
-                  <Label fx:id="systemLabel" layoutX="17.0" layoutY="586.0" prefHeight="48.0" prefWidth="821.0">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="directorCombobox" layoutX="422.0" layoutY="200.0" prefHeight="32.0" prefWidth="395.0" promptText="Selecciona un director" />
-                  <ComboBox fx:id="modalityCombobox" layoutX="16.0" layoutY="312.0" prefHeight="32.0" prefWidth="351.0" />
-                  <Label layoutX="17.0" layoutY="289.0" text="Modalidad:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="participantsTextField" layoutX="422.0" layoutY="311.0" prefHeight="34.0" prefWidth="104.0" />
-                  <Label layoutX="423.0" layoutY="290.0" text="Participantes:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="statusCombobox" layoutX="566.0" layoutY="312.0" prefHeight="32.0" prefWidth="251.0" />
-                  <Label layoutX="568.0" layoutY="289.0" text="Estado:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextArea fx:id="requerimentsTextArea" layoutX="424.0" layoutY="427.0" prefHeight="161.0" prefWidth="395.0" />
-                  <Label layoutX="425.0" layoutY="399.0" text="Requisitos:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="projectsCombobox" layoutX="16.0" layoutY="367.0" prefHeight="32.0" prefWidth="351.0" />
-                  <Label layoutX="17.0" layoutY="344.0" text="Proyecto de investigación:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
+                  </Button>
                </children>
-            </AnchorPane>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+            </HBox>
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
 </AnchorPane>

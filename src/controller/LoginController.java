@@ -73,19 +73,6 @@ public class LoginController extends Controller implements Initializable {
        systemLabel.setText("");
     }
 
-    @FXML
-    void integranOnAction(ActionEvent event) {
-        try{
-            stage.close();
-            AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
-            IntegrantController integrantController = new IntegrantController(academicGroupSelected.getId());
-            integrantController.showStage();
-        }catch (Exception addProjectInvestigationException) {
-            AlertController alertView = AlertController.getInstance();
-            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                    "ProyectsInvestigation. Causa: " + addProjectInvestigationException);
-        }
-    }
 
     @FXML
     void responsableOnAction(ActionEvent event) {
@@ -125,7 +112,6 @@ public class LoginController extends Controller implements Initializable {
     private void openMemberWindow(ParticipationType participationType) {
         stage.hide();
         if (participationType == ParticipationType.INTEGRANT) {
-            stage.close();
             AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
             IntegrantController integrantController = new IntegrantController(academicGroupSelected.getId());
             integrantController.showStage();
