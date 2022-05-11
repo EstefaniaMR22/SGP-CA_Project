@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1034.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1034.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="56.0" layoutY="215.0" prefHeight="700.0" prefWidth="1034.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -70,13 +70,13 @@
                                     </VBox>
                                     <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
                                        <children>
-                                          <Label styleClass="attribute-form-label" text="Fecha" />
+                                          <Label styleClass="attribute-form-label" text="Hora" />
                                           <TextField fx:id="hourTextField" promptText="hh" styleClass="textfield" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
                                        <children>
-                                          <Label styleClass="attribute-form-label" text="Fecha" />
+                                          <Label styleClass="attribute-form-label" text="Minuto" />
                                           <TextField fx:id="minutesTextField" promptText="mm" styleClass="textfield" />
                                        </children>
                                     </VBox>
