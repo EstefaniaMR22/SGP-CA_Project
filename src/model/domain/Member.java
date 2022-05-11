@@ -25,6 +25,7 @@ public class Member {
     private String studyArea;
     private StudyGrade maxStudyGrade;
     private String fullName;
+    private ActivityStateMember activityStateMember;
 
     public Member() {
     }
@@ -201,7 +202,14 @@ public class Member {
         return name + " " + paternalLastname + " " + maternalLastname;
     }
 
-    /*
+    public ActivityStateMember getActivityStateMember() {
+        return activityStateMember;
+    }
+
+    public void setActivityStateMember(ActivityStateMember activityStateMember) {
+        this.activityStateMember = activityStateMember;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -226,17 +234,8 @@ public class Member {
                 ", aditionalEmail='" + aditionalEmail + '\'' +
                 ", studyArea='" + studyArea + '\'' +
                 ", maxStudyGrade=" + maxStudyGrade +
+                ", fullName='" + fullName + '\'' +
+                ", activityStateMember=" + activityStateMember +
                 '}';
-    }
-
-     */
-
-    @Override
-    public String toString() {
-        return "| Miembro | Nombre: " + name + " " + paternalLastname + " " + maternalLastname +
-                " | Nacionalidad: " + nationality +
-                " | Programa Educativo: " + educationalProgram +
-                " | Número personal: " + personalNumber +
-                " |" ;
     }
 }

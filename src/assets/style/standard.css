@@ -155,7 +155,17 @@
 }
 
 .secondary-button:selected {
-    -fx-background-color:black;
+    -fx-background-color:transparent;
+    -fx-border-width:0;
+    -fx-border-radius:5px;
+}
+
+.secondary-button:focused {
+    -fx-background-color:transparent;
+}
+
+.secondary-button:selected {
+    -fx-background-color:transparent;
 }
 
 .optional-button { 

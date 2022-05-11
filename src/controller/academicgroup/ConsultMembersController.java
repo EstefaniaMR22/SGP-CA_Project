@@ -12,10 +12,13 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import model.dao.MemberDAO;
+import model.domain.ActivityStateMember;
 import model.domain.Member;
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,12 +27,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 
 public class ConsultMembersController extends Controller implements Initializable {
     private FilteredList<Member> filteredData;
     @FXML private ListView<Member> membersListView;
     @FXML private TextField searchTextField;
     @FXML private Label totalMembersLabel;
+    @FXML private ToggleButton activeFilterButton;
+    @FXML private ToggleButton inactiveFilterButton;
+    @FXML private Button changeStatusButton;
+    @FXML private Button removeButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,6 +52,27 @@ public class ConsultMembersController extends Controller implements Initializabl
         loadFXMLFile(getClass().getResource("/view/ConsultMemberRegisteredView.fxml"), this);
         stage.setTitle("Administración de miembros");
         stage.showAndWait();
+    }
+
+    @FXML
+    void changeStatusMemberOnAction(ActionEvent event) {
+        Member memberSelected = membersListView.getSelectionModel().getSelectedItem();
+        if(memberSelected != null ) {
+            try {
+                if(new MemberDAO().changeActivityState(memberSelected.getId(), memberSelected.getActivityStateMember())) {
+                    String lastText = searchTextField.getText();
+                    searchTextField.setText("");
+                    ObservableList<Member> newList = FXCollections.observableArrayList(new ArrayList<>());
+                    newList.addAll(membersListView.getItems());
+                    newList.remove(memberSelected);
+                    setNewItemsToListview(newList);
+                    searchTextField.setText(lastText);
+                }
+            } catch (SQLException sqlException) {
+                Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
+                AlertController.getInstance().determinateAlertBySQLException(sqlException);
+            }
+        }
     }
 
     @FXML
@@ -106,7 +136,7 @@ public class ConsultMembersController extends Controller implements Initializabl
                } catch (SQLException sqlException) {
                    Logger.getLogger(ConsultMembersController.class.getName()).log(Level.WARNING, null, sqlException);
                    if(sqlException.getSQLState().equals(SQLStates.SQL_INTEGRITY_CONSTRAINT_VIOLATION.getSqlState())) {
-                        AlertController.getInstance().showActionFailedAlert("El miembro a eliminar ya ha tenido actividad en el sistema.");
+                       AlertController.getInstance().showActionFailedAlert("El miembro a eliminar ya ha tenido actividad en el sistema.");
                    } else {
                        AlertController.getInstance().determinateAlertBySQLException(sqlException);
                    }
@@ -116,10 +146,16 @@ public class ConsultMembersController extends Controller implements Initializabl
         }
     }
 
-    private void getMembersFromDatabase() {
+    @FXML
+    void activeMembersFilterOnAction(ActionEvent event) {
+        inactiveFilterButton.setDisable(false);
+        changeStatusButton.setVisible(false);
+        removeButton.setVisible(true);
+        activeFilterButton.setDisable(true);
         List<Member> memberList = null;
         try {
             memberList = new MemberDAO().getAllMembers();
+            memberList = memberList.stream().filter(x -> x.getActivityStateMember() == ActivityStateMember.ACTIVE).collect(Collectors.toList());
             ObservableList<Member> observableList = FXCollections.observableArrayList(memberList);
             countIntegrants(observableList);
             membersListView.setItems(observableList);
@@ -127,6 +163,29 @@ public class ConsultMembersController extends Controller implements Initializabl
             Logger.getLogger(ConsultMembersController.class.getName()).log(Level.SEVERE, null, sqlException);
             AlertController.getInstance().determinateAlertBySQLException(sqlException);
         };
+    }
+
+    @FXML
+    void inactiveMembersFilterOnAction(ActionEvent event) {
+        activeFilterButton.setDisable(false);
+        inactiveFilterButton.setDisable(true);
+        removeButton.setVisible(false);
+        changeStatusButton.setVisible(true);
+        List<Member> memberList = null;
+        try {
+            memberList = new MemberDAO().getAllMembers();
+            memberList = memberList.stream().filter(x -> x.getActivityStateMember() == ActivityStateMember.INACTIVE).collect(Collectors.toList());
+            ObservableList<Member> observableList = FXCollections.observableArrayList(memberList);
+            countIntegrants(observableList);
+            membersListView.setItems(observableList);
+        } catch(SQLException sqlException) {
+            Logger.getLogger(ConsultMembersController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
+        };
+    }
+
+    private void getMembersFromDatabase() {
+        activeFilterButton.fire();
     }
 
     private void initializeCountMembersListViewListener() {

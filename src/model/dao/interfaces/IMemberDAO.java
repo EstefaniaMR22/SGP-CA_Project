@@ -1,7 +1,10 @@
 package model.dao.interfaces;
 
 import javafx.collections.ObservableList;
-import model.domain.*;
+import model.domain.ActivityStateMember;
+import model.domain.CivilStatus;
+import model.domain.Member;
+import model.domain.StudyGrade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -124,4 +127,12 @@ public interface IMemberDAO {
      * @return List that contains strings of educational program.
      */
     List<String> getAllEducationProgram() throws SQLException;
+
+    /***
+     * Change the member activity status
+     * @param idMember the member's id
+     * @param activityStateMember the actual activity state of member.
+     * @return true if it was updated otherwise false.
+     */
+    boolean changeActivityState(int idMember, ActivityStateMember activityStateMember) throws SQLException;
 }

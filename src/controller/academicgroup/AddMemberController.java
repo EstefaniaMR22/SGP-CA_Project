@@ -127,7 +127,7 @@ public class AddMemberController extends ValidatorController implements Initiali
             Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
             AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
-        return false;
+        return existMember;
     }
 
     private void addMember() {

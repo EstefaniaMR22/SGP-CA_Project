@@ -3,12 +3,13 @@ package model.dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dao.interfaces.IMemberDAO;
+import assets.utils.Database;
+import assets.utils.DateFormatter;
+import model.domain.ActivityStateMember;
 import model.domain.CivilStatus;
 import model.domain.Member;
 import model.domain.ParticipationType;
 import model.domain.StudyGrade;
-import assets.utils.Database;
-import assets.utils.DateFormatter;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -169,6 +170,7 @@ public class MemberDAO implements IMemberDAO {
                 member.setAditionalEmail(resultSet.getString("correo_adicional"));
                 member.setStudyArea(resultSet.getString("area_estudio"));
                 member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
+                member.setActivityStateMember(getActivityStateMember(resultSet.getString("estado_actividad")));
                 memberList.add(member);
             }
         }
@@ -210,6 +212,7 @@ public class MemberDAO implements IMemberDAO {
                 member.setAditionalEmail(resultSet.getString("Miembro.correo_adicional"));
                 member.setStudyArea(resultSet.getString("Miembro.area_estudio"));
                 member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("Miembro.grado_estudios")));
+                member.setActivityStateMember(getActivityStateMember(resultSet.getString("estado_actividad")));
                 memberObservableList.add(member);
             }
         }
@@ -230,7 +233,7 @@ public class MemberDAO implements IMemberDAO {
         try(Connection conn = database.getConnection() ) {
             int rowsAffected = 0;
             conn.setAutoCommit(false);
-            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ?, fecha_nacimiento = ?, fecha_ingreso = ?, area_estudio = ?, grado_estudios = ?, nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ? WHERE id = ?";
+            String updateMiembroStatement = "UPDATE Miembro SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, nacionalidad = ?, programa_educativo = ?, numero_personal = ?, rfc = ?, telefono = ?, estado = ?, curp = ?, estado_civil = ?, email = ?, fecha_nacimiento = ?, fecha_ingreso = ?, area_estudio = ?, grado_estudios = ?, nombramiento = ?, telefono_casa = ?, telefono_trabajo = ?, correo_adicional = ?, estado_actividad = ? WHERE id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(updateMiembroStatement);
             preparedStatement.setString(1, member.getName());
             preparedStatement.setString(2, member.getPaternalLastname());
@@ -252,7 +255,8 @@ public class MemberDAO implements IMemberDAO {
             preparedStatement.setString(18, member.getHomeTelephone());
             preparedStatement.setString(19, member.getWorkTelephone());
             preparedStatement.setString(20, member.getAditionalEmail());
-            preparedStatement.setInt(21, member.getId());
+            preparedStatement.setString(21, member.getActivityStateMember().getActivityState());
+            preparedStatement.setInt(22, member.getId());
             rowsAffected = preparedStatement.executeUpdate();
             String updateCuentaStatement = "UPDATE Cuenta SET email = ? WHERE id_miembro = ?";
             preparedStatement = conn.prepareStatement(updateCuentaStatement);
@@ -281,9 +285,16 @@ public class MemberDAO implements IMemberDAO {
             preparedStatement.setInt(1, idMember);
             int rowsAffected = preparedStatement.executeUpdate();
             wasRemoved = rowsAffected > 0;
+        } catch(SQLException sqlException) {
+            if(sqlException.getSQLState().equals( String.valueOf(23000))) {
+                wasRemoved = updateActivityStateMember(idMember);
+            } else {
+                throw sqlException;
+            }
         }
         return wasRemoved;
     }
+
     /***
      * Get Member
      * <p>
@@ -323,6 +334,7 @@ public class MemberDAO implements IMemberDAO {
                 member.setAditionalEmail(resultSet.getString("correo_adicional"));
                 member.setStudyArea(resultSet.getString("area_estudio"));
                 member.setMaxStudyGrade(getStudyGradeType(resultSet.getString("grado_estudios")));
+                member.setActivityStateMember(getActivityStateMember(resultSet.getString("estado_actividad")));
             }
         }
         return member;
@@ -434,10 +446,38 @@ public class MemberDAO implements IMemberDAO {
         return educationalProgramList;
     }
 
+    /***
+     * Change the member activity status
+     * @param idMember the member's id
+     * @param activityStateMember the actual activity state of member.
+     * @return true if it was updated otherwise false.
+     */
+    @Override
+    public boolean changeActivityState(int idMember, ActivityStateMember activityStateMember) throws SQLException {
+        boolean isUpdated = false;
+        try (Connection conn = database.getConnection()) {
+            String statementUpdate = "UPDATE Miembro SET estado_actividad = " + (activityStateMember == ActivityStateMember.ACTIVE ? "2" : "1")  + " WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statementUpdate);
+            preparedStatement.setInt(1, idMember);
+            int rowsAffected = preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+        }
+        return isUpdated;
+    }
+
     private StudyGrade getStudyGradeType(String studyGradeType) {
         for(StudyGrade studyGrade : StudyGrade.values() ) {
             if(studyGradeType.equalsIgnoreCase(studyGrade.getStudyGrade())) {
                 return studyGrade;
+            }
+        }
+        return null;
+    }
+
+    private ActivityStateMember getActivityStateMember(String type) {
+        for(ActivityStateMember activityStateMember : ActivityStateMember.values() ) {
+            if(type.equalsIgnoreCase(activityStateMember.getActivityState())) {
+                return activityStateMember;
             }
         }
         return null;
@@ -460,4 +500,17 @@ public class MemberDAO implements IMemberDAO {
         }
         return null;
     }
+
+    private boolean updateActivityStateMember(int idMember ) throws SQLException {
+        boolean isUpdated = false;
+        try (Connection conn = database.getConnection()) {
+            String statementUpdate = "UPDATE Miembro SET estado_actividad = 2 WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statementUpdate);
+            preparedStatement.setInt(1, idMember);
+            int rowsAffected = preparedStatement.executeUpdate();
+            isUpdated = rowsAffected > 0;
+        }
+        return isUpdated;
+    }
+
 }
