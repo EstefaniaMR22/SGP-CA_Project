@@ -32,7 +32,7 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#cancelOnAction" prefHeight="38.0" prefWidth="120.0" styleClass="secondary-button" text="Cancelar" />
-                        <Button maxWidth="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#updateOnAction" styleClass="main-button" text="Modificar" />
+                        <Button fx:id="modifyButton" maxWidth="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#updateOnAction" styleClass="main-button" text="Modificar" />
                      </children>
                   </HBox>
                </children>

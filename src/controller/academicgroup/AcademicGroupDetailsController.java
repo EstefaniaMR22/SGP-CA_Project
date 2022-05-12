@@ -1,5 +1,6 @@
 package controller.academicgroup;
 
+import assets.utils.Autentication;
 import controller.control.Controller;
 import controller.control.ValidatorController;
 import javafx.beans.property.SimpleObjectProperty;
@@ -50,6 +51,7 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
     @FXML private Label totalColaboratorsLabel;
     @FXML private Label totalIntegrantsLabel;
     @FXML private Label totalResponsablesLabel;
+    @FXML private Button modifyButton;
 
     public AcademicGroup getAcademicGroupProgramSelected() {
         return academicGroupProgramSelected;
@@ -73,6 +75,11 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(Autentication.getInstance().getParticipation().getParticipationType() == ParticipationType.RESPONSABLE ) {
+            if(!academicGroupProgramSelected.getId().equals(Autentication.getInstance().getIdAcademicGroup())) {
+                modifyButton.setVisible(false);
+            }
+        }
         setTableComponents();
         getAcademicGroupProgramDetails();
     }
