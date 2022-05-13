@@ -1,13 +1,15 @@
 package model.dao;
 
+import controller.academicgroup.AddAcademicGroupController;
 import model.dao.interfaces.IAcademicGroupDAO;
+import assets.utils.Database;
+import assets.utils.DateFormatter;
 import model.domain.AcademicGroup;
+import model.domain.ActivityStateLGAC;
 import model.domain.ConsolidationGrade;
 import model.domain.LGAC;
 import model.domain.Participation;
 import model.domain.ParticipationType;
-import assets.utils.Database;
-import assets.utils.DateFormatter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class AcademicGroupDAO implements IAcademicGroupDAO {
     private final Database database;
@@ -59,8 +64,8 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
                 if (resultSet.next()) {
                     idAcademicGroup = resultSet.getString(1);
                     // ADD LGACS
-                    if(academicGroupProgram.getLgacList() != null ) {
-                        String statementLgac = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico) VALUES(?,?,?);";
+                    if (academicGroupProgram.getLgacList() != null) {
+                        String statementLgac = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico, estado_actividad) VALUES(?,?,?, 1);";
                         for (LGAC lgac : academicGroupProgram.getLgacList()) {
                             preparedStatement = conn.prepareStatement(statementLgac);
                             preparedStatement.setString(1, lgac.getIdentification());
@@ -70,7 +75,7 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
                         }
                     }
                     // ADD MEMBER PARTICIPATION
-                    if(academicGroupProgram.getParticipationList() != null ) {
+                    if (academicGroupProgram.getParticipationList() != null) {
                         String statementMember = "INSERT INTO ParticipacionCuerpoAcademicoMiembro(tipo_participacion, id_miembro, id_cuerpo_academico) VALUES(?,?,?)";
                         for (Participation participation : academicGroupProgram.getParticipationList()) {
                             preparedStatement = conn.prepareStatement(statementMember);
@@ -139,7 +144,7 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
                 academicGroupProgram.setAdscriptionUnit(resultSet.getString("unidad_adscripcion"));
                 academicGroupProgram.setDescriptionAdscription(resultSet.getString("descripcion_adscripcion"));
                 academicGroupProgram.setAdscriptionArea(resultSet.getString("area_adscripcion"));
-                String lgacStatement = "SELECT LG.identificador, LG.descripcion, LG.id FROM LGAC AS LG WHERE id_programa_cuerpo_academico = ?";
+                String lgacStatement = "SELECT LG.identificador, LG.descripcion, LG.id, LG.estado_actividad FROM LGAC AS LG WHERE id_programa_cuerpo_academico = ?";
                 preparedStatement = conn.prepareStatement(lgacStatement);
                 preparedStatement.setString(1, id);
                 ResultSet resultSet1 = preparedStatement.executeQuery();
@@ -149,6 +154,7 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
                     lgac.setDescription(resultSet1.getString("descripcion"));
                     lgac.setIdentification(resultSet1.getString("identificador"));
                     lgac.setId(resultSet1.getInt("id"));
+                    lgac.setActivityState(getActivityStateLagc(resultSet1.getString("estado_actividad")));
                     lgacList.add(lgac);
                 }
                 if (!lgacList.isEmpty()) {
@@ -235,29 +241,50 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
             preparedStatement.setString(11, academicGroupProgram.getId());
             rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                // DELETE LGACS
-                String statementDeleteLGAC = "DELETE FROM LGAC WHERE id_programa_cuerpo_academico = ?";
-                preparedStatement = conn.prepareStatement(statementDeleteLGAC);
-                preparedStatement.setString(1, academicGroupProgram.getId());
-                rowsAffected += preparedStatement.executeUpdate();
+                List<LGAC> oldLGACList = getAcademicGroupProgramDetails(academicGroupProgram.getId()).getLgacList();
+
+                oldLGACList.forEach(x -> {
+                    LGAC isPresent = academicGroupProgram.getLgacList().stream().filter(e -> e.getIdentification().equals(x.getIdentification())).findAny().orElse(null);
+                    if (isPresent != null) {
+                        if (isPresent.getActivityState() != x.getActivityState()) {
+                            try {
+                                System.out.println(new LgacDAO().updateActivityState(x.getIdentification(), academicGroupProgram.getId(), isPresent.getActivityState()));
+                            } catch (SQLException e) {
+                                Logger.getLogger(AcademicGroupDAO.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                        }
+                    } else {
+                        try {
+                            new LgacDAO().removeLgac(x.getId());
+                        } catch (SQLException e) {
+                            Logger.getLogger(AcademicGroupDAO.class.getName()).log(Level.SEVERE, null, e);
+                        }
+                    }
+                });
+//
+
+                academicGroupProgram.getLgacList().forEach(x -> {
+                    if(oldLGACList.stream().noneMatch(e -> x.getIdentification().equals(e.getIdentification()))) {
+                        try {
+                            String statementlgac = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico, estado_actividad) VALUES(?,?,?,1)";
+                            PreparedStatement preparedStatementlgac = conn.prepareStatement(statementlgac);
+                            preparedStatementlgac.setString(1, x.getIdentification());
+                            preparedStatementlgac.setString(2, x.getDescription());
+                            preparedStatementlgac.setString(3, academicGroupProgram.getId());
+                            preparedStatementlgac.executeUpdate();
+                        } catch (SQLException e) {
+                            Logger.getLogger(AcademicGroupDAO.class.getName()).log(Level.SEVERE, null, e);
+                        }
+                    }
+                });
+
                 // DELETE Participations
                 String statementDeleteParticipation = "DELETE FROM ParticipacionCuerpoAcademicoMiembro WHERE id_cuerpo_academico = ?";
                 preparedStatement = conn.prepareStatement(statementDeleteParticipation);
                 preparedStatement.setString(1, academicGroupProgram.getId());
                 rowsAffected += preparedStatement.executeUpdate();
-                String statementLgac = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico) VALUES(?,?,?);";
-                // ADD LGACS
-                if(academicGroupProgram.getLgacList() != null ) {
-                    for (LGAC lgac : academicGroupProgram.getLgacList()) {
-                        preparedStatement = conn.prepareStatement(statementLgac);
-                        preparedStatement.setString(1, lgac.getIdentification());
-                        preparedStatement.setString(2, lgac.getDescription());
-                        preparedStatement.setString(3, academicGroupProgram.getId());
-                        rowsAffected += preparedStatement.executeUpdate();
-                    }
-                }
                 // ADD MEMBER PARTICIPATION
-                if(academicGroupProgram.getParticipationList() != null ) {
+                if (academicGroupProgram.getParticipationList() != null) {
                     String statementMember = "INSERT INTO ParticipacionCuerpoAcademicoMiembro(tipo_participacion, id_miembro, id_cuerpo_academico) VALUES(?,?,?)";
                     for (Participation participation : academicGroupProgram.getParticipationList()) {
                         preparedStatement = conn.prepareStatement(statementMember);
@@ -317,6 +344,15 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
         for (ParticipationType participationType : ParticipationType.values()) {
             if (type.equalsIgnoreCase(participationType.getParticipationType())) {
                 return participationType;
+            }
+        }
+        return null;
+    }
+
+    private ActivityStateLGAC getActivityStateLagc(String type) {
+        for (ActivityStateLGAC activityStateLGAC : ActivityStateLGAC.values()) {
+            if (type.equalsIgnoreCase(activityStateLGAC.getActivityState())) {
+                return activityStateLGAC;
             }
         }
         return null;

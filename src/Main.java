@@ -1,6 +1,7 @@
 import controller.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.dao.LgacDAO;
 
 public class Main extends Application {
 

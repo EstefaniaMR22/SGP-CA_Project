@@ -1,6 +1,7 @@
 package model.dao.interfaces;
 
 import javafx.collections.ObservableList;
+import model.domain.ActivityStateLGAC;
 import model.domain.LGAC;
 
 import java.sql.SQLException;
@@ -40,4 +41,12 @@ public interface ILgacDAO {
      * @return LGAC object that contains all data of LGAC.
      */
     LGAC getLGACById(int idLGAC) throws SQLException;
+
+    /***
+     * Change the activity state status of lgac
+     * @param identificator identificador of lgac of academic group
+     * @param academicGroupID the id of academic group
+     * @return true if updated otherwise false.
+     */
+    boolean updateActivityState(String identificator, String academicGroupID, ActivityStateLGAC state) throws SQLException;
 }

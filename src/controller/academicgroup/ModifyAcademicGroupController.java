@@ -31,13 +31,9 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.dao.AcademicGroupDAO;
+import model.dao.LgacDAO;
 import model.dao.MemberDAO;
-import model.domain.AcademicGroup;
-import model.domain.ConsolidationGrade;
-import model.domain.LGAC;
-import model.domain.Member;
-import model.domain.Participation;
-import model.domain.ParticipationType;
+import model.domain.*;
 import assets.utils.DateFormatter;
 
 import java.net.URL;
@@ -57,6 +53,7 @@ public class ModifyAcademicGroupController extends ValidatorController implement
     @FXML private TableView<LGAC> lgacRegisteredTableView;
     @FXML private TableColumn<LGAC, Integer> identificatorTableColumn;
     @FXML private TableColumn<LGAC, String> descriptionTableColumn;
+    @FXML private TableColumn<LGAC, String> stateTableColumn;
     @FXML private TextField activeMembersTextField;
     @FXML private TextField adscriptionAreaTextField;
     @FXML private TextField adscriptionUnitTextField;
@@ -84,6 +81,7 @@ public class ModifyAcademicGroupController extends ValidatorController implement
     @FXML private Button removeMemberCAButton;
     @FXML private Button searchMemberButton;
     @FXML private TextArea descriptionAdscriptionTextArea;
+    private boolean canceledOperation = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,12 +94,16 @@ public class ModifyAcademicGroupController extends ValidatorController implement
         initializeCellFactoryListView();
     }
 
+    public boolean isCanceledOperation() {
+        return canceledOperation;
+    }
+
     public AcademicGroup getAcademicGroupProgramSelected() {
         return academicGroupProgramSelected;
     }
 
-    public ModifyAcademicGroupController(AcademicGroup academicGroupProgramSelected) {
-        this.academicGroupProgramSelected = academicGroupProgramSelected;
+    public ModifyAcademicGroupController(AcademicGroup selected) {
+        this.academicGroupProgramSelected = selected;
     }
 
     public void showStage() {
@@ -125,8 +127,14 @@ public class ModifyAcademicGroupController extends ValidatorController implement
     @FXML
     void removeLGACFromProgramOnAction(ActionEvent event) {
         LGAC lgacSelected = lgacRegisteredTableView.getSelectionModel().getSelectedItem();
+        int lgacindex = lgacRegisteredTableView.getSelectionModel().getSelectedIndex();
         if(lgacSelected != null ) {
-            lgacRegisteredTableView.getItems().remove(lgacSelected);
+            if(new LgacDAO().checkLgacConstraints(lgacSelected.getId())) {
+                lgacRegisteredTableView.getItems().remove(lgacSelected);
+            } else {
+                lgacRegisteredTableView.getItems().get(lgacindex).setActivityState(ActivityStateLGAC.INACTIVE);
+                lgacRegisteredTableView.refresh();
+            }
         }
     }
 
@@ -150,6 +158,7 @@ public class ModifyAcademicGroupController extends ValidatorController implement
     @FXML
     void cancelOnAction(ActionEvent event) {
         if(AlertController.getInstance().showCancelationConfirmationAlert()) {
+            canceledOperation = true;
             stage.close();
         }
     }
@@ -244,6 +253,8 @@ public class ModifyAcademicGroupController extends ValidatorController implement
         academicGroupProgram.setMission(misionTextArea.getText());
         academicGroupProgram.setVision(visionTextArea.getText());
         academicGroupProgram.setLgacList(lgacRegisteredTableView.getItems());
+
+
         academicGroupProgram.setParticipationList(participationsTableView.getItems());
         academicGroupProgram.setDescriptionAdscription(descriptionAdscriptionTextArea.getText());
         try{
@@ -328,6 +339,7 @@ public class ModifyAcademicGroupController extends ValidatorController implement
         misionTextArea.setText(academicGroupProgramSelected.getMission());
         visionTextArea.setText(academicGroupProgramSelected.getVision());
         descriptionAdscriptionTextArea.setText(academicGroupProgramSelected.getDescriptionAdscription());
+
         lgacRegisteredTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getLgacList() == null ? new ArrayList<>() : academicGroupProgramSelected.getLgacList()));
         participationsTableView.setItems(FXCollections.observableArrayList(academicGroupProgramSelected.getParticipationList() == null ? new ArrayList<>() : academicGroupProgramSelected.getParticipationList()));
         totalLGACInProgramLabel.setText(String.valueOf(academicGroupProgramSelected.getLgacList().size()));
@@ -350,6 +362,7 @@ public class ModifyAcademicGroupController extends ValidatorController implement
         });
         typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
         participationsTableView.setEditable(true);
+        stateTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty( cellData.getValue().getActivityState().getActivityState()));
         participationsTableView.setPlaceholder(new Label(""));
         lgacRegisteredTableView.setPlaceholder(new Label(""));
     }

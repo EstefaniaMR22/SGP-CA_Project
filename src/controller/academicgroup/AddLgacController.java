@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import model.domain.ActivityStateLGAC;
 import model.domain.LGAC;
 import assets.utils.DateFormatter;
 
@@ -56,6 +57,7 @@ public class AddLgacController extends ValidatorController implements Initializa
                 lgacRegistered = new LGAC();
                 lgacRegistered.setDescription(descriptionTextArea.getText());
                 lgacRegistered.setIdentification(identificatorTextField.getText());
+                lgacRegistered.setActivityState(ActivityStateLGAC.ACTIVE);
                 stage.close();
             } else {
                 systemLabel.setText("¡Al parecer ya existe un LGAC registrado con ese identificador!");

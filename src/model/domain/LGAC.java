@@ -4,6 +4,7 @@ public class LGAC {
     private int id;
     private String identification;
     private String description;
+    private ActivityStateLGAC activityState;
 
     public LGAC() {
     }
@@ -32,11 +33,21 @@ public class LGAC {
         this.description = description;
     }
 
+    public ActivityStateLGAC getActivityState() {
+        return activityState;
+    }
+
+    public void setActivityState(ActivityStateLGAC activityState) {
+        this.activityState = activityState;
+    }
+
     @Override
     public String toString() {
-        return "| LGAC |" +
-                " Identification | " + identification + '\'' +
-                " | description |" + description + '\'' +
-                " | ";
+        return "LGAC{" +
+                "id=" + id +
+                ", identification='" + identification + '\'' +
+                ", description='" + description + '\'' +
+                ", activityState=" + activityState +
+                '}';
     }
 }

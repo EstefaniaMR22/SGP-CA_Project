@@ -1,8 +1,10 @@
 package model.dao;
 
+import controller.academicgroup.AddAcademicGroupController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.dao.interfaces.ILgacDAO;
+import model.domain.ActivityStateLGAC;
 import model.domain.LGAC;
 import assets.utils.Database;
 
@@ -11,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LgacDAO implements ILgacDAO {
     private final Database database;
@@ -33,7 +37,7 @@ public class LgacDAO implements ILgacDAO {
         int idLgac = -1;
         try (Connection conn = database.getConnection()) {
             conn.setAutoCommit(false);
-            String statement = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico) VALUES(?,?,?)";
+            String statement = "INSERT INTO LGAC(identificador, descripcion, id_programa_cuerpo_academico, estado_actividad) VALUES(?,?,?,1)";
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
             preparedStatement.setString(1, lgac.getIdentification());
             preparedStatement.setString(2, lgac.getDescription());
@@ -123,5 +127,73 @@ public class LgacDAO implements ILgacDAO {
         }
         database.disconnect();
         return lgac;
+    }
+
+
+    /***
+     * Check if can remove a lgac without constraints by id
+     * @param idLgac id of lgac
+     * @return return true if can remove otherwise false
+     */
+    public boolean checkLgacConstraints(int idLgac) {
+        boolean canRemove = false;
+        try(Connection conn = database.getConnection()) {
+            conn.setAutoCommit(false);
+            String statement = "DELETE From LGAC WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, idLgac);
+            preparedStatement.execute();
+            conn.rollback();
+            canRemove = true;
+        } catch(SQLException sqlException) {
+           canRemove = false;
+        }
+        return canRemove;
+    }
+
+    /***
+     * Check if can remove a lgac without constraints by identificator and academic group id
+     * @param identification the id of lgac of academic group
+     * @param idAcademicGroup the id of academic group
+     * @return return true if can remove otherwise false.
+     */
+    public boolean checkLgacConstraints(String identification, String idAcademicGroup) {
+        boolean canRemove = false;
+        try(Connection conn = database.getConnection()) {
+            conn.setAutoCommit(false);
+            String statement = "DELETE From LGAC WHERE identificador = ? AND id_programa_cuerpo_academico = ? ";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, identification);
+            preparedStatement.setString(2, idAcademicGroup);
+            preparedStatement.execute();
+            conn.rollback();
+            canRemove = true;
+        } catch(SQLException sqlException) {
+            canRemove = false;
+        }
+        return canRemove;
+    }
+
+
+    /***
+     * Change the activity state status of lgac
+     * @param identificator id of lgac of academic group
+     * @param academicGroupID the id of academic group
+     * @return true if updated otherwise false.
+     */
+    @Override
+    public boolean updateActivityState(String identificator, String academicGroupID, ActivityStateLGAC state) throws SQLException {
+        boolean isUpdated = false;
+        try(Connection conn = database.getConnection() ) {
+            conn.setAutoCommit(false);
+            String statement = "UPDATE LGAC SET estado_actividad = ? WHERE identificador = ? AND id_programa_cuerpo_academico = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt( 1, (state == ActivityStateLGAC.ACTIVE ? 1 : 2));
+            preparedStatement.setString( 2, identificator);
+            preparedStatement.setString( 3, academicGroupID);
+            isUpdated = preparedStatement.executeUpdate() > 0;
+            conn.commit();
+        }
+        return isUpdated;
     }
 }

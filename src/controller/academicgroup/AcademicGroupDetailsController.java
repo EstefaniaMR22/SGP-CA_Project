@@ -9,7 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.AcademicGroupDAO;
 import model.domain.AcademicGroup;
@@ -43,6 +47,7 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
     @FXML private TableView<LGAC> lgacTableView;
     @FXML private TableColumn<LGAC, String> identificationLgacTableColumn;
     @FXML private TableColumn<LGAC, String> descriptionLgacTableColumn;
+    @FXML private TableColumn<LGAC, String> stateTableColumn;
     @FXML private Label adscriptionDescriptionLabel;
     @FXML private TableView<Participation> participationsTableView;
     @FXML private TableColumn<Participation, String> personalNumberTableColumn;
@@ -53,6 +58,17 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
     @FXML private Label totalResponsablesLabel;
     @FXML private Button modifyButton;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if(Autentication.getInstance().getParticipation().getParticipationType() == ParticipationType.RESPONSABLE ) {
+            if(!academicGroupProgramSelected.getId().equals(Autentication.getInstance().getIdAcademicGroup())) {
+                modifyButton.setVisible(false);
+            }
+        }
+        getAcademicGroupProgramDetails();
+        setTableComponents();
+    }
+
     public AcademicGroup getAcademicGroupProgramSelected() {
         return academicGroupProgramSelected;
     }
@@ -61,11 +77,14 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
     void updateOnAction(ActionEvent event) {
         ModifyAcademicGroupController modifyAcademicGroupProgramController = new ModifyAcademicGroupController(academicGroupProgramSelected);
         modifyAcademicGroupProgramController.showStage();
-        if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)) {
+        if(!modifyAcademicGroupProgramController.getAcademicGroupProgramSelected().equals(academicGroupProgramSelected)  && !modifyAcademicGroupProgramController.isCanceledOperation()) {
             academicGroupProgramSelected = modifyAcademicGroupProgramController.getAcademicGroupProgramSelected();
             setAcademicGroupProgramDetailsIntoControls();
             totalLgacsLabel.setText(String.valueOf(lgacTableView.getItems().size()));
+        } else {
+            getAcademicGroupProgramDetails();
         }
+        lgacTableView.refresh();
     }
 
     @FXML
@@ -73,16 +92,6 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
         stage.close();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        if(Autentication.getInstance().getParticipation().getParticipationType() == ParticipationType.RESPONSABLE ) {
-            if(!academicGroupProgramSelected.getId().equals(Autentication.getInstance().getIdAcademicGroup())) {
-                modifyButton.setVisible(false);
-            }
-        }
-        setTableComponents();
-        getAcademicGroupProgramDetails();
-    }
 
     public AcademicGroupDetailsController(AcademicGroup academicGroupProgramSelected) {
         this.academicGroupProgramSelected = academicGroupProgramSelected;
@@ -97,7 +106,6 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
         try{
             academicGroupProgramSelected = new AcademicGroupDAO().getAcademicGroupProgramDetails(academicGroupProgramSelected.getId());
             setAcademicGroupProgramDetailsIntoControls();
-
         }catch(SQLException sqlException) {
             Logger.getLogger(AcademicGroupDetailsController.class.getName()).log(Level.SEVERE, null, sqlException);
         }
@@ -128,6 +136,7 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
         personalNumberTableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMember().getPersonalNumber()));
         typeParticipationColumn.setCellValueFactory( cellData -> new SimpleObjectProperty<>(cellData.getValue().getParticipationType()));
         participationsTableView.setEditable(false);
+        stateTableColumn.setCellValueFactory( cellData -> new SimpleStringProperty(cellData.getValue().getActivityState().getActivityState()));
     }
 
     private void setNumbersMembersToLabels() {
