@@ -3,6 +3,7 @@ package controller.workplan;
 import controller.academicgroup.AddAcademicGroupController;
 import controller.control.AlertController;
 import controller.control.ValidatorController;
+import controller.control.listcell.MemberAcademicGroupListCell;
 import controller.control.validator.Validator;
 import controller.control.validator.ValidatorTextInputControl;
 import javafx.animation.PauseTransition;
@@ -54,6 +55,7 @@ public class AddActionController extends ValidatorController implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initValidator();
+        initializeCellFactoryListView();
         getAllMembersFromDatabase();
         initializeFilterSearchInput();
     }
@@ -168,6 +170,10 @@ public class AddActionController extends ValidatorController implements Initiali
             SortedList<Member> sortedList = new SortedList<>(filteredData);
             membersAvailableListView.setItems(sortedList);
         });
+    }
+
+    private void initializeCellFactoryListView() {
+        membersAvailableListView.setCellFactory( item -> new MemberAcademicGroupListCell());
     }
 
     private void initValidator() {
