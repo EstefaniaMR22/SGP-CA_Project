@@ -1,7 +1,6 @@
 package controller.academicgroup;
 
 import assets.utils.Autentication;
-import controller.control.Controller;
 import controller.control.ValidatorController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -69,6 +68,15 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
         setTableComponents();
     }
 
+    public AcademicGroupDetailsController(AcademicGroup academicGroupProgramSelected) {
+        this.academicGroupProgramSelected = academicGroupProgramSelected;
+    }
+
+    public void showStage() {
+        loadFXMLFile(getClass().getResource("/view/AcademicGroupDetailsView.fxml"), this);
+        stage.showAndWait();
+    }
+
     public AcademicGroup getAcademicGroupProgramSelected() {
         return academicGroupProgramSelected;
     }
@@ -92,15 +100,6 @@ public class AcademicGroupDetailsController extends ValidatorController implemen
         stage.close();
     }
 
-
-    public AcademicGroupDetailsController(AcademicGroup academicGroupProgramSelected) {
-        this.academicGroupProgramSelected = academicGroupProgramSelected;
-    }
-
-    public void showStage() {
-        loadFXMLFile(getClass().getResource("/view/AcademicGroupDetailsView.fxml"), this);
-        stage.showAndWait();
-    }
 
     private void getAcademicGroupProgramDetails() {
         try{

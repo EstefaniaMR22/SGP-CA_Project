@@ -1,23 +1,34 @@
 package model.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Workplan {
-    private String id;
+    private int id;
+    private String identificator;
     private int yearsDuration;
     private Date startDate;
     private Date endDate;
     private String generalObjetive;
+    private List<Goal> goalList;
 
     public Workplan() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getIdentificator() {
+        return identificator;
+    }
+
+    public void setIdentificator(String identificator) {
+        this.identificator = identificator;
     }
 
     public int getYearsDuration() {
@@ -52,14 +63,24 @@ public class Workplan {
         this.generalObjetive = generalObjetive;
     }
 
+    public List<Goal> getGoalList() {
+        return goalList;
+    }
+
+    public void setGoalList(List<Goal> goalList) {
+        this.goalList = goalList;
+    }
+
     @Override
     public String toString() {
         return "Workplan{" +
-                "id='" + id + '\'' +
+                "id=" + id +
+                ", identificator='" + identificator + '\'' +
                 ", yearsDuration=" + yearsDuration +
                 ", startDate=" + startDate +
-                ", finalDate=" + endDate +
-                ", objetiveGeneral='" + generalObjetive + '\'' +
+                ", endDate=" + endDate +
+                ", generalObjetive='" + generalObjetive + '\'' +
+                ", goalList=" + goalList +
                 '}';
     }
 }

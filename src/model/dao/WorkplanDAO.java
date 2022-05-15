@@ -3,7 +3,10 @@ package model.dao;
 import assets.utils.Database;
 import assets.utils.DateFormatter;
 import model.dao.interfaces.IWorkplanDAO;
-import model.domain.AcademicGroup;
+import model.domain.Action;
+import model.domain.ActionState;
+import model.domain.Goal;
+import model.domain.GoalState;
 import model.domain.Workplan;
 
 import java.sql.Connection;
@@ -45,7 +48,8 @@ public class WorkplanDAO implements IWorkplanDAO {
             list = new ArrayList<>();
             while(resultSet.next()) {
                 Workplan workplan = new Workplan();
-                workplan.setId(resultSet.getString("id"));
+                workplan.setIdentificator(resultSet.getString("identificador"));
+                workplan.setId(resultSet.getInt("id"));
                 workplan.setYearsDuration(resultSet.getInt("duracion_anios"));
                 workplan.setStartDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_inicio")));
                 workplan.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_final")));
@@ -63,7 +67,61 @@ public class WorkplanDAO implements IWorkplanDAO {
      */
     @Override
     public Workplan getWorkplanDetails(int id) throws SQLException {
-        return null;
+        Workplan workplan = null;
+        try( Connection conn = database.getConnection() ) {
+            String statement = "SELECT * FROM PlanDeTrabajo WHERE id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                workplan = new Workplan();
+                workplan.setId(resultSet.getInt("id"));
+                workplan.setIdentificator(resultSet.getString("identificador"));
+                workplan.setYearsDuration(resultSet.getInt("duracion_anios"));
+                workplan.setStartDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_inicio")));
+                workplan.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("fecha_final")));
+                workplan.setGeneralObjetive(resultSet.getString("objetivo_general"));
+                String goalStatement = "SELECT * FROM Meta WHERE id_plan_trabajo = ?";
+                PreparedStatement preparedStatement1 = conn.prepareStatement(goalStatement);
+                preparedStatement1.setInt(1, workplan.getId());
+                ResultSet resultSet1 = preparedStatement1.executeQuery();
+                List<Goal> goalList = new ArrayList<>();
+                while(resultSet1.next()) {
+                    Goal goal = new Goal();
+                    goal.setState(getGoalState(resultSet1.getString("estado")));
+                    goal.setId(resultSet1.getInt("id"));
+                    goal.setIdentificator(resultSet1.getString("identificador"));
+                    goal.setDescription(resultSet1.getString("descripcion"));
+                    goal.setEndDate(DateFormatter.convertSQLDateToUtilDate(resultSet1.getDate("fecha_fin")));
+                    List<Action> actions = new ArrayList<>();
+                    String actionStatement = "SELECT * FROM Accion WHERE id_meta = ?";
+                    PreparedStatement preparedStatement2 = conn.prepareStatement(actionStatement);
+                    preparedStatement2.setInt(1, goal.getId());
+                    ResultSet resultSet2 = preparedStatement2.executeQuery();
+                    while(resultSet2.next()) {
+                        Action action = new Action();
+                        action.setDescription(resultSet2.getString("descripcion"));
+                        action.setState(getActionState(resultSet2.getString("estado")));
+                        action.setResponsable(new MemberDAO().getMember(resultSet2.getInt("id_miembro")));
+                        action.setId(resultSet2.getInt("id"));
+                        String resourcesStatement = "SELECT * FROM RecursoAccion WHERE id_accion = ?";
+                        PreparedStatement preparedStatement3 = conn.prepareStatement(resourcesStatement);
+                        preparedStatement3.setInt(1, action.getId());
+                        ResultSet resultSet3 = preparedStatement3.executeQuery();
+                        List<String> recursos = new ArrayList<>();
+                        while(resultSet3.next()) {
+                            recursos.add(resultSet3.getString("recurso"));
+                        }
+                        action.setRecursos(recursos);
+                        actions.add(action);
+                    }
+                    goal.setActions(actions);
+                    goalList.add(goal);
+                }
+                workplan.setGoalList(goalList);
+            }
+        }
+        return workplan;
     }
 
     /***
@@ -85,4 +143,23 @@ public class WorkplanDAO implements IWorkplanDAO {
     public boolean removeWorkplan(int id) throws SQLException {
         return false;
     }
+
+    private GoalState getGoalState(String type) {
+        for (GoalState goalState : GoalState.values()) {
+            if (type.equalsIgnoreCase(goalState.getActivityState())) {
+                return goalState;
+            }
+        }
+        return null;
+    }
+
+    private ActionState getActionState(String type) {
+        for(ActionState actionState : ActionState.values()) {
+            if(type.equalsIgnoreCase(actionState.getActionState())) {
+                return actionState;
+            }
+        }
+        return null;
+    }
+
 }

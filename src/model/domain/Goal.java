@@ -1,14 +1,33 @@
 package model.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Goal {
-    private String id;
+    private String identificator;
+    private int id;
     private String description;
     private GoalState state;
     private Date endDate;
+    private List<Action> actions;
 
     public Goal() {
+    }
+
+    public String getIdentificator() {
+        return identificator;
+    }
+
+    public void setIdentificator(String identificator) {
+        this.identificator = identificator;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -35,21 +54,23 @@ public class Goal {
         this.endDate = endDate;
     }
 
-    public String getId() {
-        return id;
+    public List<Action> getActions() {
+        return actions;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
     }
 
     @Override
     public String toString() {
         return "Goal{" +
-                "id='" + id + '\'' +
+                "identificator='" + identificator + '\'' +
+                ", id=" + id +
                 ", description='" + description + '\'' +
                 ", state=" + state +
                 ", endDate=" + endDate +
+                ", actions=" + actions +
                 '}';
     }
 }

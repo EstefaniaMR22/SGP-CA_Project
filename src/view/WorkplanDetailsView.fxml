@@ -4,7 +4,6 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -38,12 +37,12 @@
                   </VBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <Button minWidth="120.0" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cancelar" />
+                        <Button minWidth="120.0" mnemonicParsing="false" onAction="#cancelOnAction" styleClass="secondary-button" text="Cerrar" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="41.0" prefWidth="139.0">
                      <children>
-                        <Button minWidth="139.0" mnemonicParsing="false" onAction="#addWorkplan" styleClass="main-button" text="Registrar" />
+                        <Button minWidth="139.0" mnemonicParsing="false" onAction="#modifyWorkplan" styleClass="main-button" text="Modificar" />
                      </children>
                   </VBox>
                </children>
@@ -53,7 +52,7 @@
             </HBox>
          </bottom>
          <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" vvalue="0.52" BorderPane.alignment="CENTER">
                <content>
                   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background-main">
                      <children>
@@ -82,7 +81,7 @@
                                                       <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Identificador" />
-                                                            <TextField fx:id="idTextField" promptText="Ejemplo AR-01" styleClass="textfield" />
+                                                            <TextField fx:id="idTextField" editable="false" promptText="Ejemplo AR-01" style="-fx-border-width: 0;" styleClass="textfield" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -92,13 +91,21 @@
                                                       <VBox maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Fecha de inicio" />
-                                                            <DatePicker fx:id="startDateDatepicker" maxWidth="1.7976931348623157E308" promptText="Selecciona una fecha" styleClass="datepicker" />
+                                                            <Label fx:id="startDateLabel" styleClass="description-label" text="Label">
+                                                               <VBox.margin>
+                                                                  <Insets left="15.0" />
+                                                               </VBox.margin>
+                                                            </Label>
                                                          </children>
                                                       </VBox>
                                                       <VBox maxWidth="1.7976931348623157E308" spacing="10.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label styleClass="attribute-form-label" text="Fecha final" />
-                                                            <DatePicker fx:id="endDateDatepicker" maxWidth="1.7976931348623157E308" promptText="Selecciona una fecha" styleClass="datepicker" />
+                                                            <Label fx:id="endDateLabel" styleClass="description-label" text="Label">
+                                                               <VBox.margin>
+                                                                  <Insets left="15.0" />
+                                                               </VBox.margin>
+                                                            </Label>
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -106,7 +113,7 @@
                                                 <VBox spacing="10.0">
                                                    <children>
                                                       <Label styleClass="attribute-form-label" text="Objetivo general" />
-                                                      <TextArea fx:id="generalObjetiveTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: Desarrollar programas de investigación interdisciplinaria de manejo conjunto sobre las LGC propuestas. Implementar el posgrado en Cultura y Comuniacción, con la prticipación de todos los miembros del CA." styleClass="textarea" />
+                                                      <TextArea fx:id="generalObjetiveTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Ejemplo: Desarrollar programas de investigación interdisciplinaria de manejo conjunto sobre las LGC propuestas. Implementar el posgrado en Cultura y Comuniacción, con la prticipación de todos los miembros del CA." style="-fx-border-width: 0;" styleClass="textarea" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -135,7 +142,6 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label alignment="TOP_LEFT" minHeight="100.0" styleClass="description-label" text="Para registrar una meta debes presionar el botón &quot;registrar&quot;, el cual desplegará una ventana y te pedirá los datos correspondientes. Despues de llenar los campos correspondientes, es necesario que vuelvas a presionar el boton &quot;registrar&quot; en la nueva ventana.&#10;&#10;No se permite identificadores duplicados." textAlignment="JUSTIFY" wrapText="true" />
                                                 <VBox VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <Label styleClass="subtitle-label" text="Tabla de metas">
@@ -143,7 +149,7 @@
                                                             <Insets bottom="15.0" />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <TableView fx:id="goalTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="220.0" styleClass="tableview" VBox.vgrow="ALWAYS">
+                                                      <TableView fx:id="goalTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="182.0" prefHeight="182.0" prefWidth="1126.0" styleClass="tableview" VBox.vgrow="ALWAYS">
                                                          <columns>
                                                             <TableColumn fx:id="identificatorTableColumn" prefWidth="272.0" style="-fx-alignment: center;" styleClass="first-column" text="Identificador" />
                                                             <TableColumn fx:id="descriptionTableColumn" prefWidth="550.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" text="Descripcion" />
@@ -157,10 +163,6 @@
                                                    </children>
                                                 </VBox>
                                                 <HBox alignment="CENTER_RIGHT" spacing="25.0">
-                                                   <children>
-                                                      <Button mnemonicParsing="false" onAction="#deleteGoalOnAction" styleClass="secondary-button" text="Eliminar" />
-                                                      <Button mnemonicParsing="false" onAction="#addGoalOnAction" styleClass="secondary-button" text="Registrar" />
-                                                   </children>
                                                    <VBox.margin>
                                                       <Insets top="15.0" />
                                                    </VBox.margin>
@@ -183,7 +185,7 @@
                                                          <children>
                                                             <VBox spacing="20.0">
                                                                <children>
-                                                                  <TableView fx:id="actionsTableView" minHeight="-Infinity" prefHeight="400.0" prefWidth="842.0" styleClass="tableview">
+                                                                  <TableView fx:id="actionsTableView" minHeight="-Infinity" prefHeight="302.0" prefWidth="693.0" styleClass="tableview">
                                                                      <columns>
                                                                         <TableColumn fx:id="actionDescriptionTableColumn" prefWidth="354.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" styleClass="first-column" text="Descripcion" />
                                                                         <TableColumn fx:id="stateActionTableColumn" prefWidth="176.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" text="Estado" />
@@ -193,12 +195,7 @@
                                                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                                      </columnResizePolicy>
                                                                   </TableView>
-                                                                  <HBox alignment="CENTER_RIGHT" spacing="25.0">
-                                                                     <children>
-                                                                        <Button mnemonicParsing="false" onAction="#deleteActionOnAction" styleClass="secondary-button" text="Eliminar" />
-                                                                        <Button mnemonicParsing="false" onAction="#addActionOnAction" styleClass="secondary-button" text="Registrar" />
-                                                                     </children>
-                                                                  </HBox>
+                                                                  <HBox alignment="CENTER_RIGHT" spacing="25.0" />
                                                                </children>
                                                             </VBox>
                                                             <VBox prefHeight="400.0" prefWidth="314.0" spacing="20.0">
@@ -208,7 +205,9 @@
                                                                      <styleClass>
                                                                         <String fx:value="listview" />
                                                                         <String fx:value="bordered-noradius-color" />
-                                                                     </styleClass></ListView>
+                                                                        <String fx:value="description-label" />
+                                                                     </styleClass>
+                                                                  </ListView>
                                                                   <HBox alignment="CENTER_RIGHT" spacing="25.0">
                                                                      <VBox.margin>
                                                                         <Insets top="15.0" />
@@ -225,7 +224,7 @@
                                                 </VBox>
                                              </children>
                                              <padding>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                                <Insets bottom="15.0" left="75.0" right="15.0" top="15.0" />
                                              </padding>
                                           </VBox>
                                        </children>

@@ -49,7 +49,7 @@ public class WorkplanListCell extends ListCell<Workplan> {
                     this.getStyleClass().add("middle-cell");
                 }
             }
-            idLabel.setText(item.getId());
+            idLabel.setText(item.getIdentificator());
             setText(null);
             setGraphic(mainPane);
         }

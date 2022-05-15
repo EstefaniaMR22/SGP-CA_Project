@@ -59,7 +59,7 @@ public class AddGoalController extends ValidatorController implements Initializa
                 goalRegistered = new Goal();
                 goalRegistered.setDescription(descriptionTextArea.getText());
                 goalRegistered.setEndDate(DateFormatter.getDateFromDatepickerValue(endDateDatePicker.getValue()));
-                goalRegistered.setId(idTextField.getText());
+                goalRegistered.setIdentificator(idTextField.getText());
                 goalRegistered.setState(GoalState.ACTIVE);
                 isRegistered = true;
                 stage.close();
@@ -74,7 +74,7 @@ public class AddGoalController extends ValidatorController implements Initializa
     private boolean validateIdentificator() {
         boolean isIdentificatorRepeated = false;
         for (Goal goal: goalObservableList ) {
-            if(goal.getId().equals(idTextField.getText())) {
+            if(goal.getIdentificator().equals(idTextField.getText())) {
                 isIdentificatorRepeated = true;
             }
         }

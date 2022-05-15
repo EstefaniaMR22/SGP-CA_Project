@@ -43,13 +43,14 @@ public class AddActionController extends ValidatorController implements Initiali
     @FXML private Label memberSeletectedLabel;
     @FXML private Label resourceSystemLabel;
     private Member memberSelected;
-    private ObservableList<Action> actionObservableList;
+    private final ObservableList<Action> actionObservableList;
     private boolean isRegistered;
     private Action actionRegistered;
 
-    public void showStage() {
+    public Action showStage() {
         loadFXMLFile(getClass().getResource("/view/AddActionView.fxml"), this);
         stage.showAndWait();
+        return actionRegistered;
     }
 
     @Override
@@ -60,11 +61,19 @@ public class AddActionController extends ValidatorController implements Initiali
         initializeFilterSearchInput();
     }
 
+    public AddActionController(ObservableList<Action> actionObservableList) {
+        this.actionObservableList = actionObservableList;
+    }
+
+    public boolean isRegistered() {
+        return isRegistered;
+    }
+
     @FXML
     void registerOnAction(ActionEvent event) {
         if(validateInputs()) {
-            if(!validateDescriptionAndAssigned()) {
-                if(memberSelected != null ) {
+            if(memberSelected != null ) {
+                if(!validateDescriptionAndAssigned() ) {
                     actionRegistered = new Action();
                     actionRegistered.setDescription(descriptionTextArea.getText());
                     actionRegistered.setResponsable(memberSelected);
@@ -73,10 +82,10 @@ public class AddActionController extends ValidatorController implements Initiali
                     isRegistered = true;
                     stage.close();
                 } else {
-                    systemLabel.setText("¡Debes asignar un miembro!");
+                    systemLabel.setText("¡Al parecer ya existe una accion con esa descripcion asignada al mismo miembro!");
                 }
             } else {
-                systemLabel.setText("¡Al parecer ya existe una accion con esa descripcion asignada al mismo miembro!");
+                systemLabel.setText("¡Debes asignar un miembro!");
             }
         } else {
             systemLabel.setText("¡Algunos campos son invalidos, por favor verifiquelos!");

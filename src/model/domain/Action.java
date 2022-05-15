@@ -7,6 +7,7 @@ public class Action {
     private ActionState state;
     private List<String> recursos;
     private Member responsable;
+    private int id;
 
     public Action() {
     }
@@ -43,6 +44,14 @@ public class Action {
         this.responsable = responsable;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Action{" +
@@ -50,6 +59,7 @@ public class Action {
                 ", state=" + state +
                 ", recursos=" + recursos +
                 ", responsable=" + responsable +
+                ", id=" + id +
                 '}';
     }
 }

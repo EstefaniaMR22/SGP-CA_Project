@@ -5,6 +5,10 @@ import controller.control.ValidatorController;
 import controller.control.validator.Validator;
 import controller.control.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.control.validator.ValidatorTextInputControl;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,6 +42,8 @@ public class AddWorkplanController extends ValidatorController implements Initia
     @FXML private TextField idTextField;
     @FXML private DatePicker startDateDatepicker;
     @FXML private Label systemLabel;
+    @FXML private TableColumn<Action, String> memberAssignedTableColumn;
+
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddWorkplanView.fxml"), this);
@@ -48,7 +54,7 @@ public class AddWorkplanController extends ValidatorController implements Initia
     public void initialize(URL location, ResourceBundle resources) {
         initValidator();
         setTableComponents();
-
+        intializeListenerActionTable();
     }
 
     @FXML
@@ -81,23 +87,35 @@ public class AddWorkplanController extends ValidatorController implements Initia
     }
 
     @FXML
-    void removeResourceOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void addResourceOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
     void addActionOnAction(ActionEvent event) {
-        new AddActionController().showStage();
+        AddActionController addActionController = new AddActionController(actionsTableView.getItems());
+        Action action = addActionController.showStage();
+        if(action != null ) {
+            if(addActionController.isRegistered() ) {
+                actionsTableView.getItems().add(action);
+            }
+        }
     }
 
     @FXML
     void deleteActionOnAction(ActionEvent event) {
+        Action selected = actionsTableView.getSelectionModel().getSelectedItem();
+        if(selected != null ) {
+            actionsTableView.getItems().remove(selected);
+        }
+    }
 
+    private void intializeListenerActionTable() {
+        actionsTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Action>() {
+            @Override
+            public void changed(ObservableValue<? extends Action> observable, Action oldValue, Action newValue) {
+                if(newValue != null) {
+                    resourcesListVIew.setItems(FXCollections.observableArrayList( newValue.getRecursos()));
+                } else {
+                    resourcesListVIew.setItems(null);
+                }
+            }
+        });
     }
 
     private void setTableComponents() {
@@ -105,6 +123,7 @@ public class AddWorkplanController extends ValidatorController implements Initia
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         endDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         actionDescriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        memberAssignedTableColumn.setCellValueFactory(x -> new SimpleStringProperty(x.getValue().getResponsable().getFullName() + ": ID: " + x.getValue().getResponsable().getPersonalNumber()));
         actionsTableView.setPlaceholder(new Label(""));
         goalTableView.setPlaceholder(new Label(""));
     }
