@@ -5,20 +5,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
-import model.domain.Member;
+import model.domain.Workplan;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MemberAcademicGroupListCell extends ListCell<Member> {
+public class WorkplanListCell extends ListCell<Workplan> {
     private FXMLLoader fxmlLoader;
-    @FXML private Label fullnameLabel;
     @FXML private AnchorPane mainPane;
-    @FXML private Label personalNumberLabel;
+    @FXML private Label idLabel;
 
     @Override
-    protected void updateItem(Member item, boolean empty) {
+    protected void updateItem(Workplan item, boolean empty) {
         super.updateItem(item, empty);
         super.updateItem(item, empty);
         if(empty || item == null ) {
@@ -27,12 +26,12 @@ public class MemberAcademicGroupListCell extends ListCell<Member> {
 
         } else {
             if(fxmlLoader == null ) {
-                fxmlLoader = new FXMLLoader(getClass().getResource("/view/MemberAcademicGroupListCellView.fxml"));
+                fxmlLoader = new FXMLLoader(getClass().getResource("/view/WorkplanListCell.fxml"));
                 fxmlLoader.setController(this);
                 try {
                     fxmlLoader.load();
                 } catch (IOException e) {
-                    Logger.getLogger(AdministratorMemberListCell.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(WorkplanListCell.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
             if(getListView().getItems().size() == 2 ) {
@@ -50,8 +49,7 @@ public class MemberAcademicGroupListCell extends ListCell<Member> {
                     this.getStyleClass().add("middle-cell");
                 }
             }
-            fullnameLabel.setText(item.getFullName());
-            personalNumberLabel.setText(item.getPersonalNumber());
+            idLabel.setText(item.getId());
             setText(null);
             setGraphic(mainPane);
         }

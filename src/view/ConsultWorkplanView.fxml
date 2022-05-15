@@ -13,9 +13,10 @@
    <children>
       <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER" styleClass="background-title">
+            <VBox alignment="CENTER" spacing="10.0" styleClass="background-title">
                <children>
-                  <Label alignment="CENTER" styleClass="section-label" text="Administración de Cuerpos Académicos" textAlignment="CENTER" wrapText="true" />
+                  <Label fx:id="academicGroupLabel" alignment="CENTER" styleClass="section-label" text="Cuerpo Academico ?" textAlignment="CENTER" wrapText="true" />
+                  <Label alignment="CENTER" styleClass="subtitle-label" text="Planes de trabajo" textAlignment="CENTER" wrapText="true" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -35,29 +36,25 @@
                                     <TextField fx:id="searchTextField" promptText="Buscar por nombre o identificador" styleClass="textfield" />
                                  </children>
                               </VBox>
-                              <ListView fx:id="academicGroupProgramListView" styleClass="listview" VBox.vgrow="ALWAYS">
+                              <ListView fx:id="workplanListView" maxWidth="1.7976931348623157E308" styleClass="listview" VBox.vgrow="ALWAYS">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                               </ListView>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Label styleClass="attribute-title-label" text="Total de Cuerpos Académicos:" />
-                                          <Label fx:id="totalAcademicGroupProgramLabel" prefWidth="0.0" styleClass="description-label" text="?" />
-                                       </children>
-                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="ALWAYS" />
                                     <HBox maxWidth="1.7976931348623157E308">
                                        <children>
-                                          <Button fx:id="registerAcademicGroupButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAcademicGroupProgramOnAction" styleClass="secondary-button" text="Registrar" />
-                                       </children>
-                                    </HBox>
+                                          <Button mnemonicParsing="false" onAction="#registerOnAction" styleClass="secondary-button" text="Register" />
+                                       </children></HBox>
                                     <HBox maxWidth="1.7976931348623157E308">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#getAcademicGroupProgramDetailsOnAction" styleClass="secondary-button" text="Consultar detalles" />
-                                       </children>
-                                    </HBox>
+                                          <Button mnemonicParsing="false" onAction="#consultWPOnAction" styleClass="secondary-button" text="Consultar" />
+                                       </children></HBox>
                                  </children>
                               </HBox>
                            </children>

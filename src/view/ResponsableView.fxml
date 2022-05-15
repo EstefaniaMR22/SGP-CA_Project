@@ -67,7 +67,7 @@
                            <children>
                               <VBox styleClass="background-title">
                                  <children>
-                                    <Label styleClass="section-label" text="Administracion de Cuerpos Académicos" />
+                                    <Label styleClass="section-label" text="Menú" />
                                  </children>
                                  <padding>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -78,11 +78,20 @@
                                     <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                                  </padding>
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#academicGroupOnAction" prefHeight="112.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Cuerpos Académicos" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Button>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#academicGroupOnAction" prefHeight="100.0" prefWidth="201.0" styleClass="secondary-button" text="Administracion de Cuerpos Académicos" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#workPlanOnAction" prefHeight="100.0" prefWidth="201.0" styleClass="secondary-button" text="Planes de trabajo" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>

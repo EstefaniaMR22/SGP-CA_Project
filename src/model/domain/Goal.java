@@ -5,7 +5,7 @@ import java.util.Date;
 public class Goal {
     private String id;
     private String description;
-    private String state;
+    private GoalState state;
     private Date endDate;
 
     public Goal() {
@@ -19,11 +19,11 @@ public class Goal {
         this.description = description;
     }
 
-    public String getState() {
+    public GoalState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(GoalState state) {
         this.state = state;
     }
 
@@ -48,7 +48,7 @@ public class Goal {
         return "Goal{" +
                 "id='" + id + '\'' +
                 ", description='" + description + '\'' +
-                ", state='" + state + '\'' +
+                ", state=" + state +
                 ", endDate=" + endDate +
                 '}';
     }

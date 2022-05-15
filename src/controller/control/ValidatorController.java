@@ -2,6 +2,8 @@ package controller.control;
 
 import controller.control.validator.IValidatorControlFX;
 import controller.control.Controller;
+import javafx.fxml.Initializable;
+
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -75,8 +77,4 @@ public class ValidatorController extends Controller {
         return dataInputValid;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 }

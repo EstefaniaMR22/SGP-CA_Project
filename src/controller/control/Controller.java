@@ -29,7 +29,4 @@ public abstract class Controller {
         Scene scene = new Scene(root);
         stage.setScene(scene);
     }
-
-
-    public abstract void initialize(URL location, ResourceBundle resources);
 }

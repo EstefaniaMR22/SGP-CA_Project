@@ -3,6 +3,7 @@ package controller;
 import assets.utils.Autentication;
 import controller.academicgroup.ConsultAcademicGroupsController;
 import controller.control.Controller;
+import controller.workplan.ConsultWorkplanController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +37,11 @@ public class ResponsableController extends Controller implements Initializable {
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ResponsableView.fxml"), this);
         stage.showAndWait();
+    }
+
+    @FXML
+    void workPlanOnAction(ActionEvent event) {
+        new ConsultWorkplanController().showStage();
     }
 
     @FXML

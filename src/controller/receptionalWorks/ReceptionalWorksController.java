@@ -13,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,7 +31,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ReceptionalWorksController extends Controller {
+public class ReceptionalWorksController extends Controller implements Initializable {
 
     @FXML private TableView<ReceptionalWork> receptionalWorksTableView;
     @FXML private TableColumn<ReceptionalWork, String> nameReceptionalWorkColumn;

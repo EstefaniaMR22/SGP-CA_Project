@@ -1,4 +1,5 @@
 import controller.LoginController;
+import controller.workplan.AddActionController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.dao.LgacDAO;
@@ -7,8 +8,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        LoginController loginController = new LoginController();
-        loginController.showStage();
+        //LoginController loginController = new LoginController();
+        //loginController.showStage();
+        new AddActionController().showStage();
     }
 
     public static void main(String[] args){

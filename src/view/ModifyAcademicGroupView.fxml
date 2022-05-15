@@ -313,7 +313,7 @@
                                                       <TableView fx:id="lgacRegisteredTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="220.0" styleClass="tableview" VBox.vgrow="ALWAYS">
                                                          <columns>
                                                             <TableColumn fx:id="identificatorTableColumn" prefWidth="272.0" style="-fx-alignment: center;" styleClass="first-column" text="Identificador" />
-                                                            <TableColumn fx:id="descriptionTableColumn" prefWidth="550.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" styleClass="last-column" text="Descripcion" />
+                                                            <TableColumn fx:id="descriptionTableColumn" prefWidth="550.0" style="-fx-alignment: center-left; -fx-padding: 0 0 0 15;" text="Descripcion" />
                                                             <TableColumn fx:id="stateTableColumn" prefWidth="550.0" style="-fx-alignment: center; -fx-padding: 0 0 0 15;" styleClass="last-column" text="Estado" />
                                                          </columns>
                                                          <columnResizePolicy>
