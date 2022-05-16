@@ -26,11 +26,73 @@ public class WorkplanDAO implements IWorkplanDAO {
     /***
      * Add a workplan to database
      * @param workplan the objecto to save in database
-     * @return String representing the id of workplan
+     * @param idAcademicGroup the id of academic group
+     * @return int representing the id of workplan
      */
     @Override
-    public String addWorkPlan(Workplan workplan) throws SQLException {
-        return null;
+    public Workplan addWorkPlan(Workplan workplan, String idAcademicGroup) throws SQLException {
+        try(Connection conn = database.getConnection()) {
+            conn.setAutoCommit(false);
+            String lastInsert = "SELECT LAST_INSERT_ID()";
+            String statement = "INSERT INTO PlanDeTrabajo(id_programa_cuerpo_academico, duracion_anios, fecha_inicio, fecha_final, objetivo_general, identificador) VALUES(?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setString(1, idAcademicGroup);
+            preparedStatement.setInt(2, workplan.getYearsDuration());
+            preparedStatement.setDate(3, DateFormatter.convertUtilDateToSQLDate(workplan.getStartDate()));
+            preparedStatement.setDate(4, DateFormatter.convertUtilDateToSQLDate(workplan.getEndDate()));
+            preparedStatement.setString(5, workplan.getGeneralObjetive());
+            preparedStatement.setString(6, workplan.getIdentificator());
+             preparedStatement.execute();
+            preparedStatement = conn.prepareStatement(lastInsert);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                workplan.setId(resultSet.getInt(1));
+            }
+            if(workplan.getId() > 0) {
+                for(Goal goal : workplan.getGoalList()) {
+                    String goalStatement = "INSERT INTO Meta(descripcion, fecha_fin, identificador, estado, id_plan_trabajo) VALUES(?,?,?,?,?)";
+                    preparedStatement = conn.prepareStatement(goalStatement);
+                    preparedStatement.setString(1, goal.getDescription());
+                    preparedStatement.setDate(2, DateFormatter.convertUtilDateToSQLDate(goal.getEndDate()));
+                    preparedStatement.setString(3, goal.getIdentificator());
+                    preparedStatement.setInt(4, 1);
+                    preparedStatement.setInt(5, workplan.getId());
+                    preparedStatement.execute();
+                    preparedStatement = conn.prepareStatement(lastInsert);
+                    resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()) {
+                        goal.setId(resultSet.getInt(1));
+                    }
+                    if (goal.getId() > 0) {
+                        for (Action action : ((goal.getActions() == null) ?  new ArrayList<Action>() : goal.getActions()) ) {
+                           String actionStatement = "INSERT INTO Accion(id_miembro, descripcion, id_meta, estado) VALUES(?,?,?,?)";
+                           preparedStatement = conn.prepareStatement(actionStatement);
+                           preparedStatement.setInt(1, action.getResponsable().getId());
+                           preparedStatement.setString(2, action.getDescription());
+                           preparedStatement.setInt(3, goal.getId());
+                           preparedStatement.setInt(4, 1);
+                           preparedStatement.execute();
+                            preparedStatement = conn.prepareStatement(lastInsert);
+                            resultSet = preparedStatement.executeQuery();
+                            if (resultSet.next()) {
+                                action.setId(resultSet.getInt(1));
+                            }
+                            if(action.getId() > 0 ) {
+                                for(String resource : action.getRecursos() ) {
+                                    String resourceStatement = "INSERT INTO RecursoAccion(recurso, id_accion) VALUES(?,?)";
+                                    preparedStatement = conn.prepareStatement(resourceStatement);
+                                    preparedStatement.setString(1, resource);
+                                    preparedStatement.setInt(2, action.getId());
+                                    preparedStatement.execute();
+                                }
+                            }
+                    }
+                }
+                }
+            }
+            conn.commit();
+        }
+        return workplan;
     }
 
     /***

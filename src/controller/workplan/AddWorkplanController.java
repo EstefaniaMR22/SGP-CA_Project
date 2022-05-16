@@ -1,30 +1,30 @@
 package controller.workplan;
 
+import assets.utils.Autentication;
 import assets.utils.DateFormatter;
 import controller.control.ValidatorController;
 import controller.control.validator.Validator;
 import controller.control.validator.ValidatorComboBoxBaseWithConstraints;
 import controller.control.validator.ValidatorTextInputControl;
+import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+import model.dao.WorkplanDAO;
 import model.domain.Action;
 import model.domain.Goal;
+import model.domain.Workplan;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -43,7 +43,10 @@ public class AddWorkplanController extends ValidatorController implements Initia
     @FXML private DatePicker startDateDatepicker;
     @FXML private Label systemLabel;
     @FXML private TableColumn<Action, String> memberAssignedTableColumn;
-
+    @FXML private VBox actionVBox;
+    @FXML private ScrollPane scrollScrollPane;
+    private Workplan workplan;
+    private boolean isRegistered;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddWorkplanView.fxml"), this);
@@ -55,11 +58,39 @@ public class AddWorkplanController extends ValidatorController implements Initia
         initValidator();
         setTableComponents();
         intializeListenerActionTable();
+        initializeListenerGoalTable();
     }
 
     @FXML
     void addWorkplan(ActionEvent event) {
+        if(validateInputs()) {
+            addWorkplan();
+        } else {
+            systemLabel.setText("¡Algunos campos son invalidos, por favor verifiquelos!");
+        }
+    }
 
+    private int getDurationYears() {
+        return endDateDatepicker.getValue().getYear() - startDateDatepicker.getValue().getYear();
+    }
+
+    private void addWorkplan() {
+        workplan = new Workplan();
+        workplan.setIdentificator(idTextField.getText());
+        workplan.setGeneralObjetive(generalObjetiveTextArea.getText());
+        workplan.setStartDate(DateFormatter.getDateFromDatepickerValue(startDateDatepicker.getValue()));
+        workplan.setEndDate(DateFormatter.getDateFromDatepickerValue(endDateDatepicker.getValue()));
+        workplan.setYearsDuration(getDurationYears());
+        workplan.setGoalList(new ArrayList<>(goalTableView.getItems()));
+        try{
+            workplan = new WorkplanDAO().addWorkPlan(workplan, Autentication.getInstance().getIdAcademicGroup());
+            isRegistered = true;
+            scrollScrollPane.setDisable(true);
+            systemLabel.setText("¡Se ha registrado de manera exitosa!");
+            pause(3);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -88,38 +119,61 @@ public class AddWorkplanController extends ValidatorController implements Initia
 
     @FXML
     void addActionOnAction(ActionEvent event) {
-        AddActionController addActionController = new AddActionController(actionsTableView.getItems());
-        Action action = addActionController.showStage();
-        if(action != null ) {
-            if(addActionController.isRegistered() ) {
-                actionsTableView.getItems().add(action);
+        Goal selected = goalTableView.getSelectionModel().getSelectedItem();
+        if(selected != null ) {
+            AddActionController addActionController = new AddActionController(actionsTableView.getItems());
+            Action action = addActionController.showStage();
+            if(action != null ) {
+                if(addActionController.isRegistered() ) {
+                    actionsTableView.getItems().add(action);
+                    selected.setActions(new ArrayList<>(actionsTableView.getItems()));
+                }
             }
         }
     }
 
     @FXML
     void deleteActionOnAction(ActionEvent event) {
-        Action selected = actionsTableView.getSelectionModel().getSelectedItem();
-        if(selected != null ) {
-            actionsTableView.getItems().remove(selected);
+        Goal selectedGoal = goalTableView.getSelectionModel().getSelectedItem();
+        if( selectedGoal != null ) {
+            Action selected = actionsTableView.getSelectionModel().getSelectedItem();
+            if(selected != null ) {
+                actionsTableView.getItems().remove(selected);
+                selectedGoal.setActions(new ArrayList<>(actionsTableView.getItems()));
+            }
         }
     }
 
+    private void pause(int seconds) {
+        PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
+        pause.setOnFinished(event -> stage.close());
+        pause.play();
+    }
+
+    private void initializeListenerGoalTable() {
+        goalTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                actionVBox.setDisable(false);
+                actionsTableView.setItems(FXCollections.observableArrayList( (newValue.getActions() == null ? new ArrayList<>() : newValue.getActions() )));
+            } else {
+                actionsTableView.setItems(null);
+                actionVBox.setDisable(true);
+            }
+        });
+    }
+
     private void intializeListenerActionTable() {
-        actionsTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Action>() {
-            @Override
-            public void changed(ObservableValue<? extends Action> observable, Action oldValue, Action newValue) {
-                if(newValue != null) {
-                    resourcesListVIew.setItems(FXCollections.observableArrayList( newValue.getRecursos()));
-                } else {
-                    resourcesListVIew.setItems(null);
-                }
+        actionsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                resourcesListVIew.setItems(FXCollections.observableArrayList( newValue.getRecursos()));
+            } else {
+                resourcesListVIew.setItems(null);
             }
         });
     }
 
     private void setTableComponents() {
-        identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        identificatorTableColumn.setCellValueFactory(new PropertyValueFactory<>("identificator"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         endDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         actionDescriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -129,10 +183,11 @@ public class AddWorkplanController extends ValidatorController implements Initia
     }
 
     private void initValidator() {
-        Function<Object, Boolean> validateRegister = a -> DateFormatter.compareActualDateToLocalDate((LocalDate) a) >= 0;
+        Function<Object, Boolean> validateRegister = a -> true;
+        Function<Object, Boolean> validateWithOther = a -> (((LocalDate) a).compareTo(startDateDatepicker.getValue()) > 0);
         addComponentToValidator(new ValidatorTextInputControl(idTextField, Validator.PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS, Validator.LENGTH_GENERAL, this), false);
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(startDateDatepicker, this, validateRegister), false);
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(endDateDatepicker, this, validateRegister), false);
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(endDateDatepicker, this, validateWithOther), false);
         addComponentToValidator(new ValidatorTextInputControl(generalObjetiveTextArea, Validator.PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
         initListenerToControls();
     }

@@ -8,9 +8,10 @@ public interface IWorkplanDAO {
     /***
      * Add a workplan to database
      * @param workplan the objecto to save in database
-     * @return String representing the id of workplan
+     * @param idAcademicGroup the id of academic group
+     * @return int representing the id of workplan
      */
-    String addWorkPlan(Workplan workplan) throws SQLException;
+    Workplan addWorkPlan(Workplan workplan, String idAcademicGroup) throws SQLException;
     /***
      * Get all workplan of academic group.
      * @param academicGroupID the academic group to get all workplans
