@@ -43,7 +43,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="41.0" prefWidth="139.0">
                      <children>
-                        <Button minWidth="139.0" mnemonicParsing="false" onAction="#addWorkplan" styleClass="main-button" text="Registrar" />
+                        <Button minWidth="139.0" mnemonicParsing="false" onAction="#modifyWorkplan" styleClass="main-button" text="Modificar" />
                      </children>
                   </VBox>
                </children>
@@ -53,7 +53,7 @@
             </HBox>
          </bottom>
          <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" vvalue="0.72" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="scrollScrollPane" fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
                <content>
                   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background-main">
                      <children>

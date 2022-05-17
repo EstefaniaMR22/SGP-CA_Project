@@ -1,6 +1,7 @@
 package controller.workplan;
 
 import controller.academicgroup.AcademicGroupDetailsController;
+import controller.academicgroup.ModifyAcademicGroupController;
 import controller.control.ValidatorController;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,9 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.WorkplanDAO;
 import model.domain.Action;
-import model.domain.ActionState;
 import model.domain.Goal;
-import model.domain.GoalState;
 import model.domain.Workplan;
 
 import java.net.URL;
@@ -79,7 +78,15 @@ public class WorkplanDetailsController extends ValidatorController implements In
 
     @FXML
     void modifyWorkplan(ActionEvent event) {
-
+        ModifyActionController modifyActionController = new ModifyActionController(workplanSelected);
+        Workplan updated = modifyActionController.showStage();
+        if(updated != null && !updated.equals(workplanSelected) && modifyActionController.isUpdated()) {
+            workplanSelected = updated;
+            setDetailtsToComponents();
+        } else {
+            getWorkplanDetails();
+        }
+        goalTableView.refresh();
     }
 
     private void getWorkplanDetails() {
@@ -117,7 +124,7 @@ public class WorkplanDetailsController extends ValidatorController implements In
             @Override
             public void changed(ObservableValue<? extends Goal> observable, Goal oldValue, Goal newValue) {
                 if(newValue != null ) {
-                    actionsTableView.setItems(FXCollections.observableArrayList(newValue.getActions()));
+                    actionsTableView.setItems(FXCollections.observableArrayList((newValue.getActions() != null ? newValue.getActions() : new ArrayList<>()) ));
                 } else {
                     actionsTableView.setItems(null);
                 }

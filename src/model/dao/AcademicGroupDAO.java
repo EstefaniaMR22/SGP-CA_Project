@@ -242,13 +242,12 @@ public class AcademicGroupDAO implements IAcademicGroupDAO {
             rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 List<LGAC> oldLGACList = getAcademicGroupProgramDetails(academicGroupProgram.getId()).getLgacList();
-
                 oldLGACList.forEach(x -> {
                     LGAC isPresent = academicGroupProgram.getLgacList().stream().filter(e -> e.getIdentification().equals(x.getIdentification())).findAny().orElse(null);
                     if (isPresent != null) {
                         if (isPresent.getActivityState() != x.getActivityState()) {
                             try {
-                                System.out.println(new LgacDAO().updateActivityState(x.getIdentification(), academicGroupProgram.getId(), isPresent.getActivityState()));
+                                new LgacDAO().updateActivityState(x.getIdentification(), academicGroupProgram.getId(), isPresent.getActivityState());
                             } catch (SQLException e) {
                                 Logger.getLogger(AcademicGroupDAO.class.getName()).log(Level.SEVERE, null, e);
                             }

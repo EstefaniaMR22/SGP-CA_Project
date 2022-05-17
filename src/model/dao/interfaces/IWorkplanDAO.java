@@ -27,9 +27,10 @@ public interface IWorkplanDAO {
     /***
      * Update a workplan including goals and actions.
      * @param workplan all the new workplan to update
-     * @return true if it was updated otherwise false.
+     * @param idAcademicGroup the id of academic group
+     * @return workplan object that contains all new id
      */
-    boolean updateWorkplan(Workplan workplan) throws SQLException;
+     Workplan updateWorkplan(Workplan workplan, String idAcademicGroup) throws SQLException;
     /***
      * Remove a workplan from database.
      * @param id the workplan id
