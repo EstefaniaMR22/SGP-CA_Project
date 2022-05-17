@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 
-public class ModifyActionController extends ValidatorController implements Initializable {
+public class ModifyWorkplanController extends ValidatorController implements Initializable {
     @FXML private TableView<Action> actionsTableView;
     @FXML private TableColumn<Action, String> actionDescriptionTableColumn;
     @FXML private TableView<Goal> goalTableView;
@@ -77,7 +77,7 @@ public class ModifyActionController extends ValidatorController implements Initi
         return isUpdated;
     }
 
-    public ModifyActionController(Workplan workplan) {
+    public ModifyWorkplanController(Workplan workplan) {
         this.workplan = workplan;
     }
 

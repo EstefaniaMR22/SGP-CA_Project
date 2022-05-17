@@ -1,9 +1,6 @@
 package controller.workplan;
 
-import controller.academicgroup.AcademicGroupDetailsController;
-import controller.academicgroup.ModifyAcademicGroupController;
 import controller.control.ValidatorController;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -78,7 +75,7 @@ public class WorkplanDetailsController extends ValidatorController implements In
 
     @FXML
     void modifyWorkplan(ActionEvent event) {
-        ModifyActionController modifyActionController = new ModifyActionController(workplanSelected);
+        ModifyWorkplanController modifyActionController = new ModifyWorkplanController(workplanSelected);
         Workplan updated = modifyActionController.showStage();
         if(updated != null && !updated.equals(workplanSelected) && modifyActionController.isUpdated()) {
             workplanSelected = updated;
