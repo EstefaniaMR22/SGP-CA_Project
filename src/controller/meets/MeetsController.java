@@ -1,5 +1,6 @@
 package controller.meets;
 
+import assets.utils.Autentication;
 import assets.utils.SQLStates;
 import controller.control.AlertController;
 import controller.control.Controller;
@@ -18,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.MeetDAO;
 import model.dao.ProjectDAO;
 import model.domain.Meet;
+import model.domain.ParticipationType;
 import model.domain.Project;
 
 import java.net.URL;
@@ -40,6 +42,7 @@ public class MeetsController extends Controller implements Initializable {
     @FXML private TableColumn<Meet, String> dateMeetColumn;
     @FXML private TableColumn<Meet, String> leaderColumn;
     private String idAcademicGroup;
+    private int idMember;
 
     private ObservableList<Meet> meetsObservableList;
 
@@ -51,10 +54,27 @@ public class MeetsController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setTableComponents();
+        ParticipationType participationType = Autentication.getInstance().getParticipation().getParticipationType();
+        if (participationType == ParticipationType.INTEGRANT) {
+            newMeetButton.setDisable(true);
+            newMeetButton.setVisible(false);
+            modifyMeetButton.setDisable(true);
+            modifyMeetButton.setVisible(false);
+
+        }
+
+        if (participationType == ParticipationType.COLABORATOR) {
+            newMeetButton.setDisable(true);
+            newMeetButton.setVisible(false);
+            modifyMeetButton.setDisable(true);
+            modifyMeetButton.setVisible(false);
+        }
     }
 
-    public MeetsController(String idAcademicGroup){
+    public MeetsController(String idAcademicGroup, int idMember){
+
         this.idAcademicGroup = idAcademicGroup;
+        this.idMember = idMember;
     }
 
     private void setTableComponents() {
@@ -162,7 +182,7 @@ public class MeetsController extends Controller implements Initializable {
             if(selectedMeet != null) {
                 try{
 
-                ConsultMeetController consultMeetController = new ConsultMeetController(selectedMeet, idAcademicGroup);
+                ConsultMeetController consultMeetController = new ConsultMeetController(selectedMeet, idAcademicGroup, idMember);
                 consultMeetController.showStage();
 
                 }catch (Exception consultProjectInvestigationException) {

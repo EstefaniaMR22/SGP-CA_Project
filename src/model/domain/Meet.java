@@ -19,8 +19,6 @@ public class Meet {
     private String leader;
     private int idSecretary;
     private String secretary;
-    private int idTimer;
-    private String timer;
     private ObservableList<Member> asistents;
 
     public float getTotalTime() {
@@ -93,22 +91,6 @@ public class Meet {
 
     public void setSecretary(String secretary) {
         this.secretary = secretary;
-    }
-
-    public int getIdTimer() {
-        return idTimer;
-    }
-
-    public void setIdTimer(int idTimer) {
-        this.idTimer = idTimer;
-    }
-
-    public String getTimer() {
-        return timer;
-    }
-
-    public void setTimer(String timer) {
-        this.timer = timer;
     }
 
     public ObservableList<Member> getAsistents() {

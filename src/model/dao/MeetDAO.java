@@ -144,8 +144,8 @@ public class MeetDAO implements IMeetDAO {
         try(Connection conn = databaseConection.getConnection()) {
             conn.setAutoCommit(false);
             String statement = "INSERT INTO Reunion(hora, nota_reunion, nombre_proyecto, registro, tiempo_total," +
-                    " id_proyecto_investigacion, lider, secretario, tomador_de_tiempo, fecha) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    " id_proyecto_investigacion, lider, secretario, fecha) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(statement);
 
@@ -157,8 +157,7 @@ public class MeetDAO implements IMeetDAO {
             preparedStatement.setInt(6, newMeet.getIdProject());
             preparedStatement.setInt(7, newMeet.getIdLeader());
             preparedStatement.setInt(8, newMeet.getIdSecretary());
-            preparedStatement.setInt(9, newMeet.getIdTimer());
-            preparedStatement.setDate(10, DateFormatter.convertUtilDateToSQLDate(newMeet.getDateMeet()));
+            preparedStatement.setDate(9, DateFormatter.convertUtilDateToSQLDate(newMeet.getDateMeet()));
             
             wasAdded = preparedStatement.executeUpdate() > 0;
 
@@ -275,7 +274,7 @@ public class MeetDAO implements IMeetDAO {
         try(Connection conn = databaseConection.getConnection()) {
 
             String statement = "SELECT Reunion.id, Reunion.nota_reunion, Reunion.hora, Reunion.id_proyecto_investigacion, Reunion.nombre_proyecto," +
-                    " Reunion.registro, Reunion.fecha, Reunion.tiempo_total, Reunion.lider, Reunion.secretario, Reunion.tomador_de_tiempo " +
+                    " Reunion.registro, Reunion.fecha, Reunion.tiempo_total, Reunion.lider, Reunion.secretario " +
                     "FROM Reunion INNER JOIN ProyectoInvestigacion ON Reunion.id_proyecto_investigacion = ProyectoInvestigacion.id " +
                     "INNER JOIN LGACProyectoInvestigacion ON  ProyectoInvestigacion.id = LGACProyectoInvestigacion.id_proyecto_investigacion" +
                     " INNER JOIN LGAC ON LGACProyectoInvestigacion.id_lgac = LGAC.id WHERE Reunion.id = ?";
@@ -310,9 +309,6 @@ public class MeetDAO implements IMeetDAO {
                 Member secretary = memberDAO.getMember(meetDetails.getIdSecretary());
                 meetDetails.setSecretary(secretary.getFullName());
 
-                meetDetails.setIdTimer(resultSet.getInt("Reunion.tomador_de_tiempo"));
-                Member timer = memberDAO.getMember(meetDetails.getIdTimer());
-                meetDetails.setTimer(timer.getFullName());
                 meetDetails.setAsistents(getAsistentsMeetList(meetDetails.getIdMeet()));
 
             }
@@ -356,6 +352,38 @@ public class MeetDAO implements IMeetDAO {
     }
 
     /***
+     * Get meet details
+     * <p>
+     * Get details from a reunion and verificate if exist the same hour and date from meet
+     * </p>
+     * @param idMeet the date meet to consult
+     * @param idMember the hour meet to consult
+     * @return boolean if exist a copy return false, but if not exist return true
+     */
+
+    public boolean checkSecretary(int idMeet, int idMember) throws SQLException {
+        boolean isSecretary = false;
+
+        try(Connection conn = databaseConection.getConnection()) {
+
+            String statement = "SELECT * FROM Reunion " +
+                    "WHERE Reunion.id = ? AND Reunion.secretario = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, idMeet);
+            preparedStatement.setInt(2, idMember);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                isSecretary = true;
+            }
+
+        }
+        databaseConection.disconnect();
+        return isSecretary;
+    }
+
+    /***
      * Update meet
      * <p>
      * Update details from a meet registered
@@ -387,5 +415,48 @@ public class MeetDAO implements IMeetDAO {
         }
         databaseConection.disconnect();
         return wasUpdated;
+    }
+
+
+    public boolean addTimeMeet(int idMeet, String timeMeet) throws SQLException {
+        boolean wasUpdated = false;
+
+        try(Connection conn = databaseConection.getConnection()) {
+            int rowsAffected = 0;
+            conn.setAutoCommit(false);
+            String statement = "UPDATE Reunion SET tiempo_total = ? WHERE id = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+
+            preparedStatement.setString(1, timeMeet);
+            preparedStatement.setInt(2, idMeet);
+            rowsAffected = preparedStatement.executeUpdate();
+            wasUpdated = rowsAffected > 0;
+
+            conn.commit();
+
+        }
+        databaseConection.disconnect();
+        return wasUpdated;
+    }
+
+    public boolean timeMeetIsNull(int idMeet) throws SQLException {
+        boolean isNull = true;
+
+        try(Connection conn = databaseConection.getConnection()) {
+            String statement = "SELECT * FROM Reunion " +
+                    "WHERE Reunion.id = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(statement);
+            preparedStatement.setInt(1, idMeet);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                isNull = false;
+            }
+
+        }
+        databaseConection.disconnect();
+        return isNull;
     }
 }

@@ -28,8 +28,8 @@ public class IntegrantController extends Controller implements Initializable {
     @FXML private Label personalNumberLabel;
     @FXML private Label telephoneLabel;
 
-    String idAcademicGroup;
-
+    private String idAcademicGroup;
+    private int idMember;
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/IntegrantView.fxml"), this);
@@ -71,7 +71,7 @@ public class IntegrantController extends Controller implements Initializable {
     @FXML
     void consultMeetOnAction(ActionEvent event) {
         try {
-            MeetsController meetsController = new MeetsController(idAcademicGroup);
+            MeetsController meetsController = new MeetsController(idAcademicGroup, idMember);
             meetsController.showStage();
 
         } catch (Exception addProjectInvestigationException) {
@@ -97,6 +97,7 @@ public class IntegrantController extends Controller implements Initializable {
             nationalityLabel.setText(member.getNationality());
             personalNumberLabel.setText(member.getPersonalNumber());
             telephoneLabel.setText(member.getTelephone());
+            this.idMember = member.getId();
         }
     }
 }

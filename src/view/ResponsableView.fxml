@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1071.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1071.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="640.0" prefWidth="1071.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -86,6 +86,11 @@
                                              </font>
                                           </Button>
                                           <Button mnemonicParsing="false" onAction="#workPlanOnAction" prefHeight="100.0" prefWidth="201.0" styleClass="secondary-button" text="Planes de trabajo" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#meetsOnAction" prefHeight="100.0" prefWidth="201.0" styleClass="secondary-button" text="Reuniones" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>

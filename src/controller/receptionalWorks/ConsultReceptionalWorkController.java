@@ -32,19 +32,6 @@ public class ConsultReceptionalWorkController extends Controller implements Init
     @FXML private Label statusLabel;
     @FXML private Label descriptionLabel;
     @FXML private Label requerimentsLabel;
-    @FXML private TableView<Evidence> evidencesTableView;
-    @FXML private TableColumn<Evidence, String> typeCoulumn;
-    @FXML private TableColumn<Evidence, String> nameReceptionalWorkColumn;
-    @FXML private TableColumn<Evidence, String> modalityColumn;
-    @FXML private TableColumn<Evidence, String> registerDateColumn;
-    @FXML private TableColumn<Evidence, String> responseColumn;
-
-    @FXML private Button consultEvidenceButton;
-    @FXML private Button deleteEvidenceButton;
-    @FXML private Button addArticleButton;
-    @FXML private Button addPrototipeButton;
-    @FXML private Button addBookButton;
-    @FXML private Button exitButton;
 
     ReceptionalWork receptionalWorkSelected;
 
@@ -60,32 +47,6 @@ public class ConsultReceptionalWorkController extends Controller implements Init
 
     public ConsultReceptionalWorkController(ReceptionalWork receptionalWorkSelected){
         this.receptionalWorkSelected = receptionalWorkSelected;
-    }
-
-
-    @FXML
-    public void consultEvidenceOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void deleteEvidenceOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void addArticleOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void addPrototipeOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void addBookOnAction(ActionEvent actionEvent) {
-
     }
 
     @FXML

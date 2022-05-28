@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -42,6 +43,7 @@ public class AddReceptionalWorkController extends ValidatorController implements
     @FXML private TextField participantsTextField;
     @FXML private TextArea descriptionTextArea;
     @FXML private TextArea requerimentsTextArea;
+    @FXML private DatePicker startDateDataPicker;
     @FXML private DatePicker estimatedEndDateDataPicker;
     @FXML private ComboBox<Member> directorCombobox;
     @FXML private ComboBox<Member> codirectorCombobox;
@@ -90,8 +92,16 @@ public class AddReceptionalWorkController extends ValidatorController implements
         try {
             if(validateInputs()) {
                 if(!validateReceptionalWork()) {
-                        addReceptionalWork();
-
+                    int participants = Integer.parseInt(participantsTextField.getText());
+                    if(participants<=3) {
+                        if(!estimatedEndDateDataPicker.getValue().isBefore(startDateDataPicker.getValue())) {
+                            addReceptionalWork();
+                        }else{
+                            systemLabel.setText("¡La fecha estimada de finalización debe ser mayor que la de inicio!");
+                        }
+                    }else {
+                        systemLabel.setText("¡Maximo son 3 participantes!");
+                    }
                 } else {
                     systemLabel.setText("¡Al parecer ya existe un trabajo recepcional con \n"+
                            " el mismo nombre,de favor ingrese un nombre distinto!");
@@ -119,9 +129,7 @@ public class AddReceptionalWorkController extends ValidatorController implements
         addReceptionalWork.setParticipants(Integer.parseInt(participantsTextField.getText()));
 
         addReceptionalWork.setEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
-        estimatedEndDateDataPicker.hide();
-        estimatedEndDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
-        addReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+        addReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(startDateDataPicker.getValue()));
 
         int positionDirector = directorCombobox.getSelectionModel().getSelectedIndex();
         addReceptionalWork.setIdDirector(directorObservableList.get(positionDirector).getId());
@@ -253,12 +261,27 @@ public class AddReceptionalWorkController extends ValidatorController implements
         });
     }
 
+    private static int compareTwoDates(LocalDate selectedLocalDate, LocalDate selectedLocalDateEnd) {
+
+        int resultCompareDate = 0;
+        if (selectedLocalDate.isBefore(selectedLocalDateEnd)){
+            resultCompareDate = 1;
+        }else if (selectedLocalDate.isAfter(selectedLocalDateEnd)){
+            resultCompareDate = -1;
+        }
+
+        return resultCompareDate;
+    }
+
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateDate = a -> {
-            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
+            if(DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1 &&
+                    compareTwoDates(startDateDataPicker.getValue(),estimatedEndDateDataPicker.getValue()) ==1){
+                return true;
+            }else {
+                return false;
+            }
         };
-
-
 
         addComponentToValidator(new ValidatorTextInputControl(receptionalWorkNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
@@ -274,7 +297,10 @@ public class AddReceptionalWorkController extends ValidatorController implements
 
         addComponentToValidator(new ValidatorComboBoxBase(codirectorCombobox    , this), false);
 
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(startDateDataPicker, this, validateDate), false);
+
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateDate), false);
+
 
         initListenerToControls();
     }

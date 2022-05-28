@@ -42,8 +42,6 @@ public class AddMeetController extends ValidatorController implements Initializa
     @FXML
     private TextField hourTextField;
     @FXML
-    private TextField minutesTextField;
-    @FXML
     private ComboBox<Project> projectsCombobox;
     @FXML
     private TableView<Member> integrantsTableView;
@@ -59,8 +57,6 @@ public class AddMeetController extends ValidatorController implements Initializa
     private TextField leaderTextField;
     @FXML
     private TextField secretaryTextField;
-    @FXML
-    private TextField timerTextField;
     @FXML
     private Label systemLabel;
     @FXML
@@ -94,7 +90,6 @@ public class AddMeetController extends ValidatorController implements Initializa
         chargeProjectsComboBox();
         leaderTextField.setDisable(true);
         secretaryTextField.setDisable(true);
-        timerTextField.setDisable(true);
 
         initValidatorToTextInput();
     }
@@ -181,13 +176,16 @@ public class AddMeetController extends ValidatorController implements Initializa
         int positionProject = projectsCombobox.getSelectionModel().getSelectedIndex();
         newMeet.setNameProject((projectsObservableList.get(positionProject).getProjectName()));
         newMeet.setIdProject(projectsObservableList.get(positionProject).getIdProject());
+        newMeet.setIdLeader(leaderMeet.getId());
+        newMeet.setIdSecretary(secretaryMeet.getId());
         newMeet.setAsistents(memberObservableList);
 
         newMeet.setDateMeet(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
         meetDateDataPicker.hide();
         meetDateDataPicker.setValue(LocalDate.from(LocalDateTime.now()));
+
         newMeet.setRegister(DateFormatter.getDateFromDatepickerValue(meetDateDataPicker.getValue()));
-        newMeet.setHour(hourTextField.getText() + ":" + minutesTextField.getText());
+        newMeet.setHour(hourTextField.getText());
 
         try {
             boolean correctAddMeet = false;
@@ -266,34 +264,6 @@ public class AddMeetController extends ValidatorController implements Initializa
     }
 
     @FXML
-    void addTimerOnAction(ActionEvent actionEvent) {
-        Member selectedMember = integrantsTableView.getSelectionModel().getSelectedItem();
-        if(!timerTextField.getText().equals("")) {
-            memberObservableList.add(timerMeet);
-            integrantsTableView.setItems(memberObservableList);
-
-            timerTextField.setText("");
-            timerMeet = new Member();
-        }
-        if(selectedMember != null) {
-            memberObservableList.remove(selectedMember);
-            integrantsTableView.setItems(memberObservableList);
-
-            timerTextField.setText(selectedMember.getFullName());
-
-            newMeet.setIdTimer(selectedMember.getId());
-            newMeet.setTimer(selectedMember.getFullName());
-
-            timerMeet = selectedMember;
-
-        }else {
-            AlertController alertView = AlertController.getInstance();
-            alertView.showActionFailedAlert(" Antes de presionar agregar tomador de tiempo debes seleccionar un " +
-                    "integrante de la tabla");
-        }
-    }
-
-    @FXML
     void removeLeaderOnAction(ActionEvent actionEvent) {
         if(!leaderTextField.getText().equals("")) {
             memberObservableList.add(leaderMeet);
@@ -322,20 +292,6 @@ public class AddMeetController extends ValidatorController implements Initializa
     }
 
     @FXML
-    void removeTimerOnAction(ActionEvent actionEvent) {
-        if(!timerTextField.getText().equals("")) {
-            memberObservableList.add(timerMeet);
-            integrantsTableView.setItems(memberObservableList);
-
-            timerTextField.setText("");
-            timerMeet = new Member();
-        }else {
-            AlertController alertView = AlertController.getInstance();
-            alertView.showActionFailedAlert(" Selecciona antes un miembro para quitarlo");
-        }
-    }
-
-    @FXML
     void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();
@@ -356,13 +312,9 @@ public class AddMeetController extends ValidatorController implements Initializa
 
         addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
 
-        addComponentToValidator(new ValidatorTextInputControl(minutesTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
-
         addComponentToValidator(new ValidatorTextInputControl(leaderTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(secretaryTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
-
-        addComponentToValidator(new ValidatorTextInputControl(timerTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
         addComponentToValidator(new ValidatorComboBoxBase(projectsCombobox, this), false);
 

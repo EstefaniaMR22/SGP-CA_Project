@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="654.0" prefWidth="1057.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1057.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="82.0" prefWidth="878.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
          <children>
@@ -39,7 +39,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </Button>
-      <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="147.0" prefHeight="31.0" prefWidth="466.0" style="-fx-background-color: black;" text="REGISTRO DE TIEMPOS" textFill="WHITE">
+      <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="147.0" prefHeight="31.0" prefWidth="539.0" style="-fx-background-color: black;" text="REGISTRO DE TIEMPOS" textFill="WHITE">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
@@ -54,62 +54,60 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="387.0" text="Fecha:">
+      <Label layoutX="366.0" layoutY="257.0" text="Fecha:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="30.0" layoutY="247.0" text="Proyecto de investigación:">
+      <Label layoutX="30.0" layoutY="258.0" text="Hora:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="31.0" layoutY="310.0" text="Hora:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="bussinesLabel" layoutX="29.0" layoutY="213.0" prefHeight="34.0" prefWidth="410.0" style="-fx-background-color: white;" />
-      <Button fx:id="registerTimeButton" layoutX="263.0" layoutY="586.0" mnemonicParsing="false" onAction="#addTimeOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR TIEMPO " textFill="WHITE">
+      <Label fx:id="bussinesLabel" layoutX="29.0" layoutY="213.0" prefHeight="34.0" prefWidth="519.0" style="-fx-background-color: white;" />
+      <Button fx:id="registerTimeButton" layoutX="368.0" layoutY="399.0" mnemonicParsing="false" onAction="#addTimeOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR TIEMPO " textFill="WHITE">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Button>
-      <Label fx:id="endDateLabel" layoutX="30.0" layoutY="413.0" prefHeight="34.0" prefWidth="410.0" style="-fx-background-color: white;" />
-      <Label fx:id="projectLabel" layoutX="31.0" layoutY="270.0" prefHeight="34.0" prefWidth="410.0" style="-fx-background-color: white;" />
-      <Label fx:id="hourLabel" layoutX="31.0" layoutY="334.0" prefHeight="34.0" prefWidth="410.0" style="-fx-background-color: white;" />
-      <Label alignment="TOP_CENTER" layoutX="497.0" layoutY="147.0" prefHeight="31.0" prefWidth="545.0" style="-fx-background-color: black;" text="REGISTRO DE ACUERDOS" textFill="WHITE">
+      <Label fx:id="dateLabel" layoutX="368.0" layoutY="283.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
+      <Label fx:id="hourLabel" layoutX="30.0" layoutY="282.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
+      <Label alignment="TOP_CENTER" layoutX="570.0" layoutY="147.0" prefHeight="31.0" prefWidth="472.0" style="-fx-background-color: black;" text="REGISTRO DE ACUERDOS" textFill="WHITE">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="dealTextField" layoutX="505.0" layoutY="213.0" prefHeight="34.0" prefWidth="530.0" />
-      <Label layoutX="505.0" layoutY="185.0" text="Acuerdo:">
+      <TextField fx:id="dealTextField" layoutX="583.0" layoutY="213.0" prefHeight="34.0" prefWidth="452.0" />
+      <Label layoutX="577.0" layoutY="185.0" text="Acuerdo:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dateDealDataPicker" layoutX="505.0" layoutY="271.0" prefHeight="31.0" prefWidth="530.0" />
-      <Label layoutX="505.0" layoutY="246.0" text="Fecha:">
+      <DatePicker fx:id="dateDealDataPicker" layoutX="583.0" layoutY="271.0" prefHeight="31.0" prefWidth="452.0" />
+      <Label layoutX="577.0" layoutY="246.0" text="Fecha:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="dealTableView" layoutX="505.0" layoutY="386.0" prefHeight="240.0" prefWidth="530.0">
+      <TableView fx:id="agreementTableView" layoutX="23.0" layoutY="466.0" prefHeight="234.0" prefWidth="1012.0">
         <columns>
-          <TableColumn fx:id="noDealColumn" prefWidth="57.0" text="No." />
-          <TableColumn fx:id="descriptionDealColumn" prefWidth="195.0" text="Descripción" />
-            <TableColumn fx:id="authorColumn" prefWidth="171.0" text="Autor" />
-            <TableColumn fx:id="dateColumn" prefWidth="106.0" text="Fecha" />
+          <TableColumn fx:id="descriptionAgreementColumn" prefWidth="472.0" text="Descripción" />
+            <TableColumn fx:id="authorColumn" prefWidth="312.0" text="Autor" />
+            <TableColumn fx:id="dateColumn" prefWidth="227.0" text="Fecha" />
         </columns>
       </TableView>
-      <Button fx:id="registerDealButton" layoutX="854.0" layoutY="322.0" mnemonicParsing="false" onAction="#addDealOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR ACUERDOS" textFill="WHITE">
+      <Button fx:id="registerDealButton" layoutX="854.0" layoutY="322.0" mnemonicParsing="false" onAction="#addDealOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR ACUERDO" textFill="WHITE">
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
       </Button>
-      <TextField layoutX="30.0" layoutY="482.0" prefHeight="34.0" prefWidth="410.0" />
-      <Label layoutX="29.0" layoutY="457.0" text="Ingrese la hora de finalización:">
+      <TextField fx:id="hourFinalizationMeetTextField" layoutX="30.0" layoutY="356.0" prefHeight="34.0" prefWidth="519.0" />
+      <Label layoutX="29.0" layoutY="331.0" text="Ingrese la hora de finalización:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="systemLabel" layoutX="25.0" layoutY="699.0" prefHeight="34.0" prefWidth="1012.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

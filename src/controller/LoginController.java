@@ -77,7 +77,8 @@ public class LoginController extends Controller implements Initializable {
     @FXML
     void responsableOnAction(ActionEvent event) {
         stage.hide();
-        ResponsableController sessionController = new ResponsableController();
+        AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
+        ResponsableController sessionController = new ResponsableController(academicGroupSelected.getId());
         sessionController.showStage();
         stage.show();
     }
@@ -116,7 +117,8 @@ public class LoginController extends Controller implements Initializable {
             IntegrantController integrantController = new IntegrantController(academicGroupSelected.getId());
             integrantController.showStage();
         } else if (participationType == ParticipationType.RESPONSABLE) {
-            ResponsableController responsableController = new ResponsableController();
+            AcademicGroup academicGroupSelected = academicGroupProgramListView.getSelectionModel().getSelectedItem();
+            ResponsableController responsableController = new ResponsableController(academicGroupSelected.getId());
             responsableController.showStage();
         } else if(participationType == ParticipationType.COLABORATOR ) {
             systemLabel.setText("¡Estás asignado para este Cuerpo Académico como Colaborador!");

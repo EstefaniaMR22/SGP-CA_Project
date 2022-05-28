@@ -17,7 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.MeetDAO;
-import model.dao.ProjectDAO;
+import model.dao.MemberDAO;
 import model.domain.Meet;
 import model.domain.Member;
 import model.domain.Project;
@@ -40,19 +40,20 @@ public class ConsultMeetController extends ValidatorController implements Initia
     @FXML private TextField meetDateTextField;
     @FXML private TextField leaderTextField;
     @FXML private TextField secretaryTextField;
-    @FXML private TextField timerTextField;
     @FXML private Label systemLabel;
     @FXML private Button exitButton;
     @FXML private Button addTimeButton;
 
     private String idAcademicGroup;
+    private int idMember;
     private Meet meetUpdated;
     private ObservableList<Project> projectsObservableList;
     private ObservableList<Member> memberObservableList;
 
-    public ConsultMeetController(Meet meetUpdated, String idAcademicGroup) {
+    public ConsultMeetController(Meet meetUpdated, String idAcademicGroup, int idMember) {
         this.meetUpdated = meetUpdated;
         this.idAcademicGroup = idAcademicGroup;
+        this.idMember = idMember;
     }
 
     public void showStage() {
@@ -67,7 +68,18 @@ public class ConsultMeetController extends ValidatorController implements Initia
         setTableComponents();
         leaderTextField.setDisable(true);
         secretaryTextField.setDisable(true);
-        timerTextField.setDisable(true);
+        /*
+        MeetDAO meetDAO = new MeetDAO();
+        try {
+            if(!meetDAO.checkSecretary(meetUpdated.getIdMeet(), idMember)){
+                addTimeButton.setDisable(true);
+                addTimeButton.setVisible(false);
+            }
+        } catch(SQLException checkSecretarySQLException){
+
+            deterMinateSQLState(checkSecretarySQLException);
+        }
+        */
 
     }
 
@@ -117,9 +129,6 @@ public class ConsultMeetController extends ValidatorController implements Initia
         secretaryTextField.setText(meetUpdated.getSecretary());
         secretaryTextField.setDisable(true);
 
-        timerTextField.setText(meetUpdated.getTimer());
-        timerTextField.setDisable(true);
-
     }
 
 
@@ -128,7 +137,6 @@ public class ConsultMeetController extends ValidatorController implements Initia
         integrantsTableView.setItems(meetUpdated.getAsistents());
 
     }
-
 
     private void deterMinateSQLState(SQLException sqlException) {
         Logger.getLogger(AddMemberController.class.getName()).log(Level.SEVERE, null, sqlException);
@@ -140,10 +148,19 @@ public class ConsultMeetController extends ValidatorController implements Initia
 
     @FXML
     void addTimeAndDealsOnAction(ActionEvent actionEvent) {
+        try {
+            MemberDAO memberDAO = new MemberDAO();
 
+            System.out.println(idMember + " " + meetUpdated.getIdMeet() + " " + memberDAO.getMember(idMember).getFullName());
+            AddTimeMeetController addTimeMeetController = new AddTimeMeetController(idMember, meetUpdated.getIdMeet(), memberDAO.getMember(idMember).getFullName());
+            addTimeMeetController.showStage();
+
+        } catch (Exception addProjectInvestigationException) {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "Registrar acuerdos y tiempo. Causa: " + addProjectInvestigationException);
+        }
     }
-
-
 
     @FXML
     void returnViewOnAction(ActionEvent actionEvent) {

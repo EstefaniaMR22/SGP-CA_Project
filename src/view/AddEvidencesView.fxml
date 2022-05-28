@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="653.0" prefWidth="1154.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="1170.0" styleClass="background-main" stylesheets="@../assets/style/standard.css">
+         <children>
+            <VBox layoutX="56.0" layoutY="215.0" prefHeight="700.0" prefWidth="1034.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="52.0" prefWidth="1034.0" styleClass="background-title">
+                     <children>
+                        <Label prefHeight="9.0" prefWidth="160.0" styleClass="title-label" text="Agregar evidencia" />
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="561.0" prefWidth="1190.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox prefHeight="574.0" prefWidth="1140.0" spacing="25.0" styleClass="background-form" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <VBox prefHeight="553.0" prefWidth="201.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                       <children>
+                                          <Label styleClass="attribute-form-label" text="Titulo" />
+                                          <TextField fx:id="titleTextField" prefHeight="34.0" prefWidth="410.0" styleClass="textfield" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="167.0" prefWidth="738.0" spacing="10.0">
+                                       <children>
+                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Referencia de la evidencia: " />
+                                          <TextField fx:id="referTextField" minHeight="35.0" prefHeight="35.0" prefWidth="459.0" styleClass="textfield" />
+                                          <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+                                             <children>
+                                                <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Proyectos de investigación relacionado" />
+                                                      <ComboBox fx:id="projectsCombobox" maxWidth="1.7976931348623157E308" minHeight="37.0" prefHeight="37.0" prefWidth="525.0" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-form-label" text="Resposable de evidencia" />
+                                                      <ComboBox fx:id="responseEvidenceCombobox" maxWidth="1.7976931348623157E308" minHeight="7.0" prefHeight="7.0" prefWidth="525.0" styleClass="comboBox" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+                                       <children>
+                                          <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Paginas" />
+                                                <TextField fx:id="pagesTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                             <children>
+                                                <Label prefHeight="31.0" prefWidth="77.0" styleClass="attribute-form-label" text="Titulo del libro" />
+                                                <ComboBox fx:id="titleBooksCombobox" maxWidth="1.7976931348623157E308" styleClass="comboBox" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                       <children>
+                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Caracteristicas:" />
+                                          <TextField fx:id="characteristicsPrototipeTextField1" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox prefHeight="73.0" prefWidth="459.0" spacing="15.0">
+                                       <children>
+                                          <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-form-label" text="Fecha de publicación" />
+                                                <DatePicker fx:id="publicationDateDataPicker" maxWidth="1.7976931348623157E308" styleClass="datepicker" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-form-label" text="Pais" />
+                                                <TextField fx:id="countryTextField" promptText="país" styleClass="textfield" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-form-label" text="Tipo de evidencia: " />
+                                                <ComboBox fx:id="typeEvidenceCombobox" maxWidth="1.7976931348623157E308" minHeight="7.0" prefHeight="7.0" prefWidth="525.0" styleClass="comboBox" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox prefHeight="135.0" prefWidth="537.0" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="BOTTOM_RIGHT" prefHeight="93.0" prefWidth="537.0" spacing="10.0">
+                                             <children>
+                                                <VBox prefHeight="217.0" prefWidth="459.0" spacing="10.0">
+                                                   <children>
+                                                      <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Número de edición" />
+                                                      <TextField fx:id="editioNumberTextField" prefHeight="42.0" prefWidth="182.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="217.0" prefWidth="459.0" spacing="10.0">
+                                                   <children>
+                                                      <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="ISBN:" />
+                                                      <TextField fx:id="isbnTextField" prefHeight="42.0" prefWidth="183.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                             </children></HBox>
+                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Editorial" />
+                                          <TextField fx:id="editorialTextField" minHeight="35.0" prefHeight="35.0" prefWidth="459.0" styleClass="textfield" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+                                             <children>
+                                                <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                                   <children>
+                                                      <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="ISNN:" />
+                                                      <TextField fx:id="articleNameMagazineTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
+                                                   <children>
+                                                      <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Indice:" />
+                                                      <TextField fx:id="articleIndiceTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                             </children></HBox>
+                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Nombre de la revista:" />
+                                          <TextField fx:id="articleISNNTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="984.0" spacing="25.0" styleClass="background-footer">
+                           <children>
+                              <Button fx:id="exitButton" mnemonicParsing="false" onAction="#returnViewOnAction" styleClass="secondary-button" stylesheets="@../assets/style/standard.css" text="Cancelar" textFill="WHITE">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="addMeetButton" mnemonicParsing="false" onAction="#addMeetOnAction" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="Agregar evidencia" textFill="WHITE">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

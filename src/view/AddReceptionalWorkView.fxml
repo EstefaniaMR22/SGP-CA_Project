@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="938.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="938.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="675.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -33,10 +32,13 @@
                </VBox.margin>
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" vvalue="1.0">
-                    <content>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <content>
                       <AnchorPane>
                            <children>
-                              <VBox prefHeight="628.0" prefWidth="921.0" styleClass="background-form" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutX="35.0" layoutY="78.0" prefHeight="628.0" prefWidth="921.0" styleClass="background-form" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="78.0">
                                  <children>
                                     <VBox styleClass="background-title">
                                        <children>
@@ -54,16 +56,26 @@
                                        <children>
                                           <HBox spacing="25.0">
                                              <children>
-                                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                <VBox spacing="10.0">
                                                    <children>
                                                       <Label styleClass="attribute-form-label" text="Nombre" />
                                                       <TextField fx:id="receptionalWorkNameTextField" prefHeight="34.0" prefWidth="356.0" styleClass="textfield" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox spacing="10.0">
-                                                   <children>
-                                                      <Label styleClass="attribute-form-label" text="Fecha estimada de finalización" />
-                                                      <DatePicker fx:id="estimatedEndDateDataPicker" prefHeight="31.0" prefWidth="351.0" styleClass="datepicker" />
+                                                      <HBox spacing="25.0">
+                                                         <children>
+                                                            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <Label styleClass="attribute-form-label" text="Fecha estimada de inicio" />
+                                                                  <DatePicker fx:id="startDateDataPicker" prefHeight="31.0" prefWidth="351.0" styleClass="datepicker" />
+                                                               </children>
+                                                            </VBox>
+                                                            <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <Label styleClass="attribute-form-label" text="Fecha estimada de finalización" />
+                                                                  <DatePicker fx:id="estimatedEndDateDataPicker" prefHeight="31.0" prefWidth="351.0" styleClass="datepicker" />
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -110,8 +122,8 @@
                                                 </VBox>
                                                 <VBox prefHeight="67.0" prefWidth="373.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <Label styleClass="attribute-form-label" text="Estado" />
                                                       <ComboBox fx:id="statusCombobox" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="251.0" styleClass="comboBox" />
+                                                      <Label styleClass="attribute-form-label" text="Estado" />
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -126,6 +138,7 @@
                                              <children>
                                                 <Label styleClass="attribute-form-label" text="Requisitos" />
                                                 <TextArea fx:id="requerimentsTextArea" prefHeight="161.0" prefWidth="395.0" styleClass="textarea" />
+                                                <Label />
                                              </children>
                                           </VBox>
                                        </children>
@@ -143,10 +156,7 @@
                               <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
                            </padding>
                         </AnchorPane>
-                    </content>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
+                     </content>
                   </ScrollPane>
                </children>
             </VBox>

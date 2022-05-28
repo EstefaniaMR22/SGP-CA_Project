@@ -11,133 +11,145 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Evidence{
-    private String urlFile;
     private String evidenceTitle;
     private String country; 
     private String publicationDate;
-    private boolean impactAB;
-    private String registrationDate;
-    private String registrationResponsible;
-    private String studyDegree;
+    private String registrationResponsable;
+    private String editorialBook;
+    private String editionNumberBook;
+    private String isbnBook;
+    private String reference;
+    private String pagesBook;
+    private String titleBook;
+    private int idAcademicBody;
+    private int idProject;
+    private int idResponsable;
     private String projectName;
     private String evidenceType;
-    private List<String> students;
-    private List<Member> integrants;
 
 
     public Evidence(){
     }
 
-    public String getUrlFile(){
-        return urlFile;
-    }
-
-    public void setUrlFile(String urlFile){
-        this.urlFile = urlFile;
-    }
-
-
-    public String getEvidenceTitle(){
+    public String getEvidenceTitle() {
         return evidenceTitle;
     }
 
-    public void setEvidenceTitle(String evidenceTitle){
+    public void setEvidenceTitle(String evidenceTitle) {
         this.evidenceTitle = evidenceTitle;
     }
 
-
-    public String getCountry(){
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country){
+    public void setCountry(String country) {
         this.country = country;
     }
 
-
-    public String getPublicationDate(){
+    public String getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate){
+    public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
     }
 
-
-    public boolean getImpactAB(){
-        return impactAB;
+    public String getRegistrationResponsable() {
+        return registrationResponsable;
     }
 
-    public void setImpactAB(boolean impactAB){
-        this.impactAB = impactAB;
+    public void setRegistrationResponsable(String registrationResponsable) {
+        this.registrationResponsable = registrationResponsable;
     }
 
-
-    public String getRegistrationDate(){
-        return registrationDate;
+    public String getEditorialBook() {
+        return editorialBook;
     }
 
-    public void setRegistrationDate(String registrationDate){
-        this.registrationDate = registrationDate;
+    public void setEditorialBook(String editorialBook) {
+        this.editorialBook = editorialBook;
     }
 
-
-    public String getRegistrationResponsible(){
-        return registrationResponsible;
+    public String getEditionNumberBook() {
+        return editionNumberBook;
     }
 
-    public void setRegistrationResponsible(String registrationResponsible){
-        this.registrationResponsible = registrationResponsible;
+    public void setEditionNumberBook(String editionNumberBook) {
+        this.editionNumberBook = editionNumberBook;
     }
 
-
-    public String getStudyDegree(){
-        return studyDegree;
+    public String getIsbnBook() {
+        return isbnBook;
     }
 
-    public void setStudyDegree(String studyDegree){
-        this.studyDegree = studyDegree;
+    public void setIsbnBook(String isbnBook) {
+        this.isbnBook = isbnBook;
     }
 
+    public String getReference() {
+        return reference;
+    }
 
-    public String getProjectName(){
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getPagesBook() {
+        return pagesBook;
+    }
+
+    public void setPagesBook(String pagesBook) {
+        this.pagesBook = pagesBook;
+    }
+
+    public String getTitleBook() {
+        return titleBook;
+    }
+
+    public void setTitleBook(String titleBook) {
+        this.titleBook = titleBook;
+    }
+
+    public int getIdAcademicBody() {
+        return idAcademicBody;
+    }
+
+    public void setIdAcademicBody(int idAcademicBody) {
+        this.idAcademicBody = idAcademicBody;
+    }
+
+    public int getIdProject() {
+        return idProject;
+    }
+
+    public void setIdProject(int idProject) {
+        this.idProject = idProject;
+    }
+
+    public int getIdResponsable() {
+        return idResponsable;
+    }
+
+    public void setIdResponsable(int idResponsable) {
+        this.idResponsable = idResponsable;
+    }
+
+    public String getProjectName() {
         return projectName;
     }
 
-    public void setProjectName(String projectName){
+    public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 
-
-    public String getEvidenceType(){
+    public String getEvidenceType() {
         return evidenceType;
     }
 
-    public void setEvidenceType(String evidenceType){
+    public void setEvidenceType(String evidenceType) {
         this.evidenceType = evidenceType;
     }
-
-
-    public List<String> getStudents(){
-        return students;
-    }
-
-    public void setStudents(List<String> students){
-        this.students = students;
-    }
-
-    public boolean isImpactAB() {
-        return impactAB;
-    }
-
-    public List<Member> getIntegrants() {
-        return integrants;
-    }
-
-    public void setIntegrants(List<Member> integrants) {
-        this.integrants = integrants;
-    }
-
 
     @Override
     public abstract String toString();

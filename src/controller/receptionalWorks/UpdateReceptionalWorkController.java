@@ -26,7 +26,6 @@ import model.domain.ReceptionalWork;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -41,6 +40,7 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
     @FXML private TextArea descriptionTextArea;
     @FXML private TextArea requerimentsTextArea;
     @FXML private DatePicker estimatedEndDateDataPicker;
+    @FXML private DatePicker startDateDataPicker;
     @FXML private ComboBox<Member> directorCombobox;
     @FXML private ComboBox<Member> codirectorCombobox;
     @FXML private ComboBox<String> statusCombobox;
@@ -105,6 +105,7 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
         descriptionTextArea.setText(modifyReceptionalWork.getDescription());
         requerimentsTextArea.setText(modifyReceptionalWork.getRequeriments());
         estimatedEndDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(modifyReceptionalWork.getEndDate()));
+        startDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(modifyReceptionalWork.getRegister()));
 
         ProjectDAO projectDAO = new ProjectDAO();
         try {
@@ -136,9 +137,12 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
         try {
             if(validateInputs()) {
                 if(!validateReceptionalWork()) {
-                        System.out.println("LLego a invocar modificar");
+                    int participants = Integer.parseInt(participantsTextField.getText());
+                    if(participants<=3) {
                         modifyReceptionalWork();
-                    System.out.println("Termine de ejecutar modificar");
+                    }else {
+                        systemLabel.setText("¡Maximo son 3 participantes!");
+                    }
                 } else {
                     systemLabel.setText("¡Al parecer ya existe un trabajo recepcional con \n"+
                            " el mismo nombre,de favor ingrese un nombre distinto!");
@@ -163,12 +167,10 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
 
         modifyReceptionalWork.setNameReceptionalWork(receptionalWorkNameTextField.getText());
         modifyReceptionalWork.setParticipants(Integer.parseInt(participantsTextField.getText()));
-
+        modifyReceptionalWork.setDescription(descriptionTextArea.getText());
         modifyReceptionalWork.setEndDate(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
 
-        estimatedEndDateDataPicker.hide();
-        estimatedEndDateDataPicker.setValue(DateFormatter.getLocalDateFromUtilDate(modifyReceptionalWork.getRegister()));
-        modifyReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(estimatedEndDateDataPicker.getValue()));
+        modifyReceptionalWork.setRegister(DateFormatter.getDateFromDatepickerValue(startDateDataPicker.getValue()));
 
         int positionStatus = statusCombobox.getSelectionModel().getSelectedIndex();
         modifyReceptionalWork.setStatus(statusObservableList.get(positionStatus));
@@ -331,9 +333,26 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
         }
     }
 
+    private static int compareTwoDates(LocalDate selectedLocalDate, LocalDate selectedLocalDateEnd) {
+
+        int resultCompareDate = 0;
+        if (selectedLocalDate.isBefore(selectedLocalDateEnd)){
+            resultCompareDate = 1;
+        }else if (selectedLocalDate.isAfter(selectedLocalDateEnd)){
+            resultCompareDate = -1;
+        }
+
+        return resultCompareDate;
+    }
+
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateDate = a -> {
-            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
+            if(DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1 &&
+                    compareTwoDates(startDateDataPicker.getValue(),estimatedEndDateDataPicker.getValue()) ==1){
+                return true;
+            }else {
+                return false;
+            }
         };
 
         addComponentToValidator(new ValidatorTextInputControl(receptionalWorkNameTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
@@ -345,6 +364,8 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
         addComponentToValidator(new ValidatorTextInputControl(requerimentsTextArea, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
         addComponentToValidator(new ValidatorComboBoxBase(modalityCombobox, this), false);
+
+        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(startDateDataPicker, this, validateDate), false);
 
         addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(estimatedEndDateDataPicker, this, validateDate), false);
 

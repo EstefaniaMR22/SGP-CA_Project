@@ -74,12 +74,7 @@
                                           <TextField fx:id="hourTextField" promptText="hh" styleClass="textfield" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
-                                       <children>
-                                          <Label styleClass="attribute-form-label" text="Minuto" />
-                                          <TextField fx:id="minutesTextField" promptText="mm" styleClass="textfield" />
-                                       </children>
-                                    </VBox>
+                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0" />
                                  </children>
                               </HBox>
                               <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
@@ -104,12 +99,7 @@
                               </VBox>
                               <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
                                  <children>
-                                    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
-                                       <children>
-                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Tomador de tiempo" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <TextField fx:id="timerTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                    <HBox alignment="BOTTOM_RIGHT" spacing="10.0" />
                                  </children>
                               </VBox>
                            </children>

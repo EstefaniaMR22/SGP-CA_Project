@@ -2,7 +2,9 @@ package controller;
 
 import assets.utils.Autentication;
 import controller.academicgroup.ConsultAcademicGroupsController;
+import controller.control.AlertController;
 import controller.control.Controller;
+import controller.meets.MeetsController;
 import controller.workplan.ConsultWorkplanController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +23,13 @@ public class ResponsableController extends Controller implements Initializable {
     @FXML private Label personalNumberLabel;
     @FXML private Label telephoneLabel;
 
+    private String idAcademicGroup;
+    private int idMember;
+
+    public ResponsableController(String idAcademicGroup) {
+        this.idAcademicGroup = idAcademicGroup;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(Autentication.getInstance().getParticipation() != null ) {
@@ -31,6 +40,7 @@ public class ResponsableController extends Controller implements Initializable {
             nationalityLabel.setText(member.getNationality());
             personalNumberLabel.setText(member.getPersonalNumber());
             telephoneLabel.setText(member.getTelephone());
+            this.idMember = member.getId();
         }
     }
 
@@ -42,6 +52,19 @@ public class ResponsableController extends Controller implements Initializable {
     @FXML
     void workPlanOnAction(ActionEvent event) {
         new ConsultWorkplanController().showStage();
+    }
+
+    @FXML
+    void meetsOnAction(ActionEvent event) {
+        try {
+            MeetsController meetsController = new MeetsController(idAcademicGroup, idMember);
+            meetsController.showStage();
+
+        } catch (Exception addProjectInvestigationException) {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "Meets. Causa: " + addProjectInvestigationException);
+        }
     }
 
     @FXML

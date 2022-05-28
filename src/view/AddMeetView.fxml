@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1034.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1034.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="56.0" layoutY="215.0" prefHeight="700.0" prefWidth="1034.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -71,16 +70,11 @@
                                     </VBox>
                                     <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
                                        <children>
-                                          <Label styleClass="attribute-form-label" text="Fecha" />
+                                          <Label styleClass="attribute-form-label" text="Hora" />
                                           <TextField fx:id="hourTextField" promptText="hh" styleClass="textfield" />
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
-                                       <children>
-                                          <Label styleClass="attribute-form-label" text="Fecha" />
-                                          <TextField fx:id="minutesTextField" promptText="mm" styleClass="textfield" />
-                                       </children>
-                                    </VBox>
+                                    <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0" />
                                  </children>
                               </HBox>
                               <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
@@ -108,12 +102,12 @@
                                     <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
                                        <children>
                                           <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Secretario" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="addLeaderButton1" minHeight="17.0" mnemonicParsing="false" onAction="#addLeaderOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="+" textFill="WHITE">
+                                          <Button fx:id="addLeaderButton1" minHeight="17.0" mnemonicParsing="false" onAction="#addSecretaryOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="+" textFill="WHITE">
                                              <font>
                                                 <Font name="System Bold" size="20.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="removeLeaderButton1" minHeight="17.0" mnemonicParsing="false" onAction="#removeLeaderOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="-" textFill="WHITE">
+                                          <Button fx:id="removeLeaderButton1" minHeight="17.0" mnemonicParsing="false" onAction="#removeSecretaryOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="-" textFill="WHITE">
                                              <font>
                                                 <Font name="System Bold" size="20.0" />
                                              </font>
@@ -125,22 +119,7 @@
                               </VBox>
                               <VBox prefHeight="67.0" prefWidth="703.0" spacing="10.0">
                                  <children>
-                                    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
-                                       <children>
-                                          <Label maxWidth="1.7976931348623157E308" styleClass="attribute-form-label" text="Tomador de tiempo" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="addLeaderButton2" minHeight="17.0" mnemonicParsing="false" onAction="#addLeaderOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="+" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="20.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="removeLeaderButton2" minHeight="17.0" mnemonicParsing="false" onAction="#removeLeaderOnAction" prefHeight="17.0" prefWidth="39.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="-" textFill="WHITE">
-                                             <font>
-                                                <Font name="System Bold" size="20.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                    <TextField fx:id="timerTextField" prefHeight="34.0" prefWidth="351.0" styleClass="textfield" />
+                                    <HBox alignment="BOTTOM_RIGHT" spacing="10.0" />
                                  </children>
                               </VBox>
                            </children>
