@@ -4,6 +4,7 @@ import assets.utils.Autentication;
 import controller.academicgroup.ConsultAcademicGroupsController;
 import controller.control.AlertController;
 import controller.control.Controller;
+import controller.evidences.EvidencesController;
 import controller.meets.MeetsController;
 import controller.workplan.ConsultWorkplanController;
 import javafx.event.ActionEvent;
@@ -64,6 +65,20 @@ public class ResponsableController extends Controller implements Initializable {
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
                     "Meets. Causa: " + addProjectInvestigationException);
+        }
+    }
+
+    @FXML
+    void evidencesOnAction(ActionEvent event) {
+        try {
+            System.out.println(idAcademicGroup + " " + idMember);
+            EvidencesController evidencesController = new EvidencesController(idAcademicGroup, idMember);
+            evidencesController.showStage();
+
+        } catch (Exception addProjectInvestigationException) {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
+                    "Evidences. Causa: " + addProjectInvestigationException);
         }
     }
 

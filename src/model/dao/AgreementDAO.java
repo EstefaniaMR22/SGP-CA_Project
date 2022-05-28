@@ -21,7 +21,7 @@ public class AgreementDAO {
         this.databaseConection = new Database();
     }
 
-    public boolean addMeet(Agreement newAgreement) throws SQLException {
+    public boolean addMeetAgreement(Agreement newAgreement) throws SQLException {
         boolean wasAdded = false;
 
         try(Connection conn = databaseConection.getConnection()) {

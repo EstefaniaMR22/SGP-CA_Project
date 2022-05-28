@@ -265,7 +265,7 @@ public class AddTimeMeetController extends ValidatorController implements Initia
         try {
             boolean correctAddAgreement = false;
 
-            correctAddAgreement = agreementDAO.addMeet(agreementNew);
+            correctAddAgreement = agreementDAO.addMeetAgreement(agreementNew);
             if (correctAddAgreement == true) {
                 AlertController.getInstance().showSuccessfullRegisterAlert();
                 stage.close();

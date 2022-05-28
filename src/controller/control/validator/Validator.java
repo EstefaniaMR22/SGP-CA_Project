@@ -4,6 +4,8 @@ public class Validator {
     public static final String PATTERN_LETTERS = "([A-Za-záéíóúüÁÉÍÓÚÜñÑ]{1,}(\\ [A-Za-záéíóúüÁÉÍÓÚÜñÑ]{1,})*)";
     public static final String PATTERN_HOURS = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
     public static final String PATTERN_NUMBERS = "(([\\d]){1,})";
+    public static final String PATTERN_ISBN = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
+
     public static final String PATTERN_NUMBERS_AND_LETTERS = "([A-Za-z-0-9áéíóúüÁÉÍÓÚÜñÑ]{1,}(\\ [A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ]{1,})*)";
     public static final String PATTERN_NAME = PATTERN_LETTERS;
     public static final String PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS = "([A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ0\\-\\_\\,\\.\\(\\)\\[\\{\\}]{1,}(\\ [A-Za-z0-9áéíóúüÁÉÍÓÚÜñÑ\\-\\_\\,\\.\\(\\)\\{\\}]{1,})*)";

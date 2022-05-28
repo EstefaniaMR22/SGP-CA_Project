@@ -95,6 +95,11 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Button>
+                                          <Button mnemonicParsing="false" onAction="#evidencesOnAction" prefHeight="100.0" prefWidth="201.0" styleClass="secondary-button" text="Evidencias" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
                                        </children>
                                     </HBox>
                                  </children>

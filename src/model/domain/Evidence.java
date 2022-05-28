@@ -8,27 +8,81 @@
 package model.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public abstract class Evidence{
+public class Evidence{
+    private int idEvidence;
     private String evidenceTitle;
     private String country; 
-    private String publicationDate;
+    private Date publicationDate;
     private String registrationResponsable;
+    private String descriptionEvidence;
     private String editorialBook;
     private String editionNumberBook;
     private String isbnBook;
     private String reference;
     private String pagesBook;
     private String titleBook;
-    private int idAcademicBody;
+    private String nameMagazine;
+    private String isnnMagazine;
+    private String indiceMagazine;
+    private String idAcademicBody;
     private int idProject;
     private int idResponsable;
+    private String responsableEvidence;
     private String projectName;
     private String evidenceType;
 
+    public String getResponsableEvidence() {
+        return responsableEvidence;
+    }
+
+    public void setResponsableEvidence(String responsableEvidence) {
+        this.responsableEvidence = responsableEvidence;
+    }
+
+    public int getIdEvidence() {
+        return idEvidence;
+    }
+
+    public void setIdEvidence(int idEvidence) {
+        this.idEvidence = idEvidence;
+    }
 
     public Evidence(){
+    }
+
+    public String getNameMagazine() {
+        return nameMagazine;
+    }
+
+    public void setNameMagazine(String nameMagazine) {
+        this.nameMagazine = nameMagazine;
+    }
+
+    public String getIsnnMagazine() {
+        return isnnMagazine;
+    }
+
+    public void setIsnnMagazine(String isnnMagazine) {
+        this.isnnMagazine = isnnMagazine;
+    }
+
+    public String getIndiceMagazine() {
+        return indiceMagazine;
+    }
+
+    public void setIndiceMagazine(String indiceMagazine) {
+        this.indiceMagazine = indiceMagazine;
+    }
+
+    public String getDescriptionEvidence() {
+        return descriptionEvidence;
+    }
+
+    public void setDescriptionEvidence(String descriptionEvidence) {
+        this.descriptionEvidence = descriptionEvidence;
     }
 
     public String getEvidenceTitle() {
@@ -47,11 +101,11 @@ public abstract class Evidence{
         this.country = country;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 
@@ -111,11 +165,11 @@ public abstract class Evidence{
         this.titleBook = titleBook;
     }
 
-    public int getIdAcademicBody() {
+    public String getIdAcademicBody() {
         return idAcademicBody;
     }
 
-    public void setIdAcademicBody(int idAcademicBody) {
+    public void setIdAcademicBody(String idAcademicBody) {
         this.idAcademicBody = idAcademicBody;
     }
 
@@ -152,9 +206,7 @@ public abstract class Evidence{
     }
 
     @Override
-    public abstract String toString();
-    public abstract Evidence getSpecificEvidenceInstance(String evidenceType, String evidenceTitle, 
-    boolean impactAB, String registrationResponsible, String registrationDate, String urlFile);
-    public abstract Evidence getSpecificEvidenceInstance(String evidenceType);
-
+    public String toString() {
+        return " | ";
+    }
 }
