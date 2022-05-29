@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.dao.AgreementDAO;
 import model.dao.MeetDAO;
 import model.domain.Agreement;
+import model.domain.Meet;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -77,6 +78,33 @@ public class AddTimeMeetController extends ValidatorController implements Initia
         this.user = user;
     }
 
+    private void chargeDataMeet(){
+        MeetDAO meetDAO = new MeetDAO();
+        Meet meet = new Meet();
+        try {
+            meet = meetDAO.getMeetDetails(idMeet);
+
+            bussinesLabel.setText(meet.getAsunto());
+            hourLabel.setText(meet.getHour());
+            dateLabel.setText(meet.getDateMeetString());
+
+                if(meetDAO.timeMeetIsNull(idMeet)){
+                    registerTimeButton.setVisible(false);
+                    registerTimeButton.setDisable(true);
+
+                    String[] hourSeparate = meet.getTotalTime().split(":");
+                    hourFinalizationMeetTextField.setText("Tiempo de reunión: " + hourSeparate[0] + " horas con " + hourSeparate[1] + " mins.");
+                    hourFinalizationMeetTextField.setDisable(true);
+                }
+
+
+        } catch (SQLException addAgreementException) {
+
+            deterMinateSQLState(addAgreementException);
+
+        }
+    }
+
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/AddTimeMeetView.fxml"), this);
         setTableComponents();
@@ -86,18 +114,8 @@ public class AddTimeMeetController extends ValidatorController implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setTableComponents();
-        MeetDAO meetDAO = new MeetDAO();
-        try {
-            if(meetDAO.timeMeetIsNull(idMeet)){
-                registerDealButton.setVisible(false);
-                registerDealButton.setDisable(true);
-            }
-        } catch (SQLException addAgreementException) {
 
-            deterMinateSQLState(addAgreementException);
-
-        }
-
+        chargeDataMeet();
         initListenerHour();
         initValidatorToTextInput();
     }
@@ -115,7 +133,6 @@ public class AddTimeMeetController extends ValidatorController implements Initia
         try {
 
             agreementObservableList = agreementDAO.getAgreementList(idMeet);
-            System.out.println("Solicito los acuerdos" + agreementObservableList);
             agreementTableView.setItems(agreementObservableList);
 
         }catch(SQLException chargeMembersExeception){
@@ -295,7 +312,7 @@ public class AddTimeMeetController extends ValidatorController implements Initia
 
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateDate = a -> {
-            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
+            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == -1;
         };
 
         addComponentToValidator(new ValidatorTextInputControl(dealTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);

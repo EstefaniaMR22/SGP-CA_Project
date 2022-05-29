@@ -297,7 +297,7 @@ public class MeetDAO implements IMeetDAO {
                 meetDetails.setDateMeet(DateFormatter.convertSQLDateToUtilDate(resultSet.getDate("Reunion.fecha")));
                 meetDetails.setDateMeetString(DateFormatter.getParseDate(meetDetails.getDateMeet()));
 
-                meetDetails.setTotalTime(resultSet.getFloat("Reunion.tiempo_total"));
+                meetDetails.setTotalTime(resultSet.getString("Reunion.tiempo_total"));
 
                 MemberDAO memberDAO = new MemberDAO();
 
@@ -441,7 +441,7 @@ public class MeetDAO implements IMeetDAO {
     }
 
     public boolean timeMeetIsNull(int idMeet) throws SQLException {
-        boolean isNull = true;
+        boolean isNull = false;
 
         try(Connection conn = databaseConection.getConnection()) {
             String statement = "SELECT * FROM Reunion " +
@@ -452,7 +452,13 @@ public class MeetDAO implements IMeetDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()) {
-                isNull = false;
+                String timeMeet = resultSet.getString("tiempo_total");
+                if(timeMeet == null){
+                    isNull = false;
+                }else {
+                    isNull = true;
+                }
+
             }
 
         }

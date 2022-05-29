@@ -101,8 +101,6 @@ public class EvidencesController extends Controller implements Initializable {
     void addEvidenceOnAction(ActionEvent actionEvent) throws SQLException {
 
             try {
-                //agregar evidencia
-                //No hay libros enviar un false
                 if(!verifyBooks().isEmpty()) {
 
                     AddEvidenceController consultEvidence = new AddEvidenceController(idAcademicGroup, idMember, true);
@@ -180,10 +178,9 @@ public class EvidencesController extends Controller implements Initializable {
             if(selectedEvidence != null) {
                 try{
 
-                /*ConsultEvidence consultEvidence = new ConsultEvidence(selectedMeet, idAcademicGroup, idMember);
+                ConsultEvidenceController consultEvidence = new ConsultEvidenceController(selectedEvidence.getIdEvidence());
                 consultEvidence.showStage();
 
-                 */
 
                 }catch (Exception consultProjectInvestigationException) {
                     Logger.getLogger(EvidencesController.class.getName()).log(Level.SEVERE, null, consultProjectInvestigationException);

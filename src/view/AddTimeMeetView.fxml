@@ -54,7 +54,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="366.0" layoutY="257.0" text="Fecha:">
+      <Label layoutX="367.0" layoutY="257.0" text="Fecha:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -70,7 +70,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </Button>
-      <Label fx:id="dateLabel" layoutX="368.0" layoutY="283.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
+      <Label fx:id="dateLabel" layoutX="369.0" layoutY="283.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
       <Label fx:id="hourLabel" layoutX="30.0" layoutY="282.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
       <Label alignment="TOP_CENTER" layoutX="570.0" layoutY="147.0" prefHeight="31.0" prefWidth="472.0" style="-fx-background-color: black;" text="REGISTRO DE ACUERDOS" textFill="WHITE">
          <font>

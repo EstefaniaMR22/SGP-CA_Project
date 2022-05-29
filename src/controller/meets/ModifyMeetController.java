@@ -248,8 +248,6 @@ public class ModifyMeetController extends ValidatorController implements Initial
 
         addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
 
-        addComponentToValidator(new ValidatorComboBoxBaseWithConstraints(meetDateDataPicker, this, validateDate), false);
-
         initListenerToControls();
     }
 

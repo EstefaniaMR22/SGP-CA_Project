@@ -110,11 +110,12 @@ public class ConsultMeetController extends ValidatorController implements Initia
 
         bussinesTextField.setText(meetUpdated.getAsunto());
         bussinesTextField.setDisable(true);
+        String[] hourSeparate = meetUpdated.getHour().split(":");
 
-        hourTextField.setText(meetUpdated.getHour().substring(0,2));
+        hourTextField.setText(hourSeparate[0]);
         hourTextField.setDisable(true
         );
-        minutesTextField.setText(meetUpdated.getHour().substring(3,5));
+        minutesTextField.setText(hourSeparate[1]);
         minutesTextField.setDisable(true);
 
         projectTextField.setText(meetUpdated.getNameProject());
@@ -151,7 +152,6 @@ public class ConsultMeetController extends ValidatorController implements Initia
         try {
             MemberDAO memberDAO = new MemberDAO();
 
-            System.out.println(idMember + " " + meetUpdated.getIdMeet() + " " + memberDAO.getMember(idMember).getFullName());
             AddTimeMeetController addTimeMeetController = new AddTimeMeetController(idMember, meetUpdated.getIdMeet(), memberDAO.getMember(idMember).getFullName());
             addTimeMeetController.showStage();
 

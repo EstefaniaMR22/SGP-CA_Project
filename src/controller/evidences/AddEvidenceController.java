@@ -15,6 +15,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import model.dao.EvidenceDAO;
 import model.dao.ProjectDAO;
 import model.domain.Evidence;
@@ -46,12 +48,17 @@ public class AddEvidenceController extends ValidatorController implements Initia
     @FXML TextField articleNameMagazineTextField;
     @FXML TextField characteristicsPrototipeTextField;
     @FXML DatePicker publicationDateDataPicker;
+    @FXML VBox bookVbox;
+    @FXML HBox chapterVbox;
+    @FXML VBox prototipeVbox;
+    @FXML VBox articleVbox;
 
     private String idAcademicGroup;
     private  int idResponse;
     private  boolean haveBooks;
     private ObservableList<String> typesEvidences;
     private ObservableList<Project> projectsObservableList;
+    private ObservableList<Evidence> booksObservableList;
 
 
     public AddEvidenceController(String idAcademicGroup, int idResponse, boolean haveBooks) {
@@ -77,27 +84,21 @@ public class AddEvidenceController extends ValidatorController implements Initia
         chargeTypesCombobox();
         chargeProjectsComboBox();
         initListenerCombobox();
+
     }
 
     private void disableTextFields(){
-        editionNumberTextField.setDisable(true);
-        editionNumberTextField.setVisible(false);
-        isbnTextField.setDisable(true);
-        isbnTextField.setVisible(false);
-        editorialTextField.setDisable(true);
-        editorialTextField.setVisible(false);
-        pagesTextField.setDisable(true);
-        pagesTextField.setVisible(false);
-        articleISNNTextField.setDisable(true);
-        articleISNNTextField.setVisible(false);
-        articleIndiceTextField.setDisable(true);
-        articleIndiceTextField.setVisible(false);
-        articleNameMagazineTextField.setDisable(true);
-        articleNameMagazineTextField.setVisible(false);
-        characteristicsPrototipeTextField.setDisable(true);
-        characteristicsPrototipeTextField.setVisible(false);
-        titleBooksCombobox.setDisable(true);
-        titleBooksCombobox.setVisible(false);
+        bookVbox.setDisable(true);
+        bookVbox.setVisible(false);
+
+        chapterVbox.setDisable(true);
+        chapterVbox.setVisible(false);
+
+        prototipeVbox.setDisable(true);
+        prototipeVbox.setVisible(false);
+
+        articleVbox.setDisable(true);
+        articleVbox.setVisible(false);
     }
 
     private void chargeProjectsComboBox(){
@@ -108,6 +109,21 @@ public class AddEvidenceController extends ValidatorController implements Initia
             projectsObservableList = projectDAO.getProjectList(idAcademicGroup);
 
             projectsCombobox.setItems(projectsObservableList);
+
+        } catch(SQLException chargeLGACException) {
+            deterMinateSQLState(chargeLGACException);
+        }
+
+    }
+
+    private void chargeEvidences(){
+        EvidenceDAO evidenceDAO= new EvidenceDAO();
+
+        try {
+
+            booksObservableList = evidenceDAO.verifyExistBooks(idAcademicGroup);
+
+            titleBooksCombobox.setItems(booksObservableList);
 
         } catch(SQLException chargeLGACException) {
             deterMinateSQLState(chargeLGACException);
@@ -212,45 +228,55 @@ public class AddEvidenceController extends ValidatorController implements Initia
         }
     }
 
+    public void initListenerComboboxTitleBook() {
+        titleBooksCombobox.valueProperty().addListener( (observable, oldValue, newValue) -> {
+                countryTextField.setText(newValue.getCountry());
+        });
+    }
+
     public void initListenerCombobox() {
         typeEvidenceCombobox.valueProperty().addListener( (observable, oldValue, newValue) -> {
             if(newValue != null ) {
                 int typeEvidencePosition = typeEvidenceCombobox.getSelectionModel().getSelectedIndex();
                 String typeEvidence =  typesEvidences.get(typeEvidencePosition).toString();
-                System.out.println(typeEvidence);
                 disableTextFields();
+                countryTextField.setDisable(false);
+                countryTextField.setText("");
+
                 switch (typeEvidence){
                     case "Libro":
 
-                        editionNumberTextField.setDisable(false);
-                        editionNumberTextField.setVisible(true);
-                        isbnTextField.setDisable(false);
-                        isbnTextField.setVisible(true);
-                        editorialTextField.setDisable(false);
-                        editorialTextField.setVisible(true);
+                        bookVbox.setDisable(false);
+                        bookVbox.setVisible(true);
                         initListenerBook();
                         break;
                     case "Capitulo de libro":
 
-                        pagesTextField.setDisable(false);
-                        pagesTextField.setVisible(true);
-                        titleBooksCombobox.setDisable(false);
-                        titleBooksCombobox.setVisible(true);
-                        initListenerChapterBook();
+                        if(haveBooks){
+                            booksObservableList = FXCollections.observableArrayList();
+                            chargeEvidences();
+                            initListenerComboboxTitleBook();
+                            chapterVbox.setDisable(false);
+                            chapterVbox.setVisible(true);
+                            initListenerChapterBook();
+                        }else {
+                            AlertController alertView = AlertController.getInstance();
+                            alertView.showActionFailedAlert("Si no hay registrados libros,no puedes agregar un capitulo de libro");
+                            break;
+                        }
+
                         break;
                     case "Articulo":
-                        articleISNNTextField.setDisable(false);
-                        articleISNNTextField.setVisible(true);
-                        articleIndiceTextField.setDisable(false);
-                        articleIndiceTextField.setVisible(true);
-                        articleNameMagazineTextField.setDisable(false);
-                        articleNameMagazineTextField.setVisible(true);
+
+                        articleVbox.setDisable(false);
+                        articleVbox.setVisible(true);
                         initListenerArticle();
 
                         break;
                     case "Prototipo":
-                        characteristicsPrototipeTextField.setDisable(false);
-                        characteristicsPrototipeTextField.setVisible(true);
+
+                        prototipeVbox.setDisable(false);
+                        prototipeVbox.setVisible(true);
                         initListenerPrototipe();
                         break;
                 }
@@ -269,10 +295,11 @@ public class AddEvidenceController extends ValidatorController implements Initia
     }
 
     public void initListenerChapterBook() {
+        countryTextField.setDisable(true);
         initValidatorToTextInput();
         addComponentToValidator(new ValidatorComboBoxBase(titleBooksCombobox    , this), false);
 
-        addComponentToValidator(new ValidatorTextInputControl(pagesTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(pagesTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
         initListenerToControls();
     }
 
@@ -313,7 +340,7 @@ public class AddEvidenceController extends ValidatorController implements Initia
 
         addComponentToValidator(new ValidatorTextInputControl(countryTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
-        addComponentToValidator(new ValidatorTextInputControl(referTextField, Validator.PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS, Validator.LENGTH_GENERAL, this), false);
+        addComponentToValidator(new ValidatorTextInputControl(referTextField, Validator.PATTERN_NUMBERS_AND_LETTER_WITH_STRANGE_SYMBOLS, Validator.LENGTH_LONG_LONG_TEXT, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(titleTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 

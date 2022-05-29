@@ -175,6 +175,10 @@ public class EvidenceDAO {
                 evidenceData.setIsbnBook(resultSet.getString("isbn"));
                 evidenceData.setReference(resultSet.getString("referencia"));
                 evidenceData.setIdProject(resultSet.getInt("id_proyecto_investigacion"));
+
+                ProjectDAO projectDAO = new ProjectDAO();
+                evidenceData.setProjectName(projectDAO.getProjectDetails(evidenceData.getIdProject()).getProjectName());
+
                 evidenceData.setEvidenceType(resultSet.getString("tipo"));
                 evidenceData.setIdAcademicBody(resultSet.getString("id_cuerpo_academico"));
                 evidenceData.setNameMagazine(resultSet.getString("nombre_revista"));

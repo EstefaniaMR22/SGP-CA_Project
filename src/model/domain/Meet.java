@@ -14,18 +14,18 @@ public class Meet {
     private String registerString;
     private Date dateMeet;
     private String dateMeetString;
-    private float totalTime;
+    private String totalTime;
     private int idLeader;
     private String leader;
     private int idSecretary;
     private String secretary;
     private ObservableList<Member> asistents;
 
-    public float getTotalTime() {
+    public String getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(float totalTime) {
+    public void setTotalTime(String totalTime) {
         this.totalTime = totalTime;
     }
 

@@ -207,6 +207,6 @@ public class Evidence{
 
     @Override
     public String toString() {
-        return " | ";
+        return " | Titulo: " + evidenceTitle + " |";
     }
 }

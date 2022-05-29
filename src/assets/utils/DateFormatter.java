@@ -195,7 +195,7 @@ public class DateFormatter {
     public static int compareActualDateToSelectedDate(LocalDate selectedLocalDate) {
         LocalDate actual = LocalDate.from(ZonedDateTime.now());
         int resultCompareDate = 0;
-        if (selectedLocalDate.isBefore(actual)){
+        if (selectedLocalDate.isBefore(actual) || selectedLocalDate.isEqual(actual)){
             resultCompareDate = -1;
         }else if (selectedLocalDate.isAfter(actual)){
             resultCompareDate = 1;
