@@ -234,12 +234,27 @@ public class AddEvidenceController extends ValidatorController implements Initia
         });
     }
 
+    public void clearTextFields(){
+        titleTextField.setText("");
+        referTextField.setText("");
+        countryTextField.setText("");
+        editionNumberTextField.setText("");
+        isbnTextField.setText("");
+        editorialTextField.setText("");
+        pagesTextField.setText("");
+        articleISNNTextField.setText("");
+        articleIndiceTextField.setText("");
+        articleNameMagazineTextField.setText("");
+        characteristicsPrototipeTextField.setText("");
+    }
+
     public void initListenerCombobox() {
         typeEvidenceCombobox.valueProperty().addListener( (observable, oldValue, newValue) -> {
             if(newValue != null ) {
                 int typeEvidencePosition = typeEvidenceCombobox.getSelectionModel().getSelectedIndex();
                 String typeEvidence =  typesEvidences.get(typeEvidencePosition).toString();
                 disableTextFields();
+                clearTextFields();
                 countryTextField.setDisable(false);
                 countryTextField.setText("");
 
