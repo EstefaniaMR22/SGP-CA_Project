@@ -311,8 +311,7 @@ public class AddEvidenceController extends ValidatorController implements Initia
 
     public void initListenerChapterBook() {
         countryTextField.setDisable(true);
-        initValidatorToTextInput();
-        addComponentToValidator(new ValidatorComboBoxBase(titleBooksCombobox    , this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(titleBooksCombobox, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(pagesTextField, Validator.PATTERN_NUMBERS_AND_LETTERS, Validator.LENGTH_GENERAL, this), false);
         initListenerToControls();
@@ -320,14 +319,11 @@ public class AddEvidenceController extends ValidatorController implements Initia
 
     public void initListenerPrototipe() {
 
-        initValidatorToTextInput();
         addComponentToValidator(new ValidatorTextInputControl(characteristicsPrototipeTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
         initListenerToControls();
     }
 
     public void initListenerArticle() {
-
-        initValidatorToTextInput();
 
         addComponentToValidator(new ValidatorTextInputControl(articleIndiceTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
@@ -349,9 +345,9 @@ public class AddEvidenceController extends ValidatorController implements Initia
 
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateDate = a -> {
-            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
+            return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == -1;
         };
-        addComponentToValidator(new ValidatorComboBoxBase(typeEvidenceCombobox    , this), false);
+        addComponentToValidator(new ValidatorComboBoxBase(typeEvidenceCombobox, this), false);
 
         addComponentToValidator(new ValidatorTextInputControl(countryTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
 
