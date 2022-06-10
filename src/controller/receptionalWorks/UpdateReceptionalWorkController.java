@@ -69,17 +69,20 @@ public class UpdateReceptionalWorkController extends ValidatorController impleme
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initValidatorToTextInput();
+
         memberObservableList = FXCollections.observableArrayList();
         statusObservableList = FXCollections.observableArrayList();
         modalitiesObservableList = FXCollections.observableArrayList();
         projectsObservableList = FXCollections.observableArrayList();
         chargeComboBoxMember();
         chargeProjectsComboBox();
-        projectsCombobox.setDisable(true);
         chargeModalitiesComboBox();
 
         getReceptionaWorkDetails();
+
+        initValidatorToTextInput();
+        projectsCombobox.setDisable(true);
+
 
     }
 

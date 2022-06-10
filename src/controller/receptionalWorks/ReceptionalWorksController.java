@@ -50,7 +50,6 @@ public class ReceptionalWorksController extends Controller implements Initializa
 
     public void showStage() {
         loadFXMLFile(getClass().getResource("/view/ReceptionalWorksView.fxml"), this);
-        setTableComponents();
         stage.show();
     }
 
@@ -159,7 +158,7 @@ public class ReceptionalWorksController extends Controller implements Initializa
 
         ReceptionalWork selectedReceptionalWork = receptionalWorksTableView.getSelectionModel().getSelectedItem();
         if (selectedReceptionalWork != null) {
-
+            System.out.println(selectedReceptionalWork.getIdReceptionalWork() + " | " + idAcademicGroup);
             try {
                 UpdateReceptionalWorkController modifyReceptionalWorkController = new UpdateReceptionalWorkController(selectedReceptionalWork, idAcademicGroup);
                 modifyReceptionalWorkController.showStage();
@@ -169,7 +168,7 @@ public class ReceptionalWorksController extends Controller implements Initializa
 
                 AlertController alertView = AlertController.getInstance();
                 alertView.showActionFailedAlert(" No se pudo abrir la ventana " +
-                        "ModifyReceptionalWork. Causa: " + updateReceptionalWorkException);
+                        "ModifyReceptionalWork. Causa: " + updateReceptionalWorkException.toString());
             }
 
         } else {
@@ -213,8 +212,6 @@ public class ReceptionalWorksController extends Controller implements Initializa
     void returnViewOnAction(ActionEvent actionEvent) {
         try {
             stage.close();
-            IntegrantController viewReturn = new IntegrantController(idAcademicGroup);
-            viewReturn.showStage();
 
         } catch (Exception returnViewOnActionExeception) {
             AlertController alertView = AlertController.getInstance();
@@ -225,6 +222,6 @@ public class ReceptionalWorksController extends Controller implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        setTableComponents();
     }
 }
