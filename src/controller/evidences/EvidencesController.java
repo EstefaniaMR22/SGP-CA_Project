@@ -204,9 +204,6 @@ public class EvidencesController extends Controller implements Initializable {
     void returnViewOnAction(ActionEvent actionEvent) {
         try{
             stage.close();
-            IntegrantController viewReturn = new IntegrantController(idAcademicGroup);
-            viewReturn.showStage();
-
         }catch(Exception returnViewOnActionExeception){
             AlertController alertView = AlertController.getInstance();
             alertView.showActionFailedAlert(" Error en el metodo returnViewOnActionExeception:  " + returnViewOnActionExeception);

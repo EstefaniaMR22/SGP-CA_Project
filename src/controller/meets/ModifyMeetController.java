@@ -105,6 +105,11 @@ public class ModifyMeetController extends ValidatorController implements Initial
         MeetDAO meetDAO = new MeetDAO();
         try {
             meetUpdated = meetDAO.getMeetDetails(meetUpdated.getIdMeet());
+
+            if(meetDAO.timeMeetIsNull(meetUpdated.getIdMeet())){
+                hourTextField.setDisable(true);
+            }
+
             chargeMeetUpdate();
         }catch(SQLException getProjectDetailsExeception){
 
@@ -118,7 +123,23 @@ public class ModifyMeetController extends ValidatorController implements Initial
 
         bussinesTextField.setText(meetUpdated.getAsunto());
 
+        MeetDAO meetDAO = new MeetDAO();
+
+
         hourTextField.setText(meetUpdated.getHour());
+
+        try {
+            if (!meetDAO.timeMeetIsNull(meetUpdated.getIdMeet())) {
+
+                hourTextField.setText("" + meetUpdated.getHour());
+                hourTextField.setDisable(true);
+                meetDateDataPicker.setDisable(true);
+            } else {
+                initListenerHour();
+            }
+        }catch(SQLException chargeHourException) {
+            deterMinateSQLState(chargeHourException);
+        }
 
         int positionProject = getIndexProjects(meetUpdated.getIdProject());
         projectsCombobox.getSelectionModel().select(positionProject);
@@ -239,14 +260,20 @@ public class ModifyMeetController extends ValidatorController implements Initial
         }
     }
 
+    public void initListenerHour() {
+        hourTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
+            initListenerToControls();
+        });
+
+    }
+
     private void initValidatorToTextInput() {
         Function<Object, Boolean> validateDate = a -> {
             return DateFormatter.compareActualDateToSelectedDate((LocalDate) a) == 1;
         };
 
         addComponentToValidator(new ValidatorTextInputControl(bussinesTextField, Validator.PATTERN_LETTERS, Validator.LENGTH_GENERAL, this), false);
-
-        addComponentToValidator(new ValidatorTextInputControl(hourTextField, Validator.PATTERN_HOURS, Validator.LENGTH_HOUR, this), false);
 
         initListenerToControls();
     }

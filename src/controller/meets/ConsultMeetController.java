@@ -151,6 +151,7 @@ public class ConsultMeetController extends ValidatorController implements Initia
     void addTimeAndDealsOnAction(ActionEvent actionEvent) {
         try {
             MemberDAO memberDAO = new MemberDAO();
+            System.out.println(idMember + " | " + meetUpdated.getIdMeet() + " ||| " + memberDAO.getMember(idMember).getFullName());
 
             AddTimeMeetController addTimeMeetController = new AddTimeMeetController(idMember, meetUpdated.getIdMeet(), memberDAO.getMember(idMember).getFullName());
             addTimeMeetController.showStage();

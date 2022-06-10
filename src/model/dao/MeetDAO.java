@@ -441,7 +441,7 @@ public class MeetDAO implements IMeetDAO {
     }
 
     public boolean timeMeetIsNull(int idMeet) throws SQLException {
-        boolean isNull = false;
+        boolean isNull = true;
 
         try(Connection conn = databaseConection.getConnection()) {
             String statement = "SELECT * FROM Reunion " +
@@ -453,7 +453,8 @@ public class MeetDAO implements IMeetDAO {
 
             if(resultSet.next()) {
                 String timeMeet = resultSet.getString("tiempo_total");
-                if(timeMeet == null){
+                System.out.println(timeMeet);
+                if(timeMeet != "0.0"){
                     isNull = false;
                 }else {
                     isNull = true;

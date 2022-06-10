@@ -82,13 +82,14 @@ public class AddTimeMeetController extends ValidatorController implements Initia
         MeetDAO meetDAO = new MeetDAO();
         Meet meet = new Meet();
         try {
+
             meet = meetDAO.getMeetDetails(idMeet);
 
             bussinesLabel.setText(meet.getAsunto());
             hourLabel.setText(meet.getHour());
             dateLabel.setText(meet.getDateMeetString());
 
-                if(meetDAO.timeMeetIsNull(idMeet)){
+                if(!meetDAO.timeMeetIsNull(idMeet)){
                     registerTimeButton.setVisible(false);
                     registerTimeButton.setDisable(true);
 
@@ -113,9 +114,8 @@ public class AddTimeMeetController extends ValidatorController implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setTableComponents();
-
         chargeDataMeet();
+        setTableComponents();
         initListenerHour();
         initValidatorToTextInput();
     }
@@ -176,6 +176,10 @@ public class AddTimeMeetController extends ValidatorController implements Initia
             Date startDate = simpleDateFormat.parse(hora1);
             Date endDate = simpleDateFormat.parse(hora2);
 
+            if(endDate.getTime() < startDate.getTime()){
+                System.out.println("Es menor la fecha de finalización, de favor ponga una hora posterior");
+                return "Error";
+            }
             long start = startDate.getTime() / 1000;
             long end = endDate.getTime() / 1000;
 
@@ -213,26 +217,34 @@ public class AddTimeMeetController extends ValidatorController implements Initia
             hourStart = meetDAO.getMeetDetails(idMeet).getHour();
 
             hoursMeet = calculateHours(hourStart, hourFinalizationMeetTextField.getText());
+
         } catch (SQLException sqlException) {
             deterMinateSQLState(sqlException);
         }
 
-        try {
-            boolean correctAddAgreement = false;
+        if(hoursMeet != "Error") {
+            try {
+                boolean correctAddAgreement = false;
 
-            correctAddAgreement = meetDAO.addTimeMeet(idMeet,hoursMeet);
-            if (correctAddAgreement == true) {
-                AlertController.getInstance().showSuccessfullRegisterAlert();
-                stage.close();
-            }else {
-                AlertController alertView = AlertController.getInstance();
-                alertView.showActionFailedAlert("Error al guardar el tiempo de la reunión");
+                correctAddAgreement = meetDAO.addTimeMeet(idMeet, hoursMeet);
+                if (correctAddAgreement == true) {
+                    AlertController.getInstance().showSuccessfullRegisterAlert();
+                    stage.close();
+                } else {
+                    AlertController alertView = AlertController.getInstance();
+                    alertView.showActionFailedAlert("Error al guardar el tiempo de la reunión");
+                }
+
+            } catch (SQLException addAgreementException) {
+
+                deterMinateSQLState(addAgreementException);
+
             }
 
-        } catch (SQLException addAgreementException) {
-
-            deterMinateSQLState(addAgreementException);
-
+        }else {
+            AlertController alertView = AlertController.getInstance();
+            alertView.showActionFailedAlert("Error al guardar el tiempo de la reunión debido a hora inaceptable");
+            hourFinalizationMeetTextField.setText("");
         }
 
     }
