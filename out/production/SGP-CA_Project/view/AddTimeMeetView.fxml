@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1057.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="878.0" styleClass="background-bar" stylesheets="@../assets/style/standard.css">
+         <children>
+            <Label alignment="TOP_CENTER" layoutX="7.0" layoutY="14.0" prefHeight="39.0" prefWidth="733.0" styleClass="title-label" stylesheets="@../assets/style/standard.css" text="SISTEMA GESTOR DE PRODUCTIVIDAD  DE CUERPO ACADÉMICO SGP-CA" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="80.0" fitWidth="130.0" layoutX="730.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:img/SGP-CA.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="80.0" fitWidth="130.0" layoutX="737.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:img/SGP-CA.png" />
+         </image>
+      </ImageView>
+      <Line endX="855.0" fill="BLACK" layoutX="187.0" layoutY="99.0" startX="-132.0" />
+      <Button fx:id="exitButton" layoutX="87.0" layoutY="81.0" mnemonicParsing="false" onAction="#returnViewOnAction" prefHeight="31.0" prefWidth="80.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="CANCELAR" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </Button>
+      <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="147.0" prefHeight="31.0" prefWidth="539.0" style="-fx-background-color: black;" text="REGISTRO DE TIEMPOS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="781.0" layoutY="99.0" prefHeight="31.0" prefWidth="261.0" style="-fx-background-color: black;" text="Universidad Veracruzana" textAlignment="RIGHT" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="185.0" text="Asunto a tratar">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="367.0" layoutY="257.0" text="Fecha:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="258.0" text="Hora:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="bussinesLabel" layoutX="29.0" layoutY="213.0" prefHeight="34.0" prefWidth="519.0" style="-fx-background-color: white;" />
+      <Button fx:id="registerTimeButton" layoutX="368.0" layoutY="399.0" mnemonicParsing="false" onAction="#addTimeOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR TIEMPO " textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </Button>
+      <Label fx:id="dateLabel" layoutX="369.0" layoutY="283.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
+      <Label fx:id="hourLabel" layoutX="30.0" layoutY="282.0" prefHeight="34.0" prefWidth="181.0" style="-fx-background-color: white;" />
+      <Label alignment="TOP_CENTER" layoutX="570.0" layoutY="147.0" prefHeight="31.0" prefWidth="472.0" style="-fx-background-color: black;" text="REGISTRO DE ACUERDOS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <TextField fx:id="dealTextField" layoutX="583.0" layoutY="213.0" prefHeight="34.0" prefWidth="452.0" />
+      <Label layoutX="577.0" layoutY="185.0" text="Acuerdo:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="dateDealDataPicker" layoutX="583.0" layoutY="271.0" prefHeight="31.0" prefWidth="452.0" />
+      <Label layoutX="577.0" layoutY="246.0" text="Fecha:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="agreementTableView" layoutX="23.0" layoutY="466.0" prefHeight="234.0" prefWidth="1012.0">
+        <columns>
+          <TableColumn fx:id="descriptionAgreementColumn" prefWidth="472.0" text="Descripción" />
+            <TableColumn fx:id="authorColumn" prefWidth="312.0" text="Autor" />
+            <TableColumn fx:id="dateColumn" prefWidth="227.0" text="Fecha" />
+        </columns>
+      </TableView>
+      <Button fx:id="registerDealButton" layoutX="854.0" layoutY="322.0" mnemonicParsing="false" onAction="#addDealOnAction" prefHeight="38.0" prefWidth="181.0" styleClass="main-button" stylesheets="@../assets/style/standard.css" text="REGISTRAR ACUERDO" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </Button>
+      <TextField fx:id="hourFinalizationMeetTextField" layoutX="30.0" layoutY="356.0" prefHeight="34.0" prefWidth="519.0" />
+      <Label layoutX="29.0" layoutY="331.0" text="Ingrese la hora de finalización:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="systemLabel" layoutX="25.0" layoutY="699.0" prefHeight="34.0" prefWidth="1012.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

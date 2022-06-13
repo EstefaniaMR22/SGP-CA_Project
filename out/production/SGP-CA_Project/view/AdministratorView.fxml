@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1071.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="640.0" prefWidth="1071.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="25.0" styleClass="background-form" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox styleClass="background-title">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" styleClass="section-label" text="Perfil de usuario" textAlignment="RIGHT" HBox.hgrow="ALWAYS" />
+                              <Label styleClass="title-label" text="¡Bienvenido al sistema SGP-CA!" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="197.0" prefWidth="1041.0" spacing="55.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/images/img-03.png" />
+                           </image>
+                        </ImageView>
+                        <VBox prefWidth="305.0">
+                           <children>
+                              <Label fx:id="nameLabel" maxHeight="1.7976931348623157E308" styleClass="section-label" text="nombre" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="emailLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="correo" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="nationalityLabel" maxHeight="1.7976931348623157E308" text="nationalidad" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0 0 0 1;" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="educationalProgramLabel" maxHeight="1.7976931348623157E308" text="programa educativo" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="personalNumberLabel" maxHeight="1.7976931348623157E308" text="numero de personal" VBox.vgrow="ALWAYS" />
+                              <Label fx:id="telephoneLabel" maxHeight="1.7976931348623157E308" text="telefono" VBox.vgrow="ALWAYS" />
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
+                     </padding>
+                  </HBox>
+                  <HBox spacing="50.0">
+                     <children>
+                        <VBox styleClass="background-form" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox styleClass="background-title">
+                                 <children>
+                                    <Label styleClass="section-label" text="Menu" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                 </padding>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#academicGroupOnAction" prefHeight="112.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Cuerpos Académicos" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                        <VBox styleClass="background-form" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox styleClass="background-title">
+                                 <children>
+                                    <Label styleClass="section-label" text="Administracion de miembros" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                                 </padding>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#membersOnAction" prefHeight="115.0" prefWidth="302.0" styleClass="secondary-button" text="Administracion de Miembros" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

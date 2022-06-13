@@ -1,3 +1,4 @@
+import assets.utils.DatabaseProperties;
 import controller.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;

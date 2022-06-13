@@ -1,3 +1,0 @@
-jdbc:mysql://185.31.40.32:3306/sgpcaproject_1
-249568_admin
-Root1324.

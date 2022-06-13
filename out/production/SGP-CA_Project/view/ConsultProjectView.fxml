@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="1083.0" styleClass="background-main" stylesheets="@../assets/style/standard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="708.0" prefWidth="1165.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-bar" BorderPane.alignment="CENTER">
+               <content>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background-main">
+                     <children>
+                        <VBox layoutX="10.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="35.0" AnchorPane.bottomAnchor="-66.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox spacing="25.0" styleClass="background-form">
+                                 <children>
+                                    <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="15.0">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Titulo" />
+                                                <Label fx:id="projectNameLabel" prefHeight="31.0" prefWidth="468.0" styleClass="description-label" text="?">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <HBox>
+                                             <children>
+                                                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Estado" />
+                                                      <Label fx:id="statusProjectLabel" prefHeight="31.0" prefWidth="457.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                                <VBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="attribute-title-label" text="Fecha de inicio:" />
+                                                      <Label fx:id="startDateLabel" prefHeight="31.0" prefWidth="215.0" styleClass="description-label" text="?" wrapText="true">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <VBox spacing="15.0">
+                                             <children>
+                                                <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="25.0">
+                                                   <children>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Fecha de finalizacion" />
+                                                            <Label fx:id="endDateLabel" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Fecha estimada de finalizacion" />
+                                                            <Label fx:id="estimatedEndDateLabel" prefHeight="31.0" prefWidth="215.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label styleClass="attribute-title-label" text="Estimación en meses" />
+                                                            <Label fx:id="durationInMonthsProject" prefHeight="31.0" prefWidth="231.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox maxWidth="1.7976931348623157E308" spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="Descripcion" />
+                                                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" styleClass="description-label" text="?" wrapText="true">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label styleClass="attribute-title-label" text="LGAC asociada" />
+                                                <Label fx:id="lgacLabel" prefHeight="31.0" prefWidth="468.0" style="-fx-background-color: white;" styleClass="description-label" text="?" wrapText="true">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="25.0" left="25.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
+                     </padding>
+                  </AnchorPane>
+               </content>
+               <padding>
+                  <Insets left="25.0" right="25.0" />
+               </padding>
+            </ScrollPane>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" minHeight="72.0" spacing="25.0" styleClass="background-footer" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="exitButton" minWidth="120.0" mnemonicParsing="false" onAction="#returnViewOnAction" styleClass="secondary-button" text="Salir" />
+                  <Button fx:id="modifyButton" maxWidth="1.7976931348623157E308" minWidth="139.0" mnemonicParsing="false" onAction="#modifyProjectOnAction" styleClass="main-button" text="Modificar" />
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <top>
+            <VBox alignment="TOP_CENTER" style="-fx-border-width: 0 0 0.5 0;" styleClass="background-title" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Label styleClass="title-label" text="Detalles de proyecto de investigación" />
+               </children>
+            </VBox>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

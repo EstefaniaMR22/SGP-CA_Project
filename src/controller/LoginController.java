@@ -12,11 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.dao.AcademicGroupDAO;
@@ -151,7 +147,7 @@ public class LoginController extends Controller implements Initializable {
                 systemLabel.setText( e.getMessage() );
                 Logger.getLogger( LoginController.class.getName() ).log(Level.FINE, null, e);
             } catch (SQLException | SocketException e) {
-                Logger.getLogger( LoginController.class.getName() ).log(Level.WARNING, null, e);
+                AlertController.getInstance().determinateAlertBySQLException(e);
             }
         }
         return isLogged;
@@ -162,7 +158,7 @@ public class LoginController extends Controller implements Initializable {
             ObservableList<AcademicGroup> academicGroupProgramObservableList = FXCollections.observableArrayList(new AcademicGroupDAO().getAllAcademicGroup());
             academicGroupProgramListView.setItems(academicGroupProgramObservableList);
         } catch(SQLException sqlException) {
-            Logger.getLogger(ResponsableController.class.getName()).log(Level.SEVERE, null, sqlException);
+            AlertController.getInstance().determinateAlertBySQLException(sqlException);
         }
     }
 
